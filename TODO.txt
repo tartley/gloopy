@@ -1,0 +1,29 @@
+
+* delete bits of pyweek11 game that aren't required by gloopy,
+  move required bits that are pyweek11 specific to demo.py
+* split view up into renderer, that renders a given collection of
+  glyphs, and part that knows how to read the model.
+* review TODO docs from 'pyweek11' and 'hobbyist opengl' talk, transfer
+  good parts into this document
+* write the readme for a graphics demo that will be written using gloopy.
+  How about the polyhedran face-extruder?
+* optionally use VBOs if they are available. Otherwise silently fall back
+  to vertex arrays
+* add directional light sources
+* add point light sources
+* textures
+* write the readme for a game that will be written using gloopy. How about
+  the original vision for pyweek11?
+* convert options to use argparse, so that it can provide command line usage
+
+
+IDEAS FOR LATER --------------------------------------------------------------
+
+* projections should be two polymorphic classes, one for ortho, one for 3d.
+  Application instantiates one of each, activates appropriate one during
+  rendering.
+* noise shaders
+
+
+DONE -------------------------------------------------------------------------
+

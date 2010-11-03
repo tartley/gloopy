@@ -7,14 +7,14 @@ import pyglet
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import Window
 
+from euclid import Vector3
+
 from ..model.cameraman import CameraMan
 from ..model.item.gameitem import GameItem
 from ..model.item.player import Player
-from ..model.level import Level
 from ..model.world import World
 from ..view.render import Render
-from ..util.vectors import origin, dist2_from_int_ords, EPSILON2
-from .keyhandler import KeyHandler
+from ..util.vectors import origin
 
 
 class Eventloop(object):
@@ -38,18 +38,16 @@ class Eventloop(object):
         self.world = World()
         self.player = Player(self.world)
         self.camera = GameItem(
-            position=origin,
+            position=Vector3(1, 2, 3),
+            look_at=origin,
             update=CameraMan(self.player, (3, 2, 0)),
         )
-        self.level_loader = Level(self)
-        success = self.start_level(1)
-        if not success:
-            logging.error("ERROR, can't load level 1")
-            sys.exit(1)
-
+        pyglet.clock.schedule_once(
+            lambda *_: self.world.add(self.player),
+            2.0,
+        )
+        
         self.update(1/60)
-
-        self.window.push_handlers(KeyHandler(self.player))
 
         self.render = Render(self.world, self.window, self.camera)
         self.render.init()
@@ -72,38 +70,7 @@ class Eventloop(object):
             if hasattr(item, 'update'):
                 item.update(item, dt, self.time)
 
-        if self.player_at_exit():
-            self.world.remove(self.player)
-            pyglet.clock.schedule_once(
-                lambda *_: self.start_level(self.level + 1),
-                1.0
-            )
-
         self.window.invalid = True
-
-
-    def start_level(self, n):
-        success = self.level_loader.load(self.world, n)
-        if not success:
-            logging.info('No level %d' % (n,))
-            self.stop()
-            return False
-               
-        self.level = n
-        pyglet.clock.schedule_once(
-            lambda *_: self.world.add(self.player),
-            2.0,
-        )
-        return True
-
-
-    def player_at_exit(self):
-        items = self.world.collision.get_items(self.player.position)
-        if any(hasattr(item, 'exit') for item in items):
-            dist2_to_exit = dist2_from_int_ords(self.player.position)
-            if dist2_to_exit < EPSILON2:
-                return True
-        return False
 
 
     def draw_window(self):
