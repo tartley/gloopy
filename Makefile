@@ -8,7 +8,7 @@
 
 NAME := $(shell python -c "from setup import NAME; print NAME")
 SCRIPT := $(shell python -c "from setup import SCRIPT; print SCRIPT")
-VERSION := $(shell python -c "from ${NAME} import __version__; print __version__")
+VERSION := $(shell python -c "from ${NAME} import VERSION; print VERSION")
 
 
 clean:

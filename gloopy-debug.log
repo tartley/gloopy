@@ -1,0 +1,4 @@
+DEBUG:root:gloopy v0.1
+WARNING:root:WARNING: can't start music. Missing avbin library?
+DEBUG:root:gameloop.stop
+DEBUG:root:end of program

@@ -1,3 +1,4 @@
 
-__version__ = '0.1'
+NAME = 'gloopy'
+VERSION = '0.1'
 
