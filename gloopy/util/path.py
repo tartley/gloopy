@@ -1,7 +1,8 @@
 '''
-Define all paths here. In particular, use this module instead of using
-__file__ to locate resources, since these will be installed separate from the
-source code in some circumstances (e.g. installed from rpm).
+Access to all application path values should go via this module. In
+particular, use this module instead of using __file__ to locate resources,
+since resources will be separated from source code under some circumstances
+(e.g. when installed from rpm.)
 '''
 
 import sys
@@ -10,7 +11,6 @@ from os.path import abspath, dirname, join
 
 from .. import NAME
 
-# centralize *all* application path values here
 
 def get_platform():
     if platform.startswith('win'):
@@ -19,7 +19,6 @@ def get_platform():
         return 'mac'
     return 'linux'
 
-
 def get_setup():
     if hasattr(sys, 'frozen'):
         # ie. py2exe, py2app or similar, either standalone or installed
@@ -27,7 +26,13 @@ def get_setup():
     return 'source'
 
 
+# context = (platform, setup)
+# platform = windows | mac | linux
+# setup = source | frozen
 CONTEXT = (get_platform(), get_setup())
+
+
+# define values for public constants: APP_ROOT, SOURCE, DATA
 
 if CONTEXT[1] == 'source': # run from source
     # running from source

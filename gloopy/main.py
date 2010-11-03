@@ -1,13 +1,12 @@
-from __future__ import division
 import logging
 import sys
 
 from . import VERSION, NAME
 from .util.options import Options
-from .controller.gameloop import Gameloop
+from .controller.eventloop import Eventloop
 
 
-def run_game():
+def init_logging():
     logging.basicConfig(
         filename='%s-debug.log' % (NAME,),
         filemode='w',
@@ -15,18 +14,16 @@ def run_game():
     )
     logging.debug('%s v%s' % (NAME, VERSION,))
 
-    options = Options(sys.argv)
-    try:
-        gameloop = Gameloop(options)
-        gameloop.prepare(options)
-        gameloop.run()
-    finally:
-        gameloop.stop()
-        logging.debug('gameloop.stop')
-
-    logging.debug('end of program')
-
 
 def main():
-    run_game()
+    init_logging()
+    options = Options(sys.argv)
+    try:
+        eventloop = Eventloop(options)
+        eventloop.prepare(options)
+        eventloop.run()
+    finally:
+        eventloop.stop()
+
+    logging.debug('end of program')
 

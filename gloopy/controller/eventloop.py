@@ -15,10 +15,9 @@ from ..model.world import World
 from ..view.render import Render
 from ..util.vectors import origin, dist2_from_int_ords, EPSILON2
 from .keyhandler import KeyHandler
-from .music import Music
 
 
-class Gameloop(object):
+class Eventloop(object):
 
     def __init__(self, options):
         self.options = options
@@ -54,10 +53,6 @@ class Gameloop(object):
 
         self.render = Render(self.world, self.window, self.camera)
         self.render.init()
-
-        self.music = Music()
-        self.music.load()
-        self.music.play()
 
 
     def run(self):

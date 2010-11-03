@@ -19,8 +19,8 @@ class Level(object):
     '''
     Populates a given world object from items read from a level file
     '''
-    def __init__(self, gameloop):
-        self.gameloop = gameloop
+    def __init__(self, eventloop):
+        self.eventloop = eventloop
         self.number = 0
 
 
@@ -87,12 +87,12 @@ class Level(object):
                             )
                         )
                     elif char == 's':
-                        self.gameloop.player.position=position
+                        self.eventloop.player.position=position
                     elif char == 'e':
                         world.add(Exit(position))
                     elif char == 'c':
                         world.add(
-                            self.gameloop.camera,
+                            self.eventloop.camera,
                             position=position,
                         )
                     else:
