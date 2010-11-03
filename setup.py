@@ -1,5 +1,5 @@
 
-NAME = 'TODO'
+NAME = 'gloopy'
 SCRIPT = 'demo.py'
 
 
@@ -13,10 +13,10 @@ def main():
     version = __import__(NAME).__version__
     config = get_config(NAME, version, SCRIPT, console=True)
     config.update(dict(
-        author='TODO',
-        author_email='TODO',
-        url='TODO',
-        license='TODO',
+        author='Jonathan Hartley',
+        author_email='tartley@tartley.com',
+        url='http://bitbucket.org/tartley/gloopy',
+        license='New BSD',
     ) )
 
     setup(**config)
