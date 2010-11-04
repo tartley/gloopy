@@ -60,9 +60,7 @@ class Render(object):
         '''
         convert the given item's shape into a glyph, for rendering
         '''
-        if hasattr(item, 'shape') and not (
-            hasattr(item, 'glyph') and item.glyph
-        ):
+        if item.shape and not item.glyph:
             item.glyph = Glyph.FromShape(item.shape)
 
 
@@ -71,11 +69,11 @@ class Render(object):
         self.projection.set_perspective(45)
         self.modelview.set_world()
         for item in self.world:
-            if not hasattr(item, 'shape'):
+            if not item.glyph:
                 continue
             glyph = item.glyph
             gl.glPushMatrix()
-            if hasattr(item, 'position'):
+            if item.position:
                 gl.glTranslatef(*item.position)
             # TODO: item orientation
             gl.glVertexPointer(

@@ -24,7 +24,6 @@ class Eventloop(object):
         self.window = None
         self.fpss = []
         self.time = 0.0
-        self.level = None
 
 
     def prepare(self, options):
@@ -44,7 +43,7 @@ class Eventloop(object):
         )
         pyglet.clock.schedule_once(
             lambda *_: self.world.add(self.player),
-            2.0,
+            0.5,
         )
         
         self.update(1/60)
@@ -53,7 +52,7 @@ class Eventloop(object):
         self.render.init()
 
 
-    def run(self):
+    def start(self):
         pyglet.clock.schedule(self.update)
         self.window.set_visible()
         self.window.invalid = False
@@ -67,8 +66,8 @@ class Eventloop(object):
         self.time += dt
 
         for item in self.world:
-            if hasattr(item, 'update'):
-                item.update(item, dt, self.time)
+            if item.update:
+                item.update(dt, self.time)
 
         self.window.invalid = True
 

@@ -11,6 +11,12 @@ class GameItem(object):
     def __init__(self, **kwargs):
         self.id = GameItem._next_id
         GameItem._next_id += 1
+
+        self.position = None
+        self.update = None
+        self.shape = None
+        self.glyph = None
+
         self.apply_kwargs(**kwargs)
 
 

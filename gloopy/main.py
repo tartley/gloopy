@@ -21,7 +21,7 @@ def main():
     try:
         eventloop = Eventloop(options)
         eventloop.prepare(options)
-        eventloop.run()
+        eventloop.start()
     finally:
         eventloop.stop()
 
