@@ -6,10 +6,11 @@ from pyglet.window import Window
 from euclid import Vector3
 
 from ..model.cameraman import CameraMan
+from ..model.cube import Cube
 from ..model.item.gameitem import GameItem
-from ..model.item.player import Player
 from ..model.world import World
 from ..view.render import Render
+from ..util.color import white
 from ..util.vectors import origin
 
 
@@ -30,15 +31,16 @@ class Eventloop(object):
             resizable=True)
 
         self.world = World()
-        self.player = Player(self.world)
         self.camera = GameItem(
             position=Vector3(1, 2, 3),
             look_at=origin,
-            update=CameraMan(self.player, (3, 2, 0)),
+            update=CameraMan(origin, (3, 2, 0)),
         )
         self.update(1/60)
         pyglet.clock.schedule_once(
-            lambda *_: self.world.add(self.player),
+            lambda *_: self.world.add(
+                GameItem( shape=Cube(1, white) )
+            ),
             0.5,
         )
         self.render = Render(self.window, self.camera, self.options)
