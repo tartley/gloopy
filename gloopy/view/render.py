@@ -1,6 +1,7 @@
 from os.path import join
 
 import pyglet
+from pyglet.event import EVENT_HANDLED
 from pyglet.gl import gl
 
 from ..util import path
@@ -20,10 +21,11 @@ type_to_enum = {
 
 class Render(object):
 
-    def __init__(self, world, window, camera):
-        self.world = world
+    def __init__(self, window, camera, options):
+        self.window = window
         self.projection = Projection(window)
         self.modelview = ModelView(camera)
+        self.options = options
         self.clock_display = pyglet.clock.ClockDisplay()
 
 
@@ -39,59 +41,69 @@ class Render(object):
         gl.glCullFace(gl.GL_BACK)
         gl.glEnable(gl.GL_CULL_FACE)
 
-        gl.glClearColor(*self.world.sky_color)
-
-        vs_file = join(path.SOURCE, 'view', 'shaders', 'lighting.vert')
-        vs = VertexShader(vs_file)
-        fs_file = join(path.SOURCE, 'view', 'shaders', 'lighting.frag')
-        fs = FragmentShader(fs_file)
-        shader = ShaderProgram(vs, fs)
+        shader = ShaderProgram(
+            VertexShader(join(path.DATA, 'shaders', 'lighting.vert')),
+            FragmentShader(join(path.DATA, 'shaders', 'lighting.frag')),
+        )
         shader.compile()
         shader.use()
 
-        # create glyphs for every item added to the world before now
-        for item in self.world:
-            self.world_add_item(item)
-        # create glyphs for every item added after this
-        self.world.item_added += self.world_add_item
+
+    def drawable_items(self, world):
+        for item in world:
+            if not item.glyph:
+                if item.shape:
+                    item.glyph = Glyph.FromShape(item.shape)
+                else:
+                    continue
+            yield item
 
 
-    def world_add_item(self, item):
-        '''
-        convert the given item's shape into a glyph, for rendering
-        '''
-        if item.shape and not item.glyph:
-            item.glyph = Glyph.FromShape(item.shape)
+    def draw(self, world):
+        gl.glClearColor(*world.sky_color)
+        self.window.clear()
+        self.draw_items(self.drawable_items(world))
+        if self.options.display_fps:
+            self.draw_hud()
+        self.window.invalid = False
+        return EVENT_HANDLED
 
 
-    def draw_world(self):
+    def draw_items(self, items):
         gl.glEnableClientState(gl.GL_NORMAL_ARRAY)
         self.projection.set_perspective(45)
         self.modelview.set_world()
-        for item in self.world:
-            if not item.glyph:
-                continue
-            glyph = item.glyph
+        for item in items:
             gl.glPushMatrix()
             if item.position:
                 gl.glTranslatef(*item.position)
             # TODO: item orientation
             gl.glVertexPointer(
-                Glyph.DIMENSIONS, gl.GL_FLOAT, 0, glyph.glvertices)
+                Glyph.DIMENSIONS,
+                gl.GL_FLOAT,
+                0,
+                item.glyph.glvertices
+            )
             gl.glColorPointer(
-                Color.NUM_COMPONENTS, gl.GL_UNSIGNED_BYTE, 0, glyph.glcolors)
-            gl.glNormalPointer(gl.GL_FLOAT, 0, glyph.glnormals)
+                Color.NUM_COMPONENTS,
+                gl.GL_UNSIGNED_BYTE,
+                0,
+                item.glyph.glcolors
+            )
+            gl.glNormalPointer(gl.GL_FLOAT, 0, item.glyph.glnormals)
             gl.glDrawElements(
                 gl.GL_TRIANGLES,
-                len(glyph.glindices),
-                type_to_enum[glyph.glindex_type],
-                glyph.glindices)
+                len(item.glyph.glindices),
+                type_to_enum[item.glyph.glindex_type],
+                item.glyph.glindices
+            )
             gl.glPopMatrix()
+
+        gl.glDisableClientState(gl.GL_NORMAL_ARRAY)
 
 
     def draw_hud(self):
         self.projection.set_screen()
         self.modelview.set_identity()
-        gl.glDisableClientState(gl.GL_NORMAL_ARRAY)
         self.clock_display.draw()
 

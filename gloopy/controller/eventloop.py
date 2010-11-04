@@ -1,10 +1,6 @@
 from __future__ import division
 
-import logging
-import sys
-
 import pyglet
-from pyglet.event import EVENT_HANDLED
 from pyglet.window import Window
 
 from euclid import Vector3
@@ -32,7 +28,6 @@ class Eventloop(object):
             vsync=options.vsync,
             visible=False,
             resizable=True)
-        self.window.on_draw = self.draw_window
 
         self.world = World()
         self.player = Player(self.world)
@@ -41,15 +36,14 @@ class Eventloop(object):
             look_at=origin,
             update=CameraMan(self.player, (3, 2, 0)),
         )
+        self.update(1/60)
         pyglet.clock.schedule_once(
             lambda *_: self.world.add(self.player),
             0.5,
         )
-        
-        self.update(1/60)
-
-        self.render = Render(self.world, self.window, self.camera)
+        self.render = Render(self.window, self.camera, self.options)
         self.render.init()
+        self.window.on_draw = lambda: self.render.draw(self.world)
 
 
     def start(self):
@@ -70,15 +64,6 @@ class Eventloop(object):
                 item.update(dt, self.time)
 
         self.window.invalid = True
-
-
-    def draw_window(self):
-        self.window.clear()
-        self.render.draw_world()
-        if self.options.display_fps:
-            self.render.draw_hud()
-        self.window.invalid = False
-        return EVENT_HANDLED
 
 
     def stop(self):
