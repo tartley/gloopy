@@ -1,6 +1,13 @@
 
-* delete bits of pyweek11 game that aren't required by gloopy,
-  move required bits that are pyweek11 specific to demo.py
+* move stuff out of demo.py into new gloopy.init()
+* euclid should be a pip installed dependency, not bundled.
+  (remove path.append in demo.py)
+* gloopy should be pip installable
+* put demo.py in 'examples' dir, and make it work both from there, or with
+  installed version of gloopy
+* eventloop knows about many unrelated things
+* gameitem orientations
+* add some good shapes other than just 'cube'
 * split view up into renderer, that renders a given collection of
   glyphs, and part that knows how to read the model.
 * review TODO docs from 'pyweek11' and 'hobbyist opengl' talk, transfer
@@ -19,6 +26,8 @@
 
 IDEAS FOR LATER --------------------------------------------------------------
 
+* curved surfaces (i.e. re-use same vertex (incl. normals) between adjacent
+  triangles)
 * projections should be two polymorphic classes, one for ortho, one for 3d.
   Application instantiates one of each, activates appropriate one during
   rendering.
@@ -26,4 +35,8 @@ IDEAS FOR LATER --------------------------------------------------------------
 
 
 DONE -------------------------------------------------------------------------
+
+* delete bits of pyweek11 game that aren't required by gloopy,
+* move required bits of pyweek11 specific functionality out to demo.py
+* presumably glooby, as a library, should not have a main.py
 

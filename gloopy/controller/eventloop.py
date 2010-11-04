@@ -1,4 +1,5 @@
 from __future__ import division
+import logging
 
 import pyglet
 from pyglet.window import Window
@@ -23,10 +24,11 @@ class Eventloop(object):
         self.time = 0.0
 
 
-    def prepare(self, options):
+    def prepare(self):
+        logging.debug('gloopy.eventloop.prepare')
         self.window = Window(
-            fullscreen=options.fullscreen,
-            vsync=options.vsync,
+            fullscreen=self.options.fullscreen,
+            vsync=self.options.vsync,
             visible=False,
             resizable=True)
 
@@ -49,6 +51,7 @@ class Eventloop(object):
 
 
     def start(self):
+        logging.debug('gloopy.eventloop.start')
         pyglet.clock.schedule(self.update)
         self.window.set_visible()
         self.window.invalid = False
@@ -69,6 +72,7 @@ class Eventloop(object):
 
 
     def stop(self):
+        logging.debug('gloopy.eventloop.stop')
         if self.window:
             self.window.close()
         if self.options.print_fps:
