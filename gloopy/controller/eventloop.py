@@ -15,6 +15,16 @@ from ..util.color import white
 from ..util.vectors import origin
 
 
+def run(options=None):
+    eventloop = Eventloop(options)
+    try:
+        eventloop.init()
+        eventloop.start()
+    finally:
+        eventloop.stop()
+    
+
+
 class Eventloop(object):
 
     def __init__(self, options):
@@ -24,7 +34,7 @@ class Eventloop(object):
         self.time = 0.0
 
 
-    def prepare(self):
+    def init(self):
         logging.debug('gloopy.eventloop.prepare')
         self.window = Window(
             fullscreen=self.options.fullscreen,

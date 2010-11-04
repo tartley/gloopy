@@ -2,5 +2,5 @@ syntax: glob
 *.pyc
 *.pyo
 *~
-.idea
-glob:CubeCaught-debug.log
+*.log
+
