@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 
-from gloopy import init
-from gloopy.controller.eventloop import run
+from gloopy import init, run
 
 
 def main():

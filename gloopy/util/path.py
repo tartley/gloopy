@@ -9,39 +9,44 @@ import sys
 from sys import argv, exit, platform
 from os.path import abspath, dirname, join
 
-from .. import NAME
+
+# context = (platform, setup)
+# platform = windows | mac | linux
+# setup = source | frozen
+CONTEXT = None
+
+# directories we might be interested in
+ROOT = None
+SOURCE = None
+DATA = None
 
 
-def get_platform():
+def _get_platform():
     if platform.startswith('win'):
         return 'windows'
     elif platform.startswith('darwin'):
         return 'mac'
     return 'linux'
 
-def get_setup():
+def _get_setup():
     if hasattr(sys, 'frozen'):
         # ie. py2exe, py2app or similar, either standalone or installed
         return 'binary'
     return 'source'
 
 
-# context = (platform, setup)
-# platform = windows | mac | linux
-# setup = source | frozen
-CONTEXT = (get_platform(), get_setup())
+def init(name):
+    global CONTEXT, ROOT, SOURCE, DATA
 
+    CONTEXT = (_get_platform(), _get_setup())
 
-# define values for public constants: APP_ROOT, SOURCE, DATA
+    if CONTEXT[1] == 'source':
+        ROOT = abspath(join(dirname(__file__), '..', '..'))
+    elif CONTEXT == ('windows', 'binary'):
+        ROOT = dirname(argv[0])
+    else:
+        exit('Error %s' % (CONTEXT,))
 
-if CONTEXT[1] == 'source': # run from source
-    # running from source
-    APP_ROOT = abspath(join(dirname(__file__), '..', '..'))
-elif CONTEXT == ('windows', 'binary'):
-    APP_ROOT = dirname(argv[0])
-else:
-    exit('Error %s' % (CONTEXT,))
-
-SOURCE = join(APP_ROOT, NAME)
-DATA = join(APP_ROOT, 'data')
+    SOURCE = join(ROOT, name)
+    DATA = join(ROOT, 'data')
 

@@ -1,21 +1,38 @@
 
-* move stuff out of demo.py into new gloopy.init()
-* euclid should be a pip installed dependency, not bundled.
-  (remove path.append in demo.py)
-* gloopy should be pip installable
-* put demo.py in 'examples' dir, and make it work both from there, or with
-  installed version of gloopy
+* creation of cube and a non-default sky color should be done by demo.py
+* put demo.py in 'examples' dir, and make it work both from there
 * eventloop knows about many unrelated things
+
+* gloopy should be pip installable
+* dependencies should be in a virtualenv. Put virtualenv creation script,
+  or 'frozen' version number output, into hg
+* euclid should be a virtualenv installed dependency, not bundled.
+  (& then remove path.append in demo.py)
+* consider getting pyglet latest svn
+* check that demo.py works in isolation, using an installed version of gloopy
+
 * gameitem orientations
+* combining the orientations of nested multishapes is done in an innefficient
+  manner, multiplying each vertex by each multishape's orientation in
+  serial. Modify to calculate the cumulative orientation first, then
+  multiply each vertex by the result.
+
 * add some good shapes other than just 'cube'
-* split view up into renderer, that renders a given collection of
-  glyphs, and part that knows how to read the model.
+
 * review TODO docs from 'pyweek11' and 'hobbyist opengl' talk, transfer
   good parts into this document
 * write the readme for a graphics demo that will be written using gloopy.
   How about the polyhedran face-extruder?
 * optionally use VBOs if they are available. Otherwise silently fall back
   to vertex arrays
+* introduce a variable to control the use of primitives other than
+  GL_TRIANGLES. When using GL_TRIANGLE_FAN or _STRIP, draw all the
+  discontinuous faces of a single shape in a single draw call, using:
+    glEnable( GL_PRIMITIVE_RESTART )
+    glPrimitiveRestartIndex( MAXINT ) # for eg
+  and then insert indices of value MAXINT into the index array to form a
+  break between strips. Bear in mind this is meant to be a space & time
+  optimisation, so measure the latter before deciding the keep it.
 * add directional light sources
 * add point light sources
 * textures
@@ -39,4 +56,5 @@ DONE -------------------------------------------------------------------------
 * delete bits of pyweek11 game that aren't required by gloopy,
 * move required bits of pyweek11 specific functionality out to demo.py
 * presumably glooby, as a library, should not have a main.py
+* move stuff out of demo.py into new gloopy.init()
 

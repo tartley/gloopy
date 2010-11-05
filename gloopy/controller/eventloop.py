@@ -15,15 +15,6 @@ from ..util.color import white
 from ..util.vectors import origin
 
 
-def run(options=None):
-    eventloop = Eventloop(options)
-    try:
-        eventloop.init()
-        eventloop.start()
-    finally:
-        eventloop.stop()
-    
-
 
 class Eventloop(object):
 
