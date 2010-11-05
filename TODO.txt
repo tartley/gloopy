@@ -1,5 +1,7 @@
 
 * creation of cube and a non-default sky color should be done by demo.py
+* log the version number of gloopy
+* log opengl info
 * put demo.py in 'examples' dir, and make it work both from there
 * eventloop knows about many unrelated things
 
@@ -49,7 +51,10 @@ IDEAS FOR LATER --------------------------------------------------------------
   Application instantiates one of each, activates appropriate one during
   rendering.
 * noise shaders
-
+* geometry instancing, see techniques enumerated here:
+  http://www.geeks3d.com/20100629/test-opengl-geometry-instancing-geforce-gtx-480-vs-radeon-hd-5870/
+* cython the render inner loop
+* enable gamma correction using: glEnable(GL_FRAMEBUFFER_SRGB);
 
 DONE -------------------------------------------------------------------------
 

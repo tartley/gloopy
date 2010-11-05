@@ -7,18 +7,16 @@ from pyglet.window import Window
 from euclid import Vector3
 
 from ..model.cameraman import CameraMan
-from ..model.cube import Cube
 from ..model.item.gameitem import GameItem
-from ..model.world import World
 from ..view.render import Render
-from ..util.color import white
 from ..util.vectors import origin
 
 
 
 class Eventloop(object):
 
-    def __init__(self, options):
+    def __init__(self, world, options):
+        self.world = world
         self.options = options
         self.window = None
         self.fpss = []
@@ -33,19 +31,12 @@ class Eventloop(object):
             visible=False,
             resizable=True)
 
-        self.world = World()
         self.camera = GameItem(
             position=Vector3(1, 2, 3),
             look_at=origin,
             update=CameraMan(origin, (3, 2, 0)),
         )
         self.update(1/60)
-        pyglet.clock.schedule_once(
-            lambda *_: self.world.add(
-                GameItem( shape=Cube(1, white) )
-            ),
-            0.5,
-        )
         self.render = Render(self.window, self.camera, self.options)
         self.render.init()
         self.window.on_draw = lambda: self.render.draw(self.world)
