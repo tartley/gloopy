@@ -1,3 +1,4 @@
+from __future__ import division
 
 from collections import namedtuple
 from random import randint, uniform
@@ -19,11 +20,17 @@ class Color(namedtuple('ColorBase', 'r g b a')):
         return Color(randint(0, 255), randint(0, 255), randint(0, 255), 255)
 
 
-    @staticmethod
-    def RandomSequence():
-        while True:
-            yield Color.Random()
-
+    def as_floats(self):
+        '''
+        Returns this color as a tuple of normalised floats, suitable for use
+        with glSetClearColor.
+        '''
+        return (
+            1 / 255 * self.r,
+            1 / 255 * self.g,
+            1 / 255 * self.b,
+            1 / 255 * self.a
+        )
 
     def tinted(self, other=None, bias=0.5):
         if other is None:
@@ -34,10 +41,6 @@ class Color(namedtuple('ColorBase', 'r g b a')):
             int(self.b * (1 - bias) + other.b * bias),
             int(self.a * (1 - bias) + other.a * bias),
         )
-
-    def variations(self, other=None):
-        while True:
-            yield self.tinted(other, uniform(0, 1))
 
 
 white = Color(255, 255, 255, 255)

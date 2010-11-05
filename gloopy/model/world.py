@@ -1,7 +1,7 @@
 
 from euclid import Vector3
 
-from ..util.color import Color
+from ..util.color import yellow, orange
 from ..util.event import Event
 
 
@@ -19,12 +19,12 @@ class World(object):
     added or removed, so that our renderer (and whoever else is interested)
     can react accordingly.
     '''
-    sky_color = Color(0.0, 0.1, 0.3, 1.0)
 
     def __init__(self):
         self.items = {}
         self.item_added = Event()
         self.item_removed = Event()
+        self.background_color = orange
 
     def __iter__(self):
         return self.items.itervalues()

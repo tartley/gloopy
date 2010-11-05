@@ -60,7 +60,7 @@ class Render(object):
 
 
     def draw(self, world):
-        gl.glClearColor(*world.sky_color)
+        gl.glClearColor(*world.background_color.as_floats())
         self.window.clear()
         self.draw_items(self.drawable_items(world))
         if self.options.display_fps:

@@ -1,5 +1,4 @@
 
-* creation of cube and a non-default sky color should be done by demo.py
 * log the version number of gloopy
 * log opengl info
 * put demo.py in 'examples' dir, and make it work both from there
@@ -45,6 +44,7 @@
 
 IDEAS FOR LATER --------------------------------------------------------------
 
+* named colors: use the xkcd database, as staticmethods on Color
 * curved surfaces (i.e. re-use same vertex (incl. normals) between adjacent
   triangles)
 * projections should be two polymorphic classes, one for ortho, one for 3d.
@@ -62,4 +62,5 @@ DONE -------------------------------------------------------------------------
 * move required bits of pyweek11 specific functionality out to demo.py
 * presumably glooby, as a library, should not have a main.py
 * move stuff out of demo.py into new gloopy.init()
+* creation of cube and a non-default sky color should be done by demo.py
 
