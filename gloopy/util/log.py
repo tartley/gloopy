@@ -1,12 +1,5 @@
 '''
-Creates a log file. After init_log() has been called, other modules should send
-log messages using::
-
-    import logger
-    log = logger.getLogger(__name__)
-    log.info('message')
-
-See http://docs.python.org/library/logging.html
+Initialise stdlib logging.
 '''
 import logging
 from os.path import basename, splitext

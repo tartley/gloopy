@@ -24,6 +24,15 @@ type_to_enum = {
 }
 
 
+def log_opengl_version():
+    log.info('\n    '.join([
+        'opengl:',
+        gl_info.get_vendor(),
+        gl_info.get_renderer(),
+        gl_info.get_version(),
+    ]) )
+    
+
 class Render(object):
 
     def __init__(self, window, camera, options):
@@ -33,18 +42,8 @@ class Render(object):
         self.options = options
         self.clock_display = pyglet.clock.ClockDisplay()
 
-
-    def init_logging(self):
-        log.info('\n    '.join([
-            'opengl:',
-            gl_info.get_vendor(),
-            gl_info.get_renderer(),
-            gl_info.get_version(),
-        ]) )
-        
-
     def init(self):
-        self.init_logging()
+        log_opengl_version()
         gl.glEnableClientState(gl.GL_VERTEX_ARRAY)
         gl.glEnableClientState(gl.GL_COLOR_ARRAY)
         gl.glEnable(gl.GL_DEPTH_TEST)
@@ -68,7 +67,8 @@ class Render(object):
         '''
         Generator function, returns an iterator over all items in the world
         which have a glyph attribute. If an item doesn't have a glyph, but
-        does have a shape, then we generate its glyph.
+        does have a shape, then we generate its glyph and include it in the
+        iteration.
         '''
         for item in world:
             if not item.glyph:

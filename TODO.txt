@@ -1,16 +1,18 @@
-* demo.py should create a more funky shape and move the camera around it
+* Gameitem movement. Linear. Orbit. WobblyOrbit.
+* camera in wobblyorbit
+* demo.py should create a more funky shape
 * Put demo.py in 'examples' dir
 * Convert options to use argparse, so that it can provide command line usage
 
-* Gameitem movement. Linear. Orbit. WobblyOrbit.
-* camera in wobblyorbit
 * Gameitem orientations
 * Gameitem spinners
-* Add some good shapes other than just 'cube'
+* Add all good shapes from previous programs
 
 * eventloop in top level package?
 * color in top level package?
 * render? world? what else?
+* camera should not be attribute of eventloop. Do we need a 'view' class
+  that instantiates window & camera?
 
 * Dependencies should be in a virtualenv. Put virtualenv creation script,
   or 'frozen' version number output, into hg
@@ -20,7 +22,8 @@
 * Check that demo.py works in isolation, using an installed version of gloopy
 * Consider getting pyglet latest svn
 
-* documentation
+* generate sphinx documentation
+* fill in doc strings
 * make 0.1 release on cheese shop
 
 
@@ -59,6 +62,14 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
 * Start work on the pycon talk demo that will be produced using gloopy
   How about the polyhedran face-extruder?
 * Use gloopy to implement the original vision for pyweek11CubeCaught
+
+* orbit should not move the object discontinuously, but should smoothly
+  interpolate from initial position to orbit
+  (interpolate not quite right - might result in reversal of direction
+  towards the end. How to generate a feasible-looking orbital insertion?)
+* how to generalise the above for all movers?
+* how to use a mover both as an update function, and call one from an update
+  function?
 
 
 IDEAS FOR LATER --------------------------------------------------------------
