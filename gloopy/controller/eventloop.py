@@ -1,15 +1,18 @@
 from __future__ import division
+import logging
+
+from euclid import Vector3
 
 import pyglet
 from pyglet.window import Window
-
-from euclid import Vector3
 
 from ..model.cameraman import CameraMan
 from ..model.item.gameitem import GameItem
 from ..view.render import Render
 from ..util.vectors import origin
-from ..util.log import log
+
+
+log = logging.getLogger(__name__)
 
 
 class Eventloop(object):
@@ -23,7 +26,7 @@ class Eventloop(object):
 
 
     def init(self):
-        log.info('eventloop.init')
+        log.info('init')
         self.window = Window(
             fullscreen=self.options.fullscreen,
             vsync=self.options.vsync,
@@ -44,7 +47,7 @@ class Eventloop(object):
         self.window.on_draw = lambda: self.render.draw(self.world)
 
     def start(self):
-        log.info('eventloop.start')
+        log.info('start')
         pyglet.clock.schedule(self.update)
         self.window.set_visible()
         self.window.invalid = False
@@ -65,7 +68,7 @@ class Eventloop(object):
 
 
     def stop(self):
-        log.info('eventloop.stop')
+        log.info('stop')
         if self.window:
             self.window.close()
         if self.options.print_fps:

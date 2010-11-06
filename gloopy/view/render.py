@@ -1,15 +1,20 @@
+import logging
 from os.path import join
 
 import pyglet
 from pyglet.event import EVENT_HANDLED
 from pyglet.gl import gl
+from pyglet.gl import gl_info
 
-from ..util import path
-from ..util.color import Color
 from .glyph import Glyph
 from .modelview import ModelView
 from .projection import Projection
 from .shader import FragmentShader, ShaderProgram, VertexShader
+from ..util import path
+from ..util.color import Color
+
+
+log = logging.getLogger(__name__)
 
 
 type_to_enum = {
@@ -29,7 +34,14 @@ class Render(object):
         self.clock_display = pyglet.clock.ClockDisplay()
 
 
+    def init_logging(self):
+        log.info(gl_info.get_vendor())
+        log.info(gl_info.get_renderer())
+        log.info(gl_info.get_version())
+        
+
     def init(self):
+        self.init_logging()
         gl.glEnableClientState(gl.GL_VERTEX_ARRAY)
         gl.glEnableClientState(gl.GL_COLOR_ARRAY)
         gl.glEnable(gl.GL_DEPTH_TEST)

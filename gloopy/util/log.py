@@ -1,25 +1,23 @@
 '''
-Other modules may use module-level variable to record logfile messages::
+Creates a log file. After init_log() has been called, other modules should send
+log messages using::
 
-    from .util.log import log
-    log.info('hello')
+    import logger
+    log = logger.getLogger(__name__)
+    log.info('message')
 
-If modules import 'log' before 'init_log' is called, they will just get None.
-Hence call init_log before anything else attempts to import this module.
+See http://docs.python.org/library/logging.html
 '''
 import logging
 from os.path import basename, splitext
 import sys
 
-log = None
-
 def init_log():
-    global log
+    # TODO, should create log file in application's scratch space, not in cwd
     app_name = splitext(basename(sys.argv[0]))[0]
     logging.basicConfig(
         filename='%s-debug.log' % (app_name,),
         filemode='w',
         level=logging.DEBUG,
     )
-    log = logging.getLogger('gloopy')
 

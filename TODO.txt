@@ -1,5 +1,10 @@
 
-* Log opengl info
+* Log options
+* log file should be created in application's scratch space, not cwd
+
+* eventloop in top level package?
+* color in top level package?
+* render? world? what else?
 
 * Put demo.py in 'examples' dir
 * demo.py should create a more funky shape and move the camera around it
@@ -13,7 +18,10 @@
 * Check that demo.py works in isolation, using an installed version of gloopy
 * Consider getting pyglet latest svn
 
+* Gameitem movement
+* camera orbit
 * Gameitem orientations
+* Gameitem spinners
 * Combining the orientations of nested multishapes is done in an innefficient
   manner, multiplying every vertex by each multishape's orientation in
   series. Modify to calculate the cumulative orientation first, then
@@ -21,6 +29,7 @@
 
 * Add some good shapes other than just 'cube'
 * measure performance - doesn't look like we're getting 60fps
+* add option to use pyglet or pyopengl bindings
 
 
 AFTER 0.1 RELEASE ------------------------------------------------------------
@@ -74,4 +83,5 @@ DONE -------------------------------------------------------------------------
 * Named colors: use the xkcd database, as staticmethods on Color
 * Eventloop knows about many unrelated things
 * Log the version number of gloopy
+* Log opengl info
 

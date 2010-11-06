@@ -1,20 +1,19 @@
+import logging
 
 # ensure 'import euclid' will use the local copy in 'gloopy/lib/euclid.py'
 import sys
 from os.path import join
 sys.path.append(join('gloopy', 'lib'))
 
-# must be done before importing other modules that use .util.log
-from .util.log import init_log
-init_log()
-
 from .controller.eventloop import Eventloop
 from .model.world import World
+from .util.log import init_log
 from .util.options import Options
-from .util.log import log
 
 
 VERSION = '0.1'
+
+log = None
 
 
 class Gloopy(object):
@@ -23,6 +22,10 @@ class Gloopy(object):
         self.options = None
         self.world = None
         self.eventloop = None
+
+        init_log()
+        global log
+        log = logging.getLogger(__name__)
 
     def init(self):
         log.info('v%s' % (VERSION,))
