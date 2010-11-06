@@ -34,9 +34,9 @@ class Eventloop(object):
             resizable=True)
 
         self.camera = GameItem(
-            position=Vector3(1, 2, 3),
+            position=Vector3(0, 0, 10),
             look_at=origin,
-            update=CameraMan(origin, (3, 2, 0)),
+            #update=CameraMan(origin, (3, 2, 0)),
         )
 
         self.render = Render(self.window, self.camera, self.options)
