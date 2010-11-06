@@ -1,14 +1,10 @@
 
-* Named colors: use the xkcd database, as staticmethods on Color
-* Eventloop knows about many unrelated things
-* Put demo.py in 'examples' dir
+* Log opengl info
 
+* Put demo.py in 'examples' dir
 * demo.py should create a more funky shape and move the camera around it
 
 * Convert options to use argparse, so that it can provide command line usage
-* Log the version number of gloopy
-* Log opengl info
-
 * Dependencies should be in a virtualenv. Put virtualenv creation script,
   or 'frozen' version number output, into hg
 * Euclid should be a virtualenv installed dependency, not bundled.
@@ -66,7 +62,7 @@ IDEAS FOR LATER --------------------------------------------------------------
 * Cython the render inner loop
 * Try enabling gamma correction using: glEnable(GL_FRAMEBUFFER_SRGB)
   This can make a huge difference to the results of lighting
-
+* 2D mode, with ortho projection and 2D verts
 
 DONE -------------------------------------------------------------------------
 
@@ -75,4 +71,7 @@ DONE -------------------------------------------------------------------------
 * presumably glooby, as a library, should not have a main.py
 * move stuff out of demo.py into new gloopy.init()
 * creation of cube and a non-default sky color should be done by demo.py
+* Named colors: use the xkcd database, as staticmethods on Color
+* Eventloop knows about many unrelated things
+* Log the version number of gloopy
 

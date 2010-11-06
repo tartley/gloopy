@@ -1,5 +1,4 @@
 from __future__ import division
-import logging
 
 import pyglet
 from pyglet.window import Window
@@ -10,7 +9,7 @@ from ..model.cameraman import CameraMan
 from ..model.item.gameitem import GameItem
 from ..view.render import Render
 from ..util.vectors import origin
-
+from ..util.log import log
 
 
 class Eventloop(object):
@@ -24,7 +23,7 @@ class Eventloop(object):
 
 
     def init(self):
-        logging.debug('gloopy.eventloop.prepare')
+        log.info('eventloop.init')
         self.window = Window(
             fullscreen=self.options.fullscreen,
             vsync=self.options.vsync,
@@ -36,14 +35,16 @@ class Eventloop(object):
             look_at=origin,
             update=CameraMan(origin, (3, 2, 0)),
         )
+
+        # make sure we've done at least one update before the first render
         self.update(1/60)
+
         self.render = Render(self.window, self.camera, self.options)
         self.render.init()
         self.window.on_draw = lambda: self.render.draw(self.world)
 
-
     def start(self):
-        logging.debug('gloopy.eventloop.start')
+        log.info('eventloop.start')
         pyglet.clock.schedule(self.update)
         self.window.set_visible()
         self.window.invalid = False
@@ -64,7 +65,7 @@ class Eventloop(object):
 
 
     def stop(self):
-        logging.debug('gloopy.eventloop.stop')
+        log.info('eventloop.stop')
         if self.window:
             self.window.close()
         if self.options.print_fps:

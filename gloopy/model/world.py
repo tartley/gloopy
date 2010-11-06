@@ -1,7 +1,7 @@
 
 from euclid import Vector3
 
-from ..util.color import Color
+from ..util.color import Orange
 from ..util.event import Event
 
 
@@ -24,7 +24,7 @@ class World(object):
         self.items = {}
         self.item_added = Event()
         self.item_removed = Event()
-        self.background_color = Color.Orange
+        self.background_color = Orange
 
     def __iter__(self):
         return self.items.itervalues()

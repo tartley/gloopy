@@ -50,6 +50,11 @@ class Render(object):
 
 
     def drawable_items(self, world):
+        '''
+        Generator function, returns an iterator over all items in the world
+        which have a glyph attribute. If an item doesn't have a glyph, but
+        does have a shape, then we generate its glyph.
+        '''
         for item in world:
             if not item.glyph:
                 if item.shape:
