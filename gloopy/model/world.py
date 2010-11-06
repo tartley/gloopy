@@ -19,7 +19,6 @@ class World(object):
     added or removed, so that our renderer (and whoever else is interested)
     can react accordingly.
     '''
-
     def __init__(self):
         self.items = {}
         self.item_added = Event()
