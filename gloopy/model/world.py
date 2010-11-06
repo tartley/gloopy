@@ -13,12 +13,8 @@ class World(object):
     the world, such as rooms or walls or the player. Some, such as the camera,
     have no shape attribute, hence are not visible, but they still get moved
     or otherwise updated as part of the world.update() method.
-
-    The World, like the whole model package, should not know about
-    whatever's doing the rendering, so we fire events whenever Gameitems are
-    added or removed, so that our renderer (and whoever else is interested)
-    can react accordingly.
     '''
+
     def __init__(self):
         self.items = {}
         self.item_added = Event()
@@ -40,4 +36,9 @@ class World(object):
         del self.items[item.id]
         self.item_removed.fire(item)
         item.position = None
+
+    def update(self, t, dt):
+        for item in self:
+            if item.update:
+                item.update(t, dt)
 

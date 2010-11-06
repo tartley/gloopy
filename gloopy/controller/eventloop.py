@@ -39,12 +39,10 @@ class Eventloop(object):
             update=CameraMan(origin, (3, 2, 0)),
         )
 
-        # make sure we've done at least one update before the first render
-        self.update(1/60)
-
         self.render = Render(self.window, self.camera, self.options)
         self.render.init()
         self.window.on_draw = lambda: self.render.draw(self.world)
+
 
     def start(self):
         log.info('start')
@@ -60,10 +58,7 @@ class Eventloop(object):
         dt = min(dt, 1 / 30)
         self.time += dt
 
-        for item in self.world:
-            if item.update:
-                item.update(dt, self.time)
-
+        self.world.update(self.time, dt)
         self.window.invalid = True
 
 

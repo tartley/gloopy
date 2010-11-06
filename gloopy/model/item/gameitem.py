@@ -1,8 +1,6 @@
 
 from euclid import Vector3
 
-from ...util.vectors import origin
-
 
 class GameItem(object):
 
@@ -12,12 +10,14 @@ class GameItem(object):
         self.id = GameItem._next_id
         GameItem._next_id += 1
 
-        self.position = None
-        self.update = None
         self.shape = None
         self.glyph = None
 
-        self.apply_kwargs(**kwargs)
+        self.position = None
+        self.velocity = None
+        self.acceleration = None
+
+        self._apply_kwargs(**kwargs)
 
 
     def __repr__(self):
@@ -30,14 +30,26 @@ class GameItem(object):
         )
 
 
-    def apply_kwargs(self, **kwargs):
-        if 'position' in kwargs:
-            position = kwargs.pop('position')
-            if position is None:
-                position = origin
-            elif not isinstance(position, Vector3):
-                position = Vector3(*position)
-            self.position = position
-        
+    def _apply_kwargs(self, **kwargs):
+        '''
+        Attach the given kwargs as attributes on self
+        '''
+        # if any supposed Vector3 attributes have been passed as a tuple for
+        # convenience, convert them into Vector3
+        vec3_attributes = [
+            'position', 'velocity', 'accelleration',
+        ]
+        for attr in vec3_attributes:
+            if attr in kwargs:
+                if not isinstance(kwargs[attr], Vector3):
+                    kwargs[attr] = Vector3(*kwargs[attr])
+
+        # kwargs with a .gameitem attribute should be told which gameitem
+        # instance they are being attached to
+        for name, value in kwargs.items():
+            if hasattr(value, 'gameitem'):
+                value.gameitem = self
+
+        # attach all passed kwargs to ourself as attributes
         self.__dict__.update(kwargs)
 
