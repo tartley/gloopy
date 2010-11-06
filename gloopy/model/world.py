@@ -7,14 +7,8 @@ from ..util.event import Event
 
 class World(object):
     '''
-    World is a collection of all the GameItems.
-    
-    Most of these GameItems are visible objects within
-    the world, such as rooms or walls or the player. Some, such as the camera,
-    have no shape attribute, hence are not visible, but they still get moved
-    or otherwise updated as part of the world.update() method.
+    A collection of all the GameItems.
     '''
-
     def __init__(self):
         self.items = {}
         self.item_added = Event()
@@ -37,8 +31,21 @@ class World(object):
         self.item_removed.fire(item)
         item.position = None
 
+    def move(self, item, dt):
+        '''
+        Newtonian movement and spin
+        '''
+        if item.velocity is not None and item.acceleration is not None:
+            item.velocity += item.acceleration * dt
+        if item.position is not None and item.velocity is not None:
+            item.position += item.velocity * dt
+        if item.angular_velocity:
+            speed, axis = item.angular_velocity.get_angle_axis()
+            item.orientation.rotate_axis(speed * dt, axis)
+
     def update(self, t, dt):
         for item in self:
+            self.move(item, dt)
             if item.update:
                 item.update(t, dt)
 

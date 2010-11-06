@@ -1,12 +1,13 @@
 #! /usr/bin/env python
 from __future__ import division
 
+from euclid import Quaternion
+
 from gloopy import Gloopy
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.cube import Cube
-from gloopy.model import move
 from gloopy.util.color import Color
-from gloopy.util.vectors import origin
+from gloopy.util.vectors import origin, x_axis
 
 
 def main():
@@ -18,9 +19,10 @@ def main():
             GameItem(
                 shape=Cube(1, Color.White),
                 position=origin,
-                velocity=(0.01, 0.02, 0.03),
-                acceleration=(-0.0001, -0.0002, -0.0003),
-                update=move.Linear(),
+                velocity=(.1, .2, .3),
+                acceleration=(-.1, -.3, -.2),
+                angular_velocity=Quaternion.new_rotate_axis(100, x_axis),
+                orientation=Quaternion(),
             )
         )
         gloopy.start()

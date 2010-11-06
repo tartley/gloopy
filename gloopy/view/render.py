@@ -10,6 +10,7 @@ from .glyph import Glyph
 from .modelview import ModelView
 from .projection import Projection
 from .shader import FragmentShader, ShaderProgram, VertexShader
+from euclid import Matrix4
 from ..util import path
 from ..util.color import Color
 
@@ -32,6 +33,10 @@ def log_opengl_version():
         gl_info.get_version(),
     ]) )
     
+
+def matrix_to_ctypes(matrix):
+    return (gl.GLfloat * 16)(*list(matrix))
+
 
 class Render(object):
 
@@ -89,15 +94,22 @@ class Render(object):
         return EVENT_HANDLED
 
 
+
     def draw_items(self, items):
         gl.glEnableClientState(gl.GL_NORMAL_ARRAY)
         self.projection.set_perspective(45)
         self.modelview.set_world()
         for item in items:
             gl.glPushMatrix()
-            if item.position:
-                gl.glTranslatef(*item.position)
-            # TODO: item orientation
+            
+            matrix = Matrix4()
+            if item.position is not None:
+                matrix.translate(*item.position)
+            if item.orientation is not None:
+                matrix *= item.orientation.get_matrix()
+            if item.position or item.orientation:
+                gl.glMultMatrixf(matrix_to_ctypes(matrix))
+
             gl.glVertexPointer(
                 Glyph.DIMENSIONS,
                 gl.GL_FLOAT,
@@ -111,6 +123,7 @@ class Render(object):
                 item.glyph.glcolors
             )
             gl.glNormalPointer(gl.GL_FLOAT, 0, item.glyph.glnormals)
+
             gl.glDrawElements(
                 gl.GL_TRIANGLES,
                 len(item.glyph.glindices),

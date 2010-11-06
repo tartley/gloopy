@@ -1,11 +1,10 @@
-* Gameitem movement. Linear. Orbit. WobblyOrbit.
+* kwargs to gameitem constructor should convert tuples to quaternions
 * camera in wobblyorbit
+* anti-alias polygon edges? Does this even make sense for closed polyhedra?
 * demo.py should create a more funky shape
 * Put demo.py in 'examples' dir
 * Convert options to use argparse, so that it can provide command line usage
 
-* Gameitem orientations
-* Gameitem spinners
 * Add all good shapes from previous programs
 
 * eventloop in top level package?
@@ -31,8 +30,12 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
 
 * Review TODO docs from 'pyweek11' and 'hobbyist opengl' talk, transfer
   good parts into this document
+* Review whether gloopy is about opengl rendering, gameitem movement and
+  orientation (and composition, etc), or both. Should be separate libraries?
 
 * measure performance - doesn't look like we're getting 60fps
+* scale movement by mean dt over last few frames to avoid jittery movement
+  caused by isolated aberrant frames.
 * add option to use pyglet or pyopengl bindings. measure performance.
 * read up on how to make pyopengl faster
 
@@ -72,18 +75,30 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
   function?
 
 
+PERFORMANCE ------------------------------------------------------------------
+
+* Pass an array of gameitem positions directly to the shaders. Add an integer
+  vertex attribute to say which gameitem the vertex belongs to (i.e. an index
+  into the gameitem positions array.) There is then no need to update
+  modelview between draw calls. Do the same with orientation, and then all
+  objects could be drawn with a single glDraw call.
+* Use numpy to maintain the array of positions. It could add an array of
+  velocities to it every frame. Also possibly add an array of accellerations
+  to the array of velocities. Python code would just need to update occasional
+  impulses into the accel or velocity arrays.
+* Cython the inner render loop
+
+
 IDEAS FOR LATER --------------------------------------------------------------
 
-* Generate equipotential surfaces in scalar fields
 * Curved surfaces (i.e. re-use same vertex (incl. normals) between adjacent
   triangles)
-* Projections should be two polymorphic classes, one for ortho, one for 3d.
-  Application instantiates one of each, activates appropriate one during
-  rendering.
+* Generate equipotential surfaces in scalar fields
+* Use that to generate cool organic shapes with holes,
+  eg. see screenshots on the geexlab website
 * Noise shaders
 * Geometry instancing, see techniques enumerated here:
   http://www.geeks3d.com/20100629/test-opengl-geometry-instancing-geforce-gtx-480-vs-radeon-hd-5870/
-* Cython the render inner loop
 * Try enabling gamma correction using: glEnable(GL_FRAMEBUFFER_SRGB)
   This can make a huge difference to the results of lighting
 * 2D mode, with ortho projection and 2D verts
@@ -100,4 +115,7 @@ DONE -------------------------------------------------------------------------
 * Log the version number of gloopy
 * Log opengl info
 * Log options
+* Gameitem orientations
+* Gameitem spinners
+* Gameitem movement
 

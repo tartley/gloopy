@@ -17,6 +17,11 @@ class GameItem(object):
         self.velocity = None
         self.acceleration = None
 
+        self.orientation = None
+        self.angular_velocity = None
+
+        self.update = None
+
         self._apply_kwargs(**kwargs)
 
 
@@ -37,18 +42,18 @@ class GameItem(object):
         # if any supposed Vector3 attributes have been passed as a tuple for
         # convenience, convert them into Vector3
         vec3_attributes = [
-            'position', 'velocity', 'accelleration',
+            'position', 'velocity', 'acceleration',
         ]
         for attr in vec3_attributes:
             if attr in kwargs:
                 if not isinstance(kwargs[attr], Vector3):
                     kwargs[attr] = Vector3(*kwargs[attr])
 
-        # kwargs with a .gameitem attribute should be told which gameitem
-        # instance they are being attached to
-        for name, value in kwargs.items():
-            if hasattr(value, 'gameitem'):
-                value.gameitem = self
+        ## kwargs with a .gameitem attribute should be told which gameitem
+        ## instance they are being attached to
+        #for name, value in kwargs.items():
+        #    if hasattr(value, 'gameitem'):
+        #        value.gameitem = self
 
         # attach all passed kwargs to ourself as attributes
         self.__dict__.update(kwargs)
