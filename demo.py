@@ -3,7 +3,7 @@
 from gloopy import Gloopy
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.cube import Cube
-from gloopy.util.color import Color, white
+from gloopy.util.color import Color, White
 
 
 def main():
@@ -12,7 +12,7 @@ def main():
     gloopy.world.background_color = Color.Random()
     try:
         gloopy.world.add(
-            GameItem( shape=Cube(1, white) )
+            GameItem( shape=Cube(1, White) )
         )
         gloopy.run()
     finally:
