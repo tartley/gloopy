@@ -35,9 +35,12 @@ class Render(object):
 
 
     def init_logging(self):
-        log.info(gl_info.get_vendor())
-        log.info(gl_info.get_renderer())
-        log.info(gl_info.get_version())
+        log.info('\n    '.join([
+            'opengl:',
+            gl_info.get_vendor(),
+            gl_info.get_renderer(),
+            gl_info.get_version(),
+        ]) )
         
 
     def init(self):

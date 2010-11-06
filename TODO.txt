@@ -1,15 +1,17 @@
+* demo.py should create a more funky shape and move the camera around it
+* Put demo.py in 'examples' dir
+* Convert options to use argparse, so that it can provide command line usage
 
-* Log options
-* log file should be created in application's scratch space, not cwd
+* Gameitem movement. Linear. Orbit. WobblyOrbit.
+* camera in wobblyorbit
+* Gameitem orientations
+* Gameitem spinners
+* Add some good shapes other than just 'cube'
 
 * eventloop in top level package?
 * color in top level package?
 * render? world? what else?
 
-* Put demo.py in 'examples' dir
-* demo.py should create a more funky shape and move the camera around it
-
-* Convert options to use argparse, so that it can provide command line usage
 * Dependencies should be in a virtualenv. Put virtualenv creation script,
   or 'frozen' version number output, into hg
 * Euclid should be a virtualenv installed dependency, not bundled.
@@ -18,24 +20,23 @@
 * Check that demo.py works in isolation, using an installed version of gloopy
 * Consider getting pyglet latest svn
 
-* Gameitem movement
-* camera orbit
-* Gameitem orientations
-* Gameitem spinners
-* Combining the orientations of nested multishapes is done in an innefficient
-  manner, multiplying every vertex by each multishape's orientation in
-  series. Modify to calculate the cumulative orientation first, then
-  multiply each vertex by the result.
-
-* Add some good shapes other than just 'cube'
-* measure performance - doesn't look like we're getting 60fps
-* add option to use pyglet or pyopengl bindings
+* documentation
+* make 0.1 release on cheese shop
 
 
 AFTER 0.1 RELEASE ------------------------------------------------------------
 
 * Review TODO docs from 'pyweek11' and 'hobbyist opengl' talk, transfer
   good parts into this document
+
+* measure performance - doesn't look like we're getting 60fps
+* add option to use pyglet or pyopengl bindings. measure performance.
+* read up on how to make pyopengl faster
+
+* Combining the orientations of nested multishapes is done in an innefficient
+  manner, multiplying every vertex by each multishape's orientation in
+  series. Modify to calculate the cumulative orientation first, then
+  multiply each vertex by the result.
 * Optionally use VBOs if they are available. Otherwise silently fall back
   to vertex arrays
 * Introduce a variable to control the use of primitives other than
@@ -46,6 +47,9 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
   and then insert indices of value MAXINT into the index array to form a
   break between strips. Bear in mind this is meant to be a space & time
   optimisation, so measure the latter before deciding the keep it.
+* log gloopy version number should include hg revision?
+* log file should be created in app_root if possible, or else in
+  application's scratch space, not cwd
 
 * bool to display or hide clockdisplay
 * Control over ambient and directional light sources
@@ -84,4 +88,5 @@ DONE -------------------------------------------------------------------------
 * Eventloop knows about many unrelated things
 * Log the version number of gloopy
 * Log opengl info
+* Log options
 
