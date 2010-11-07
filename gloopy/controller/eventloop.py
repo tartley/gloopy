@@ -6,7 +6,6 @@ from euclid import Vector3
 import pyglet
 from pyglet.window import Window
 
-from ..model.cameraman import CameraMan
 from ..model.item.gameitem import GameItem
 from ..model.move.orbit import Orbit
 from ..view.render import Render
@@ -38,7 +37,6 @@ class Eventloop(object):
             position=Vector3(0, 0, 10),
             look_at=origin,
             update=Orbit(origin, 50, None, 1)
-            #update=CameraMan(origin, (3, 2, 0)),
         )
         self.world.add( self.camera )
 
