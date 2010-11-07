@@ -1,6 +1,8 @@
+from math import pi
 from random import uniform
 
-from euclid import Vector3
+from euclid import Quaternion, Vector3
+
 
 origin = Vector3(0, 0, 0)
 x_axis = Vector3(1, 0, 0)
@@ -17,3 +19,12 @@ def vec3_random(size):
         uniform(-size, size),
         uniform(-size, size),
     )
+
+
+def orientation_random():
+    return Quaternion.new_rotate_axis(
+        uniform(0, pi), vec3_random(1)
+    )
+
+
+

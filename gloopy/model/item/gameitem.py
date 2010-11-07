@@ -49,11 +49,11 @@ class GameItem(object):
                 if not isinstance(kwargs[attr], Vector3):
                     kwargs[attr] = Vector3(*kwargs[attr])
 
-        ## kwargs with a .gameitem attribute should be told which gameitem
-        ## instance they are being attached to
-        #for name, value in kwargs.items():
-        #    if hasattr(value, 'gameitem'):
-        #        value.gameitem = self
+        # kwargs with a .gameitem attribute should be told which gameitem
+        # instance they are being attached to
+        for name, value in kwargs.items():
+            if hasattr(value, 'gameitem'):
+                value.gameitem = self
 
         # attach all passed kwargs to ourself as attributes
         self.__dict__.update(kwargs)

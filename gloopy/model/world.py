@@ -31,21 +31,8 @@ class World(object):
         self.item_removed.fire(item)
         item.position = None
 
-    def move(self, item, dt):
-        '''
-        Newtonian movement and spin
-        '''
-        if item.velocity is not None and item.acceleration is not None:
-            item.velocity += item.acceleration * dt
-        if item.position is not None and item.velocity is not None:
-            item.position += item.velocity * dt
-        if item.angular_velocity:
-            speed, axis = item.angular_velocity.get_angle_axis()
-            item.orientation.rotate_axis(speed * dt, axis)
-
     def update(self, t, dt):
         for item in self:
-            self.move(item, dt)
             if item.update:
                 item.update(t, dt)
 

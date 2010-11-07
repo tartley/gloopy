@@ -7,7 +7,10 @@ from gloopy import Gloopy
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.cube import Cube
 from gloopy.util.color import Color
-from gloopy.util.vectors import vec3_random, x_axis, y_axis, z_axis
+from gloopy.util.vectors import (
+    orientation_random, vec3_random, x_axis, y_axis, z_axis,
+)
+from gloopy.model.move import Newtonian
 
 
 def main():
@@ -15,7 +18,7 @@ def main():
     gloopy.init()
     gloopy.world.background_color = Color.Random()
     try:
-        for _ in range(200):
+        for _ in range(100):
 
             position = vec3_random(10)
             gloopy.world.add(
@@ -24,10 +27,11 @@ def main():
                     position=position*2,
                     velocity=-position,
                     acceleration=position/5,
-                    orientation=Quaternion(),
+                    orientation=orientation_random(),
                     angular_velocity=Quaternion.new_rotate_axis(
                         100, vec3_random(1).normalize()
                     ),
+                    update=Newtonian(),
                 )
             )
 
