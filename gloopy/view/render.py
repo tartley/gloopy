@@ -34,8 +34,13 @@ def log_opengl_version():
     ]) )
     
 
-def matrix_to_ctypes(matrix):
-    return (gl.GLfloat * 16)(*list(matrix))
+def matrix_to_ctypes(m):
+    return (gl.GLfloat * 16)(
+        m.a, m.e, m.i, m.m,
+        m.b, m.f, m.j, m.n,
+        m.c, m.g, m.k, m.o,
+        m.d, m.h, m.l, m.p
+    )
 
 
 class Render(object):
@@ -92,7 +97,6 @@ class Render(object):
             self.draw_hud()
         self.window.invalid = False
         return EVENT_HANDLED
-
 
 
     def draw_items(self, items):
