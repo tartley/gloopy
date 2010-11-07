@@ -1,17 +1,23 @@
-* kwargs to gameitem constructor should convert tuples to quaternions
+* measure performance - doesn't look like we're getting 60fps
+* construct repeatable performance test and record results:
+   - single large batch
+   - many cube shaped batches (no other processing)
+   - many cube shaped batches (all in newtonian motion)
+   - characterise response inbetween these extremes (i.e. reduce batch size
+     by X, increase number batches by X)
+* review hobbyist-opengl code, see whether and why it is faster
+
 * camera in wobblyorbit
-* anti-alias polygon edges? Does this even make sense for closed polyhedra?
-* demo.py should create a more funky shape
+* Add all good shapes from previous programs
 * Put demo.py in 'examples' dir
 * Convert options to use argparse, so that it can provide command line usage
 
-* Add all good shapes from previous programs
-
+* camera should not be attribute of eventloop.
+* consider eliminating class Gloopy. Expose world, camera, etc to user.
+  Functionality provided by gloopy becomes the canonical demo script.
 * eventloop in top level package?
 * color in top level package?
-* render? world? what else?
-* camera should not be attribute of eventloop. Do we need a 'view' class
-  that instantiates window & camera?
+* render? world? camera? what else?
 
 * Dependencies should be in a virtualenv. Put virtualenv creation script,
   or 'frozen' version number output, into hg
@@ -33,9 +39,9 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
 * Review whether gloopy is about opengl rendering, gameitem movement and
   orientation (and composition, etc), or both. Should be separate libraries?
 
-* measure performance - doesn't look like we're getting 60fps
-* scale movement by mean dt over last few frames to avoid jittery movement
-  caused by isolated aberrant frames.
+* demo.py should create a more funky shape
+* scale movement by mean dt over last few frames to reduce jittery movement
+  caused by isolated slow or fast frames.
 * add option to use pyglet or pyopengl bindings. measure performance.
 * read up on how to make pyopengl faster
 
@@ -66,8 +72,12 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
   How about the polyhedran face-extruder?
 * Use gloopy to implement the original vision for pyweek11CubeCaught
 
-* orbit should not move the object discontinuously, but should smoothly
-  interpolate from initial position to orbit
+* anti-alias polygon edges? Does this even make sense for closed polyhedra?
+* orbit should have an option to face in particular direction during orbit,
+  i.e. in direction of motion, or toward rotated body. Presumably expressing
+  this as a Q relative to direction of motion makes sense.
+* assigning orbit should not move the object discontinuously, but should
+  smoothly interpolate from initial position
   (interpolate not quite right - might result in reversal of direction
   towards the end. How to generate a feasible-looking orbital insertion?)
 * how to generalise the above for all movers?
@@ -82,9 +92,9 @@ PERFORMANCE ------------------------------------------------------------------
   into the gameitem positions array.) There is then no need to update
   modelview between draw calls. Do the same with orientation, and then all
   objects could be drawn with a single glDraw call.
-* Use numpy to maintain the array of positions. It could add an array of
-  velocities to it every frame. Also possibly add an array of accellerations
-  to the array of velocities. Python code would just need to update occasional
+* Use numpy to add an array of velocities to the array of positions every
+  frame. Also possibly add an array of accellerations.
+  Python code would just make update occasional
   impulses into the accel or velocity arrays.
 * Cython the inner render loop
 
@@ -102,6 +112,14 @@ IDEAS FOR LATER --------------------------------------------------------------
 * Try enabling gamma correction using: glEnable(GL_FRAMEBUFFER_SRGB)
   This can make a huge difference to the results of lighting
 * 2D mode, with ortho projection and 2D verts
+
+
+WON'T DO ---------------------------------------------------------------------
+
+* kwargs to gameitem constructor should convert tuples to quaternions
+    - I don't think manually constructing Q's is useful. Use the Q static
+      methods instead
+
 
 DONE -------------------------------------------------------------------------
 

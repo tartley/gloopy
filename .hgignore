@@ -3,4 +3,5 @@ syntax: glob
 *.pyo
 *~
 *.log
+profile.out
 
