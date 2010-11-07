@@ -36,7 +36,7 @@ class Eventloop(object):
         self.camera = GameItem(
             position=Vector3(0, 0, 10),
             look_at=origin,
-            update=Orbit(origin, 50, None, 1)
+            update=Orbit(origin, 50, None)
         )
         self.world.add( self.camera )
 
