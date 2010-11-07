@@ -8,6 +8,7 @@ from pyglet.window import Window
 
 from ..model.cameraman import CameraMan
 from ..model.item.gameitem import GameItem
+from ..model.move.orbit import Orbit
 from ..view.render import Render
 from ..util.vectors import origin
 
@@ -36,8 +37,10 @@ class Eventloop(object):
         self.camera = GameItem(
             position=Vector3(0, 0, 10),
             look_at=origin,
+            update=Orbit(origin, 50, None, 1)
             #update=CameraMan(origin, (3, 2, 0)),
         )
+        self.world.add( self.camera )
 
         self.render = Render(self.window, self.camera, self.options)
         self.render.init()

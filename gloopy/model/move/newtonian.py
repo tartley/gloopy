@@ -1,9 +1,9 @@
 
 class Newtonian(object):
     '''
-    Add velocity to position,
-    add acceleration to velocity,
-    add angular_velocity to orientation.
+    Modify locus if item.position by adding item.velocity to it.
+    Similarly add item.velocity to item.acceleration, and add angular_velocity
+    to item.orientation.
     '''
     def __init__(self):
         self.gameitem = None

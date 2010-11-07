@@ -5,7 +5,7 @@ from pyglet.gl import gl, glu
 
 class ModelView(object):
     '''
-    Manage modelview matrix, performing the MVC's 'view' parts of the 'camera'
+    Manage modelview matrix
     '''
     def __init__(self, camera):
         self.camera = camera
@@ -22,5 +22,5 @@ class ModelView(object):
         glu.gluLookAt(
             position.x, position.y, position.z,
             look_at.x, look_at.y, look_at.z,
-            0, 1, -1)
+            0, 1, 0)
 

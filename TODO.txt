@@ -1,15 +1,15 @@
-* measure performance - doesn't look like we're getting 60fps
+* camera in wobblyorbit
+* Add all good shapes from previous programs
+* Put demo.py in 'examples' dir
+
+* review hobbyist-opengl code, see whether and why it is faster
 * construct repeatable performance test and record results:
    - single large batch
    - many cube shaped batches (no other processing)
    - many cube shaped batches (all in newtonian motion)
-   - characterise response inbetween these extremes (i.e. reduce batch size
-     by X, increase number batches by X)
-* review hobbyist-opengl code, see whether and why it is faster
+   - save the test and the results so I can repeat it going fwd
+     (aha! it's a new demo.py)
 
-* camera in wobblyorbit
-* Add all good shapes from previous programs
-* Put demo.py in 'examples' dir
 * Convert options to use argparse, so that it can provide command line usage
 
 * camera should not be attribute of eventloop.
@@ -136,4 +136,5 @@ DONE -------------------------------------------------------------------------
 * Gameitem orientations
 * Gameitem spinners
 * Gameitem movement
+* measure performance - doesn't look like we're getting 60fps
 

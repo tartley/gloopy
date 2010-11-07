@@ -6,6 +6,7 @@ from euclid import Quaternion
 from gloopy import Gloopy
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.cube import Cube
+from gloopy.model.planes import AxisPlanes
 from gloopy.util.color import Color
 from gloopy.util.vectors import (
     orientation_random, vec3_random, x_axis, y_axis, z_axis,
@@ -18,6 +19,11 @@ def main():
     gloopy.init()
     gloopy.world.background_color = Color.Random()
     try:
+        gloopy.world.add(
+            GameItem(
+                shape=AxisPlanes(10)
+            )
+        )
         for _ in range(100):
 
             position = vec3_random(10)
