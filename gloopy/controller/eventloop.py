@@ -9,7 +9,7 @@ from pyglet.window import Window
 from ..model.item.gameitem import GameItem
 from ..model.move.orbit import Orbit
 from ..view.render import Render
-from ..util.vectors import origin
+from ..util.vectors import origin, x_axis, y_axis, z_axis
 
 
 log = logging.getLogger(__name__)
@@ -36,7 +36,7 @@ class Eventloop(object):
         self.camera = GameItem(
             position=Vector3(0, 0, 10),
             look_at=origin,
-            update=Orbit(origin, 50, None)
+            update=Orbit(origin, 50, Vector3(2, 3, 1)),
         )
         self.world.add( self.camera )
 

@@ -5,6 +5,7 @@ from euclid import Quaternion
 
 from gloopy import Gloopy
 from gloopy.model.item.gameitem import GameItem
+from gloopy.model.shape import Shape
 from gloopy.model.cube import Cube
 from gloopy.model.planes import AxisPlanes
 from gloopy.util.color import Color
@@ -14,18 +15,13 @@ from gloopy.util.vectors import (
 from gloopy.model.move import Newtonian
 
 
+
 def main():
     gloopy = Gloopy()
     gloopy.init()
     gloopy.world.background_color = Color.Random()
     try:
-        gloopy.world.add(
-            GameItem(
-                shape=AxisPlanes(10)
-            )
-        )
         for _ in range(100):
-
             position = vec3_random(10)
             gloopy.world.add(
                 GameItem(
@@ -40,7 +36,6 @@ def main():
                     update=Newtonian(),
                 )
             )
-
         gloopy.start()
     finally:
         gloopy.stop()

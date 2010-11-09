@@ -21,10 +21,17 @@ def vec3_random(size):
     )
 
 
+def any_orthogonal(orig):
+    '''
+    return any unit vector at right angles to the given vector
+    '''
+    # friend = any vector at all, so long as it isn't == orig
+    friend = y_axis if orig != y_axis else x_axis
+    return orig.cross(friend).normalize()
+
+
 def orientation_random():
     return Quaternion.new_rotate_axis(
         uniform(0, pi), vec3_random(1)
     )
-
-
 
