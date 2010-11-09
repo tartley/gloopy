@@ -1,6 +1,16 @@
+* orbit center should be either a location or a gameitem
 * camera in wobblyorbit
+
+* camera should not be attribute of eventloop.
+* consider eliminating class Gloopy. Expose world, camera, etc to user.
+  Functionality provided by gloopy becomes the canonical demo script.
+* eventloop in top level package?
+* color in top level package?
+* render? world? camera? what else?
 * Add all good shapes from previous programs
 * Put demo.py in 'examples' dir
+* f12 to toggle fps
+* alt-enter to toggle fullscreen
 
 * review hobbyist-opengl code, see whether and why it is faster
 * construct repeatable performance test and record results:
@@ -11,13 +21,6 @@
      (aha! it's a new demo.py)
 
 * Convert options to use argparse, so that it can provide command line usage
-
-* camera should not be attribute of eventloop.
-* consider eliminating class Gloopy. Expose world, camera, etc to user.
-  Functionality provided by gloopy becomes the canonical demo script.
-* eventloop in top level package?
-* color in top level package?
-* render? world? camera? what else?
 
 * Dependencies should be in a virtualenv. Put virtualenv creation script,
   or 'frozen' version number output, into hg
