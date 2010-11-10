@@ -1,5 +1,9 @@
-* orbit center should be either a location or a gameitem
-* camera in wobblyorbit
+* orbit center should accept either a location or a gameitem
+
+* changes to euclid: Are there tests to guaruantee behaviour is preserved?
+  If not, ditch them.
+* Also, euclid contains Matrix4.new_look_at - could this replace some of
+  current camera or projection code?
 
 * camera should not be attribute of eventloop.
 * consider eliminating class Gloopy. Expose world, camera, etc to user.
@@ -140,4 +144,5 @@ DONE -------------------------------------------------------------------------
 * Gameitem spinners
 * Gameitem movement
 * measure performance - doesn't look like we're getting 60fps
+* camera in wobblyorbit
 
