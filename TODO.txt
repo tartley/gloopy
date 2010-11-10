@@ -1,4 +1,4 @@
-* orbit center should accept either a location or a gameitem.
+* orbit center should accept either a location or a gameitem
 
 * changes to euclid: Are there tests to guaruantee behaviour is preserved?
   If not, ditch them.
