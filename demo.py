@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 from __future__ import division
 
-from euclid import Quaternion
+from gloopy.lib.euclid import Quaternion
 
 from gloopy import Gloopy
 from gloopy.model.item.gameitem import GameItem
@@ -31,7 +31,7 @@ def main():
                     acceleration=position/5,
                     orientation=orientation_random(),
                     angular_velocity=Quaternion.new_rotate_axis(
-                        100, vec3_random(1).normalize()
+                        200, vec3_random(1).normalize()
                     ),
                     update=Newtonian(),
                 )

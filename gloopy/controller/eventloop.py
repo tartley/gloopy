@@ -7,7 +7,7 @@ import pyglet
 from pyglet.window import Window
 
 from ..model.item.gameitem import GameItem
-from ..model.move.orbit import Orbit
+from ..model.move.orbit import WobblyOrbit
 from ..view.render import Render
 from ..util.vectors import origin, x_axis, y_axis, z_axis
 
@@ -36,7 +36,7 @@ class Eventloop(object):
         self.camera = GameItem(
             position=Vector3(0, 0, 10),
             look_at=origin,
-            update=Orbit(origin, 50, Vector3(2, 3, 1)),
+            update=WobblyOrbit(origin, 50, Vector3(2, 3, 1), wobble_size=0.9),
         )
         self.world.add( self.camera )
 
