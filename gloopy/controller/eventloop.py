@@ -1,15 +1,10 @@
 from __future__ import division
 import logging
 
-from euclid import Vector3
-
 import pyglet
 from pyglet.window import Window
 
-from ..model.item.gameitem import GameItem
-from ..model.move.orbit import WobblyOrbit
 from ..view.render import Render
-from ..util.vectors import origin, x_axis, y_axis, z_axis
 
 
 log = logging.getLogger(__name__)
@@ -25,22 +20,14 @@ class Eventloop(object):
         self.time = 0.0
 
 
-    def init(self):
+    def init(self, camera):
         log.info('init')
         self.window = Window(
             fullscreen=self.options.fullscreen,
             vsync=self.options.vsync,
             visible=False,
             resizable=True)
-
-        self.camera = GameItem(
-            position=Vector3(0, 0, 10),
-            look_at=origin,
-            update=WobblyOrbit(origin, 50, Vector3(2, 3, 1), wobble_size=0.9),
-        )
-        self.world.add( self.camera )
-
-        self.render = Render(self.window, self.camera, self.options)
+        self.render = Render(self.window, camera, self.options)
         self.render.init()
         self.window.on_draw = lambda: self.render.draw(self.world)
 

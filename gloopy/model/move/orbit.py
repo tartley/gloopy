@@ -1,8 +1,7 @@
 from __future__ import division
 from math import sin
 
-from euclid import Matrix4
-
+from ...lib.euclid import Matrix4
 from ...util.vectors import any_orthogonal, y_axis
 
 
@@ -28,7 +27,7 @@ class Orbit(object):
 
     def __call__(self, time, dt):
         m = Matrix4.new_rotate_axis(
-            self.phase + self.angular_velocity * time, # angle to rotate
+            self.phase + self.angular_velocity * time,
             self.axis
         )
         offset = m * self.unit_offset * self.radius

@@ -6,9 +6,13 @@ from os.path import join
 sys.path.append(join('gloopy', 'lib'))
 
 from .controller.eventloop import Eventloop
+from .lib.euclid import Vector3
+from .model.item.gameitem import GameItem
+from .model.move.orbit import WobblyOrbit
 from .model.world import World
 from .util.log import init_log
 from .util.options import Options
+from .util.vectors import origin
 
 
 VERSION = '0.1'
@@ -19,22 +23,29 @@ log = None
 class Gloopy(object):
 
     def __init__(self):
+        global log
+        init_log()
+        log = logging.getLogger(__name__)
+
         self.options = None
         self.world = None
+        self.camera = None
         self.eventloop = None
-
-        init_log()
-        global log
-        log = logging.getLogger(__name__)
 
     def init(self):
         log.info('v%s' % (VERSION,))
         self.options = Options(sys.argv)
         self.world = World()
+        self.camera = GameItem(
+            position=Vector3(0, 0, 10),
+            look_at=origin,
+            update=WobblyOrbit(origin, 50, Vector3(2, 3, 1), wobble_size=0.9),
+        )
+        self.world.add( self.camera )
         self.eventloop = Eventloop(self.world, self.options)
 
     def start(self):
-        self.eventloop.init()
+        self.eventloop.init( self.camera )
         self.eventloop.start()
 
     def stop(self):

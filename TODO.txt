@@ -1,4 +1,7 @@
 * orbit center should accept either a location or a gameitem.
+* any_orthogonal has a bug if given vector is negative y axis.
+  Should set friend as:
+    'x_axis if abs(x) < abs(y) or abs(x) < abs(z)) else y_axis
 
 * changes to euclid: Are there tests to guaruantee behaviour is preserved?
   If not, ditch them.
