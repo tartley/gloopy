@@ -1,9 +1,10 @@
 #! /usr/bin/env python
 from __future__ import division
-
-from gloopy.lib.euclid import Quaternion
+from math import pi
+from random import uniform
 
 from gloopy import Gloopy
+from gloopy.lib.euclid import Quaternion
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.shape import Shape
 from gloopy.model.cube import Cube

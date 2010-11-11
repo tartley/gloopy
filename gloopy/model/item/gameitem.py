@@ -1,5 +1,5 @@
 
-from euclid import Vector3
+from ...lib.euclid import Vector3
 
 
 class GameItem(object):

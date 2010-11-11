@@ -10,7 +10,7 @@ from .glyph import Glyph
 from .modelview import ModelView
 from .projection import Projection
 from .shader import FragmentShader, ShaderProgram, VertexShader
-from euclid import Matrix4
+from ..lib.euclid import Matrix4
 from ..util import path
 from ..util.color import Color
 

@@ -1,8 +1,7 @@
 
 from itertools import repeat
 
-from euclid import Matrix4, Vector3
-
+from ..lib.euclid import Matrix4, Vector3
 from ..util.color import Color
 
 

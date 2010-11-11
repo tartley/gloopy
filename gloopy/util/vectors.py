@@ -1,7 +1,7 @@
 from math import pi
 from random import uniform
 
-from euclid import Quaternion, Vector3
+from ..lib.euclid import Quaternion, Vector3
 
 
 origin = Vector3(0, 0, 0)

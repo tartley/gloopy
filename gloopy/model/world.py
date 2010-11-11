@@ -1,6 +1,5 @@
 
-from euclid import Vector3
-
+from ..lib.euclid import Vector3
 from ..util.color import Orange
 from ..util.event import Event
 
