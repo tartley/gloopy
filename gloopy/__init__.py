@@ -39,10 +39,6 @@ class Gloopy(object):
         self.camera = GameItem(
             position=Vector3(0, 0, 10),
             look_at=origin,
-            update=WobblyOrbit(
-                origin, 50, Vector3(2, 3, 1),
-                wobble_size=0.9, wobble_freq=0.2,
-            ),
         )
         self.world.add( self.camera )
         self.eventloop = Eventloop(self.world, self.options)

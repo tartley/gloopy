@@ -33,5 +33,5 @@ class World(object):
     def update(self, t, dt):
         for item in self:
             if item.update:
-                item.update(t, dt)
+                item.update(item, t, dt)
 

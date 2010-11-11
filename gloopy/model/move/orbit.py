@@ -1,7 +1,7 @@
 from __future__ import division
 from math import sin
 
-from ...lib.euclid import Matrix4
+from ...lib.euclid import Matrix4, Vector3
 from ...util.vectors import any_orthogonal, y_axis
 
 
@@ -11,7 +11,10 @@ class Orbit(object):
     with the given axis, radius and angular_velocity.
     '''
     def __init__(self, center, radius, axis=None, angular_velocity=1, phase=0):
-        self.center = center
+        if hasattr(center, 'position') or isinstance(center, Vector3):
+            self.center = center
+        else:
+            self.center = Vector3(center)
         self.radius = radius
         if axis is None:
             axis = y_axis
@@ -23,15 +26,18 @@ class Orbit(object):
 
         self.unit_offset = any_orthogonal(axis)
 
-        self.gameitem = None
 
-    def __call__(self, time, dt):
+    def __call__(self, item, time, dt):
         m = Matrix4.new_rotate_axis(
             self.phase + self.angular_velocity * time,
             self.axis
         )
         offset = m * self.unit_offset * self.radius
-        self.gameitem.position = self.center + offset
+        if isinstance(self.center, Vector3):
+            center = self.center
+        else:
+            center = self.center.position
+        item.position = self.center + offset
 
 
 class WobblyOrbit(Orbit):
@@ -47,10 +53,10 @@ class WobblyOrbit(Orbit):
         self.wobble_size = wobble_size
         self.normalised_offset = any_orthogonal(axis)
 
-    def __call__(self, time, dt):
+    def __call__(self, item, time, dt):
         if self.wobble_size != 0:
             self.radius = self.mean_radius * (
                 1 + sin(time * self.wobble_freq) * self.wobble_size
             )
-        super(WobblyOrbit, self).__call__(time, dt)
+        super(WobblyOrbit, self).__call__(item, time, dt)
 

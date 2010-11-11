@@ -5,11 +5,7 @@ class Newtonian(object):
     Similarly add item.velocity to item.acceleration, and add angular_velocity
     to item.orientation.
     '''
-    def __init__(self):
-        self.gameitem = None
-
-    def __call__(self, _, dt):
-        item = self.gameitem
+    def __call__(self, item, _, dt):
         if item.velocity is not None and item.acceleration is not None:
             item.velocity += item.acceleration * dt
         if item.position is not None and item.velocity is not None:

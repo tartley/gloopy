@@ -1,5 +1,8 @@
 FEATURES
 
+* user should provide a world update function?
+* consider making newtonian movement apply to all objects if it can be done
+  without performance penalty
 * orbit center should accept either a location or a gameitem.
 * f12 to toggle fps
 * alt-enter to toggle fullscreen
@@ -18,7 +21,8 @@ PERFORMANCE
 * code from old europython talk does 450 independant cubes at 60fps.
   we can only do 100. wtf?
 * pyopengl - does it need opengl-accelerate module to run fast?
-
+* go read the source of pyglet.batch, see if anyone can explain what it
+  does. Set up a simple demo using it (using gloopy!), measure throughput.
 
 DESIGN
 
@@ -175,4 +179,8 @@ DONE -------------------------------------------------------------------------
 * any_orthogonal has a bug if given vector is negative y axis.
     Should set friend as:
     'x_axis if abs(x) < abs(y) or abs(x) < abs(z)) else y_axis
+* current diffs cause slowdown because of __setattr__ on gameitem. (measure
+  to confirm this) Fix might be to explicitly pass 'item' to item.update,
+  in world.update, so that orbits, etc would no longer need to have their
+  own reference to their parent gameitem.
 
