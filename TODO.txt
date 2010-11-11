@@ -3,7 +3,6 @@ FEATURES
 * user should provide a world update function?
 * consider making newtonian movement apply to all objects if it can be done
   without performance penalty
-* orbit center should accept either a location or a gameitem.
 * f12 to toggle fps
 * alt-enter to toggle fullscreen
 * Add all good shapes from previous programs
@@ -183,4 +182,5 @@ DONE -------------------------------------------------------------------------
   to confirm this) Fix might be to explicitly pass 'item' to item.update,
   in world.update, so that orbits, etc would no longer need to have their
   own reference to their parent gameitem.
+* orbit center should accept either a location or a gameitem.
 

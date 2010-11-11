@@ -2,6 +2,8 @@ from __future__ import division
 
 from pyglet.gl import gl, glu
 
+from ..util.vectors import position_or_gameitem
+
 
 class ModelView(object):
     '''
@@ -18,7 +20,7 @@ class ModelView(object):
         gl.glMatrixMode(gl.GL_MODELVIEW)
         gl.glLoadIdentity()
         position = self.camera.position
-        look_at = self.camera.look_at
+        look_at = position_or_gameitem(self.camera.look_at)
         glu.gluLookAt(
             position.x, position.y, position.z,
             look_at.x, look_at.y, look_at.z,

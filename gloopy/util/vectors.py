@@ -13,6 +13,14 @@ neg_y_axis = Vector3(0, -1, 0)
 neg_z_axis = Vector3(0, 0, -1)
 
 
+
+def position_or_gameitem(position):
+    if isinstance(position, Vector3):
+        return position
+    else:
+        return position.position
+
+
 def vec3_random(size):
     return Vector3(
         uniform(-size, size),

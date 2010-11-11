@@ -35,9 +35,10 @@ def main():
                 )
             )    
         gloopy.camera.update=WobblyOrbit(
-            origin, 50, Vector3(2, 3, 1),
+            gloopy.world.items[1], 50, Vector3(2, 3, 1),
             wobble_size=0.9, wobble_freq=0.4,
         )
+        gloopy.camera.look_at = gloopy.world.items[1]
         gloopy.start()
     finally:
         gloopy.stop()

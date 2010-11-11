@@ -2,7 +2,7 @@ from __future__ import division
 from math import sin
 
 from ...lib.euclid import Matrix4, Vector3
-from ...util.vectors import any_orthogonal, y_axis
+from ...util.vectors import any_orthogonal, position_or_gameitem, y_axis
 
 
 class Orbit(object):
@@ -33,11 +33,9 @@ class Orbit(object):
             self.axis
         )
         offset = m * self.unit_offset * self.radius
-        if isinstance(self.center, Vector3):
-            center = self.center
-        else:
-            center = self.center.position
-        item.position = self.center + offset
+        center = position_or_gameitem(self.center)
+
+        item.position = center + offset
 
 
 class WobblyOrbit(Orbit):
