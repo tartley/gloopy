@@ -4,6 +4,8 @@ FEATURES
 * f12 to toggle fps
 * alt-enter to toggle fullscreen
 * Add all good shapes from previous programs
+* Convert options to use argparse, so that it can provide command line usage
+
 
 PERFORMANCE
 
@@ -15,6 +17,8 @@ PERFORMANCE
    - save the test and the results so I can repeat it going fwd
 * code from old europython talk does 450 independant cubes at 60fps.
   we can only do 100. wtf?
+* pyopengl - does it need opengl-accelerate module to run fast?
+
 
 DESIGN
 
@@ -32,8 +36,6 @@ DESIGN
 * Either provide friendly wrapper for quaternions-as-orientation, or revert
   to much better API and more understandable implementation using three
   axes.
-* Convert options to use argparse, so that it can provide command line usage
-
 * Dependencies should be in a virtualenv. Put virtualenv creation script,
   or 'frozen' version number output, into hg
 * Euclid should be a virtualenv installed dependency, not bundled.
