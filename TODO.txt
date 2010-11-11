@@ -1,17 +1,27 @@
-* make sure all access to pyeuclid is using the local copy.
-  Some imports were local, others to global lib, causing isinstance errors.
+FEATURES
+
 * orbit center should accept either a location or a gameitem.
 * any_orthogonal has a bug if given vector is negative y axis.
-  Should set friend as:
+    Should set friend as:
     'x_axis if abs(x) < abs(y) or abs(x) < abs(z)) else y_axis
+* f12 to toggle fps
+* alt-enter to toggle fullscreen
+* Add all good shapes from previous programs
 
-* changes to euclid: Are there tests to guaruantee behaviour is preserved?
-  If not, ditch them.
-* Also, euclid contains Matrix4.new_look_at - could this replace some of
-  current camera or projection code?
+PERFORMANCE
 
-* camera should not be attribute of eventloop.
-* render specialises as 'RenderWorld' - should take list of glyphs,
+* construct repeatable performance test and record results as one or more
+  new demo.py scripts:
+   - single large batch
+   - many cube shaped batches (no other processing)
+   - many cube shaped batches (all in newtonian motion)
+   - save the test and the results so I can repeat it going fwd
+* code from old europython talk does 450 independant cubes at 60fps.
+  we can only do 100. wtf?
+
+DESIGN
+
+* render should maybe specialise as 'RenderWorld' - should take list of glyphs,
   positions, orientations (or glyphs, matrices) instead of needing access to
   world?
 * consider eliminating class Gloopy. Expose world, camera, etc to user.
@@ -19,19 +29,12 @@
 * eventloop in top level package?
 * color in top level package?
 * render? world? camera? what else?
-* Add all good shapes from previous programs
 * Put demo.py in 'examples' dir
-* f12 to toggle fps
-* alt-enter to toggle fullscreen
-
-* review hobbyist-opengl code, see whether and why it is faster
-* construct repeatable performance test and record results:
-   - single large batch
-   - many cube shaped batches (no other processing)
-   - many cube shaped batches (all in newtonian motion)
-   - save the test and the results so I can repeat it going fwd
-     (aha! it's a new demo.py)
-
+* Also, euclid contains Matrix4.new_look_at - could this replace some of
+  current camera or projection code?
+* Either provide friendly wrapper for quaternions-as-orientation, or revert
+  to much better API and more understandable implementation using three
+  axes.
 * Convert options to use argparse, so that it can provide command line usage
 
 * Dependencies should be in a virtualenv. Put virtualenv creation script,
@@ -101,7 +104,7 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
   How about the polyhedran face-extruder?
 * Use gloopy to implement the original vision for pyweek11CubeCaught
 
-* anti-alias polygon edges? Does this even make sense for closed polyhedra?
+* anti-alias. Use multisampling. Expose as option to application.
 * orbit should have an option to face in particular direction during orbit,
   i.e. in direction of motion, or toward rotated body. Presumably expressing
   this as a Q relative to direction of motion makes sense.
@@ -167,4 +170,7 @@ DONE -------------------------------------------------------------------------
 * Gameitem movement
 * measure performance - doesn't look like we're getting 60fps
 * camera in wobblyorbit
+* changes to euclid: Are there tests to guaruantee behaviour is preserved? Y.
+* camera should not be attribute of eventloop.
+* make sure all access to pyeuclid is using the local copy.
 
