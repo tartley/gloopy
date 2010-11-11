@@ -25,8 +25,12 @@ def any_orthogonal(orig):
     '''
     return any unit vector at right angles to the given vector
     '''
-    # friend = any vector at all, so long as it isn't == orig
-    friend = y_axis if orig != y_axis else x_axis
+    assert orig != origin
+    # friend = any vector at all, so long as it isn't parallel to orig
+    if abs(orig.x) < abs(orig.y):
+        friend = x_axis
+    else:
+        friend = y_axis
     return orig.cross(friend).normalize()
 
 
