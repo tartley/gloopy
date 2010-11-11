@@ -41,10 +41,7 @@ class GameItem(object):
         '''
         # if any supposed Vector3 attributes have been passed as a tuple for
         # convenience, convert them into Vector3
-        vec3_attributes = [
-            'position', 'velocity', 'acceleration',
-        ]
-        for attr in vec3_attributes:
+        for attr in ['position', 'velocity', 'acceleration']:
             if attr in kwargs:
                 if not isinstance(kwargs[attr], Vector3):
                     kwargs[attr] = Vector3(*kwargs[attr])
