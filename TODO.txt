@@ -1,3 +1,5 @@
+* make sure all access to pyeuclid is using the local copy.
+  Some imports were local, others to global lib, causing isinstance errors.
 * orbit center should accept either a location or a gameitem.
 * any_orthogonal has a bug if given vector is negative y axis.
   Should set friend as:
@@ -9,6 +11,9 @@
   current camera or projection code?
 
 * camera should not be attribute of eventloop.
+* render specialises as 'RenderWorld' - should take list of glyphs,
+  positions, orientations (or glyphs, matrices) instead of needing access to
+  world?
 * consider eliminating class Gloopy. Expose world, camera, etc to user.
   Functionality provided by gloopy becomes the canonical demo script.
 * eventloop in top level package?
@@ -46,14 +51,28 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
 
 * Review TODO docs from 'pyweek11' and 'hobbyist opengl' talk, transfer
   good parts into this document
-* Review whether gloopy is about opengl rendering, gameitem movement and
-  orientation (and composition, etc), or both. Should be separate libraries?
+* Review whether gloopy should be broken into separate libraries:
+    - rendering: should know nothing of world.
+        passed a list of (glyph, orientation)
+        later extend this to (glyph, state, orientation), where state
+        encapsualtes things like enabling shaders, etc, and renders are
+        sorted to group similar states.
+    - shape: geometry and glyph generation
+    - eventloop. Ties it together by:
+        -scheduling calls to world.update
+        -scheduling calls to render.draw
+        -creating iterator over world.items.glyphs (etc) to pass
+         to render.draw
 
 * demo.py should create a more funky shape
 * scale movement by mean dt over last few frames to reduce jittery movement
   caused by isolated slow or fast frames.
 * add option to use pyglet or pyopengl bindings. measure performance.
 * read up on how to make pyopengl faster
+
+* better shaders: incorporate the lighting shaders from pyopengl tutorials,
+  and provide a class which binds named uniforms to instance attributes
+  or somesuch. Does pyopengl already have such a class?
 
 * Combining the orientations of nested multishapes is done in an innefficient
   manner, multiplying every vertex by each multishape's orientation in
@@ -106,7 +125,7 @@ PERFORMANCE ------------------------------------------------------------------
   frame. Also possibly add an array of accellerations.
   Python code would just make update occasional
   impulses into the accel or velocity arrays.
-* Cython the inner render loop
+* Cython the inner render loop?
 
 
 IDEAS FOR LATER --------------------------------------------------------------
