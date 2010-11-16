@@ -1,12 +1,12 @@
+
 FEATURES
 
-* user should provide a world update function?
-* consider making newtonian movement apply to all objects if it can be done
-  without performance penalty
 * f12 to toggle fps
 * alt-enter to toggle fullscreen
-* Add all good shapes from previous programs
-* Convert options to use argparse, so that it can provide command line usage
+* replace call to pyglet.gl.gl_info with:
+    glGetString(GL_VERSION)
+    glGetString(GL_SHADING_LANGUAGE_VERSION)
+    etc
 
 
 PERFORMANCE
@@ -19,11 +19,24 @@ PERFORMANCE
    - save the test and the results so I can repeat it going fwd
 * code from old europython talk does 450 independant cubes at 60fps.
   we can only do 100. wtf?
-* pyopengl - does it need opengl-accelerate module to run fast?
-* go read the source of pyglet.batch, see if anyone can explain what it
-  does. Set up a simple demo using it (using gloopy!), measure throughput.
+
+* current render handling of item position, orientation is hopelessly slow.
+  * Store item positions and orientations as numpy vectors or matrices.
+  * cache resulting matrix for objects which haven't moved / rotated since
+    last frame
+  * store all positions and orientations in a big array, and perform
+    newtonian updates as a single numpy operation
+* combine vertex, color, normals into single array, to reduce number of
+  glXPointer calls in the inner render loop
+
 
 DESIGN
+
+* use pyopengl shader management
+* use pyopengl VBO objects
+
+* user should provide a world update function?
+* newtonian movement should be provided automatically by world.update?
 
 * render should maybe specialise as 'RenderWorld' - should take list of glyphs,
   positions, orientations (or glyphs, matrices) instead of needing access to
@@ -47,10 +60,13 @@ DESIGN
 * Check that demo.py works in isolation, using an installed version of gloopy
 * Consider getting pyglet latest svn
 
+* Add all good shapes from previous programs
+* demo.py should create a more funky shape
+* Convert options to use argparse, so that it can provide command line usage
+
 * generate sphinx documentation
 * fill in doc strings
 * make 0.1 release on cheese shop
-
 
 AFTER 0.1 RELEASE ------------------------------------------------------------
 
@@ -69,11 +85,8 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
         -creating iterator over world.items.glyphs (etc) to pass
          to render.draw
 
-* demo.py should create a more funky shape
 * scale movement by mean dt over last few frames to reduce jittery movement
   caused by isolated slow or fast frames.
-* add option to use pyglet or pyopengl bindings. measure performance.
-* read up on how to make pyopengl faster
 
 * better shaders: incorporate the lighting shaders from pyopengl tutorials,
   and provide a class which binds named uniforms to instance attributes
@@ -83,8 +96,6 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
   manner, multiplying every vertex by each multishape's orientation in
   series. Modify to calculate the cumulative orientation first, then
   multiply each vertex by the result.
-* Optionally use VBOs if they are available. Otherwise silently fall back
-  to vertex arrays
 * Introduce a variable to control the use of primitives other than
   GL_TRIANGLES. When using GL_TRIANGLE_FAN or _STRIP, draw all the
   discontinuous faces of a single shape in a single draw call, using:
@@ -97,7 +108,10 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
 * log file should be created in app_root if possible, or else in
   application's scratch space, not cwd
 
-* bool to display or hide clockdisplay
+* command-line option to select screen resolution on startup
+* keys or something to select new screen resolution during runtime
+* persist options to store user's chosen screen resolution
+
 * Control over ambient and directional light sources
 * Point light sources
 * Textures
@@ -183,4 +197,10 @@ DONE -------------------------------------------------------------------------
   in world.update, so that orbits, etc would no longer need to have their
   own reference to their parent gameitem.
 * orbit center should accept either a location or a gameitem.
+
+* try using pyopengl bindings with pyopengl-accelerate added (10%, ie 2fps. meh)
+* add pyopengl performance fixes (no bloody difference.)
+* figure out difference between pyglet.gl and pyglet.gl.gl 
+  (former includes glu, glext_arb, etc)
+* make it easy to switch between pyglet.gl and pyopengl (bool in util.gl)
 
