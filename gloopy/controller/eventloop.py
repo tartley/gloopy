@@ -41,8 +41,6 @@ class Eventloop(object):
 
 
     def update(self, dt):
-        if self.options.print_fps:
-            self.fpss.append(1/max(1e-6, dt))
         dt = min(dt, 1 / 30)
         self.time += dt
 
@@ -54,6 +52,4 @@ class Eventloop(object):
         log.info('stop')
         if self.window:
             self.window.close()
-        if self.options.print_fps:
-            print '  '.join("%6.1f" % (dt, ) for dt in self.fpss)
 
