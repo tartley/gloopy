@@ -1,12 +1,6 @@
 
 FEATURES
 
-* replace call to pyglet.gl.gl_info with:
-    glGetString(GL_VERSION)
-    glGetString(GL_SHADING_LANGUAGE_VERSION)
-    etc
-
-
 PERFORMANCE
 
 * construct repeatable performance test and record results as one or more

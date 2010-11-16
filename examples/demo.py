@@ -2,6 +2,12 @@
 from __future__ import division
 from random import uniform
 
+# allow this script to import gloopy from the parent directory, so we can
+# run from the 'examples' dir, even if gloopy isn't installed.
+import sys
+from os.path import abspath, dirname, join
+sys.path.insert(0, abspath(join(dirname(__file__), '..')))
+
 from gloopy import Gloopy
 from gloopy.lib.euclid import Quaternion, Vector3
 from gloopy.model.item.gameitem import GameItem
@@ -16,21 +22,14 @@ from gloopy.model.move import Newtonian, WobblyOrbit
 
 def add_many_gameitems(world):
     shape=Cube(1, Color.Red)
-    for _ in range(200):
-        position = vec3_random(10)
+    for i in range(200):
         world.add(
             GameItem(
                 shape=shape,
-                position=position*2,
-                #velocity=-position * uniform(0, 1),
-                #acceleration=position/10,
+                position=vec3_random(i/3),
                 orientation=orientation_random(),
-                #angular_velocity=Quaternion.new_rotate_axis(
-                    #100, vec3_random(1).normalize()
-                #),
-                #update=Newtonian(),
             )
-        )    
+        )
 
 
 def main():
@@ -46,6 +45,7 @@ def main():
             wobble_size=0.9, wobble_freq=0.4,
         )
         gloopy.camera.look_at = gloopy.world.items[1]
+
         gloopy.start()
     finally:
         gloopy.stop()
