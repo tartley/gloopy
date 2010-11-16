@@ -93,7 +93,7 @@ class Render(object):
         gl.glClearColor(*world.background_color.as_floats())
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         self.draw_items(self.drawable_items(world))
-        if self.options.display_fps:
+        if self.options.fps:
             self.draw_hud()
         self.window.invalid = False
         return EVENT_HANDLED

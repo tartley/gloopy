@@ -1,7 +1,6 @@
 
 FEATURES
 
-* f12 to toggle fps
 * alt-enter to toggle fullscreen
 * replace call to pyglet.gl.gl_info with:
     glGetString(GL_VERSION)
@@ -198,9 +197,12 @@ DONE -------------------------------------------------------------------------
   own reference to their parent gameitem.
 * orbit center should accept either a location or a gameitem.
 
-* try using pyopengl bindings with pyopengl-accelerate added (10%, ie 2fps. meh)
+* try using pyopengl bindings with pyopengl-accelerate added
+  (10%, ie 2fps. meh)
 * add pyopengl performance fixes (no bloody difference.)
 * figure out difference between pyglet.gl and pyglet.gl.gl 
   (former includes glu, glext_arb, etc)
 * make it easy to switch between pyglet.gl and pyopengl (bool in util.gl)
+
+* f12 to toggle fps
 

@@ -3,6 +3,7 @@ import logging
 
 import pyglet
 from pyglet.window import Window
+from pyglet.window import key
 
 from ..view.render import Render
 
@@ -30,6 +31,7 @@ class Eventloop(object):
         self.render = Render(self.window, camera, self.options)
         self.render.init()
         self.window.on_draw = lambda: self.render.draw(self.world)
+        self.window.on_key_press = self.on_key_press
 
 
     def start(self):
@@ -46,6 +48,13 @@ class Eventloop(object):
 
         self.world.update(self.time, dt)
         self.window.invalid = True
+
+
+    def on_key_press(self, symbol, modifiers):
+        if symbol == key.ESCAPE:
+            self.window.dispatch_event('on_close')
+        elif symbol == key.F12:
+            self.options.fps = not self.options.fps
 
 
     def stop(self):
