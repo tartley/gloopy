@@ -14,26 +14,33 @@ from gloopy.model.move import Newtonian, WobblyOrbit
 
 
 
+def add_many_gameitems(world):
+    shape=Cube(1, Color.Red)
+    for _ in range(200):
+        position = vec3_random(10)
+        world.add(
+            GameItem(
+                shape=shape,
+                position=position*2,
+                #velocity=-position * uniform(0, 1),
+                #acceleration=position/10,
+                orientation=orientation_random(),
+                #angular_velocity=Quaternion.new_rotate_axis(
+                    #100, vec3_random(1).normalize()
+                #),
+                #update=Newtonian(),
+            )
+        )    
+
+
 def main():
     gloopy = Gloopy()
     gloopy.init()
     try:
         gloopy.world.background_color = Color.Random()
-        for _ in range(200):
-            position = vec3_random(10)
-            gloopy.world.add(
-                GameItem(
-                    shape=Cube(1, Color.Random().tinted(Color.Red, .5)),
-                    position=position*2,
-                    velocity=-position * uniform(0, 1),
-                    acceleration=position/10,
-                    orientation=orientation_random(),
-                    angular_velocity=Quaternion.new_rotate_axis(
-                        100, vec3_random(1).normalize()
-                    ),
-                    update=Newtonian(),
-                )
-            )    
+
+        add_many_gameitems(gloopy.world)
+
         gloopy.camera.update=WobblyOrbit(
             gloopy.world.items[1], 50, Vector3(2, 3, 1),
             wobble_size=0.9, wobble_freq=0.4,

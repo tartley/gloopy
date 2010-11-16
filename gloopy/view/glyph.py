@@ -1,8 +1,7 @@
 
 from itertools import chain, repeat
 
-from pyglet.gl import gl
-
+from ..util.gl import gl
 from ..util.color import Color
 
 

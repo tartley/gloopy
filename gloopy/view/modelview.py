@@ -1,7 +1,6 @@
 from __future__ import division
 
-from pyglet.gl import gl, glu
-
+from ..util.gl import gl, glu
 from ..util.vectors import position_or_gameitem
 
 

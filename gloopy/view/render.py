@@ -3,7 +3,6 @@ from os.path import join
 
 import pyglet
 from pyglet.event import EVENT_HANDLED
-from pyglet.gl import gl
 from pyglet.gl import gl_info
 
 from .glyph import Glyph
@@ -13,6 +12,7 @@ from .shader import FragmentShader, ShaderProgram, VertexShader
 from ..lib.euclid import Matrix4
 from ..util import path
 from ..util.color import Color
+from ..util.gl import gl
 
 
 log = logging.getLogger(__name__)
@@ -91,7 +91,7 @@ class Render(object):
 
     def draw(self, world):
         gl.glClearColor(*world.background_color.as_floats())
-        self.window.clear()
+        gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
         self.draw_items(self.drawable_items(world))
         if self.options.display_fps:
             self.draw_hud()

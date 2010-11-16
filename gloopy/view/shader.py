@@ -2,7 +2,7 @@ from ctypes import (
     byref, c_char, c_char_p, c_int, cast, create_string_buffer, pointer,
     POINTER
 )
-from pyglet import gl
+from OpenGL import GL
 
 
 class ShaderError(Exception): pass
@@ -11,10 +11,10 @@ class LinkError(ShaderError): pass
 
 
 shader_errors = {
-    gl.GL_INVALID_VALUE: 'GL_INVALID_VALUE (bad 1st arg)',
-    gl.GL_INVALID_OPERATION: 'GL_INVALID_OPERATION '
+    GL.GL_INVALID_VALUE: 'GL_INVALID_VALUE (bad 1st arg)',
+    GL.GL_INVALID_OPERATION: 'GL_INVALID_OPERATION '
         '(bad id or immediate mode drawing in progress)',
-    gl.GL_INVALID_ENUM: 'GL_INVALID_ENUM (bad 2nd arg)',
+    GL.GL_INVALID_ENUM: 'GL_INVALID_ENUM (bad 2nd arg)',
 }
 
 
@@ -39,7 +39,7 @@ class _Shader(object):
         
     def _get(self, paramId):
         outvalue = c_int(0)
-        gl.glGetShaderiv(self.id, paramId, byref(outvalue))
+        GL.glGetShaderiv(self.id, paramId, byref(outvalue))
         value = outvalue.value
         if value in shader_errors.keys():
             msg = '%s from glGetShader(%s, %s, &value)'
@@ -48,11 +48,11 @@ class _Shader(object):
 
 
     def get_compile_status(self):
-        return bool(self._get(gl.GL_COMPILE_STATUS))
+        return bool(self._get(GL.GL_COMPILE_STATUS))
 
 
     def get_info_log_length(self):
-        return self._get(gl.GL_INFO_LOG_LENGTH)
+        return self._get(GL.GL_INFO_LOG_LENGTH)
 
 
     def get_info_log(self):
@@ -60,8 +60,7 @@ class _Shader(object):
         if length == 0:
             return ''
         buffer = create_string_buffer(length)
-        gl.glGetShaderInfoLog(self.id, length, None, buffer)
-        return buffer.value
+        return GL.glGetShaderInfoLog(self.id)
 
 
     def _sources_to_array(self):
@@ -75,13 +74,13 @@ class _Shader(object):
 
 
     def compile(self):
-        self.id = gl.glCreateShader(self.shader_type)
+        self.id = GL.glCreateShader(self.shader_type)
 
         self.sources = self._load_sources()
         num, src = self._sources_to_array()
-        gl.glShaderSource(self.id, num, src, None)
+        GL.glShaderSource(self.id, '\n'.join(self.sources))
         
-        gl.glCompileShader(self.id)
+        GL.glCompileShader(self.id)
 
         if not self.get_compile_status():
             raise CompileError(self.get_info_log())
@@ -89,11 +88,11 @@ class _Shader(object):
 
 
 class VertexShader(_Shader):
-    shader_type = gl.GL_VERTEX_SHADER
+    shader_type = GL.GL_VERTEX_SHADER
 
 
 class FragmentShader(_Shader):
-    shader_type = gl.GL_FRAGMENT_SHADER
+    shader_type = GL.GL_FRAGMENT_SHADER
 
 
 
@@ -106,7 +105,7 @@ class ShaderProgram(object):
     
     def _get(self, paramId):
         outvalue = c_int(0)
-        gl.glGetProgramiv(self.id, paramId, byref(outvalue))
+        GL.glGetProgramiv(self.id, paramId, byref(outvalue))
         value = outvalue.value
         if value in shader_errors.keys():
             msg = '%s from glGetProgram(%s, %s, &value)'
@@ -115,11 +114,11 @@ class ShaderProgram(object):
         
         
     def get_link_status(self):
-        return bool(self._get(gl.GL_LINK_STATUS))
+        return bool(self._get(GL.GL_LINK_STATUS))
 
 
     def get_info_log_length(self):
-        return self._get(gl.GL_INFO_LOG_LENGTH)
+        return self._get(GL.GL_INFO_LOG_LENGTH)
 
 
     def get_info_log(self):
@@ -127,8 +126,7 @@ class ShaderProgram(object):
         if length == 0:
             return ''
         buffer = create_string_buffer(length)
-        gl.glGetProgramInfoLog(self.id, length, None, buffer)
-        return buffer.value
+        return GL.glGetProgramInfoLog(self.id)
         
 
     def _get_message(self):
@@ -144,13 +142,13 @@ class ShaderProgram(object):
 
         
     def compile(self):
-        self.id = gl.glCreateProgram()
+        self.id = GL.glCreateProgram()
         
         for shader in self.shaders:
             shader.compile()
-            gl.glAttachShader(self.id, shader.id)
+            GL.glAttachShader(self.id, shader.id)
 
-        gl.glLinkProgram(self.id)
+        GL.glLinkProgram(self.id)
 
         message = self._get_message()
         if not self.get_link_status():
@@ -159,5 +157,5 @@ class ShaderProgram(object):
 
 
     def use(self):
-        return gl.glUseProgram(self.id)
+        return GL.glUseProgram(self.id)
 
