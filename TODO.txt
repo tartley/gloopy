@@ -1,7 +1,6 @@
 
 FEATURES
 
-* alt-enter to toggle fullscreen
 * replace call to pyglet.gl.gl_info with:
     glGetString(GL_VERSION)
     glGetString(GL_SHADING_LANGUAGE_VERSION)
@@ -205,4 +204,5 @@ DONE -------------------------------------------------------------------------
 * make it easy to switch between pyglet.gl and pyopengl (bool in util.gl)
 
 * f12 to toggle fps
+* alt-enter to toggle fullscreen
 

@@ -55,6 +55,9 @@ class Eventloop(object):
             self.window.dispatch_event('on_close')
         elif symbol == key.F12:
             self.options.fps = not self.options.fps
+        elif symbol == key.ENTER and (modifiers & key.MOD_ALT):
+            self.options.fullscreen = not self.options.fullscreen
+            self.window.set_fullscreen(self.options.fullscreen)
 
 
     def stop(self):
