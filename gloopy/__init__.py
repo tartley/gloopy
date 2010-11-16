@@ -1,14 +1,9 @@
 import logging
-
-# ensure 'import euclid' will use the local copy in 'gloopy/lib/euclid.py'
 import sys
-from os.path import join
-sys.path.append(join('gloopy', 'lib'))
 
 from .controller.eventloop import Eventloop
 from .lib.euclid import Vector3
 from .model.item.gameitem import GameItem
-from .model.move.orbit import WobblyOrbit
 from .model.world import World
 from .util.log import init_log
 from .util.options import Options
@@ -49,4 +44,5 @@ class Gloopy(object):
 
     def stop(self):
         self.eventloop.stop()
-        
+
+
