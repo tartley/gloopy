@@ -1,9 +1,8 @@
 from __future__ import division
 import logging
 
-import pyglet
-from pyglet.window import Window
-from pyglet.window import key
+from pyglet import app, clock
+from pyglet.window import key, Window
 
 from ..view.render import Render
 
@@ -36,10 +35,10 @@ class Eventloop(object):
 
     def start(self):
         log.info('start')
-        pyglet.clock.schedule(self.update)
+        clock.schedule(self.update)
         self.window.set_visible()
         self.window.invalid = False
-        pyglet.app.run()
+        app.run()
 
 
     def update(self, dt):
