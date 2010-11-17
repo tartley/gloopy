@@ -42,8 +42,8 @@ def any_orthogonal(orig):
     return orig.cross(friend).normalize()
 
 
-def orientation_random():
-    return Quaternion.new_rotate_axis(
-        uniform(0, pi), vec3_random(1)
-    )
+def orientation_random(size=None):
+    if size is None:
+        size = uniform(0, pi)
+    return Quaternion.new_rotate_axis( size, vec3_random(1) )
 
