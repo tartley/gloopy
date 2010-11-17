@@ -37,9 +37,9 @@ class Gloopy(object):
         )
         self.world.add( self.camera )
         self.eventloop = Eventloop(self.world, self.options)
+        self.eventloop.init( self.camera )
 
     def start(self):
-        self.eventloop.init( self.camera )
         self.eventloop.start()
 
     def stop(self):
