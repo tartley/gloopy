@@ -4,11 +4,14 @@ FEATURES
 PERFORMANCE
 
 * construct repeatable performance test one or more new demo.py scripts:
-    A. single large gameitem (140000 cubes)
-    B. 400 cube shaped gameitems (same glyph) (no other processing)
-    C. 400 cube shaped gameitems (unique glyphs) (no other processing)
-    D. many cube shaped batches (same shape) (all in newtonian motion)
-    E. many cube shaped batches (unique shapes) (all in newtonian motion)
+    400 cube shaped gameitems, unique positions, unique glyphs:
+    1. no orientations, no update
+    2. with orientations, no update
+    3. with orientations, newtonian update, no acc, no vel, no ang_vel
+    4. with orientations, newtonian update, no acc, with vel, no ang_vel
+    5. with orientations, newtonian update, with acc, with vel, no ang_vel
+    6. with orientations, newtonian update, with acc, with vel, with ang_vel
+    0. single large gameitem (140000 cubes)
 
    - record the results so I can repeat it going fwd
 

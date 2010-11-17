@@ -1,5 +1,5 @@
 from math import pi
-from random import uniform
+from random import randint, uniform
 
 from ..lib.euclid import Quaternion, Vector3
 
@@ -21,12 +21,19 @@ def position_or_gameitem(position):
         return position.position
 
 
-def vec3_random(size):
-    return Vector3(
-        uniform(-size, size),
-        uniform(-size, size),
-        uniform(-size, size),
-    )
+def vec3_random_cube(size, ints=False):
+    if ints:
+        return Vector3(
+            randint(-size/2, +size/2),
+            randint(-size/2, +size/2),
+            randint(-size/2, +size/2)
+        ) 
+    else:
+        return Vector3(
+            uniform(-size, size),
+            uniform(-size, size),
+            uniform(-size, size),
+        )
 
 
 def any_orthogonal(orig):

@@ -12,22 +12,23 @@ log = logging.getLogger(__name__)
 
 class Eventloop(object):
 
-    def __init__(self, world, options):
+    def __init__(self, world, camera, options):
         self.world = world
+        self.camera = camera
         self.options = options
         self.window = None
         self.fpss = []
         self.time = 0.0
 
 
-    def init(self, camera):
+    def init(self):
         log.info('init')
         self.window = Window(
             fullscreen=self.options.fullscreen,
             vsync=self.options.vsync,
             visible=False,
             resizable=True)
-        self.render = Render(self.window, camera, self.options)
+        self.render = Render(self.window, self.camera, self.options)
         self.render.init()
         self.window.on_draw = lambda: self.render.draw(self.world)
         self.window.on_key_press = self.on_key_press
@@ -44,8 +45,15 @@ class Eventloop(object):
     def update(self, dt):
         dt = min(dt, 1 / 30)
         self.time += dt
-
         self.world.update(self.time, dt)
+
+        # this is a bit weird, passing camera into its own method, but
+        # we need it because 'update' may be set to a generic object
+        # like 'Newtonian()' or 'WobblyOrbit()', which doesn't know which
+        # gameitem (or camera) it is an attribute of
+        if self.camera.update:
+            self.camera.update(self.camera, self.time, dt)
+
         self.window.invalid = True
 
 

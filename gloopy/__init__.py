@@ -35,9 +35,8 @@ class Gloopy(object):
             position=Vector3(0, 0, 10),
             look_at=origin,
         )
-        self.world.add( self.camera )
-        self.eventloop = Eventloop(self.world, self.options)
-        self.eventloop.init( self.camera )
+        self.eventloop = Eventloop(self.world, self.camera, self.options)
+        self.eventloop.init()
 
     def start(self):
         self.eventloop.start()
