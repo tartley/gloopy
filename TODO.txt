@@ -3,12 +3,15 @@ FEATURES
 
 PERFORMANCE
 
-* construct repeatable performance test and record results as one or more
-  new demo.py scripts:
-   - single large batch
-   - many cube shaped batches (no other processing)
-   - many cube shaped batches (all in newtonian motion)
-   - save the test and the results so I can repeat it going fwd
+* construct repeatable performance test one or more new demo.py scripts:
+    A. single large gameitem (140000 cubes)
+    B. 400 cube shaped gameitems (same glyph) (no other processing)
+    C. 400 cube shaped gameitems (unique glyphs) (no other processing)
+    D. many cube shaped batches (same shape) (all in newtonian motion)
+    E. many cube shaped batches (unique shapes) (all in newtonian motion)
+
+   - record the results so I can repeat it going fwd
+
 * code from old europython talk does 450 independant cubes at 60fps.
   we can only do 100. wtf?
 
