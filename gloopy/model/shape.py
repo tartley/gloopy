@@ -70,7 +70,8 @@ class Shape(object):
         if len(vertices) > 0 and not isinstance(vertices[0], Vector3):
             vertices = [Vector3(*v) for v in vertices]
 
-        # if given one color instead of a sequence of them,
+        # if given one color (or a tuple that looks like a color)
+        # instead of a sequence of colors,
         # then construct a sequence if identical colors out of it
         if (
             isinstance(colors, tuple) and
@@ -108,7 +109,7 @@ class MultiShape(object):
     def add(self, shape, position=(0, 0, 0), orientation=None):
         matrix = Matrix4.new_translate(*position)
         if orientation is not None:
-            matrix *= orientation
+            matrix *= orientation.get_matrix()
 
         child_offset = len(self.vertices)
         self.vertices.extend(self.child_vertices(shape, matrix))
