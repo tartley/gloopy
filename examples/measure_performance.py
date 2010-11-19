@@ -1,7 +1,10 @@
 #! /usr/bin/env python
 from __future__ import division
-from math import sqrt
-from random import choice, randint, uniform
+from random import choice
+
+import OpenGL
+OpenGL.ERROR_CHECKING = __debug__
+OpenGL.ERROR_ON_COPY = __debug__
 
 # allow this script to import gloopy from the parent directory, so we can
 # run from the 'examples' dir, even if gloopy isn't installed.
@@ -13,16 +16,14 @@ from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
 
 from gloopy import Gloopy
-from gloopy.lib.euclid import Quaternion, Vector3
+from gloopy.lib.euclid import Vector3
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.cube import Cube
 from gloopy.model.move import Newtonian, WobblyOrbit
-from gloopy.model.shape import Shape, MultiShape
 from gloopy.util.color import Color
 from gloopy.util.vectors import (
-    origin, orientation_random, vec3_random_cube, x_axis, y_axis, z_axis,
+    origin, orientation_random, vec3_random_cube
 )
-from gloopy.view.glyph import Glyph
 
 
 
@@ -32,6 +33,7 @@ SIZE = 30
 def add_items(gloopy, number=None):
     '''
     add 'number' cubes to the world
+    if 'number' not specified, default doubles the number of items
     '''
     if number is None:
         number = max(1, len(gloopy.world.items))
@@ -47,6 +49,7 @@ def add_items(gloopy, number=None):
 def remove_items(gloopy, number=None):
     '''
     remove 'number' items from the world
+    if number not specified, default removes half the items from the world
     '''
     if number is None:
         number = len(gloopy.world.items) // 2
@@ -57,33 +60,17 @@ def remove_items(gloopy, number=None):
         number -= 1
 
 
-#def add_many_gameitems(world, number, orient=False, newtonian=False):
-    #shape = Cube(1, Color.Green)
-    #for _ in range(number):
-        #item = GameItem(
-            #shape=shape,
-            #position=vec3_random(sqrt(uniform(0, SIZE ** 2))),
-        #)
-        #if orient:
-            #item.orientation=orientation_random()
-        #if newtonian:
-            #item.update=Newtonian()
-            #velocity=vec3_random(10)
-            #args['update'.update(dict(
-                #update=Newtonian(),
-                #position=Vector3(0, 0, 0),
-                #velocity=velocity,
-                ##acceleration=-velocity / 3,
-                #orientation=orientation_random(),
-                #angular_velocity=orientation_random(uniform(0, 10)),
-            #))
-        #else:
-            #args = dict(
-                #shape=shape,
-                #position=vec3_random(sqrt(uniform(0, SIZE ** 2))),
-                #orientation=orientation_random(),
-            #)
-        #world.add( item )
+currently_set = {}
+
+def toggle_attr(gloopy, name, get_value):
+    new_state = not currently_set.get(name, False)
+    currently_set[name] = new_state
+    print name, new_state
+    for item in gloopy.world:
+        if new_state:
+            setattr(item, name, get_value())
+        else:
+            setattr(item, name, None)
 
 
 def on_key_press(gloopy, symbol, modifiers):
@@ -94,20 +81,20 @@ def on_key_press(gloopy, symbol, modifiers):
     elif symbol == key.MINUS:
         remove_items(gloopy)
 
-    #if symbol == key._1:
-        #gloopy.world.items.clear()
-        #add_many_gameitems(gloopy.world, 400)
-        #gloopy.world.add(gloopy.camera)
+    elif symbol == key.GRAVE:
+        toggle_attr(gloopy, 'update', Newtonian)
 
-    #elif symbol == key._2:
-        #gloopy.world.items.clear()
-        #add_many_gameitems(gloopy.world, 400, orient=True)
-        #gloopy.world.add(gloopy.camera)
+    elif symbol == key._1:
+        toggle_attr(gloopy, 'orientation', orientation_random)
 
-    #elif symbol == key._3:
-        #gloopy.world.items.clear()
-        #add_many_gameitems(gloopy.world, 400, newtonian=True)
-        #gloopy.world.add(gloopy.camera)
+    elif symbol == key._2:
+        toggle_attr(gloopy, 'angular_velocity', orientation_random)
+
+    elif symbol == key._3:
+        toggle_attr(gloopy, 'velocity', lambda: vec3_random_cube(10))
+
+    elif symbol == key._4:
+        toggle_attr(gloopy, 'acceleration', lambda: vec3_random_cube(10))
 
     elif symbol == key.BACKSPACE:
         gloopy.world.items.clear()
@@ -123,8 +110,12 @@ def on_key_press(gloopy, symbol, modifiers):
 def main():
     gloopy = Gloopy()
     gloopy.init()
-    gloopy.world.background_color = Color.Random()
+
     add_items(gloopy, 512)
+    toggle_attr(gloopy, 'orientation', orientation_random)
+
+    gloopy.world.background_color = Color.Random()
+
     gloopy.eventloop.window.push_handlers(
         on_key_press=
         lambda symbol, modifiers: on_key_press(gloopy, symbol, modifiers)

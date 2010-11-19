@@ -1,4 +1,7 @@
 
+from ...lib.euclid import Quaternion
+
+
 class Newtonian(object):
     '''
     Modify locus if item.position by adding item.velocity to it.
@@ -11,6 +14,8 @@ class Newtonian(object):
         if item.position is not None and item.velocity is not None:
             item.position += item.velocity * dt 
         if item.angular_velocity:
+            if item.orientation is None:
+                item.orientation = Quaternion()
             speed, axis = item.angular_velocity.get_angle_axis()
             item.orientation.rotate_axis(speed * dt, axis)
 
