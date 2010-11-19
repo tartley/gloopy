@@ -3,32 +3,31 @@ FEATURES
 
 PERFORMANCE
 
-* construct repeatable performance test one or more new demo.py scripts:
-    400 cube shaped gameitems, unique positions, unique glyphs:
-    1. no orientations, no update
-    2. with orientations, no update
-    3. with orientations, newtonian update, no acc, no vel, no ang_vel
-    4. with orientations, newtonian update, no acc, with vel, no ang_vel
-    5. with orientations, newtonian update, with acc, with vel, no ang_vel
-    6. with orientations, newtonian update, with acc, with vel, with ang_vel
-    0. single large gameitem (140000 cubes)
-
-   - record the results so I can repeat it going fwd
-
-* code from old europython talk does 450 independant cubes at 60fps.
-  we can only do 100. wtf?
-
-* current render handling of item position, orientation is hopelessly slow.
-  * Store item positions and orientations as numpy vectors or matrices.
-  * cache resulting matrix for objects which haven't moved / rotated since
-    last frame
-  * store all positions and orientations in a big array, and perform
-    newtonian updates as a single numpy operation
+* Store item positions and orientations as numpy vectors or matrices.
+* cache resulting matrix for objects which haven't moved / rotated since
+  last frame. Hackery implies we'll get 54/sushik 80/jlappy fps for this,
+  with orientations but without Newtonian updates.
+* store all positions and orientations in a big array, and perform
+  newtonian updates as a single numpy operation. Hopefully cost of
+  newtonian updates will then be low.
 * combine vertex, color, normals into single array, to reduce number of
-  glXPointer calls in the inner render loop
+  glXPointer calls in the inner render loop. (hackery to simulate this
+  (move glColorPointer, glNormalPointer outside main render loop) suggests
+  from 54 to 73 fps improvement.
+* pass array of pos/orientation matrices to opengl (in a texture?) and let
+  shaders mult each vertex position by correct element from this array.
+  Need to add integer vertex attribute indicating which element to use.
+  Then can remove glMultMatrix call from inner render loop.
+  Then can stop iterating over items in inner render loop - just call
+  glDrawElements once on a huge array of all vertices in the world.
 
 
 DESIGN
+
+* Orbit, Newtonion should maybe act functionally, return a new value 
+  instead of attempting to set one? Then update() (or world.update)
+  becomes:
+    position = self.move()
 
 * use pyopengl shader management
 * use pyopengl VBO objects
@@ -205,4 +204,17 @@ DONE -------------------------------------------------------------------------
 
 * f12 to toggle fps
 * alt-enter to toggle fullscreen
+
+* code from old europython talk does 450 independant cubes at 60fps.
+  we can only do 100. wtf? Reason is the code in middle of render loop
+  which handles position and orientations. Every frame it was creating new
+  euclid.Matrix4, offsetting it, rotating it, and worst of all, then ctypesing
+  it to pass to glMatrixMult.
+
+* repeatable performance test one or more new demo.py scripts:
+    512 cube shaped gameitems, unique positions, unique glyphs, FPS:
+     23: no orientations
+     19: no orientations, newtonian update, with acc, with vel
+     16: with orientations
+     12: with orientations, newtonian update, with acc, with vel, with ang_vel
 
