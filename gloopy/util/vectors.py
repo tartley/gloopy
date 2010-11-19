@@ -52,5 +52,5 @@ def any_orthogonal(orig):
 def orientation_random(size=None):
     if size is None:
         size = uniform(0, pi)
-    return Quaternion.new_rotate_axis( size, vec3_random(1) )
+    return Quaternion.new_rotate_axis( size, vec3_random_cube(1) )
 
