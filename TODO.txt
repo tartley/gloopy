@@ -1,86 +1,146 @@
 
-FEATURES
+
+AFTER 0.1 RELEASE
+
+* Use gloopy to implement the original vision for pyweek11CubeCaught
+
 
 PERFORMANCE
 
-* Store item positions and orientations as numpy vectors or matrices.
+* decide on strategy for positions and orientations:
+    - how do we store them?
+        - position as vec3
+        - orientation as 3-axis
+        - later we cython these classes
+            - talk to pyeuclid guy about this strategy
+        - do they need to be in a contiguous array? I'm thinking not
+    - how do we pass them to opengl?
+        - for now, use glRotate/glTranslate directly.
+        - later, pass via vertex uniforms, and use them in vertex shader
+    - how do we update them?
+        - Cython gives access to members and methods of vec3 and orientation
+* combine vertex, color, normals into single interleaved array,
+  to reduce number of glXPointer calls in the inner render loop.
+  (hackery to simulate this (move glColorPointer, glNormalPointer outside of
+  main render loop) suggests from 54 to 73 fps improvement.
+* switch from vertex arrays to VBO objects, if supported. Either use
+  PyOpenGL's VBO, or write our own code to do it. See:
+  http://www.siafoo.net/snippet/185, and:
+
+    # Generate Buffers (inside Init method)
+    circle = array(circle, dtype=float32)
+    vertex_vbo = GL.GLuint(0)
+    glGenBuffers(1, vertex_vbo)
+    glBindBuffer(GL_ARRAY_BUFFER, circle)
+    # wtc is 'ADT'? Array data type!
+    glBufferData(GL_ARRAY_BUFFER, ADT.arrayByteCount(circle),
+        ADT.voidDataPointer(circle), GL_STATIC_DRAW_ARB)
+
+    # Draw buffers (inside Render method)
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo)
+    glVertexPointer(3, GL_FLOAT, 0, None)
+    glDrawArrays(GL_LINE_STRIP, 0, circle.shape[0])
+
+* use pyopengl shader management instead of our own compile/link code.
+  Or improve our own to take uniforms, see:
+    http://swiftcoder.wordpress.com/2008/12/19/simple-glsl-wrapper-for-pyglet/
+* instead of setting modelview using glMultMatrix, we should be passing in
+  object matrix (or position, orientation) using vertex shader uniforms.
+  Review Mike's 'canonical opengl3 application', from his old pycon talk.
+  try OpenGL.FORWARD_COMPATIBLE_ONLY = True
+  see http://pyopengl.sourceforge.net/documentation/deprecations.html
+  Does this work ok on opengl 2.1?
+  Does this affect performance?
+  Same for projection matrix?
+
 * cache resulting matrix for objects which haven't moved / rotated since
   last frame. Hackery implies we'll get 54/sushik 80/jlappy fps for this,
-  with orientations but without Newtonian updates.
-* store all positions and orientations in a big array, and perform
-  newtonian updates as a single numpy operation. Hopefully cost of
-  newtonian updates will then be low.
-* combine vertex, color, normals into single array, to reduce number of
-  glXPointer calls in the inner render loop. (hackery to simulate this
-  (move glColorPointer, glNormalPointer outside main render loop) suggests
-  from 54 to 73 fps improvement.
-* pass array of pos/orientation matrices to opengl (in a texture?) and let
-  shaders mult each vertex position by correct element from this array.
-  Need to add integer vertex attribute indicating which element to use.
-  Then can remove glMultMatrix call from inner render loop.
-  Then can stop iterating over items in inner render loop - just call
-  glDrawElements once on a huge array of all vertices in the world.
+  with static positions and orientations
+* Cython the main render loop
+* I suspect that multiple gameitems with the same Shape all wastefully
+  generate their own identical Glyph. This might (a) yield performance
+  improvement, and (b) be more important when updating the verts of Glyphs
+  to animate them.
+
+* Pass an array of gameitem positions & orientations directly to the shaders,
+  perhaps as a gloat image buffer. Add an integer
+  vertex attribute to say which gameitem the vertex belongs to (i.e. an index
+  into the image array.) There is then no need to update
+  modelview between draw calls. Do the same with orientation, and then all
+  objects could be drawn with a single glDraw call.
+
+
+STARTUP PERFORMANCE
+
+* use profiler
+* Replace the (* seq) operator on initialising gl_array in Glyph.
+  instead use::
+    array = arraytype()
+    array[:] = seq # eg. [11, 22, 33... ]
+  Test the speed on creating a large multishape.
+* Combining the orientations of nested multishapes is done in an innefficient
+  manner, multiplying every vertex by each multishape's orientation in
+  series. Modify to calculate the cumulative orientation first, then
+  multiply each vertex by the result.
+* Can we Cython or Numpy the above?
+* How about totally rethinking the algorithm. Suspect we're
+  doing too much work (e.g. vertex and index re-ordering)
 
 
 DESIGN
 
-* Orbit, Newtonion should maybe act functionally, return a new value 
-  instead of attempting to set one? Then update() (or world.update)
-  becomes:
-    position = self.move()
-
-* use pyopengl shader management
-* use pyopengl VBO objects
-
-* user should provide a world update function?
-* newtonian movement should be provided automatically by world.update?
-
-* render should maybe specialise as 'RenderWorld' - should take list of glyphs,
+* Either provide friendly wrapper for quaternions-as-orientation, or revert
+  to much better API and more understandable implementation using three
+  axes.
+* render should maybe specialise as 'RenderGlyphs' - take list of glyphs,
   positions, orientations (or glyphs, matrices) instead of needing access to
-  world?
+  world or items?
 * consider eliminating class Gloopy. Expose world, camera, etc to user.
   Functionality provided by gloopy becomes the canonical demo script.
 * eventloop in top level package?
 * color in top level package?
 * render? world? camera? what else?
-* Put demo.py in 'examples' dir
 * Also, euclid contains Matrix4.new_look_at - could this replace some of
   current camera or projection code?
-* Either provide friendly wrapper for quaternions-as-orientation, or revert
-  to much better API and more understandable implementation using three
-  axes.
-* Dependencies should be in a virtualenv. Put virtualenv creation script,
-  or 'frozen' version number output, into hg
-* Euclid should be a virtualenv installed dependency, not bundled.
-  (& then remove path.append in demo.py)
-* should be pip installable, and doing so should install its deps
-* Check that demo.py works in isolation, using an installed version of gloopy
-* Consider getting pyglet latest svn
-
-* Add all good shapes from previous programs
-* demo.py should create a more funky shape
-* Convert options to use argparse, so that it can provide command line usage
-
-* generate sphinx documentation
-* fill in doc strings
-* make 0.1 release on cheese shop
-
-AFTER 0.1 RELEASE ------------------------------------------------------------
-
-* Review TODO docs from 'pyweek11' and 'hobbyist opengl' talk, transfer
-  good parts into this document
 * Review whether gloopy should be broken into separate libraries:
-    - rendering: should know nothing of world.
-        passed a list of (glyph, orientation)
-        later extend this to (glyph, state, orientation), where state
-        encapsualtes things like enabling shaders, etc, and renders are
-        sorted to group similar states.
-    - shape: geometry and glyph generation
+    - rendering: should know nothing of shapes or world.
+        passed a list of (glyph, pos&orientation)
+    - shape: polyhedra to glyphs
     - eventloop. Ties it together by:
         -scheduling calls to world.update
         -scheduling calls to render.draw
         -creating iterator over world.items.glyphs (etc) to pass
          to render.draw
+* user should (can?) provide a world update function?
+* Orbit, Newtonion should maybe act functionally, return a new value 
+  instead of attempting to set one? Then update() (or world.update)
+  becomes:
+    position = self.move()
+* newtonian movement should be provided as a public callable to either:
+    - be called for one item, AS its update method
+    - be called for one item, FROM its update method.
+    - be called for all items, from world.update
+
+
+PACKAGING
+
+* Dependencies should be in a virtualenv. Put virtualenv creation script,
+  or pip 'frozen version number' output, into hg
+* Euclid should be a virtualenv installed dependency, not bundled.
+  (& then remove path.append in demo.py)
+* should be pip installable, and doing so should install its deps
+* Check that examples work in isolation, using an installed version of gloopy
+* Consider getting pyglet latest svn
+* source install should be 'install python; pip install gloopy'
+* generate sphinx documentation
+* fill in doc strings
+* make 0.1 release on cheese shop
+* Python 3 support
+
+
+FEATURES
+
+* Allow each gameitem to specify its own shader program
 
 * scale movement by mean dt over last few frames to reduce jittery movement
   caused by isolated slow or fast frames.
@@ -88,11 +148,68 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
 * better shaders: incorporate the lighting shaders from pyopengl tutorials,
   and provide a class which binds named uniforms to instance attributes
   or somesuch. Does pyopengl already have such a class?
+* Control over ambient and directional light sources, as uniforms
+* Point light source(s) - pass in locations, colors, as uniforms
+* per pixel lighting so that specular highlights in middle of flat faces
+  look good
+* Textures. See:
+    http://www.lighthouse3d.com/opengl/glsl/index.php?textureComb
 
-* Combining the orientations of nested multishapes is done in an innefficient
-  manner, multiplying every vertex by each multishape's orientation in
-  series. Modify to calculate the cumulative orientation first, then
-  multiply each vertex by the result.
+* Add all good shapes from previous programs, plus:
+* the regular solids
+* Tetris shapes (unoptimised)
+* close-packed cube patterns, specified as tuple ordinates, eliminating
+  faces of cubes which abut.
+* Cube cluster generated from pixels of small bitmaps. Invader! Mario! etc.
+* polyhedra face-extruder
+
+* Convert options to use argparse, so that it can provide command line usage
+* log file should be created in app_root if possible, or else in
+  application's scratch space, not cwd
+* command-line option to select screen resolution on startup
+* restore desktop resolution on exit
+* keys or something to select new screen resolution during runtime
+* persist options to store user's chosen screen resolution
+* anti-alias. Use multisampling. Expose as option to application.
+
+* Add to geometry while it is being displayed
+    * recreate it from scratch? Or modify (& grow) existing vertex array?
+    * colors too
+    * Squaresnake
+
+
+DEMOS
+
+* add demo which creates large and funky shapes
+* demo attaching point light source to position of gameitem
+* User-controlled camera. Add to a demo.
+* Lego - select a face with mouse, add a poly to it.
+  (or extrude from it?)
+* Interpenetrating cuboid solids and voids. (& rooms, a void in a solid)
+
+
+IDEAS FOR LATER
+
+* Fake skybox geometry:
+    * vector:
+        * triangular stars
+        * a ground, with mountains! and moon
+        * animate: sky changes color, moon moves
+        * A sun! * moon has rings!
+    * a real bitmap skybox thing
+    * stack skyboxes, so that bitmap background has ground & mountains
+      overlaid. Or sky background has ground overlaid.
+    * (if bitmaps can contain alpha, then they can usefully overlay too.
+      eg. big planet from UT skyboxes)
+
+* In game text:
+    for HUD
+    for MENUS, instructions
+    as bitmaps on shapes
+* Allow items to toggle between being mobile (with a position)
+  and 'static', which draws them as part of the 'world' render call
+* triangulation for convex faces
+* shadows
 * Introduce a variable to control the use of primitives other than
   GL_TRIANGLES. When using GL_TRIANGLE_FAN or _STRIP, draw all the
   discontinuous faces of a single shape in a single draw call, using:
@@ -101,53 +218,9 @@ AFTER 0.1 RELEASE ------------------------------------------------------------
   and then insert indices of value MAXINT into the index array to form a
   break between strips. Bear in mind this is meant to be a space & time
   optimisation, so measure the latter before deciding the keep it.
-* log gloopy version number should include hg revision?
-* log file should be created in app_root if possible, or else in
-  application's scratch space, not cwd
-
-* command-line option to select screen resolution on startup
-* keys or something to select new screen resolution during runtime
-* persist options to store user's chosen screen resolution
-
-* Control over ambient and directional light sources
-* Point light sources
-* Textures
-
-* Start work on the pycon talk demo that will be produced using gloopy
-  How about the polyhedran face-extruder?
-* Use gloopy to implement the original vision for pyweek11CubeCaught
-
-* anti-alias. Use multisampling. Expose as option to application.
-* orbit should have an option to face in particular direction during orbit,
-  i.e. in direction of motion, or toward rotated body. Presumably expressing
-  this as a Q relative to direction of motion makes sense.
-* assigning orbit should not move the object discontinuously, but should
-  smoothly interpolate from initial position
-  (interpolate not quite right - might result in reversal of direction
-  towards the end. How to generate a feasible-looking orbital insertion?)
-* how to generalise the above for all movers?
-* how to use a mover both as an update function, and call one from an update
-  function?
-
-
-PERFORMANCE ------------------------------------------------------------------
-
-* Pass an array of gameitem positions directly to the shaders. Add an integer
-  vertex attribute to say which gameitem the vertex belongs to (i.e. an index
-  into the gameitem positions array.) There is then no need to update
-  modelview between draw calls. Do the same with orientation, and then all
-  objects could be drawn with a single glDraw call.
-* Use numpy to add an array of velocities to the array of positions every
-  frame. Also possibly add an array of accellerations.
-  Python code would just make update occasional
-  impulses into the accel or velocity arrays.
-* Cython the inner render loop?
-
-
-IDEAS FOR LATER --------------------------------------------------------------
-
 * Curved surfaces (i.e. re-use same vertex (incl. normals) between adjacent
-  triangles)
+  triangles):
+    * Cylinder * sphere * Ring (hollow cylinder) * donut * ring with crosses
 * Generate equipotential surfaces in scalar fields
 * Use that to generate cool organic shapes with holes,
   eg. see screenshots on the geexlab website
@@ -157,16 +230,17 @@ IDEAS FOR LATER --------------------------------------------------------------
 * Try enabling gamma correction using: glEnable(GL_FRAMEBUFFER_SRGB)
   This can make a huge difference to the results of lighting
 * 2D mode, with ortho projection and 2D verts
+* orbit should have an option to face in particular direction during orbit,
+  i.e. in direction of motion, or toward rotated body. Presumably expressing
+  this as a Q relative to direction of motion makes sense.
+* assigning orbit should not move the object discontinuously, but should
+  smoothly interpolate from initial position
+  (interpolate not quite right - might result in reversal of direction
+  towards the end. How to generate a feasible-looking orbital insertion?)
+* how to generalise the above for all movers?
 
 
-WON'T DO ---------------------------------------------------------------------
-
-* kwargs to gameitem constructor should convert tuples to quaternions
-    - I don't think manually constructing Q's is useful. Use the Q static
-      methods instead
-
-
-DONE -------------------------------------------------------------------------
+DONE
 
 * delete bits of pyweek11 game that aren't required by gloopy,
 * move required bits of pyweek11 specific functionality out to demo.py
@@ -210,11 +284,12 @@ DONE -------------------------------------------------------------------------
   which handles position and orientations. Every frame it was creating new
   euclid.Matrix4, offsetting it, rotating it, and worst of all, then ctypesing
   it to pass to glMatrixMult.
-
 * repeatable performance test one or more new demo.py scripts:
     512 cube shaped gameitems, unique positions, unique glyphs, FPS:
      23: no orientations
      19: no orientations, newtonian update, with acc, with vel
      16: with orientations
      12: with orientations, newtonian update, with acc, with vel, with ang_vel
+* Review TODO doc from 'flyinghigh opengl from python' talk
+* Review TODO doc from 'pyweek11'
 
