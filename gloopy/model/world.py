@@ -1,5 +1,6 @@
 
-from ..lib.euclid import Vector3
+from ..geom.vec3 import Vec3
+
 from ..util.color import Orange
 from ..util.event import Event
 
@@ -19,8 +20,8 @@ class World(object):
 
     def add(self, item, position=None):
         if position is not None:
-            if not isinstance(position, Vector3):
-                position = Vector3(*position)
+            if not isinstance(position, Vec3):
+                position = Vec3(*position)
             item.position = position
         self.items[item.id] = item
         self.item_added.fire(item)

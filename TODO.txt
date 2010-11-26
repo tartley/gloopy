@@ -1,28 +1,22 @@
 
 
-AFTER 0.1 RELEASE
-
-* Use gloopy to implement the original vision for pyweek11CubeCaught
-
-
 PERFORMANCE
+* cache resulting matrix for objects which haven't moved / rotated since
+  last frame. Hackery implies we'll get 54/sushik 80/jlappy fps for this,
+  with static positions and orientations
 
-* decide on strategy for positions and orientations:
-    - how do we store them?
-        - position as vec3
-        - orientation as 3-axis
-        - later we cython these classes
-            - talk to pyeuclid guy about this strategy
-        - do they need to be in a contiguous array? I'm thinking not
-    - how do we pass them to opengl?
-        - for now, use glRotate/glTranslate directly.
-        - later, pass via vertex uniforms, and use them in vertex shader
-    - how do we update them?
-        - Cython gives access to members and methods of vec3 and orientation
+
+- create a matrix object which combines all the methods of Vec3
+  and orientation!
+- cython this matrix class
+    - read this guy's Cython-howto tutorial:
+      https://github.com/ricardodelnero/small-Cython-How-To
+
 * combine vertex, color, normals into single interleaved array,
   to reduce number of glXPointer calls in the inner render loop.
   (hackery to simulate this (move glColorPointer, glNormalPointer outside of
   main render loop) suggests from 54 to 73 fps improvement.
+
 * switch from vertex arrays to VBO objects, if supported. Either use
   PyOpenGL's VBO, or write our own code to do it. See:
   http://www.siafoo.net/snippet/185, and:
@@ -42,7 +36,7 @@ PERFORMANCE
     glDrawArrays(GL_LINE_STRIP, 0, circle.shape[0])
 
 * use pyopengl shader management instead of our own compile/link code.
-  Or improve our own to take uniforms, see:
+  Or improve our own shader management code to take uniforms, see:
     http://swiftcoder.wordpress.com/2008/12/19/simple-glsl-wrapper-for-pyglet/
 * instead of setting modelview using glMultMatrix, we should be passing in
   object matrix (or position, orientation) using vertex shader uniforms.
@@ -53,38 +47,21 @@ PERFORMANCE
   Does this affect performance?
   Same for projection matrix?
 
-* cache resulting matrix for objects which haven't moved / rotated since
-  last frame. Hackery implies we'll get 54/sushik 80/jlappy fps for this,
-  with static positions and orientations
-* Cython the main render loop
 * I suspect that multiple gameitems with the same Shape all wastefully
   generate their own identical Glyph. This might (a) yield performance
   improvement, and (b) be more important when updating the verts of Glyphs
   to animate them.
 
 * Pass an array of gameitem positions & orientations directly to the shaders,
-  perhaps as a gloat image buffer. Add an integer
-  vertex attribute to say which gameitem the vertex belongs to (i.e. an index
-  into the image array.) There is then no need to update
-  modelview between draw calls. Do the same with orientation, and then all
-  objects could be drawn with a single glDraw call.
+  perhaps as a float image buffer. Add an integer vertex attribute to say which
+  gameitem the vertex belongs to (i.e. an index into the image array.) There
+  is then no need to update modelview between draw calls. Do the same with
+  orientation, and then all objects could be drawn with a single glDraw call.
 
 
-STARTUP PERFORMANCE
+AFTER 0.1 RELEASE
 
-* use profiler
-* Replace the (* seq) operator on initialising gl_array in Glyph.
-  instead use::
-    array = arraytype()
-    array[:] = seq # eg. [11, 22, 33... ]
-  Test the speed on creating a large multishape.
-* Combining the orientations of nested multishapes is done in an innefficient
-  manner, multiplying every vertex by each multishape's orientation in
-  series. Modify to calculate the cumulative orientation first, then
-  multiply each vertex by the result.
-* Can we Cython or Numpy the above?
-* How about totally rethinking the algorithm. Suspect we're
-  doing too much work (e.g. vertex and index re-ordering)
+* Use gloopy to implement the original vision for pyweek11CubeCaught
 
 
 DESIGN
@@ -111,6 +88,7 @@ DESIGN
         -scheduling calls to render.draw
         -creating iterator over world.items.glyphs (etc) to pass
          to render.draw
+    - shaders (compiling, linking, binding, and provided shaders)
 * user should (can?) provide a world update function?
 * Orbit, Newtonion should maybe act functionally, return a new value 
   instead of attempting to set one? Then update() (or world.update)
@@ -186,6 +164,25 @@ DEMOS
 * Lego - select a face with mouse, add a poly to it.
   (or extrude from it?)
 * Interpenetrating cuboid solids and voids. (& rooms, a void in a solid)
+* Check out the lit up night sky behind these dark buildings.
+  Can we make something like this?
+    http://www.openbusiness.cc/wp-content/uploads/hk1.jpg
+
+STARTUP PERFORMANCE
+
+* use profiler
+* Replace the (* seq) operator on initialising gl_array in Glyph.
+  instead use::
+    array = arraytype()
+    array[:] = seq # eg. [11, 22, 33... ]
+  Test the speed on creating a large multishape.
+* Combining the orientations of nested multishapes is done in an innefficient
+  manner, multiplying every vertex by each multishape's orientation in
+  series. Modify to calculate the cumulative orientation first, then
+  multiply each vertex by the result.
+* Can we Cython or Numpy the above?
+* How about totally rethinking the algorithm. Suspect we're
+  doing too much work (e.g. vertex and index re-ordering)
 
 
 IDEAS FOR LATER
@@ -292,4 +289,7 @@ DONE
      12: with orientations, newtonian update, with acc, with vel, with ang_vel
 * Review TODO doc from 'flyinghigh opengl from python' talk
 * Review TODO doc from 'pyweek11'
+- position as vec3
+- orientation as 3-axis
+- pass glMultMatrix a matrix constructed from position and orientation
 

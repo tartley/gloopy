@@ -1,7 +1,8 @@
 
 from itertools import repeat
 
-from ..lib.euclid import Matrix4, Vector3
+from ..geom.matrix import Matrix4
+from ..geom.vec3 import Vec3
 from ..util.color import Color
 
 
@@ -36,8 +37,7 @@ class Face(object):
         v2 = self.vertices[self.indices[2]]
         a = v0 - v1
         b = v2 - v1
-        normal = b.cross(a)
-        normal.normalize()
+        normal = b.cross(a).normalized()
         return normal
 
 
@@ -50,7 +50,7 @@ class Shape(object):
     face's edges. Each face has its own color.
 
     public interface to a Shape is:
-        shape.vertices = [vector3, vector3, vector3...]
+        shape.vertices = [vec3, vec3, vec3...]
         shape.faces = [
             Face(vertices, color1, [1, 2, 3, 4]),
             Face(vertices, color2, [4, 5, 1, 9]),
@@ -66,9 +66,9 @@ class Shape(object):
             for index in face:
                 assert 0 <= index < len_verts
 
-        # convert vertices from tuple to Vector3 if required
-        if len(vertices) > 0 and not isinstance(vertices[0], Vector3):
-            vertices = [Vector3(*v) for v in vertices]
+        # convert vertices from tuple to Vec3 if required
+        if len(vertices) > 0 and not isinstance(vertices[0], Vec3):
+            vertices = [Vec3(*v) for v in vertices]
 
         # if given one color (or a tuple that looks like a color)
         # instead of a sequence of colors,
@@ -107,7 +107,7 @@ class MultiShape(object):
 
 
     def add(self, shape, position=(0, 0, 0), orientation=None):
-        matrix = Matrix4.new_translate(*position)
+        matrix = Matrix4(position)
         if orientation is not None:
             matrix *= orientation.get_matrix()
 

@@ -1,7 +1,8 @@
 from __future__ import division
 from math import sin
 
-from ...lib.euclid import Matrix4, Vector3
+from ...geom.matrix import Matrix4
+from ...geom.vec3 import Vec3
 from ...util.vectors import any_orthogonal, position_or_gameitem, y_axis
 
 
@@ -11,15 +12,15 @@ class Orbit(object):
     with the given axis, radius and angular_velocity.
     '''
     def __init__(self, center, radius, axis=None, angular_velocity=1, phase=0):
-        if hasattr(center, 'position') or isinstance(center, Vector3):
+        if hasattr(center, 'position') or isinstance(center, Vec3):
             self.center = center
         else:
-            self.center = Vector3(center)
+            self.center = Vec3(center)
         self.radius = radius
         if axis is None:
             axis = y_axis
         else:
-            axis.normalize()
+            axis = axis.normalized()
         self.axis = axis
         self.angular_velocity = angular_velocity
         self.phase = phase
@@ -28,14 +29,13 @@ class Orbit(object):
 
 
     def __call__(self, item, time, dt):
-        m = Matrix4.new_rotate_axis(
-            self.phase + self.angular_velocity * time,
-            self.axis
+        item.position = (
+            position_or_gameitem(self.center) +
+            self.radius * self.unit_offset.rotate(
+                self.axis,
+                self.phase + self.angular_velocity * time
+            )
         )
-        offset = m * self.unit_offset * self.radius
-        center = position_or_gameitem(self.center)
-
-        item.position = center + offset
 
 
 class WobblyOrbit(Orbit):

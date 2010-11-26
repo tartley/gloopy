@@ -9,7 +9,6 @@ from .glyph import Glyph
 from .modelview import ModelView
 from .projection import Projection
 from .shader import FragmentShader, ShaderProgram, VertexShader
-from ..lib.euclid import Matrix4
 from ..util import path
 from ..util.color import Color
 from ..util.gl import gl
@@ -33,15 +32,6 @@ def log_opengl_version():
         gl_info.get_version(),
     ]) )
     
-
-def matrix_to_ctypes(m):
-    return (gl.GLfloat * 16)(
-        m.a, m.e, m.i, m.m,
-        m.b, m.f, m.j, m.n,
-        m.c, m.g, m.k, m.o,
-        m.d, m.h, m.l, m.p
-    )
-
 
 class Render(object):
 
@@ -106,13 +96,10 @@ class Render(object):
         for item in items:
             gl.glPushMatrix()
             
-            matrix = Matrix4()
             if item.position is not None:
-                matrix.translate(*item.position)
+                gl.glTranslatef(*item.position)
             if item.orientation is not None:
-                matrix *= item.orientation.get_matrix()
-            if item.position or item.orientation:
-                gl.glMultMatrixf(matrix_to_ctypes(matrix))
+                gl.glMultMatrixf(item.orientation.matrix)
 
             gl.glVertexPointer(
                 Glyph.DIMENSIONS,

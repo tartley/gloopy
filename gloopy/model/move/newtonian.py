@@ -1,5 +1,5 @@
 
-from ...lib.euclid import Quaternion
+from ...geom.orientation import Orientation
 
 
 class Newtonian(object):
@@ -15,7 +15,7 @@ class Newtonian(object):
             item.position += item.velocity * dt 
         if item.angular_velocity:
             if item.orientation is None:
-                item.orientation = Quaternion()
+                item.orientation = Orientation()
             speed, axis = item.angular_velocity.get_angle_axis()
             item.orientation.rotate_axis(speed * dt, axis)
 
