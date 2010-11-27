@@ -137,21 +137,6 @@ class testVec3(TestCase):
         self.assertAlmostEqual(a.angle(a), 0, places=7)
         self.assertAlmostEqual(b.angle(b), 0, places=7)
 
-    def testRotateX(self):
-        self.assertEqual(XAxis.rotateX(pi/2), XAxis)
-        self.assertEqual(YAxis.rotateX(pi/2), NegZAxis)
-        self.assertEqual(ZAxis.rotateX(pi/2), YAxis)
-
-    def testRotateY(self):
-        self.assertEqual(XAxis.rotateY(pi/2), ZAxis)
-        self.assertEqual(YAxis.rotateY(pi/2), YAxis)
-        self.assertEqual(ZAxis.rotateY(pi/2), NegXAxis)
-
-    def testRotateZ(self):
-        self.assertEqual(XAxis.rotateZ(pi/2), NegYAxis)
-        self.assertEqual(YAxis.rotateZ(pi/2), XAxis)
-        self.assertEqual(ZAxis.rotateZ(pi/2), ZAxis)
-
     def testRotate(self):
         self.assertEqual(XAxis.rotate(XAxis, pi/2), XAxis)
         self.assertEqual(YAxis.rotate(XAxis, pi/2), NegZAxis)
