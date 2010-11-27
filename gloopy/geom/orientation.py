@@ -2,9 +2,9 @@
 from math import pi, degrees
 from random import uniform
 
-from ..geom.vec3 import Vec3
+from ..geom.vec3 import Vec3, neg_y_axis, neg_z_axis, y_axis, z_axis
 from ..util.gl import gl
-from ..util.vectors import neg_y_axis, neg_z_axis, y_axis, z_axis
+
 
 
 EPSILON = 1e-15
@@ -45,7 +45,6 @@ class Orientation(object):
         # whenever self.forward or self.up change.
         self._matrix = None
 
-
     def __repr__(self):
         return 'Orientation(%s, up=%s)' % (self.forward, self.up)
 
@@ -63,7 +62,7 @@ class Orientation(object):
 
     @staticmethod
     def Random():
-        fwd = Vec3.Random(1)
+        fwd = Vec3.RandomCube(1)
         orientation = Orientation(fwd)
         orientation.roll(uniform(-pi, +pi))
         return orientation

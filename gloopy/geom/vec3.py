@@ -1,8 +1,8 @@
 
 from __future__ import division
 from collections import namedtuple
-from math import acos, cos, sin, sqrt
-from random import uniform
+from math import acos, cos, pi, sin, sqrt
+from random import randint, uniform
 
 
 EPSILON = 1e-7
@@ -61,18 +61,21 @@ class Vec3(namedtuple('Vec3Base', 'x y z')):
         return Vec3(self.x / scalar, self.y / scalar, self.z / scalar)
 
     @staticmethod
-    def Random(radius=None, manhatten=None):
-        assert radius or manhatten
-        size = radius or manhatten
-        v = Vec3(
-            uniform(-size/2, +size/2),
-            uniform(-size/2, +size/2),
-            uniform(-size/2, +size/2),
+    def RandomCube(size, ints=False):
+        rand = randint if ints else uniform
+        return Vec3(
+            rand(-size, +size),
+            rand(-size, +size),
+            rand(-size, +size),
         )
-        if radius:
-            v = v.normalized()
-            v = v * uniform(0, radius)
-        return v
+
+    @staticmethod
+    def RandomSphere(radius):
+        while True:
+            p = Vec3.RandomCube(radius)
+            if p.length2 < radius ** 2:
+                break
+        return p
 
     @property
     def length(self):
@@ -155,6 +158,7 @@ class Vec3(namedtuple('Vec3Base', 'x y z')):
     def rotate(self, axis, angle):
         '''
         return a new vector, rotated about the given axis
+        TODO: move this into matrix
         '''
         c = cos(-angle)
         t = 1 - c
@@ -178,11 +182,11 @@ class Vec3(namedtuple('Vec3Base', 'x y z')):
             d31 * self.x + d32 * self.y + d33 * self.z,
         )
 
-Origin = Vec3(0.0, 0.0, 0.0)
-XAxis = Vec3(1.0, 0.0, 0.0)
-YAxis = Vec3(0.0, 1.0, 0.0)
-ZAxis = Vec3(0.0, 0.0, 1.0)
-NegXAxis = Vec3(-1.0, 0.0, 0.0)
-NegYAxis = Vec3(0.0, -1.0, 0.0)
-NegZAxis = Vec3(0.0, 0.0, -1.0)
+origin = Vec3(0, 0, 0)
+x_axis = Vec3(1, 0, 0)
+y_axis = Vec3(0, 1, 0)
+z_axis = Vec3(0, 0, 1)
+neg_x_axis = Vec3(-1,  0,  0)
+neg_y_axis = Vec3( 0, -1,  0)
+neg_z_axis = Vec3( 0,  0, -1)
 

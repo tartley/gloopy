@@ -1,16 +1,5 @@
-from random import randint, uniform
 
-from ..geom.vec3 import Vec3
-
-
-origin = Vec3(0, 0, 0)
-x_axis = Vec3(1, 0, 0)
-y_axis = Vec3(0, 1, 0)
-z_axis = Vec3(0, 0, 1)
-neg_x_axis = Vec3(-1, 0, 0)
-neg_y_axis = Vec3(0, -1, 0)
-neg_z_axis = Vec3(0, 0, -1)
-
+from ..geom.vec3 import Vec3, origin, x_axis, y_axis
 
 
 def position_or_gameitem(position):
@@ -18,21 +7,6 @@ def position_or_gameitem(position):
         return position
     else:
         return position.position
-
-
-def vec3_random_cube(size, ints=False):
-    if ints:
-        return Vec3(
-            randint(-size/2, +size/2),
-            randint(-size/2, +size/2),
-            randint(-size/2, +size/2)
-        ) 
-    else:
-        return Vec3(
-            uniform(-size, size),
-            uniform(-size, size),
-            uniform(-size, size),
-        )
 
 
 def any_orthogonal(orig):
@@ -46,5 +20,4 @@ def any_orthogonal(orig):
     else:
         friend = y_axis
     return orig.cross(friend).normalized()
-
 

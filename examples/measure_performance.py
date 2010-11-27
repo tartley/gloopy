@@ -22,11 +22,11 @@ from gloopy.model.item.gameitem import GameItem
 from gloopy.model.cube import Cube
 from gloopy.model.move import Newtonian, WobblyOrbit
 from gloopy.util.color import Color
-from gloopy.util.vectors import origin, vec3_random_cube
+from gloopy.geom.vec3 import origin
 
 
 
-SIZE = 30
+SIZE = 20
 
 
 def add_items(gloopy, number=None):
@@ -40,7 +40,7 @@ def add_items(gloopy, number=None):
     for _ in range(number):
         item = GameItem(
             shape=shape,
-            position=vec3_random_cube(SIZE, ints=True),
+            position=Vec3.RandomSphere(SIZE)
         )
         gloopy.world.add( item )
 
@@ -90,10 +90,10 @@ def on_key_press(gloopy, symbol, modifiers):
         toggle_attr(gloopy, 'angular_velocity', Orientation.Random)
 
     elif symbol == key._3:
-        toggle_attr(gloopy, 'velocity', lambda: vec3_random_cube(10))
+        toggle_attr(gloopy, 'velocity', lambda: Vec3.Random(radius=10))
 
     elif symbol == key._4:
-        toggle_attr(gloopy, 'acceleration', lambda: vec3_random_cube(10))
+        toggle_attr(gloopy, 'acceleration', lambda: Vec3.Random(radius=10))
 
     elif symbol == key.BACKSPACE:
         gloopy.world.items.clear()
