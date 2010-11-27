@@ -109,15 +109,13 @@ def on_key_press(gloopy, symbol, modifiers):
 def main():
     gloopy = Gloopy()
     gloopy.init()
+    gloopy.world.background_color = Color.Random()
 
     add_items(gloopy, 512)
     toggle_attr(gloopy, 'orientation', Orientation.Random)
 
-    gloopy.world.background_color = Color.Random()
-
     gloopy.eventloop.window.push_handlers(
-        on_key_press=
-        lambda symbol, modifiers: on_key_press(gloopy, symbol, modifiers)
+        on_key_press=lambda s, m: on_key_press(gloopy, s, m)
     )
     gloopy.camera.update=WobblyOrbit(
         origin, 50, Vec3(2, 3, 1),

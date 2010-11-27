@@ -1,16 +1,6 @@
 
 
 PERFORMANCE
-* cache resulting matrix for objects which haven't moved / rotated since
-  last frame. Hackery implies we'll get 54/sushik 80/jlappy fps for this,
-  with static positions and orientations
-
-
-- create a matrix object which combines all the methods of Vec3
-  and orientation!
-- cython this matrix class
-    - read this guy's Cython-howto tutorial:
-      https://github.com/ricardodelnero/small-Cython-How-To
 
 * combine vertex, color, normals into single interleaved array,
   to reduce number of glXPointer calls in the inner render loop.
@@ -34,6 +24,13 @@ PERFORMANCE
     glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo)
     glVertexPointer(3, GL_FLOAT, 0, None)
     glDrawArrays(GL_LINE_STRIP, 0, circle.shape[0])
+
+- Cython the render loop
+- create a matrix object which combines all the methods of Vec3
+  and orientation!
+- cython this matrix class
+    - read this guy's Cython-howto tutorial:
+      https://github.com/ricardodelnero/small-Cython-How-To
 
 * use pyopengl shader management instead of our own compile/link code.
   Or improve our own shader management code to take uniforms, see:

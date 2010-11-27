@@ -141,9 +141,6 @@ class Orientation(object):
         '''
         The matrix that the OpenGL modelview matrix should be multiplied by
         to represent this orientation.
-        TODO - remove this. If we want to obtain the matrix of an orientation,
-        then either contruct a new matrix passing the orientation, or else
-        store a matrix in the first place instead of an orientation.
         '''
         if self._matrix is None:
             self._matrix = matrix_type(

@@ -93,9 +93,10 @@ class Render(object):
         gl.glEnableClientState(gl.GL_NORMAL_ARRAY)
         self.projection.set_perspective(45)
         self.modelview.set_world()
+
         for item in items:
             gl.glPushMatrix()
-            
+
             if item.position is not None:
                 gl.glTranslatef(*item.position)
             if item.orientation is not None:
