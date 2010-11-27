@@ -14,6 +14,8 @@ class Matrix4(object):
                     p.x,          p.y,          p.z, 1,
         ]
 
+    def __iter__(self):
+        return self.elements.__iter__()
 
     def transform(self, vert):
         '''

@@ -2,7 +2,8 @@
 from math import pi, degrees
 from random import uniform
 
-from ..geom.vec3 import Vec3, neg_y_axis, neg_z_axis, y_axis, z_axis
+from .vec3 import Vec3, neg_y_axis, neg_z_axis, origin, y_axis, z_axis
+from .matrix import Matrix4
 from ..util.gl import gl
 
 
@@ -142,11 +143,6 @@ class Orientation(object):
         to represent this orientation.
         '''
         if self._matrix is None:
-            self._matrix = matrix_type(
-                self.right.x,    self.right.y,    self.right.z,   0,
-                self.up.x,       self.up.y,       self.up.z,      0,
-               -self.forward.x, -self.forward.y, -self.forward.z, 0,
-                0,               0,               0,              1,
-            )
+            self._matrix = matrix_type( *Matrix4(origin, self) )
         return self._matrix
 
