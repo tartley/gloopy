@@ -97,8 +97,7 @@ class Render(object):
         for item in items:
             gl.glPushMatrix()
 
-            if item.position is not None:
-                gl.glTranslatef(*item.position)
+            gl.glTranslatef(*item.position)
             if item.orientation is not None:
                 gl.glMultMatrixf(item.orientation.matrix)
 

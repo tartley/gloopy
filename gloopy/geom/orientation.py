@@ -30,7 +30,7 @@ class Orientation(object):
         self._forward = forward.normalized()
 
         if up is None:
-            up = self._default_up()
+            up = self._get_default_up()
         elif not isinstance(up, Vec3):
             up = Vec3(*up)
             angle_between = forward.angle(up)
@@ -84,7 +84,7 @@ class Orientation(object):
             'The up vector')
 
 
-    def _default_up(self):
+    def _get_default_up(self):
         '''
         returns a sensible default up vector (ie. orthogonal to forward,
         but pointed as near to the Y axis as possible)

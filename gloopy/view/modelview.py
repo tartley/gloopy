@@ -1,7 +1,7 @@
 from __future__ import division
 
 from ..util.gl import gl, glu
-from ..util.vectors import position_or_gameitem
+from ..model.item.gameitem import position_or_gameitem
 
 
 class ModelView(object):

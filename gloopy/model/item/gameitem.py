@@ -49,3 +49,10 @@ class GameItem(object):
         # attach all passed kwargs to ourself as attributes
         self.__dict__.update(kwargs)
 
+
+def position_or_gameitem(item):
+    if isinstance(item, Vec3):
+        return item
+    else:
+        return item.position
+

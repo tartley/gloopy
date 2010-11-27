@@ -1,9 +1,9 @@
 from __future__ import division
 from math import sin
 
-from ...geom.matrix import Matrix4
-from ...geom.vec3 import Vec3
-from ...util.vectors import any_orthogonal, position_or_gameitem, y_axis
+from ...geom.vec3 import Vec3, y_axis
+from ...util.vectors import any_orthogonal
+from ...model.item.gameitem import position_or_gameitem
 
 
 class Orbit(object):

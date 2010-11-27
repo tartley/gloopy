@@ -1,12 +1,5 @@
 
-from ..geom.vec3 import Vec3, origin, x_axis, y_axis
-
-
-def position_or_gameitem(position):
-    if isinstance(position, Vec3):
-        return position
-    else:
-        return position.position
+from ..geom.vec3 import origin, x_axis, y_axis
 
 
 def any_orthogonal(orig):
