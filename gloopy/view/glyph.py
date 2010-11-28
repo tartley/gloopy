@@ -1,8 +1,9 @@
 
 from itertools import chain
 
+from OpenGL import GL as gl
+
 from ..util.color import Color
-from ..util.gl import gl
 
 
 type_to_enum = {

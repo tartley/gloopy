@@ -34,6 +34,7 @@ class TestOrientation(TestCase):
         self.assertAlmostEquals(o.right.length, 1, places=15)
 
     def testConstructionBarfsOnNonOrthogonalVectors(self):
+
         self.assertRaises(AssertionError,
             lambda: Orientation((1, 2, 3), (3, -2, 1)))
 

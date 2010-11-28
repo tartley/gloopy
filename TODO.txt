@@ -1,5 +1,4 @@
 
-
 PERFORMANCE
 
 * combine vertex, color, normals into single interleaved array,
@@ -54,9 +53,10 @@ PERFORMANCE
   gameitem the vertex belongs to (i.e. an index into the image array.) There
   is then no need to update modelview between draw calls. Do the same with
   orientation, and then all objects could be drawn with a single glDraw call.
+OR
+* try an entirely CPU based solution. Calc vertex array positions using Cython
+  accel arithmetic, then render all using single glDraw.
 
-* remove utils.gl. Modules should just use OpenGL.GL or pyglet.gl as they
-  please
 
 
 AFTER 0.1 RELEASE
@@ -293,3 +293,5 @@ DONE
 - orientation as 3-axis
 - pass glMultMatrix a matrix constructed from position and orientation
 
+* remove utils.gl. Modules should just use OpenGL.GL or pyglet.gl as they
+  please

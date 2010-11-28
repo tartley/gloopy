@@ -5,6 +5,8 @@ import pyglet
 from pyglet.event import EVENT_HANDLED
 from pyglet.gl import gl_info
 
+from pyglet import gl
+
 from .glyph import Glyph
 from .modelview import ModelView
 from .projection import Projection
@@ -12,7 +14,6 @@ from .shader import FragmentShader, ShaderProgram, VertexShader
 from ..model.shape import shape_to_glyph
 from ..util import path
 from ..util.color import Color
-from ..util.gl import gl
 
 
 log = logging.getLogger(__name__)

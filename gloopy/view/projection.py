@@ -1,8 +1,8 @@
 from __future__ import division
 
+from OpenGL import GL as gl, GLU as glu
 from pyglet.event import EVENT_HANDLED
 
-from ..util.gl import gl, glu
 
 class Projection(object):
 

@@ -2,10 +2,6 @@
 from __future__ import division
 from random import choice
 
-import OpenGL
-OpenGL.ERROR_CHECKING = __debug__
-OpenGL.ERROR_ON_COPY = __debug__
-
 # allow this script to import gloopy from the parent directory, so we can
 # run from the 'examples' dir, even if gloopy isn't installed.
 import sys

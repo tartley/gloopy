@@ -1,6 +1,7 @@
 from __future__ import division
 
-from ..util.gl import gl, glu
+from OpenGL import GL as gl, GLU as glu
+
 from ..model.item.gameitem import position_or_gameitem
 
 
