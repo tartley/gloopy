@@ -2,12 +2,11 @@ import logging
 import sys
 
 from .controller.eventloop import Eventloop
-from .geom.vector import Vector
+from .geom.vector import Vector, origin
 from .model.item.gameitem import GameItem
 from .model.world import World
 from .util.log import init_log
 from .util.options import Options
-from .util.vectors import origin
 
 
 VERSION = '0.1'

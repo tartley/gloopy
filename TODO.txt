@@ -55,6 +55,9 @@ PERFORMANCE
   is then no need to update modelview between draw calls. Do the same with
   orientation, and then all objects could be drawn with a single glDraw call.
 
+* remove utils.gl. Modules should just use OpenGL.GL or pyglet.gl as they
+  please
+
 
 AFTER 0.1 RELEASE
 

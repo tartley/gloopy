@@ -2,7 +2,6 @@ from __future__ import division
 from math import sin
 
 from ...geom.vector import Vector, y_axis
-from ...util.vectors import any_orthogonal
 from ...model.item.gameitem import position_or_gameitem
 
 
@@ -24,8 +23,7 @@ class Orbit(object):
         self.axis = axis
         self.angular_velocity = angular_velocity
         self.phase = phase
-
-        self.unit_offset = any_orthogonal(axis)
+        self.unit_offset = axis.any_orthogonal()
 
 
     def __call__(self, item, time, dt):
@@ -49,12 +47,11 @@ class WobblyOrbit(Orbit):
         self.mean_radius = radius
         self.wobble_freq = wobble_freq
         self.wobble_size = wobble_size
-        self.normalised_offset = any_orthogonal(axis)
 
     def __call__(self, item, time, dt):
         if self.wobble_size != 0:
             self.radius = self.mean_radius * (
                 1 + sin(time * self.wobble_freq) * self.wobble_size
             )
-        super(WobblyOrbit, self).__call__(item, time, dt)
+        Orbit.__call__(self, item, time, dt)
 

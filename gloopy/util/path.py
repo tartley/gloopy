@@ -11,6 +11,7 @@ import sys
 from sys import argv, exit, platform
 from os.path import abspath, dirname, join
 
+# TODO: Context should just be a mini class, with named fields. Or named tuple
 
 # context = (platform, setup)
 # platform = windows | mac | linux

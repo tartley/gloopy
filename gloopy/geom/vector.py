@@ -148,6 +148,20 @@ class Vector(namedtuple('VectorBase', 'x y z')):
             d31 * self.x + d32 * self.y + d33 * self.z,
         )
 
+       
+    def any_orthogonal(self):
+        '''
+        return any unit vector at right angles to the given vector
+        '''
+        assert self != origin
+        # friend = any vector at all, so long as it isn't parallel to orig
+        if abs(self.x) < abs(self.y):
+            friend = x_axis
+        else:
+            friend = y_axis
+        return self.cross(friend).normalized()
+
+
 origin = Vector(0, 0, 0)
 x_axis = Vector(1, 0, 0)
 y_axis = Vector(0, 1, 0)
