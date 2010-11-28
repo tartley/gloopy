@@ -1,7 +1,7 @@
 
 from itertools import chain, repeat
 
-from ..geom.matrix import Matrix4
+from ..geom.matrix import Matrix
 from ..geom.vector import Vector
 from ..util.color import Color
 from ..view.glyph import Glyph
@@ -107,7 +107,7 @@ class MultiShape(object):
 
 
     def add(self, shape, position=(0, 0, 0), orientation=None):
-        matrix = Matrix4(position)
+        matrix = Matrix(position)
         if orientation is not None:
             matrix *= orientation.get_matrix()
 

@@ -74,7 +74,7 @@ DESIGN
 * eventloop in top level package?
 * color in top level package?
 * render? world? camera? what else?
-* Also, euclid contains Matrix4.new_look_at - could this replace some of
+* Also, euclid contains Matrix.new_look_at - could this replace some of
   current camera or projection code?
 * Review whether gloopy should be broken into separate libraries:
     - rendering: should know nothing of shapes or world.
@@ -276,7 +276,7 @@ DONE
 * code from old europython talk does 450 independant cubes at 60fps.
   we can only do 100. wtf? Reason is the code in middle of render loop
   which handles position and orientations. Every frame it was creating new
-  euclid.Matrix4, offsetting it, rotating it, and worst of all, then ctypesing
+  euclid.Matrix, offsetting it, rotating it, and worst of all, then ctypesing
   it to pass to glMatrixMult.
 * repeatable performance test one or more new demo.py scripts:
     512 cube shaped gameitems, unique positions, unique glyphs, FPS:

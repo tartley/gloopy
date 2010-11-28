@@ -2,7 +2,7 @@
 from .vector import Vector
 
 
-class Matrix4(object):
+class Matrix(object):
 
     def __init__(self, position, orientation=None):
         self.position = p = position

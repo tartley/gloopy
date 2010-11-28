@@ -2,17 +2,17 @@
 from unittest import TestCase, main
 
 from ..orientation import Orientation
-from ..matrix import Matrix4
+from ..matrix import Matrix
 from ..vector import Vector, XAxis, YAxis
 
 
-class TestMatrix4(TestCase):
+class TestMatrix(TestCase):
 
     def testConstructor(self):
         position = Vector(1, 2, 3)
         orientation = Orientation((4, 5, 6))
 
-        matrix = Matrix4(position, orientation)
+        matrix = Matrix(position, orientation)
 
         forward = orientation.forward
         up = orientation.up
@@ -29,16 +29,16 @@ class TestMatrix4(TestCase):
 
         # default orientation, this should translate only, zero rotation
         orientation = Orientation()
-        matrix = Matrix4(position, orientation)
+        matrix = Matrix(position, orientation)
         self.assertEqual(matrix.transform(vert) - position, vert)
 
         # now try a couple of transforms which do involve a rotation
         orientation = Orientation(YAxis)
-        matrix = Matrix4(position, orientation)
+        matrix = Matrix(position, orientation)
         self.assertEqual(matrix.transform(vert) - position, (1, 3, -2))
 
         orientation = Orientation(XAxis)
-        matrix = Matrix4(position, orientation)
+        matrix = Matrix(position, orientation)
         self.assertEqual(matrix.transform(vert) - position, (3, 2, -1))
 
 
