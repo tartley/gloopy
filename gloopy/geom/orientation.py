@@ -2,14 +2,16 @@
 from math import pi, degrees
 from random import uniform
 
+from OpenGL import GL
+
 from .vector import Vector, neg_y_axis, neg_z_axis, origin, y_axis, z_axis
 from .matrix import Matrix
-from ..util.gl import gl
 
 
 
 EPSILON = 1e-15
-matrix_type = gl.GLfloat * 16
+matrix_type = GL.GLfloat * 16
+
 
 class Orientation(object):
     '''

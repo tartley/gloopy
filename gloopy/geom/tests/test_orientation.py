@@ -2,12 +2,12 @@
 from math import pi
 from unittest import TestCase, main
 
-from ...geom.vector import Vector
-from ...util.gl import gl
-from ...util.vectors import (
-    neg_x_axis, neg_y_axis, neg_z_axis, x_axis, y_axis, z_axis,
+from OpenGL import GL
+
+from ..vector import (
+    Vector, neg_x_axis, neg_y_axis, neg_z_axis, x_axis, y_axis, z_axis,
 )
-from ...geom.orientation import Orientation
+from ..orientation import Orientation
 
 
 class TestOrientation(TestCase):
@@ -81,7 +81,7 @@ class TestOrientation(TestCase):
 
     def testMatrix(self):
         o = Orientation((1, 2, 3))
-        self.assertEquals(type(o.matrix), gl.GLfloat * 16)
+        self.assertEquals(type(o.matrix), (GL.GLfloat * 16))
         expected = [
             o.right.x,    o.right.y,    o.right.z,   0,
             o.up.x,       o.up.y,       o.up.z,      0,

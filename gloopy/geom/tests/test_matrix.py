@@ -3,7 +3,7 @@ from unittest import TestCase, main
 
 from ..orientation import Orientation
 from ..matrix import Matrix
-from ..vector import Vector, XAxis, YAxis
+from ..vector import Vector, x_axis, y_axis
 
 
 class TestMatrix(TestCase):
@@ -14,14 +14,27 @@ class TestMatrix(TestCase):
 
         matrix = Matrix(position, orientation)
 
-        forward = orientation.forward
-        up = orientation.up
-        right = orientation.right
-        expected = orientation.matrix
-        expected[3] = position.x
-        expected[7] = position.y
-        expected[11] = position.z
-        self.assertEqual(matrix.elements, expected)
+        self.assertEquals(matrix.elements[0], orientation.right.x)
+        self.assertEquals(matrix.elements[1], orientation.right.y)
+        self.assertEquals(matrix.elements[2], orientation.right.z)
+
+        self.assertEquals(matrix.elements[4], orientation.up.x)
+        self.assertEquals(matrix.elements[5], orientation.up.y)
+        self.assertEquals(matrix.elements[6], orientation.up.z)
+
+        self.assertEquals(matrix.elements[8], -orientation.forward.x)
+        self.assertEquals(matrix.elements[9], -orientation.forward.y)
+        self.assertEquals(matrix.elements[10], -orientation.forward.z)
+
+        self.assertEquals(matrix.elements[12], position.x)
+        self.assertEquals(matrix.elements[13], position.y)
+        self.assertEquals(matrix.elements[14], position.z)
+
+        self.assertEquals(matrix.elements[3], 0)
+        self.assertEquals(matrix.elements[7], 0)
+        self.assertEquals(matrix.elements[11], 0)
+        self.assertEquals(matrix.elements[15], 1)
+
 
     def testTransform(self):
         position = Vector(10, 20, 30)
@@ -33,11 +46,11 @@ class TestMatrix(TestCase):
         self.assertEqual(matrix.transform(vert) - position, vert)
 
         # now try a couple of transforms which do involve a rotation
-        orientation = Orientation(YAxis)
+        orientation = Orientation(y_axis)
         matrix = Matrix(position, orientation)
         self.assertEqual(matrix.transform(vert) - position, (1, 3, -2))
 
-        orientation = Orientation(XAxis)
+        orientation = Orientation(x_axis)
         matrix = Matrix(position, orientation)
         self.assertEqual(matrix.transform(vert) - position, (3, 2, -1))
 
