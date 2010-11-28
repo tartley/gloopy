@@ -16,14 +16,12 @@ from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
 
 from gloopy import Gloopy
-from gloopy.geom.vec3 import Vec3
+from gloopy.geom.vector import origin, Vector
 from gloopy.geom.orientation import Orientation
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.cube import Cube
 from gloopy.model.move import Newtonian, WobblyOrbit
 from gloopy.util.color import Color
-from gloopy.geom.vec3 import origin
-
 
 
 SIZE = 20
@@ -40,7 +38,7 @@ def add_items(gloopy, number=None):
     for _ in range(number):
         item = GameItem(
             shape=shape,
-            position=Vec3.RandomSphere(SIZE)
+            position=Vector.RandomSphere(SIZE)
         )
         gloopy.world.add( item )
 
@@ -90,10 +88,10 @@ def on_key_press(gloopy, symbol, modifiers):
         toggle_attr(gloopy, 'angular_velocity', Orientation.Random)
 
     elif symbol == key._3:
-        toggle_attr(gloopy, 'velocity', lambda: Vec3.Random(radius=10))
+        toggle_attr(gloopy, 'velocity', lambda: Vector.Random(radius=10))
 
     elif symbol == key._4:
-        toggle_attr(gloopy, 'acceleration', lambda: Vec3.Random(radius=10))
+        toggle_attr(gloopy, 'acceleration', lambda: Vector.Random(radius=10))
 
     elif symbol == key.BACKSPACE:
         gloopy.world.items.clear()
@@ -118,7 +116,7 @@ def main():
         on_key_press=lambda s, m: on_key_press(gloopy, s, m)
     )
     gloopy.camera.update=WobblyOrbit(
-        origin, 50, Vec3(2, 3, 1),
+        origin, 50, Vector(2, 3, 1),
         wobble_size=0.9, wobble_freq=0.4,
     )
     gloopy.start()

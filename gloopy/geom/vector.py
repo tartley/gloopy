@@ -1,19 +1,19 @@
 
 from __future__ import division
 from collections import namedtuple
-from math import acos, cos, pi, sin, sqrt
+from math import acos, cos, sin, sqrt
 from random import randint, uniform
 
 
 EPSILON = 1e-7
 
 
-class Vec3(namedtuple('Vec3Base', 'x y z')):
+class Vector(namedtuple('VectorBase', 'x y z')):
 
     __slots__ = []
 
     def __repr__(self):
-        return 'Vec3(%.2g, %.2g, %.2g)' % (self.x, self.y, self.z)
+        return 'Vector(%.2g, %.2g, %.2g)' % (self.x, self.y, self.z)
 
     def __eq__(self, other):
         return (
@@ -25,14 +25,14 @@ class Vec3(namedtuple('Vec3Base', 'x y z')):
 
     # __neq__ as 'not __eq__' seems to be inherited from tuple
 
-    __hash__ = None # Vec3 are mutable, so do not allow hashing
+    __hash__ = None # Vector are mutable, so do not allow hashing
 
     def __neg__(self):
-        return Vec3(-self.x, -self.y, -self.z)
+        return Vector(-self.x, -self.y, -self.z)
 
     def __add__(self, other):
         ox, oy, oz = other
-        return Vec3(
+        return Vector(
             self.x + ox,
             self.y + oy,
             self.z + oz,
@@ -42,28 +42,28 @@ class Vec3(namedtuple('Vec3Base', 'x y z')):
         return self.__add__(other)
 
     def __sub__(self, other):
-        return Vec3(
+        return Vector(
             self.x - other[0],
             self.y - other[1],
             self.z - other[2],
         )
 
     def __rsub__(self, other):
-        return Vec3(*other).__sub__(self)
+        return Vector(*other).__sub__(self)
 
     def __mul__(self, scalar):
-        return Vec3(self.x * scalar, self.y * scalar, self.z * scalar)
+        return Vector(self.x * scalar, self.y * scalar, self.z * scalar)
 
     def __rmul__(self, scalar):
         return self.__mul__(scalar)
 
     def __truediv__(self, scalar):
-        return Vec3(self.x / scalar, self.y / scalar, self.z / scalar)
+        return Vector(self.x / scalar, self.y / scalar, self.z / scalar)
 
     @staticmethod
     def RandomCube(size, ints=False):
         rand = randint if ints else uniform
-        return Vec3(
+        return Vector(
             rand(-size, +size),
             rand(-size, +size),
             rand(-size, +size),
@@ -72,7 +72,7 @@ class Vec3(namedtuple('Vec3Base', 'x y z')):
     @staticmethod
     def RandomSphere(radius):
         while True:
-            p = Vec3.RandomCube(radius)
+            p = Vector.RandomCube(radius)
             if p.length2 < radius ** 2:
                 break
         return p
@@ -96,7 +96,7 @@ class Vec3(namedtuple('Vec3Base', 'x y z')):
         return a new vector in the same direction, but of length 1
         '''
         length = self.length
-        return Vec3(self.x / length, self.y / length, self.z / length)
+        return Vector(self.x / length, self.y / length, self.z / length)
 
     def cross(self, other):
         '''
@@ -104,7 +104,7 @@ class Vec3(namedtuple('Vec3Base', 'x y z')):
         a x b = (a2b3 - a3b2, a3b1 - a1b3, a1b2 - a2b1)
         http://en.wikipedia.org/wiki/Cross_product
         '''
-        return Vec3(
+        return Vector(
             self.y * other.z - self.z * other.y,
             self.z * other.x - self.x * other.z,
             self.x * other.y - self.y * other.x)
@@ -142,17 +142,17 @@ class Vec3(namedtuple('Vec3Base', 'x y z')):
         d33 = t * axis.z ** 2 + c
 
         # multiply M * self
-        return Vec3(
+        return Vector(
             d11 * self.x + d12 * self.y + d13 * self.z,
             d21 * self.x + d22 * self.y + d23 * self.z,
             d31 * self.x + d32 * self.y + d33 * self.z,
         )
 
-origin = Vec3(0, 0, 0)
-x_axis = Vec3(1, 0, 0)
-y_axis = Vec3(0, 1, 0)
-z_axis = Vec3(0, 0, 1)
-neg_x_axis = Vec3(-1,  0,  0)
-neg_y_axis = Vec3( 0, -1,  0)
-neg_z_axis = Vec3( 0,  0, -1)
+origin = Vector(0, 0, 0)
+x_axis = Vector(1, 0, 0)
+y_axis = Vector(0, 1, 0)
+z_axis = Vector(0, 0, 1)
+neg_x_axis = Vector(-1,  0,  0)
+neg_y_axis = Vector( 0, -1,  0)
+neg_z_axis = Vector( 0,  0, -1)
 

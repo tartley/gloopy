@@ -1,5 +1,5 @@
 
-from ...geom.vec3 import Vec3
+from ...geom.vector import Vector
 
 
 class GameItem(object):
@@ -39,19 +39,19 @@ class GameItem(object):
         '''
         Attach the given kwargs as attributes on self
         '''
-        # if any supposed Vec3 attributes have been passed as a tuple for
-        # convenience, convert them into Vec3
+        # if any supposed Vector attributes have been passed as a tuple for
+        # convenience, convert them into Vector
         for attr in ['position', 'velocity', 'acceleration']:
             if attr in kwargs:
-                if not isinstance(kwargs[attr], Vec3):
-                    kwargs[attr] = Vec3(*kwargs[attr])
+                if not isinstance(kwargs[attr], Vector):
+                    kwargs[attr] = Vector(*kwargs[attr])
 
         # attach all passed kwargs to ourself as attributes
         self.__dict__.update(kwargs)
 
 
 def position_or_gameitem(item):
-    if isinstance(item, Vec3):
+    if isinstance(item, Vector):
         return item
     else:
         return item.position

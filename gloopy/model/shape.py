@@ -2,7 +2,7 @@
 from itertools import chain, repeat
 
 from ..geom.matrix import Matrix4
-from ..geom.vec3 import Vec3
+from ..geom.vector import Vector
 from ..util.color import Color
 from ..view.glyph import Glyph
 
@@ -50,7 +50,7 @@ class Shape(object):
     face's edges. Each face has its own color.
 
     public interface to a Shape is:
-        shape.vertices = [vec3, vec3, vec3...]
+        shape.vertices = [vector, vector, vector...]
         shape.faces = [
             Face(vertices, color1, [1, 2, 3, 4]),
             Face(vertices, color2, [4, 5, 1, 9]),
@@ -66,9 +66,9 @@ class Shape(object):
             for index in face:
                 assert 0 <= index < len_verts
 
-        # convert vertices from tuple to Vec3 if required
-        if len(vertices) > 0 and not isinstance(vertices[0], Vec3):
-            vertices = [Vec3(*v) for v in vertices]
+        # convert vertices from tuple to Vector if required
+        if len(vertices) > 0 and not isinstance(vertices[0], Vector):
+            vertices = [Vector(*v) for v in vertices]
 
         # if given one color (or a tuple that looks like a color)
         # instead of a sequence of colors,

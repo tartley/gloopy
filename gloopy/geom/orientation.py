@@ -2,7 +2,7 @@
 from math import pi, degrees
 from random import uniform
 
-from .vec3 import Vec3, neg_y_axis, neg_z_axis, origin, y_axis, z_axis
+from .vector import Vector, neg_y_axis, neg_z_axis, origin, y_axis, z_axis
 from .matrix import Matrix4
 from ..util.gl import gl
 
@@ -21,19 +21,19 @@ class Orientation(object):
     '''
     def __init__(self, forward=None, up=None):
         '''
-        'forward' and 'up' should be Vec3 or 3-part tuple.
+        'forward' and 'up' should be Vector or 3-part tuple.
         If 'up' is omitted, a sensible default up vector is chosen.
         '''
         if forward is None:
             forward = neg_z_axis
-        elif not isinstance(forward, Vec3):
-            forward = Vec3(*forward)
+        elif not isinstance(forward, Vector):
+            forward = Vector(*forward)
         self._forward = forward.normalized()
 
         if up is None:
             up = self._get_default_up()
-        elif not isinstance(up, Vec3):
-            up = Vec3(*up)
+        elif not isinstance(up, Vector):
+            up = Vector(*up)
             angle_between = forward.angle(up)
             assert abs(angle_between - pi/2) < EPSILON, \
                 "up (%s) must be 90deg to forward (%s), actually %f deg" % \
@@ -63,7 +63,7 @@ class Orientation(object):
 
     @staticmethod
     def Random():
-        fwd = Vec3.RandomCube(1)
+        fwd = Vector.RandomCube(1)
         orientation = Orientation(fwd)
         orientation.roll(uniform(-pi, +pi))
         return orientation
@@ -97,7 +97,7 @@ class Orientation(object):
             return neg_z_axis
 
         # project 'forward' onto y=0 plane
-        flat = Vec3(self.forward.x, 0, self.forward.z)
+        flat = Vector(self.forward.x, 0, self.forward.z)
         # find 'axis', a vector in the y=0 plane at right angles to 'flat'
         axis = flat.cross(y_axis)
         # rotate 'forward' by 90 deg about 'axis'

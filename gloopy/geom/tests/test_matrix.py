@@ -3,13 +3,13 @@ from unittest import TestCase, main
 
 from ..orientation import Orientation
 from ..matrix import Matrix4
-from ..vec3 import Vec3, XAxis, YAxis
+from ..vector import Vector, XAxis, YAxis
 
 
 class TestMatrix4(TestCase):
 
     def testConstructor(self):
-        position = Vec3(1, 2, 3)
+        position = Vector(1, 2, 3)
         orientation = Orientation((4, 5, 6))
 
         matrix = Matrix4(position, orientation)
@@ -24,8 +24,8 @@ class TestMatrix4(TestCase):
         self.assertEqual(matrix.elements, expected)
 
     def testTransform(self):
-        position = Vec3(10, 20, 30)
-        vert = Vec3(1, 2, 3)
+        position = Vector(10, 20, 30)
+        vert = Vector(1, 2, 3)
 
         # default orientation, this should translate only, zero rotation
         orientation = Orientation()

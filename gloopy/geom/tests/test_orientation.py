@@ -2,7 +2,7 @@
 from math import pi
 from unittest import TestCase, main
 
-from ...geom.vec3 import Vec3
+from ...geom.vector import Vector
 from ...util.gl import gl
 from ...util.vectors import (
     neg_x_axis, neg_y_axis, neg_z_axis, x_axis, y_axis, z_axis,
@@ -21,11 +21,11 @@ class TestOrientation(TestCase):
     def testConstructionConvertsBareTuples(self):
         o = Orientation(x_axis, z_axis)
         self.assertEquals(o.forward, x_axis)
-        self.assertTrue(isinstance(o.forward, Vec3))
+        self.assertTrue(isinstance(o.forward, Vector))
         self.assertEquals(o.up, z_axis)
-        self.assertTrue(isinstance(o.up, Vec3))
+        self.assertTrue(isinstance(o.up, Vector))
         self.assertEquals(o.right, neg_y_axis)
-        self.assertTrue(isinstance(o.right, Vec3))
+        self.assertTrue(isinstance(o.right, Vector))
 
     def testConstructionNormalises(self):
         o = Orientation((1, 2, 3))
@@ -44,7 +44,7 @@ class TestOrientation(TestCase):
 
     def testStr(self):
         self.assertEqual(str(Orientation(x_axis, up=y_axis)),
-            'Orientation(Vec3(1, 0, 0), up=Vec3(0, 1, 0))')
+            'Orientation(Vector(1, 0, 0), up=Vector(0, 1, 0))')
 
     def testEqual(self):
         a = Orientation((0, 2, 3))

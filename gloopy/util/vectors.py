@@ -1,5 +1,5 @@
 
-from ..geom.vec3 import origin, x_axis, y_axis
+from ..geom.vector import origin, x_axis, y_axis
 
 
 def any_orthogonal(orig):

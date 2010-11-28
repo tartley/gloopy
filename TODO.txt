@@ -26,7 +26,7 @@ PERFORMANCE
     glDrawArrays(GL_LINE_STRIP, 0, circle.shape[0])
 
 - Cython the render loop
-- create a matrix object which combines all the methods of Vec3
+- create a matrix object which combines all the methods of Vector
   and orientation!
 - cython this matrix class
     - read this guy's Cython-howto tutorial:
@@ -286,7 +286,7 @@ DONE
      12: with orientations, newtonian update, with acc, with vel, with ang_vel
 * Review TODO doc from 'flyinghigh opengl from python' talk
 * Review TODO doc from 'pyweek11'
-- position as vec3
+- position as vector
 - orientation as 3-axis
 - pass glMultMatrix a matrix constructed from position and orientation
 

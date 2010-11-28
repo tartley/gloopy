@@ -1,5 +1,5 @@
 
-from .vec3 import Vec3
+from .vector import Vector
 
 
 class Matrix4(object):
@@ -24,14 +24,14 @@ class Matrix4(object):
         '''
         if self.orientation:
             e = self.elements
-            return Vec3(
+            return Vector(
                 vert.x * e[0] + vert.y * e[1] + vert.z * e[2]   + e[12],
                 vert.x * e[4] + vert.y * e[5] + vert.z * e[6]   + e[13],
                 vert.x * e[8] + vert.y * e[9] + vert.z * e[10]  + e[14],
             )
         else:
             if self.position:
-                return Vec3(
+                return Vector(
                     vert.x + self.position.x,
                     vert.y + self.position.y,
                     vert.z + self.position.z)
