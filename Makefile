@@ -30,8 +30,8 @@ profile:
 .PHONY: profile
 
 
-tests:
-	nosetests ${NAME}
+test:
+	python -m unittest discover gloopy
 .PHONY: tests
 
 
