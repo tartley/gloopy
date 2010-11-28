@@ -4,7 +4,7 @@ from math import sqrt, pi
 from unittest import TestCase, main
 
 from ..vector import (
-    EPSILON, NegXAxis, NegYAxis, NegZAxis, Vector, XAxis, YAxis, ZAxis,
+    EPSILON, neg_x_axis, neg_y_axis, neg_z_axis, Vector, x_axis, y_axis, z_axis,
 )
 
 
@@ -138,17 +138,17 @@ class testVector(TestCase):
         self.assertAlmostEqual(b.angle(b), 0, places=7)
 
     def testRotate(self):
-        self.assertEqual(XAxis.rotate(XAxis, pi/2), XAxis)
-        self.assertEqual(YAxis.rotate(XAxis, pi/2), NegZAxis)
-        self.assertEqual(ZAxis.rotate(XAxis, pi/2), YAxis)
+        self.assertEqual(x_axis.rotate(x_axis, pi/2), x_axis)
+        self.assertEqual(y_axis.rotate(x_axis, pi/2), neg_z_axis)
+        self.assertEqual(z_axis.rotate(x_axis, pi/2), y_axis)
 
-        self.assertEqual(XAxis.rotate(YAxis, pi/2), ZAxis)
-        self.assertEqual(YAxis.rotate(YAxis, pi/2), YAxis)
-        self.assertEqual(ZAxis.rotate(YAxis, pi/2), NegXAxis)
+        self.assertEqual(x_axis.rotate(y_axis, pi/2), z_axis)
+        self.assertEqual(y_axis.rotate(y_axis, pi/2), y_axis)
+        self.assertEqual(z_axis.rotate(y_axis, pi/2), neg_x_axis)
 
-        self.assertEqual(XAxis.rotate(ZAxis, pi/2), NegYAxis)
-        self.assertEqual(YAxis.rotate(ZAxis, pi/2), XAxis)
-        self.assertEqual(ZAxis.rotate(ZAxis, pi/2), ZAxis)
+        self.assertEqual(x_axis.rotate(z_axis, pi/2), neg_y_axis)
+        self.assertEqual(y_axis.rotate(z_axis, pi/2), x_axis)
+        self.assertEqual(z_axis.rotate(z_axis, pi/2), z_axis)
 
 
 if __name__ == '__main__':
