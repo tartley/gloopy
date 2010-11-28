@@ -9,19 +9,13 @@ from .glyph import Glyph
 from .modelview import ModelView
 from .projection import Projection
 from .shader import FragmentShader, ShaderProgram, VertexShader
+from ..model.shape import shape_to_glyph
 from ..util import path
 from ..util.color import Color
 from ..util.gl import gl
 
 
 log = logging.getLogger(__name__)
-
-
-type_to_enum = {
-    gl.GLubyte: gl.GL_UNSIGNED_BYTE,
-    gl.GLushort: gl.GL_UNSIGNED_SHORT,
-    gl.GLuint: gl.GL_UNSIGNED_INT,
-}
 
 
 def log_opengl_version():
@@ -73,7 +67,7 @@ class Render(object):
         for item in world:
             if not item.glyph:
                 if item.shape:
-                    item.glyph = Glyph.FromShape(item.shape)
+                    item.glyph = shape_to_glyph(item.shape)
                 else:
                     continue
             yield item
@@ -105,10 +99,10 @@ class Render(object):
                 Glyph.DIMENSIONS,
                 gl.GL_FLOAT,
                 0,
-                item.glyph.glvertices
+                item.glyph.glverts
             )
             gl.glColorPointer(
-                Color.NUM_COMPONENTS,
+                Color.COMPONENTS,
                 gl.GL_UNSIGNED_BYTE,
                 0,
                 item.glyph.glcolors
@@ -118,7 +112,7 @@ class Render(object):
             gl.glDrawElements(
                 gl.GL_TRIANGLES,
                 len(item.glyph.glindices),
-                type_to_enum[item.glyph.glindex_type],
+                item.glyph.index_type,
                 item.glyph.glindices
             )
             gl.glPopMatrix()

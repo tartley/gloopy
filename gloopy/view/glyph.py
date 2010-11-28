@@ -1,8 +1,26 @@
 
-from itertools import chain, repeat
+from itertools import chain
 
-from ..util.gl import gl
 from ..util.color import Color
+from ..util.gl import gl
+
+
+type_to_enum = {
+    gl.GLubyte: gl.GL_UNSIGNED_BYTE,
+    gl.GLushort: gl.GL_UNSIGNED_SHORT,
+    gl.GLuint: gl.GL_UNSIGNED_INT,
+}
+
+def get_index_type(num_verts):
+    '''
+    The type of the glindices array depends on how many vertices there are
+    '''
+    if num_verts < 256:
+        return gl.GLubyte
+    elif num_verts < 65536:
+        return gl.GLushort
+    else:
+        return gl.GLuint
 
 
 def glarray(gltype, seq, length):
@@ -14,102 +32,28 @@ def glarray(gltype, seq, length):
     return arraytype(*seq)
 
 
-def tessellate(indices):
-    '''
-    Return the indices of the given face tesselated into a list of triangles,
-    expressed as integer indices. The triangles will be wound in the
-    same direction as the original poly. Does not work for concave faces.
-    e.g. Face(verts, [0, 1, 2, 3, 4]) -> [[0, 1, 2], [0, 2, 3], [0, 3, 4]]
-    '''
-    return (
-        [indices[0], indices[index], indices[index + 1]]
-        for index in xrange(1, len(indices) - 1)
-    )
-
-
 class Glyph(object):
 
     DIMENSIONS = 3
 
-    @staticmethod
-    def FromShape(shape):
-        glyph = Glyph()
-        vertices = list(shape.vertices)
-        faces = list(shape.faces)
-        glyph.glvertices = glyph.get_glvertices(vertices, faces)
-        glyph.glindices = glyph.get_glindices(faces)
-        glyph.glcolors = glyph.get_glcolors(faces)
-        glyph.glnormals = glyph.get_glnormals(vertices, faces)
-        return glyph
+    def __init__(self, num_verts, verts, indices, colors, normals):
+        self.num_glverts = num_verts
+        self.glverts = glarray(
+            gl.GLfloat,
+            verts,
+            num_verts * Glyph.DIMENSIONS
+        )
+        index_type = get_index_type(num_verts)
+        self.glindices = glarray(index_type, indices, len(indices))
+        self.index_type = type_to_enum[index_type]
+        self.glcolors = glarray(
+            gl.GLubyte,
+            chain(*colors),
+            num_verts * Color.COMPONENTS) 
 
-
-    def __init__(self):
-        self.num_glvertices = None
-        self.glvertices = None
-        self.glindex_type = None
-        self.glindices = None
-        self.glcolors = None
-        self.glnormals = None
-
+        array_length = num_verts * Glyph.DIMENSIONS
+        self.glnormals = glarray(gl.GLfloat, chain(*normals), array_length)
 
     def __repr__(self):
-        return '<Glyph %d verts>' % (self.num_glvertices,)
-
-    def get_num_glvertices(_, faces):
-        return len(list(chain(*faces)))
-
-
-    def get_glvertices(self, vertices, faces):
-        glverts = chain.from_iterable(
-            vertices[index]
-            for face in faces
-            for index in face
-        )
-        self.num_glvertices = self.get_num_glvertices(faces)
-        array_length = self.num_glvertices * Glyph.DIMENSIONS
-        return glarray(gl.GLfloat, glverts, array_length)
-
-
-    def get_glindex_type(self):
-        '''
-        The type of the glindices array depends on how many vertices there are
-        '''
-        if self.num_glvertices < 256:
-            index_type = gl.GLubyte
-        elif self.num_glvertices < 65536:
-            index_type = gl.GLushort
-        else:
-            index_type = gl.GLuint
-        return index_type
-
-
-    def get_glindices(self, faces):
-        glindices = []
-        face_offset = 0
-        for face in faces:
-            indices = xrange(face_offset, face_offset + len(face))
-            glindices.extend(chain(*tessellate(indices)))
-            face_offset += len(face)
-        self.glindex_type = self.get_glindex_type()
-        return glarray(self.glindex_type, glindices, len(glindices))
-
-
-    def get_glcolors(self, faces):
-        glcolors = chain.from_iterable(
-            repeat(face.color, len(face))
-            for face in faces
-        )
-        return glarray(
-            gl.GLubyte,
-            chain(*glcolors),
-            self.num_glvertices * Color.NUM_COMPONENTS) 
-
-
-    def get_glnormals(self, vertices, faces):
-        glnormals = chain.from_iterable(
-            repeat(face.normal, len(face))
-            for face in faces
-        )
-        array_length = self.num_glvertices * Glyph.DIMENSIONS
-        return glarray(gl.GLfloat, chain(*glnormals), array_length)
+        return '<Glyph %d verts>' % (self.num_glverts,)
 

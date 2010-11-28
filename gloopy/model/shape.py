@@ -1,10 +1,10 @@
 
-from itertools import repeat
+from itertools import chain, repeat
 
 from ..geom.matrix import Matrix4
 from ..geom.vec3 import Vec3
 from ..util.color import Color
-
+from ..view.glyph import Glyph
 
 
 class Face(object):
@@ -134,4 +134,67 @@ class MultiShape(object):
             faces.append(Face(new_indices, face.color, self.vertices))
 
         return faces
+
+
+
+def shape_to_glyph(shape):
+    vertices = list(shape.vertices)
+    faces = list(shape.faces)
+    num_glverts = get_num_verts(faces)
+    return Glyph(
+        num_glverts,
+        get_verts(vertices, faces, num_glverts),
+        get_indices(faces, num_glverts),
+        get_colors(faces, num_glverts),
+        get_normals(vertices, faces, num_glverts),
+    )
+
+
+def get_num_verts(faces):
+    return len(list(chain(*faces)))
+
+
+def get_verts(vertices, faces, num_glverts):
+    return chain.from_iterable(
+        vertices[index]
+        for face in faces
+        for index in face
+    )
+
+
+def tessellate(indices):
+    '''
+    Return the indices of the given face tesselated into a list of triangles,
+    expressed as integer indices. The triangles will be wound in the
+    same direction as the original poly. Does not work for concave faces.
+    e.g. Face(verts, [0, 1, 2, 3, 4]) -> [[0, 1, 2], [0, 2, 3], [0, 3, 4]]
+    '''
+    return (
+        [indices[0], indices[index], indices[index + 1]]
+        for index in xrange(1, len(indices) - 1)
+    )
+
+
+def get_indices(faces, num_glverts):
+    indices = []
+    face_offset = 0
+    for face in faces:
+        face_indices = xrange(face_offset, face_offset + len(face))
+        indices.extend(chain(*tessellate(face_indices)))
+        face_offset += len(face)
+    return indices
+
+
+def get_colors(faces, num_glverts):
+    return chain.from_iterable(
+        repeat(face.color, len(face))
+        for face in faces
+    )
+
+
+def get_normals(vertices, faces, num_glverts):
+    return chain.from_iterable(
+        repeat(face.normal, len(face))
+        for face in faces
+    )
 

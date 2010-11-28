@@ -36,7 +36,7 @@ class Color(namedtuple('Color', 'r g b a')):
     survey: http://blog.xkcd.com/2010/05/03/color-survey-results/
     '''
 
-    NUM_COMPONENTS = 4
+    COMPONENTS = 4
     MAX_CHANNEL = 0xff
 
     __slots__ = []
