@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 from __future__ import division
-from random import choice
+from random import choice, uniform
 
 # allow this script to import gloopy from the parent directory, so we can
 # run from the 'examples' dir, even if gloopy isn't installed.
@@ -20,7 +20,7 @@ from gloopy.model.move import Newtonian, WobblyOrbit
 from gloopy.util.color import Color
 
 
-SIZE = 20
+SIZE = 30
 
 
 def add_items(gloopy, number=None):
@@ -30,11 +30,15 @@ def add_items(gloopy, number=None):
     '''
     if number is None:
         number = max(1, len(gloopy.world.items))
-    shape = Cube(1, Color.Random())
+
+    col1 = Color.Random()
+    col2 = Color.Random()
     for _ in range(number):
+        pos = Vector.RandomSphere(SIZE)
+        color = col1.tinted(col2, abs(pos.length) / SIZE)
         item = GameItem(
-            shape=shape,
-            position=Vector.RandomSphere(SIZE)
+            shape=Cube( uniform(1, 4), color ),
+            position=pos,
         )
         gloopy.world.add( item )
 
@@ -105,7 +109,7 @@ def main():
     gloopy.init()
     gloopy.world.background_color = Color.Random()
 
-    add_items(gloopy, 512)
+    add_items(gloopy, 400)
     toggle_attr(gloopy, 'orientation', Orientation.Random)
 
     gloopy.eventloop.window.push_handlers(

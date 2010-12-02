@@ -292,6 +292,7 @@ DONE
 - position as vector
 - orientation as 3-axis
 - pass glMultMatrix a matrix constructed from position and orientation
-
 * remove utils.gl. Modules should just use OpenGL.GL or pyglet.gl as they
   please
+* create 'pyls' script to aid refactoring
+
