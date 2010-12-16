@@ -1,5 +1,6 @@
 from __future__ import division
 import logging
+from os.path import isfile
 
 from pyglet import app, clock, image
 from pyglet.window import key, Window
@@ -9,7 +10,16 @@ from ..view.render import Render
 
 log = logging.getLogger(__name__)
 
+
 image_no = 0
+def get_screenshot_filename():
+    global image_no
+    def get_filename():
+        return 'screenshot%02d.png' % (image_no,)
+    while isfile(get_filename()):
+        image_no += 1
+    image_no += 1
+    return get_filename()
 
 
 class Eventloop(object):
@@ -66,13 +76,13 @@ class Eventloop(object):
             self.options.fps = not self.options.fps
         elif symbol == key.ENTER and (modifiers & key.MOD_ALT):
             self.options.fullscreen = not self.options.fullscreen
+            log.info('fullscreen: %s' % (self.options.fullscreen,))
             self.window.set_fullscreen(self.options.fullscreen)
         elif symbol == key.F9:
-            while isfile('screenshot%02d.png' % (image_no,)):
-                image_no += 1
-            image.get_buffer_manager().get_color_buffer().save(
-                'screenshot%02d.png' % (image_no,))
-            image_no += 1
+            filename = get_screenshot_filename()
+            log.info('screenshot: %s' % (filename,))
+            image.get_buffer_manager().get_color_buffer().save(filename)
+
 
 
     def stop(self):
