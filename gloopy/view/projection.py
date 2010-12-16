@@ -54,7 +54,7 @@ class Projection(object):
         '''
         aspect = self.width / self.height
         zNear = 0.1
-        zFar = 1000.0
+        zFar = 3000.0
         gl.glMatrixMode(gl.GL_PROJECTION)
         gl.glLoadIdentity()
         glu.gluPerspective(fovy, aspect, zNear, zFar);

@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 from __future__ import division
+from math import sqrt
 from random import choice, uniform
 
 # allow this script to import gloopy from the parent directory, so we can
@@ -20,7 +21,7 @@ from gloopy.model.move import Newtonian, WobblyOrbit
 from gloopy.util.color import Color
 
 
-SIZE = 30
+SIZE = 500
 
 
 def add_items(gloopy, number=None):
@@ -34,10 +35,10 @@ def add_items(gloopy, number=None):
     col1 = Color.Random()
     col2 = Color.Random()
     for _ in range(number):
-        pos = Vector.RandomSphere(SIZE)
+        pos = Vector.RandomSphere(1) * uniform(0, sqrt(SIZE)) ** 2
         color = col1.tinted(col2, abs(pos.length) / SIZE)
         item = GameItem(
-            shape=Cube( uniform(1, 4), color ),
+            shape=Cube( pos.length / 5, color ),
             position=pos,
         )
         gloopy.world.add( item )
@@ -116,8 +117,8 @@ def main():
         on_key_press=lambda s, m: on_key_press(gloopy, s, m)
     )
     gloopy.camera.update=WobblyOrbit(
-        origin, 50, Vector(2, 3, 1),
-        wobble_size=0.9, wobble_freq=0.4,
+        origin, SIZE * 1.2, Vector(2, 3, 1), angular_velocity=0.1,
+        wobble_size=0.998, wobble_freq=0.1,
     )
     gloopy.start()
     gloopy.stop()
