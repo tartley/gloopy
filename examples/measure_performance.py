@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 from __future__ import division
-from math import sqrt
+from math import pi, sqrt
 from random import choice, uniform
 
 # allow this script to import gloopy from the parent directory, so we can
@@ -17,11 +17,11 @@ from gloopy.geom.vector import origin, Vector
 from gloopy.geom.orientation import Orientation
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.cube import Cube
-from gloopy.model.move import Newtonian, WobblyOrbit
+from gloopy.model.move import Newtonian, Orbit, WobblyOrbit
 from gloopy.util.color import Color
 
 
-SIZE = 500
+SIZE = 50
 
 
 def add_items(gloopy, number=None):
@@ -40,6 +40,17 @@ def add_items(gloopy, number=None):
         item = GameItem(
             shape=Cube( pos.length / 5, color ),
             position=pos,
+            update=Orbit(
+                origin,
+                pos.length,
+                axis=Vector(
+                    uniform(-1, 1),
+                    1,
+                    uniform(-1, 1)
+                ),
+                angular_velocity=1/sqrt(pos.length),
+                phase=uniform(0, 2*pi),
+            ),
         )
         gloopy.world.add( item )
 
@@ -117,8 +128,8 @@ def main():
         on_key_press=lambda s, m: on_key_press(gloopy, s, m)
     )
     gloopy.camera.update=WobblyOrbit(
-        origin, SIZE * 1.2, Vector(2, 3, 1), angular_velocity=0.1,
-        wobble_size=0.998, wobble_freq=0.1,
+        origin, SIZE * 0.7, Vector(2, 3, 1), angular_velocity=0.1,
+        wobble_size=0.998, wobble_freq=0.05,
     )
     gloopy.start()
     gloopy.stop()
