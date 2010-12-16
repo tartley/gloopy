@@ -35,20 +35,15 @@ def add_items(gloopy, number=None):
     col1 = Color.Random()
     col2 = Color.Random()
     for _ in range(number):
-        pos = Vector.RandomSphere(1) * uniform(0, sqrt(SIZE)) ** 2
-        color = col1.tinted(col2, abs(pos.length) / SIZE)
+        length = uniform(0, sqrt(SIZE)) ** 2
+        color = col1.tinted(col2, abs(length) / SIZE)
         item = GameItem(
-            shape=Cube( pos.length / 5, color ),
-            position=pos,
+            shape=Cube( 1 + length / 5, color ),
+            position=origin,
             update=Orbit(
-                origin,
-                pos.length,
-                axis=Vector(
-                    uniform(-1, 1),
-                    1,
-                    uniform(-1, 1)
-                ),
-                angular_velocity=1/sqrt(pos.length),
+                Vector(0, -50/length, 0),
+                radius=length,
+                angular_velocity=10/length,
                 phase=uniform(0, 2*pi),
             ),
         )
@@ -128,9 +123,14 @@ def main():
         on_key_press=lambda s, m: on_key_press(gloopy, s, m)
     )
     gloopy.camera.update=WobblyOrbit(
-        origin, SIZE * 0.7, Vector(2, 3, 1), angular_velocity=0.1,
-        wobble_size=0.998, wobble_freq=0.05,
+        center=origin,
+        radius=SIZE * 0.8,
+        axis=Vector(2, 3, 1),
+        angular_velocity=0,
+        wobble_size=0.9,
+        wobble_freq=pi/10,
     )
+    gloopy.camera.look_at = Vector(0, -10, 0)
     gloopy.start()
     gloopy.stop()
 
