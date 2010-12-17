@@ -138,6 +138,12 @@ class Orientation(object):
         self.up = self.up.rotate(self.right, -angle).normalized()
 
 
+    def rotate(self, axis, angle):
+        self.forward = self.forward.rotate(axis, angle)
+        self.up = self.up.rotate(axis, angle)
+        self.right = self._get_right()
+
+
     @property
     def matrix(self):
         '''

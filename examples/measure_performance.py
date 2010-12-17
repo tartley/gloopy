@@ -96,13 +96,14 @@ def on_key_press(gloopy, symbol, modifiers):
         toggle_attr(gloopy, 'orientation', Orientation.Random)
 
     elif symbol == key._2:
-        toggle_attr(gloopy, 'angular_velocity', Orientation.Random)
+        axis = Vector.RandomShell(1)
+        toggle_attr(gloopy, 'angular_velocity', lambda: (axis, uniform(-5, 5)))
 
     elif symbol == key._3:
-        toggle_attr(gloopy, 'velocity', lambda: Vector.Random(radius=10))
+        toggle_attr(gloopy, 'velocity', lambda: Vector.RandomSphere(10))
 
     elif symbol == key._4:
-        toggle_attr(gloopy, 'acceleration', lambda: Vector.Random(radius=10))
+        toggle_attr(gloopy, 'acceleration', lambda: Vector.RandomSphere(10))
 
     elif symbol == key.BACKSPACE:
         gloopy.world.items.clear()

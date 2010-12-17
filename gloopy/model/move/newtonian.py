@@ -16,6 +16,6 @@ class Newtonian(object):
         if item.angular_velocity:
             if item.orientation is None:
                 item.orientation = Orientation()
-            speed, axis = item.angular_velocity.get_angle_axis()
-            item.orientation.rotate_axis(speed * dt, axis)
+            axis, speed = item.angular_velocity
+            item.orientation.rotate(axis, speed * dt)
 

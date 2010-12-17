@@ -77,6 +77,12 @@ class Vector(namedtuple('VectorBase', 'x y z')):
                 break
         return p
 
+    @staticmethod
+    def RandomShell(radius):
+        p = Vector.RandomCube(1)
+        p = p * (radius / p.length)
+        return p
+
     @property
     def length(self):
         '''
@@ -124,7 +130,6 @@ class Vector(namedtuple('VectorBase', 'x y z')):
     def rotate(self, axis, angle):
         '''
         return a new vector, rotated about the given axis
-        TODO: move this into matrix
         '''
         c = cos(-angle)
         t = 1 - c
