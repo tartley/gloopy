@@ -154,3 +154,6 @@ class Orientation(object):
             self._matrix = matrix_type( *Matrix(origin, self) )
         return self._matrix
 
+
+identity = Orientation()
+
