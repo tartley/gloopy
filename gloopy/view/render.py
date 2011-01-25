@@ -92,24 +92,20 @@ class Render(object):
         for item in items:
             gl.glPushMatrix()
 
-            gl.glTranslatef(*item.position)
-            if item.orientation is not None:
+            if item.position:
+                gl.glTranslatef(*item.position)
+            if item.orientation:
                 gl.glMultMatrixf(item.orientation.matrix)
 
             gl.glVertexPointer(
-                Glyph.DIMENSIONS,
-                gl.GL_FLOAT,
-                0,
-                item.glyph.glverts
+                Glyph.DIMENSIONS, gl.GL_FLOAT, 0, item.glyph.glverts
             )
             gl.glColorPointer(
-                Color.COMPONENTS,
-                gl.GL_UNSIGNED_BYTE,
-                0,
-                item.glyph.glcolors
+                Color.COMPONENTS, gl.GL_UNSIGNED_BYTE, 0, item.glyph.glcolors
             )
-            gl.glNormalPointer(gl.GL_FLOAT, 0, item.glyph.glnormals)
-
+            gl.glNormalPointer(
+                gl.GL_FLOAT, 0, item.glyph.glnormals
+            )
             gl.glDrawElements(
                 gl.GL_TRIANGLES,
                 len(item.glyph.glindices),
@@ -118,11 +114,10 @@ class Render(object):
             )
             gl.glPopMatrix()
 
-        gl.glDisableClientState(gl.GL_NORMAL_ARRAY)
-
 
     def draw_hud(self):
         self.projection.set_screen()
         self.modelview.set_identity()
+        gl.glDisableClientState(gl.GL_NORMAL_ARRAY)
         self.clock_display.draw()
 
