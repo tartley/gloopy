@@ -7,12 +7,20 @@ class Matrix(object):
     def __init__(self, position, orientation=None):
         self.position = p = position
         self.orientation = o = orientation
-        self.elements = [
-              o.right.x,    o.right.y,    o.right.z, 0,
-                 o.up.x,       o.up.y,       o.up.z, 0,
-           -o.forward.x, -o.forward.y, -o.forward.z, 0,
-                    p.x,          p.y,          p.z, 1,
-        ]
+        if orientation:
+            self.elements = [
+                  o.right.x,    o.right.y,    o.right.z, 0,
+                     o.up.x,       o.up.y,       o.up.z, 0,
+               -o.forward.x, -o.forward.y, -o.forward.z, 0,
+                        p.x,          p.y,          p.z, 1,
+            ]
+        else:
+            self.elements = [
+                          0,            0,            0, 0,
+                          0,            0,            0, 0,
+                          0,            0,            0, 0,
+                        p.x,          p.y,          p.z, 1,
+            ]
 
     def __iter__(self):
         return self.elements.__iter__()
