@@ -107,10 +107,7 @@ class MultiShape(object):
 
 
     def add(self, shape, position=(0, 0, 0), orientation=None):
-        matrix = Matrix(position)
-        if orientation is not None:
-            matrix *= orientation.get_matrix()
-
+        matrix = Matrix(position, orientation)
         child_offset = len(self.vertices)
         self.vertices.extend(self.child_vertices(shape, matrix))
         self.faces.extend(self.child_faces(shape, child_offset))
