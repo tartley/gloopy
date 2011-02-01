@@ -2,8 +2,8 @@
 from itertools import chain
 
 from OpenGL import GL as gl
-
-from ..util.color import Color
+from OpenGL.arrays import vbo
+from OpenGLContext.arrays import array
 
 
 type_to_enum = {
@@ -11,6 +11,7 @@ type_to_enum = {
     gl.GLushort: gl.GL_UNSIGNED_SHORT,
     gl.GLuint: gl.GL_UNSIGNED_INT,
 }
+
 
 def get_index_type(num_verts):
     '''
@@ -39,21 +40,21 @@ class Glyph(object):
 
     def __init__(self, num_verts, verts, indices, colors, normals):
         self.num_glverts = num_verts
-        self.glverts = glarray(
-            gl.GLfloat,
-            verts,
-            num_verts * Glyph.DIMENSIONS
+        self.vbo = vbo.VBO(
+            array(
+                list(
+                    list(chain(v, c.as_floats(), n))
+                    for v, c, n in zip(verts, colors, normals)
+                ),
+                'f'
+            ),
+            usage='GL_STATIC_DRAW'
         )
         index_type = get_index_type(num_verts)
         self.glindices = glarray(index_type, indices, len(indices))
         self.index_type = type_to_enum[index_type]
-        self.glcolors = glarray(
-            gl.GLubyte,
-            chain(*colors),
-            num_verts * Color.COMPONENTS) 
+        self.stride = 36
 
-        array_length = num_verts * Glyph.DIMENSIONS
-        self.glnormals = glarray(gl.GLfloat, chain(*normals), array_length)
 
     def __repr__(self):
         return '<Glyph %d verts>' % (self.num_glverts,)

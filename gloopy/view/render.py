@@ -1,3 +1,4 @@
+from ctypes import c_void_p
 import logging
 from os.path import join
 
@@ -74,9 +75,14 @@ class Render(object):
             yield item
 
 
-    def draw(self, world):
-        gl.glClearColor(*world.background_color.as_floats())
+    def clear_window(self, color):
+        r, g, b = color.as_floats()
+        gl.glClearColor(r, g, b, 1.0)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
+
+
+    def draw(self, world):
+        self.clear_window(world.background_color)
         self.draw_items(self.drawable_items(world))
         if self.options.fps:
             self.draw_hud()
@@ -85,9 +91,10 @@ class Render(object):
 
 
     def draw_items(self, items):
-        gl.glEnableClientState(gl.GL_NORMAL_ARRAY)
         self.projection.set_perspective(45)
         self.modelview.set_world()
+
+        gl.glEnableClientState(gl.GL_NORMAL_ARRAY)
 
         for item in items:
             gl.glPushMatrix()
@@ -97,21 +104,25 @@ class Render(object):
             if item.orientation:
                 gl.glMultMatrixf(item.orientation.matrix)
 
+            item.glyph.vbo.bind()
+
             gl.glVertexPointer(
-                Glyph.DIMENSIONS, gl.GL_FLOAT, 0, item.glyph.glverts
+                Glyph.DIMENSIONS, gl.GL_FLOAT, item.glyph.stride, c_void_p( 0 )
             )
             gl.glColorPointer(
-                Color.COMPONENTS, gl.GL_UNSIGNED_BYTE, 0, item.glyph.glcolors
+                Color.COMPONENTS, gl.GL_FLOAT, item.glyph.stride, c_void_p( 12 )
             )
             gl.glNormalPointer(
-                gl.GL_FLOAT, 0, item.glyph.glnormals
+                gl.GL_FLOAT, item.glyph.stride, c_void_p( 24 )
             )
+
             gl.glDrawElements(
                 gl.GL_TRIANGLES,
                 len(item.glyph.glindices),
                 item.glyph.index_type,
                 item.glyph.glindices
             )
+            item.glyph.vbo.unbind()
             gl.glPopMatrix()
 
 

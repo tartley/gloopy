@@ -152,7 +152,7 @@ def get_num_verts(faces):
 
 
 def get_verts(vertices, faces, num_glverts):
-    return chain.from_iterable(
+    return (
         vertices[index]
         for face in faces
         for index in face

@@ -1,7 +1,7 @@
 
 from ..geom.vector import Vector
 
-from ..util.color import Orange
+from ..util.color import Color
 from ..util.event import Event
 
 
@@ -13,7 +13,7 @@ class World(object):
         self.items = {}
         self.item_added = Event()
         self.item_removed = Event()
-        self.background_color = Orange
+        self.background_color = Color.Orange
 
     def __iter__(self):
         return self.items.itervalues()
