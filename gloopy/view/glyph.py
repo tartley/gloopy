@@ -4,12 +4,11 @@ from itertools import chain
 
 from OpenGL import GL
 from OpenGL.arrays import vbo
-from OpenGL.GL.ARB.vertex_array_object import (
-    glGenVertexArrays, glBindVertexArray
-)
+from OpenGL.GL.ARB.vertex_array_object import glBindVertexArray
 from OpenGLContext.arrays import array
 
 from ..color import Color
+from ..gl_wrap import glGenVertexArrays
 
 
 type_to_enum = {
@@ -61,10 +60,7 @@ class Glyph(object):
         self.glindices = glarray(index_type, indices, len(indices))
         self.index_type = type_to_enum[index_type]
 
-        vao_id = GL.GLuint(0)
-        glGenVertexArrays(1, vao_id)
-        self.vao = vao_id.value
-
+        self.vao = glGenVertexArrays(1)
         glBindVertexArray(self.vao)
         try:
             self.vbo.bind()
