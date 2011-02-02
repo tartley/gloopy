@@ -1,7 +1,6 @@
 
 PERFORMANCE
 
-* Can binding the VBO itself go into the vertex array object?
 * VBO the index array
   Can this go into same vertex array object?
 
@@ -282,4 +281,5 @@ DONE
   glVertexAttributePointer
 * use vertex array object to reduce number of bind calls needed in inner
   render loop.
+* Can binding the VBO itself go into the vertex array object?
 

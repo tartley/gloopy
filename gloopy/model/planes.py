@@ -2,7 +2,7 @@ from __future__ import division
 from math import cos, pi, sin
 
 from .shape import Shape
-from ..util.color import Color
+from ..color import Color
 
 
 def AxisPlanes(size):

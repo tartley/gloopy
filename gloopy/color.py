@@ -15,13 +15,13 @@ class Color(namedtuple('Color', 'r g b')):
     
     For example, to specify a red color::
 
-        from gloopy.util.color import Color
+        from gloopy.color import Color
         red = Color(255, 0, 0)
 
     Some predefined instances of Color provide named colors. These named colors
     are defined as attributes of the Color class::
 
-        from gloopy.util.color import Color
+        from gloopy.color import Color
         print Color.RoyalPurple
     
     The names and values are taken from the top 69 results of the xkcd color

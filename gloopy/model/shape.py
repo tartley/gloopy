@@ -3,7 +3,7 @@ from itertools import chain, repeat
 
 from ..geom.matrix import Matrix
 from ..geom.vector import Vector
-from ..util.color import Color
+from ..color import Color
 from ..view.glyph import Glyph
 
 

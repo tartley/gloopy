@@ -1,7 +1,6 @@
 
+from ..color import Color
 from ..geom.vector import Vector
-
-from ..util.color import Color
 from ..util.event import Event
 
 

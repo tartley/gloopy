@@ -15,7 +15,7 @@ from gloopy.geom.orientation import Orientation
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.cube import Cube
 from gloopy.model.move import Newtonian, Orbit, WobblyOrbit
-from gloopy.util.color import Color
+from gloopy.color import Color
 
 
 log = logging.getLogger(__name__)

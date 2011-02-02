@@ -9,7 +9,7 @@ from OpenGL.GL.ARB.vertex_array_object import (
 )
 from OpenGLContext.arrays import array
 
-from ..util.color import Color
+from ..color import Color
 
 
 type_to_enum = {
