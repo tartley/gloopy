@@ -1,7 +1,5 @@
 import logging
-from os.path import join
 
-from OpenGL.GL.shaders import compileShader, compileProgram
 from OpenGL.GL.ARB.vertex_array_object import glBindVertexArray
 
 import pyglet
@@ -10,8 +8,8 @@ from pyglet import gl
 
 from .modelview import ModelView
 from .projection import Projection
+from .shader import Shader
 from ..model.shape import shape_to_glyph
-from ..util import path
 
 
 log = logging.getLogger(__name__)
@@ -25,10 +23,6 @@ def log_opengl_version():
         gl.gl_info.get_version(),
     ]) )
     
-
-def read_shader(filename):
-    with open(join(path.DATA, 'shaders', filename)) as fp:
-        return fp.read()
 
 
 class Render(object):
@@ -51,13 +45,10 @@ class Render(object):
         gl.glCullFace(gl.GL_BACK)
         gl.glEnable(gl.GL_CULL_FACE)
 
-        self.shader = compileProgram(
-            compileShader(read_shader('lighting.vert'), gl.GL_VERTEX_SHADER),
-            compileShader(read_shader('lighting.frag'), gl.GL_FRAGMENT_SHADER)
-        )
-        self.position_location = gl.glGetAttribLocation(self.shader, 'position')
-        self.color_location = gl.glGetAttribLocation(self.shader, 'color')
-        self.normal_location = gl.glGetAttribLocation(self.shader, 'normal')
+        self.shader = Shader('lighting.vert', 'lighting.frag')
+        self.position_location = gl.glGetAttribLocation(self.shader.program, 'position')
+        self.color_location = gl.glGetAttribLocation(self.shader.program, 'color')
+        self.normal_location = gl.glGetAttribLocation(self.shader.program, 'normal')
 
 
     def drawable_items(self, world):
@@ -95,29 +86,28 @@ class Render(object):
         self.projection.set_perspective(45)
         self.modelview.set_world()
 
-        gl.glUseProgram(self.shader)
+        with self.shader:
 
-        for item in items:
-            gl.glPushMatrix()
+            for item in items:
+                gl.glPushMatrix()
 
-            if item.position:
-                gl.glTranslatef(*item.position)
-            if item.orientation:
-                gl.glMultMatrixf(item.orientation.matrix)
+                if item.position:
+                    gl.glTranslatef(*item.position)
+                if item.orientation:
+                    gl.glMultMatrixf(item.orientation.matrix)
 
-            glBindVertexArray(item.glyph.vao)
+                glBindVertexArray(item.glyph.vao)
 
-            gl.glDrawElements(
-                gl.GL_TRIANGLES,
-                len(item.glyph.glindices),
-                item.glyph.index_type,
-                item.glyph.glindices
-            )
+                gl.glDrawElements(
+                    gl.GL_TRIANGLES,
+                    len(item.glyph.glindices),
+                    item.glyph.index_type,
+                    item.glyph.glindices
+                )
 
-            gl.glPopMatrix()
+                gl.glPopMatrix()
 
-        glBindVertexArray(0)
-        gl.glUseProgram(0)
+            glBindVertexArray(0)
 
 
     def draw_hud(self):

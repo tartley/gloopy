@@ -47,4 +47,6 @@ else:
     exit('Error %s' % (CONTEXT,))
 
 DATA = join(ROOT, 'data')
+SOURCE = join(ROOT, 'gloopy')
+SHADERS = join(SOURCE, 'shaders')
 
