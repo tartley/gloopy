@@ -1,15 +1,15 @@
 
 from itertools import chain
 
-from OpenGL import GL as gl
+from OpenGL import GL
 from OpenGL.arrays import vbo
 from OpenGLContext.arrays import array
 
 
 type_to_enum = {
-    gl.GLubyte: gl.GL_UNSIGNED_BYTE,
-    gl.GLushort: gl.GL_UNSIGNED_SHORT,
-    gl.GLuint: gl.GL_UNSIGNED_INT,
+    GL.GLubyte: GL.GL_UNSIGNED_BYTE,
+    GL.GLushort: GL.GL_UNSIGNED_SHORT,
+    GL.GLuint: GL.GL_UNSIGNED_INT,
 }
 
 
@@ -18,11 +18,11 @@ def get_index_type(num_verts):
     The type of the glindices array depends on how many vertices there are
     '''
     if num_verts < 256:
-        return gl.GLubyte
+        return GL.GLubyte
     elif num_verts < 65536:
-        return gl.GLushort
+        return GL.GLushort
     else:
-        return gl.GLuint
+        return GL.GLuint
 
 
 def glarray(gltype, seq, length):
@@ -54,6 +54,7 @@ class Glyph(object):
         self.glindices = glarray(index_type, indices, len(indices))
         self.index_type = type_to_enum[index_type]
         self.stride = 36
+
 
 
     def __repr__(self):

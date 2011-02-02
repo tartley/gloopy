@@ -1,28 +1,35 @@
 
 PERFORMANCE
 
-* combine vertex, color, normals into single interleaved array,
-  to reduce number of glXPointer calls in the inner render loop.
-  (hackery to simulate this (move glColorPointer, glNormalPointer outside of
-  main render loop) suggests from 54 to 73 fps improvement.
+* move from using glVertexPointer, glColorPointer, glNormalPointer to using
+  glVertexAttributePointer
 
-* switch from vertex arrays to VBO objects, if supported. Either use
-  PyOpenGL's VBO, or write our own code to do it. See:
-  http://www.siafoo.net/snippet/185, and:
+* use vertex array object to reduce number of bind calls needed in inner
+  render loop.
+  work in progress on glyph.py:
 
-    # Generate Buffers (inside Init method)
-    circle = array(circle, dtype=float32)
-    vertex_vbo = GL.GLuint(0)
-    glGenBuffers(1, vertex_vbo)
-    glBindBuffer(GL_ARRAY_BUFFER, circle)
-    # wtc is 'ADT'? Array data type!
-    glBufferData(GL_ARRAY_BUFFER, ADT.arrayByteCount(circle),
-        ADT.voidDataPointer(circle), GL_STATIC_DRAW_ARB)
+        vao_id = GL.GLuint(0)
+        glGenVertexArrays(1, vao_id)
+        self.vao = vao_id.value
 
-    # Draw buffers (inside Render method)
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo)
-    glVertexPointer(3, GL_FLOAT, 0, None)
-    glDrawArrays(GL_LINE_STRIP, 0, circle.shape[0])
+        glBindVertexArray(self.vao)
+        try:
+            GL.glEnableClientState(GL.GL_VERTEX_ARRAY)
+            GL.glVertexPointer(
+                Glyph.DIMENSIONS, GL.GL_FLOAT, self.stride, self.vbo
+            )
+            GL.glColorPointer(
+                Color.COMPONENTS, GL.GL_FLOAT, self.stride, self.vbo + 12
+            )
+            GL.glNormalPointer(
+                GL.GL_FLOAT, self.stride, self.vbo + 24
+            )
+        finally:
+            glBindVertexArray(0)
+
+* Can binding the VBO itself go into the vertex array object?
+* VBO the index array
+  Can this go into same vertex array object?
 
 - Cython the render loop
 - create a matrix object which combines all the methods of Vector
@@ -295,4 +302,6 @@ DONE
 * remove utils.gl. Modules should just use OpenGL.GL or pyglet.gl as they
   please
 * create 'pyls' script to aid refactoring
+* combine vertex, color, normals into single interleaved array,
+* switch from vertex arrays to VBO objects
 

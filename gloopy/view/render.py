@@ -2,16 +2,15 @@ from ctypes import c_void_p
 import logging
 from os.path import join
 
+from OpenGL.GL.shaders import compileShader, compileProgram
+
 import pyglet
 from pyglet.event import EVENT_HANDLED
-from pyglet.gl import gl_info
-
 from pyglet import gl
 
 from .glyph import Glyph
 from .modelview import ModelView
 from .projection import Projection
-from .shader import FragmentShader, ShaderProgram, VertexShader
 from ..model.shape import shape_to_glyph
 from ..util import path
 from ..util.color import Color
@@ -23,11 +22,16 @@ log = logging.getLogger(__name__)
 def log_opengl_version():
     log.info('\n    '.join([
         'opengl:',
-        gl_info.get_vendor(),
-        gl_info.get_renderer(),
-        gl_info.get_version(),
+        gl.gl_info.get_vendor(),
+        gl.gl_info.get_renderer(),
+        gl.gl_info.get_version(),
     ]) )
     
+
+def read_shader(filename):
+    with open(join(path.DATA, 'shaders', filename)) as fp:
+        return fp.read()
+
 
 class Render(object):
 
@@ -40,8 +44,6 @@ class Render(object):
 
     def init(self):
         log_opengl_version()
-        gl.glEnableClientState(gl.GL_VERTEX_ARRAY)
-        gl.glEnableClientState(gl.GL_COLOR_ARRAY)
         gl.glEnable(gl.GL_DEPTH_TEST)
         gl.glEnable(gl.GL_POLYGON_SMOOTH)
         gl.glEnable(gl.GL_BLEND)
@@ -51,12 +53,13 @@ class Render(object):
         gl.glCullFace(gl.GL_BACK)
         gl.glEnable(gl.GL_CULL_FACE)
 
-        shader = ShaderProgram(
-            VertexShader(join(path.DATA, 'shaders', 'lighting.vert')),
-            FragmentShader(join(path.DATA, 'shaders', 'lighting.frag')),
+        self.shader = compileProgram(
+            compileShader(read_shader('lighting.vert'), gl.GL_VERTEX_SHADER),
+            compileShader(read_shader('lighting.frag'), gl.GL_FRAGMENT_SHADER)
         )
-        shader.compile()
-        shader.use()
+        self.position_location = gl.glGetAttribLocation( self.shader, 'position' )
+        self.color_location = gl.glGetAttribLocation( self.shader, 'color' )
+        self.normal_location = gl.glGetAttribLocation( self.shader, 'normal' )
 
 
     def drawable_items(self, world):
@@ -94,7 +97,10 @@ class Render(object):
         self.projection.set_perspective(45)
         self.modelview.set_world()
 
-        gl.glEnableClientState(gl.GL_NORMAL_ARRAY)
+        gl.glUseProgram(self.shader)
+        gl.glEnableVertexAttribArray( self.position_location )
+        gl.glEnableVertexAttribArray( self.color_location )
+        gl.glEnableVertexAttribArray( self.normal_location )
 
         for item in items:
             gl.glPushMatrix()
@@ -106,14 +112,17 @@ class Render(object):
 
             item.glyph.vbo.bind()
 
-            gl.glVertexPointer(
-                Glyph.DIMENSIONS, gl.GL_FLOAT, item.glyph.stride, c_void_p( 0 )
+            gl.glVertexAttribPointer( 
+                self.position_location, Glyph.DIMENSIONS, gl.GL_FLOAT, False,
+                item.glyph.stride, c_void_p(0)
             )
-            gl.glColorPointer(
-                Color.COMPONENTS, gl.GL_FLOAT, item.glyph.stride, c_void_p( 12 )
+            gl.glVertexAttribPointer( 
+                self.color_location, Color.COMPONENTS, gl.GL_FLOAT, False,
+                item.glyph.stride, c_void_p(12)
             )
-            gl.glNormalPointer(
-                gl.GL_FLOAT, item.glyph.stride, c_void_p( 24 )
+            gl.glVertexAttribPointer( 
+                self.normal_location, 3, gl.GL_FLOAT, False,
+                item.glyph.stride, c_void_p(24)
             )
 
             gl.glDrawElements(
@@ -122,8 +131,14 @@ class Render(object):
                 item.glyph.index_type,
                 item.glyph.glindices
             )
+
             item.glyph.vbo.unbind()
             gl.glPopMatrix()
+
+        gl.glDisableVertexAttribArray( self.position_location )
+        gl.glDisableVertexAttribArray( self.color_location )
+        gl.glDisableVertexAttribArray( self.normal_location )
+        gl.glUseProgram(0)
 
 
     def draw_hud(self):
