@@ -2,11 +2,7 @@
 from __future__ import division
 from math import pi
 
-# allow this script to import gloopy from the parent directory, so we can
-# run from the 'examples' dir, even if gloopy isn't installed.
-import sys
-from os.path import abspath, dirname, join
-sys.path.insert(0, abspath(join(dirname(__file__), '..')))
+import fixpath
 
 from gloopy import Gloopy
 from gloopy.geom.vector import origin, Vector

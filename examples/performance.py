@@ -4,11 +4,7 @@ import logging
 from math import pi, sqrt
 from random import choice, uniform
 
-# allow this script to import gloopy from the parent directory, so we can
-# run from the 'examples' dir, even if gloopy isn't installed.
-import sys
-from os.path import abspath, dirname, join
-sys.path.insert(0, abspath(join(dirname(__file__), '..')))
+import fixpath
 
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key

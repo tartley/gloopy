@@ -1,32 +1,6 @@
 
 PERFORMANCE
 
-* move from using glVertexPointer, glColorPointer, glNormalPointer to using
-  glVertexAttributePointer
-
-* use vertex array object to reduce number of bind calls needed in inner
-  render loop.
-  work in progress on glyph.py:
-
-        vao_id = GL.GLuint(0)
-        glGenVertexArrays(1, vao_id)
-        self.vao = vao_id.value
-
-        glBindVertexArray(self.vao)
-        try:
-            GL.glEnableClientState(GL.GL_VERTEX_ARRAY)
-            GL.glVertexPointer(
-                Glyph.DIMENSIONS, GL.GL_FLOAT, self.stride, self.vbo
-            )
-            GL.glColorPointer(
-                Color.COMPONENTS, GL.GL_FLOAT, self.stride, self.vbo + 12
-            )
-            GL.glNormalPointer(
-                GL.GL_FLOAT, self.stride, self.vbo + 24
-            )
-        finally:
-            glBindVertexArray(0)
-
 * Can binding the VBO itself go into the vertex array object?
 * VBO the index array
   Can this go into same vertex array object?
@@ -304,4 +278,8 @@ DONE
 * create 'pyls' script to aid refactoring
 * combine vertex, color, normals into single interleaved array,
 * switch from vertex arrays to VBO objects
+* move from using glVertexPointer, glColorPointer, glNormalPointer to using
+  glVertexAttributePointer
+* use vertex array object to reduce number of bind calls needed in inner
+  render loop.
 
