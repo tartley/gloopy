@@ -1,19 +1,17 @@
-from ctypes import c_void_p
 import logging
 from os.path import join
 
 from OpenGL.GL.shaders import compileShader, compileProgram
+from OpenGL.GL.ARB.vertex_array_object import glBindVertexArray
 
 import pyglet
 from pyglet.event import EVENT_HANDLED
 from pyglet import gl
 
-from .glyph import Glyph
 from .modelview import ModelView
 from .projection import Projection
 from ..model.shape import shape_to_glyph
 from ..util import path
-from ..util.color import Color
 
 
 log = logging.getLogger(__name__)
@@ -57,9 +55,9 @@ class Render(object):
             compileShader(read_shader('lighting.vert'), gl.GL_VERTEX_SHADER),
             compileShader(read_shader('lighting.frag'), gl.GL_FRAGMENT_SHADER)
         )
-        self.position_location = gl.glGetAttribLocation( self.shader, 'position' )
-        self.color_location = gl.glGetAttribLocation( self.shader, 'color' )
-        self.normal_location = gl.glGetAttribLocation( self.shader, 'normal' )
+        self.position_location = gl.glGetAttribLocation(self.shader, 'position')
+        self.color_location = gl.glGetAttribLocation(self.shader, 'color')
+        self.normal_location = gl.glGetAttribLocation(self.shader, 'normal')
 
 
     def drawable_items(self, world):
@@ -72,7 +70,7 @@ class Render(object):
         for item in world:
             if not item.glyph:
                 if item.shape:
-                    item.glyph = shape_to_glyph(item.shape)
+                    item.glyph = shape_to_glyph(item.shape, self)
                 else:
                     continue
             yield item
@@ -98,9 +96,6 @@ class Render(object):
         self.modelview.set_world()
 
         gl.glUseProgram(self.shader)
-        gl.glEnableVertexAttribArray( self.position_location )
-        gl.glEnableVertexAttribArray( self.color_location )
-        gl.glEnableVertexAttribArray( self.normal_location )
 
         for item in items:
             gl.glPushMatrix()
@@ -110,20 +105,7 @@ class Render(object):
             if item.orientation:
                 gl.glMultMatrixf(item.orientation.matrix)
 
-            item.glyph.vbo.bind()
-
-            gl.glVertexAttribPointer( 
-                self.position_location, Glyph.DIMENSIONS, gl.GL_FLOAT, False,
-                item.glyph.stride, c_void_p(0)
-            )
-            gl.glVertexAttribPointer( 
-                self.color_location, Color.COMPONENTS, gl.GL_FLOAT, False,
-                item.glyph.stride, c_void_p(12)
-            )
-            gl.glVertexAttribPointer( 
-                self.normal_location, 3, gl.GL_FLOAT, False,
-                item.glyph.stride, c_void_p(24)
-            )
+            glBindVertexArray(item.glyph.vao)
 
             gl.glDrawElements(
                 gl.GL_TRIANGLES,
@@ -132,18 +114,20 @@ class Render(object):
                 item.glyph.glindices
             )
 
-            item.glyph.vbo.unbind()
             gl.glPopMatrix()
 
-        gl.glDisableVertexAttribArray( self.position_location )
-        gl.glDisableVertexAttribArray( self.color_location )
-        gl.glDisableVertexAttribArray( self.normal_location )
+        glBindVertexArray(0)
         gl.glUseProgram(0)
 
 
     def draw_hud(self):
         self.projection.set_screen()
         self.modelview.set_identity()
-        gl.glDisableClientState(gl.GL_NORMAL_ARRAY)
+        gl.glEnableClientState(gl.GL_VERTEX_ARRAY)
+        gl.glEnableClientState(gl.GL_COLOR_ARRAY)
+
         self.clock_display.draw()
+
+        gl.glDisableClientState(gl.GL_VERTEX_ARRAY)
+        gl.glDisableClientState(gl.GL_COLOR_ARRAY)
 

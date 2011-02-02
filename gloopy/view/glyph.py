@@ -1,9 +1,15 @@
 
+from ctypes import c_void_p
 from itertools import chain
 
 from OpenGL import GL
 from OpenGL.arrays import vbo
+from OpenGL.GL.ARB.vertex_array_object import (
+    glGenVertexArrays, glBindVertexArray
+)
 from OpenGLContext.arrays import array
+
+from ..util.color import Color
 
 
 type_to_enum = {
@@ -38,7 +44,8 @@ class Glyph(object):
 
     DIMENSIONS = 3
 
-    def __init__(self, num_verts, verts, indices, colors, normals):
+    def __init__(self, render, num_verts, verts, indices, colors, normals):
+        self.render = render
         self.num_glverts = num_verts
         self.vbo = vbo.VBO(
             array(
@@ -53,8 +60,34 @@ class Glyph(object):
         index_type = get_index_type(num_verts)
         self.glindices = glarray(index_type, indices, len(indices))
         self.index_type = type_to_enum[index_type]
-        self.stride = 36
 
+        vao_id = GL.GLuint(0)
+        glGenVertexArrays(1, vao_id)
+        self.vao = vao_id.value
+
+        glBindVertexArray(self.vao)
+        try:
+            self.vbo.bind()
+
+            GL.glEnableVertexAttribArray( self.render.position_location )
+            GL.glEnableVertexAttribArray( self.render.color_location )
+            GL.glEnableVertexAttribArray( self.render.normal_location )
+
+            STRIDE = 36
+            GL.glVertexAttribPointer( 
+                self.render.position_location, Glyph.DIMENSIONS, GL.GL_FLOAT,
+                False, STRIDE, c_void_p(0)
+            )
+            GL.glVertexAttribPointer( 
+                self.render.color_location, Color.COMPONENTS, GL.GL_FLOAT,
+                False, STRIDE, c_void_p(12)
+            )
+            GL.glVertexAttribPointer( 
+                self.render.normal_location, 3, GL.GL_FLOAT,
+                False, STRIDE, c_void_p(24)
+            )
+        finally:
+            glBindVertexArray(0)
 
 
     def __repr__(self):

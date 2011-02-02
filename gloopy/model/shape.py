@@ -134,11 +134,12 @@ class MultiShape(object):
 
 
 
-def shape_to_glyph(shape):
+def shape_to_glyph(shape, render):
     vertices = list(shape.vertices)
     faces = list(shape.faces)
     num_glverts = get_num_verts(faces)
     return Glyph(
+        render,
         num_glverts,
         get_verts(vertices, faces, num_glverts),
         get_indices(faces, num_glverts),
