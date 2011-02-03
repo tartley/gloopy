@@ -1,19 +1,48 @@
 
-PERFORMANCE
+Next steps
+----------
+
+* move examples into 'gloopy' - they should be installed into site-packages
+* split performance demo into a) performance and b) twister
+* add an example which allows browsing of a bestiary
+* add keys to zoom and/or move camera.
+
+* Add all good shapes from previous programs, plus:
+* the regular solids
+* close-packed cube patterns, specified as tuple ordinates, eliminating
+  faces of cubes which abut.
+* Tetris shapes (unoptimised)
+* Cube cluster generated from pixels of small bitmaps. Invader! Mario! etc.
+
+* polyhedra face-extruder
+* polyhedra bevel
+* apply bevel multiple times
+* alternative method of glyph creation, shared normals on verts to give
+  curved surface appearance.
+
+
+Infrastructure
+--------------
+
+* Python 3
+* pyglet latest from hg
+
+* log file should be created in app_root if possible, or else in
+  application's scratch space, not cwd
+
+* Convert options to use argparse, so that it can provide command line usage
+* command-line option to select screen resolution on startup
+* restore desktop resolution on exit
+* keys or something to select new screen resolution during runtime
+* persist options to store user's chosen screen resolution
+
+
+OpenGL 3
+--------
 
 * VBO the index array
   Can this go into same vertex array object?
 
-- Cython the render loop
-- create a matrix object which combines all the methods of Vector
-  and orientation!
-- cython this matrix class
-    - read this guy's Cython-howto tutorial:
-      https://github.com/ricardodelnero/small-Cython-How-To
-
-* use pyopengl shader management instead of our own compile/link code.
-  Or improve our own shader management code to take uniforms, see:
-    http://swiftcoder.wordpress.com/2008/12/19/simple-glsl-wrapper-for-pyglet/
 * instead of setting modelview using glMultMatrix, we should be passing in
   object matrix (or position, orientation) using vertex shader uniforms.
   Review Mike's 'canonical opengl3 application', from his old pycon talk.
@@ -23,13 +52,39 @@ PERFORMANCE
   Does this affect performance?
   Same for projection matrix?
 
-* I suspect that multiple gameitems with the same Shape all wastefully
-  generate their own identical Glyph. This might (a) yield performance
-  improvement, and (b) be more important when updating the verts of Glyphs
-  to animate them.
+
+Startup Performance
+-------------------
+
+* Startup: Replace the (* seq) operator on initialising gl_array in Glyph.
+  Instead use:
+    array = arraytype()
+    array[:] = seq # eg. [11, 22, 33... ]
+
+* Combining the orientations of nested multishapes is done in an innefficient
+  manner, multiplying every vertex by each multishape's orientation in
+  series. Modify to calculate the cumulative orientation first, then
+  multiply each vertex by the result.
+
+* totally rewrite shape_to_glyph algorithm, incorporating what Glyph then
+  subsequently does with the outputs. Suspect we're
+  doing too much work (e.g. vertex and index re-ordering)
+
+- check a profiler
+
+
+Render Performance
+------------------
+
+- create a matrix object which combines all the methods of Vector
+  and orientation and which outputs a matrix which can be fed directly to
+  shader 'modelview' uniform
+    - read this guy's Cython-howto tutorial:
+      https://github.com/ricardodelnero/small-Cython-How-To
+- Cython the render loop
 
 * Pass an array of gameitem positions & orientations directly to the shaders,
-  perhaps as a float image buffer. Add an integer vertex attribute to say which
+  perhaps as a float texture. Add an integer vertex attribute to say which
   gameitem the vertex belongs to (i.e. an index into the image array.) There
   is then no need to update modelview between draw calls. Do the same with
   orientation, and then all objects could be drawn with a single glDraw call.
@@ -38,24 +93,15 @@ OR
   accel arithmetic, then render all using single glDraw.
 
 
+Design
+------
 
-AFTER 0.1 RELEASE
-
-* Use gloopy to implement the original vision for pyweek11CubeCaught
-
-
-DESIGN
-
-* Either provide friendly wrapper for quaternions-as-orientation, or revert
-  to much better API and more understandable implementation using three
-  axes.
 * render should maybe specialise as 'RenderGlyphs' - take list of glyphs,
   positions, orientations (or glyphs, matrices) instead of needing access to
   world or items?
 * consider eliminating class Gloopy. Expose world, camera, etc to user.
   Functionality provided by gloopy becomes the canonical demo script.
 * eventloop in top level package?
-* color in top level package?
 * render? world? camera? what else?
 * Also, euclid contains Matrix.new_look_at - could this replace some of
   current camera or projection code?
@@ -80,23 +126,21 @@ DESIGN
     - be called for all items, from world.update
 
 
-PACKAGING
+Packaging
+---------
 
 * Dependencies should be in a virtualenv. Put virtualenv creation script,
   or pip 'frozen version number' output, into hg
-* Euclid should be a virtualenv installed dependency, not bundled.
-  (& then remove path.append in demo.py)
 * should be pip installable, and doing so should install its deps
 * Check that examples work in isolation, using an installed version of gloopy
-* Consider getting pyglet latest svn
 * source install should be 'install python; pip install gloopy'
 * generate sphinx documentation
 * fill in doc strings
 * make 0.1 release on cheese shop
-* Python 3 support
 
 
-FEATURES
+Rendering
+---------
 
 * Allow each gameitem to specify its own shader program
 
@@ -113,22 +157,13 @@ FEATURES
 * Textures. See:
     http://www.lighthouse3d.com/opengl/glsl/index.php?textureComb
 
-* Add all good shapes from previous programs, plus:
-* the regular solids
-* Tetris shapes (unoptimised)
-* close-packed cube patterns, specified as tuple ordinates, eliminating
-  faces of cubes which abut.
-* Cube cluster generated from pixels of small bitmaps. Invader! Mario! etc.
-* polyhedra face-extruder
-
-* Convert options to use argparse, so that it can provide command line usage
-* log file should be created in app_root if possible, or else in
-  application's scratch space, not cwd
-* command-line option to select screen resolution on startup
-* restore desktop resolution on exit
-* keys or something to select new screen resolution during runtime
-* persist options to store user's chosen screen resolution
 * anti-alias. Use multisampling. Expose as option to application.
+
+Geometry
+--------
+
+* 2D poly xtruder
+* 2D poly into ring
 
 * Add to geometry while it is being displayed
     * recreate it from scratch? Or modify (& grow) existing vertex array?
@@ -147,22 +182,6 @@ DEMOS
 * Check out the lit up night sky behind these dark buildings.
   Can we make something like this?
     http://www.openbusiness.cc/wp-content/uploads/hk1.jpg
-
-STARTUP PERFORMANCE
-
-* use profiler
-* Replace the (* seq) operator on initialising gl_array in Glyph.
-  instead use::
-    array = arraytype()
-    array[:] = seq # eg. [11, 22, 33... ]
-  Test the speed on creating a large multishape.
-* Combining the orientations of nested multishapes is done in an innefficient
-  manner, multiplying every vertex by each multishape's orientation in
-  series. Modify to calculate the cumulative orientation first, then
-  multiply each vertex by the result.
-* Can we Cython or Numpy the above?
-* How about totally rethinking the algorithm. Suspect we're
-  doing too much work (e.g. vertex and index re-ordering)
 
 
 IDEAS FOR LATER
@@ -270,7 +289,8 @@ DONE
 * Review TODO doc from 'flyinghigh opengl from python' talk
 * Review TODO doc from 'pyweek11'
 - position as vector
-- orientation as 3-axis
+* revert quaternions to better API and more understandable implementation using
+  3-axis
 - pass glMultMatrix a matrix constructed from position and orientation
 * remove utils.gl. Modules should just use OpenGL.GL or pyglet.gl as they
   please
@@ -281,5 +301,9 @@ DONE
   glVertexAttributePointer
 * use vertex array object to reduce number of bind calls needed in inner
   render loop.
-* Can binding the VBO itself go into the vertex array object?
+* Can binding the VBO itself go into the vertex array object? Y.
+* use pyopengl shader management instead of our own compile/link code.
+  Or improve our own shader management code to take uniforms, see:
+    http://swiftcoder.wordpress.com/2008/12/19/simple-glsl-wrapper-for-pyglet/
+* color in top level package
 
