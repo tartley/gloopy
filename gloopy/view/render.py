@@ -45,10 +45,10 @@ class Render(object):
         gl.glCullFace(gl.GL_BACK)
         gl.glEnable(gl.GL_CULL_FACE)
 
-        self.shader = Shader('lighting.vert', 'lighting.frag')
-        self.position_location = gl.glGetAttribLocation(self.shader.program, 'position')
-        self.color_location = gl.glGetAttribLocation(self.shader.program, 'color')
-        self.normal_location = gl.glGetAttribLocation(self.shader.program, 'normal')
+        self.shader = Shader(
+            'lighting.vert', 'lighting.frag',
+            attribs=['position', 'color', 'normal']
+        )
 
 
     def drawable_items(self, world):
@@ -61,7 +61,7 @@ class Render(object):
         for item in world:
             if not item.glyph:
                 if item.shape:
-                    item.glyph = shape_to_glyph(item.shape, self)
+                    item.glyph = shape_to_glyph(item.shape, self.shader)
                 else:
                     continue
             yield item

@@ -43,8 +43,8 @@ class Glyph(object):
 
     DIMENSIONS = 3
 
-    def __init__(self, render, num_verts, verts, indices, colors, normals):
-        self.render = render
+    def __init__(self, shader, num_verts, verts, indices, colors, normals):
+        self.shader = shader
         self.num_glverts = num_verts
         self.vbo = vbo.VBO(
             array(
@@ -65,21 +65,21 @@ class Glyph(object):
         try:
             self.vbo.bind()
 
-            GL.glEnableVertexAttribArray( self.render.position_location )
-            GL.glEnableVertexAttribArray( self.render.color_location )
-            GL.glEnableVertexAttribArray( self.render.normal_location )
+            GL.glEnableVertexAttribArray(self.shader.attrib['position'])
+            GL.glEnableVertexAttribArray(self.shader.attrib['color'])
+            GL.glEnableVertexAttribArray(self.shader.attrib['normal'])
 
             STRIDE = 36
             GL.glVertexAttribPointer( 
-                self.render.position_location, Glyph.DIMENSIONS, GL.GL_FLOAT,
+                self.shader.attrib['position'], Glyph.DIMENSIONS, GL.GL_FLOAT,
                 False, STRIDE, c_void_p(0)
             )
             GL.glVertexAttribPointer( 
-                self.render.color_location, Color.COMPONENTS, GL.GL_FLOAT,
+                self.shader.attrib['color'], Color.COMPONENTS, GL.GL_FLOAT,
                 False, STRIDE, c_void_p(12)
             )
             GL.glVertexAttribPointer( 
-                self.render.normal_location, 3, GL.GL_FLOAT,
+                self.shader.attrib['normal'], 3, GL.GL_FLOAT,
                 False, STRIDE, c_void_p(24)
             )
         finally:
