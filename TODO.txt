@@ -1,24 +1,27 @@
 
-Next steps
-----------
+Next
+----
 
-* move examples into 'gloopy' - they should be installed into site-packages
-* split performance demo into a) performance and b) twister
 * add an example which allows browsing of a bestiary
-* add keys to zoom and/or move camera.
 
-* Add all good shapes from previous programs, plus:
+* Bid's spherical vertex distributor
+
+* add pgup/pgdown vary camera orbit radius
+
+* Add all good shapes from previous programs
 * the regular solids
+
 * close-packed cube patterns, specified as tuple ordinates, eliminating
   faces of cubes which abut.
-* Tetris shapes (unoptimised)
+* Tetris shapes
 * Cube cluster generated from pixels of small bitmaps. Invader! Mario! etc.
+
+* 2D poly extruder
+* 2D poly into ring
 
 * polyhedra face-extruder
 * polyhedra bevel
 * apply bevel multiple times
-* alternative method of glyph creation, shared normals on verts to give
-  curved surface appearance.
 
 
 Infrastructure
@@ -37,6 +40,15 @@ Infrastructure
 * persist options to store user's chosen screen resolution
 
 
+* should be pip installable, and doing so should install its deps
+* examples should be installed into site-packages
+* Check that examples work in isolation, using an installed version of gloopy
+* source install should be 'install python; pip install gloopy'
+* generate sphinx documentation
+* fill in doc strings
+* make 0.1 release on cheese shop
+
+
 OpenGL 3
 --------
 
@@ -48,7 +60,7 @@ OpenGL 3
   Review Mike's 'canonical opengl3 application', from his old pycon talk.
   try OpenGL.FORWARD_COMPATIBLE_ONLY = True
   see http://pyopengl.sourceforge.net/documentation/deprecations.html
-  Does this work ok on opengl 2.1?
+  Does this still work ok on opengl 2.1?
   Does this affect performance?
   Same for projection matrix?
 
@@ -75,6 +87,8 @@ Startup Performance
 
 Render Performance
 ------------------
+
+* split performance demo into a) performance and b) twister
 
 - create a matrix object which combines all the methods of Vector
   and orientation and which outputs a matrix which can be fed directly to
@@ -126,26 +140,12 @@ Design
     - be called for all items, from world.update
 
 
-Packaging
----------
-
-* Dependencies should be in a virtualenv. Put virtualenv creation script,
-  or pip 'frozen version number' output, into hg
-* should be pip installable, and doing so should install its deps
-* Check that examples work in isolation, using an installed version of gloopy
-* source install should be 'install python; pip install gloopy'
-* generate sphinx documentation
-* fill in doc strings
-* make 0.1 release on cheese shop
-
 
 Rendering
 ---------
 
-* Allow each gameitem to specify its own shader program
-
-* scale movement by mean dt over last few frames to reduce jittery movement
-  caused by isolated slow or fast frames.
+* alternative method of glyph creation, shared normals on verts to give
+  curved surface appearance.
 
 * better shaders: incorporate the lighting shaders from pyopengl tutorials,
   and provide a class which binds named uniforms to instance attributes
@@ -157,13 +157,20 @@ Rendering
 * Textures. See:
     http://www.lighthouse3d.com/opengl/glsl/index.php?textureComb
 
+* Allow each gameitem to specify its own shader program
+
+* scale movement by mean dt over last few frames to reduce jittery movement
+  caused by isolated slow or fast frames.
+
 * anti-alias. Use multisampling. Expose as option to application.
 
-Geometry
---------
 
-* 2D poly xtruder
-* 2D poly into ring
+Animation
+---------
+
+* Add uniform to tween between two models
+* use tweening to animate creation of a bevel
+* use tweening to animate forming a polyhedra's dual
 
 * Add to geometry while it is being displayed
     * recreate it from scratch? Or modify (& grow) existing vertex array?
