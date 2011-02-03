@@ -9,7 +9,7 @@ from pyglet import gl
 from .modelview import ModelView
 from .projection import Projection
 from .shader import Shader
-from ..model.shape import shape_to_glyph
+from ..shapes.shape import shape_to_glyph
 
 
 log = logging.getLogger(__name__)

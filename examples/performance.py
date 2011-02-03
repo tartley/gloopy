@@ -4,18 +4,18 @@ import logging
 from math import pi, sqrt
 from random import choice, uniform
 
-import fixpath
+import fixpath; fixpath
 
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
 
 from gloopy import Gloopy
+from gloopy.color import Color
 from gloopy.geom.vector import origin, Vector
 from gloopy.geom.orientation import Orientation
 from gloopy.model.item.gameitem import GameItem
-from gloopy.model.cube import Cube
 from gloopy.model.move import Newtonian, Orbit, WobblyOrbit
-from gloopy.color import Color
+from gloopy.shapes.cube import Cube
 
 
 log = logging.getLogger(__name__)

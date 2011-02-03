@@ -2,8 +2,6 @@
 Next
 ----
 
-* add an example which allows browsing of a bestiary
-
 * Bid's spherical vertex distributor
 
 * add pgup/pgdown vary camera orbit radius
@@ -313,4 +311,5 @@ DONE
   Or improve our own shader management code to take uniforms, see:
     http://swiftcoder.wordpress.com/2008/12/19/simple-glsl-wrapper-for-pyglet/
 * color in top level package
+* add an example which allows browsing of a bestiary
 

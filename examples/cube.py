@@ -2,14 +2,14 @@
 from __future__ import division
 from math import pi
 
-import fixpath
+import fixpath; fixpath
 
 from gloopy import Gloopy
+from gloopy.color import Color
 from gloopy.geom.vector import origin, Vector
-from gloopy.model.cube import Cube
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
-from gloopy.color import Color
+from gloopy.shapes.cube import Cube
 
 
 def main():

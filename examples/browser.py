@@ -8,11 +8,11 @@ from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
 
 from gloopy import Gloopy
+from gloopy.color import Color
 from gloopy.geom.vector import origin, Vector
-from gloopy.model.cube import Cube
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
-from gloopy.color import Color
+from gloopy.shapes.cube import Cube
 
 
 log = logging.getLogger(__name__)
