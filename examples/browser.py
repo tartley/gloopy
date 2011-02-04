@@ -12,7 +12,8 @@ from gloopy.color import Color
 from gloopy.geom.vector import origin, Vector
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
-from gloopy.shapes.cube import Cube
+from gloopy.shapes.cube import Cube, Cuboid
+from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
 
 
 log = logging.getLogger(__name__)
@@ -20,6 +21,9 @@ log = logging.getLogger(__name__)
 
 bestiary = {
     key._1: Cube(1, Color.Blue),
+    key._2: Cuboid(0.5, 2.5, 3, Color.Periwinkle),
+    key._3: Tetrahedron(1.8, Color.Blue.variations(Color.Cyan)),
+    key._4: DualTetrahedron(1.8),
 }
 
 
@@ -51,10 +55,29 @@ class Application(object):
             self.gloopy.stop()
 
 
+    def remove_items(self, symbol):
+        to_remove = [
+            item
+            for item in self.gloopy.world
+            if item.key == symbol
+        ]
+        for item in to_remove:
+            self.gloopy.world.remove(item)
+
+
     def on_key_press(self, symbol, modifiers):
 
         if symbol in bestiary:
-            self.gloopy.world.add( GameItem(shape=bestiary[symbol]) )
+            if modifiers & key.MOD_SHIFT:
+                self.remove_items( symbol )
+            else:
+                self.gloopy.world.add(
+                    GameItem(
+                        shape=bestiary[symbol],
+                        position=Vector.RandomShell(4),
+                        key=symbol,
+                    )
+                )
         else:
             return
 
