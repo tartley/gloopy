@@ -1,26 +1,26 @@
 
-from .vector import Vector
+from .vector import Vector, origin
 
 
 class Matrix(object):
 
-    def __init__(self, position, orientation=None):
+    # ugly hack: orientation.py populates this to prevent cyclic imports
+    zero_rotation = None
+
+    def __init__(self, position=None, orientation=None):
+        print position, orientation
+        if position is None:
+            position = origin
+        if orientation is None:
+            orientation = Matrix.zero_rotation
         self.position = p = position
         self.orientation = o = orientation
-        if orientation:
-            self.elements = [
-                  o.right.x,    o.right.y,    o.right.z, 0,
-                     o.up.x,       o.up.y,       o.up.z, 0,
-               -o.forward.x, -o.forward.y, -o.forward.z, 0,
-                        p.x,          p.y,          p.z, 1,
-            ]
-        else:
-            self.elements = [
-                          0,            0,            0, 0,
-                          0,            0,            0, 0,
-                          0,            0,            0, 0,
-                        p.x,          p.y,          p.z, 1,
-            ]
+        self.elements = [
+              o.right.x,    o.right.y,    o.right.z, 0,
+                 o.up.x,       o.up.y,       o.up.z, 0,
+           -o.forward.x, -o.forward.y, -o.forward.z, 0,
+                    p.x,          p.y,          p.z, 1,
+        ]
 
     def __iter__(self):
         return self.elements.__iter__()

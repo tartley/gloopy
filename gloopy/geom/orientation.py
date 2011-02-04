@@ -144,6 +144,12 @@ class Orientation(object):
         self.right = self._get_right()
 
 
+    # This method is an ugly performance hack. Orientation shouldn't need
+    # to import matrix, nor to know about ctypes. One day this will be
+    # replaced by replacing every gameitem's position and orientation
+    # attributes with a single attribute which stores position and
+    # orientation stored natively as a ctypes matrix suitable for passing 
+    # directly to glMultMatrix or shader uniforms.
     @property
     def matrix(self):
         '''
@@ -156,4 +162,7 @@ class Orientation(object):
 
 
 identity = Orientation()
+
+# ugly hack to prevent cyclic imports
+Matrix.zero_rotation = identity
 
