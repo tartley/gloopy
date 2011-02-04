@@ -1,7 +1,7 @@
 from __future__ import division
 
 from collections import namedtuple
-from random import randint
+from random import randint, uniform
 
 
 class Color(namedtuple('Color', 'r g b')):
@@ -59,6 +59,21 @@ class Color(namedtuple('Color', 'r g b')):
             int(self.r * (1 - bias) + other.r * bias),
             int(self.g * (1 - bias) + other.g * bias),
             int(self.b * (1 - bias) + other.b * bias),
+        )
+
+
+    def variations(self, other=None):
+        if other is None:
+            other = self.tinted(Color.Black, 0.5)
+        while True:
+            yield self.tinted(other, uniform(0, 1))
+
+
+    def inverted(self):
+        return Color(
+            255 - self.r,
+            255 - self.g,
+            255 - self.b,
         )
 
 
@@ -136,4 +151,9 @@ Color.BlueGreen    = Color(0x13, 0x7e, 0x6d)
 Color.White     = Color(0xff, 0xff, 0xff)
 Color.LightGrey = Color(0xc0, 0xc0, 0xc0)
 Color.DarkGrey  = Color(0x40, 0x40, 0x40)
+
+Color.All = (
+    c for c in Color.__dict__
+    if isinstance(c, Color)
+)
 
