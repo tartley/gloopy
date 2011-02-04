@@ -3,6 +3,9 @@ Next
 ----
 
 * Bid's spherical vertex distributor
+    :pics to Bid.
+        tetra, 1 iter, 2 iter, 3 iter, 4 iter, 5 iter
+        octahedron, 1 to 5 iter
 
 * add pgup/pgdown vary camera orbit radius
 

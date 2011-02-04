@@ -8,6 +8,14 @@ def add_vertex(vertices, vert):
     return len(vertices) - 1
 
 
+def nest(func, depth):
+    def inner(arg):
+        for _ in xrange(depth):
+            arg = func(arg)
+        return arg
+    return inner
+
+
 def Subdivided(original):
     """
     Subdivides all triangular faces of original shape into 4 smaller triangles.

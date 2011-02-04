@@ -13,8 +13,9 @@ from gloopy.geom.vector import origin, Vector
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
 from gloopy.shapes.cube import Cube, Cuboid
+from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
-from gloopy.shapes.sphere import Subdivided, Normalize
+from gloopy.shapes.sphere import Subdivided, Normalize, nest
 
 
 log = logging.getLogger(__name__)
@@ -26,18 +27,66 @@ bestiary = {
     key._3: Tetrahedron(1.8, Color.Blue.variations(Color.Cyan)),
     key._4: DualTetrahedron(1.8),
     key._5: Normalize(
-        Subdivided( 
-            Subdivided(
-                Subdivided(
-                Subdivided(
-                Subdivided(
-                    Tetrahedron(1.8, Color.White)
-                )
-                ))
+            nest(Subdivided, 0)(
+                Tetrahedron(1.8, Color.White)
             )
-        )
-    ),
-}
+        ),
+    key._6: Normalize(
+            nest(Subdivided, 1)(
+                Tetrahedron(1.8, Color.White)
+            )
+        ),
+    key._7: Normalize(
+            nest(Subdivided, 2)(
+                Tetrahedron(1.8, Color.White)
+            )
+        ),
+    key._8: Normalize(
+            nest(Subdivided, 3)(
+                Tetrahedron(1.8, Color.White)
+            )
+        ),
+    key._9: Normalize(
+            nest(Subdivided, 4)(
+                Tetrahedron(1.8, Color.White)
+            )
+        ),
+    key._0: Normalize(
+            nest(Subdivided, 5)(
+                Tetrahedron(1.8, Color.White)
+            )
+        ),
+    key.Q: Normalize(
+            nest(Subdivided, 0)(
+                Octahedron(1.8, Color.White)
+            )
+        ),
+    key.W: Normalize(
+            nest(Subdivided, 1)(
+                Octahedron(1.8, Color.White)
+            )
+        ),
+    key.E: Normalize(
+            nest(Subdivided, 2)(
+                Octahedron(1.8, Color.White)
+            )
+        ),
+    key.R: Normalize(
+            nest(Subdivided, 3)(
+                Octahedron(1.8, Color.White)
+            )
+        ),
+    key.T: Normalize(
+            nest(Subdivided, 4)(
+                Octahedron(1.8, Color.White)
+            )
+        ),
+    key.Y: Normalize(
+            nest(Subdivided, 5)(
+                Octahedron(1.8, Color.White)
+            )
+        ),
+    }
 
 
 class Application(object):
@@ -55,10 +104,10 @@ class Application(object):
         )
         self.gloopy.camera.update=WobblyOrbit(
             center=origin,
-            radius=10,
+            radius=5,
             axis=Vector(2, 3, 1),
             angular_velocity=1,
-            wobble_size=0.6,
+            wobble_size=0.2,
             wobble_freq=1,
         )
         self.gloopy.camera.look_at = Vector(0, 0, 0)
