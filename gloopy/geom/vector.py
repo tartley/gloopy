@@ -74,14 +74,14 @@ class Vector(namedtuple('VectorBase', 'x y z')):
         while True:
             p = Vector.RandomCube(radius)
             if p.length2 < radius ** 2:
-                break
-        return p
+                return p
 
     @staticmethod
     def RandomShell(radius):
-        p = Vector.RandomCube(1)
-        p = p * (radius / p.length)
-        return p
+        while True:
+            p = Vector.RandomCube(radius)
+            if p.length2 < radius ** 2:
+                return p.normalized() * radius
 
     @property
     def length(self):
