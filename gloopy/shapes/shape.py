@@ -11,10 +11,10 @@ class Face(object):
     '''
     A single flat face that forms part of a Shape.
     '''
-    def __init__(self, indices, color, vertices):
+    def __init__(self, indices, color, shape):
         self.indices = indices
         self.color = color
-        self.vertices = vertices
+        self.shape = shape
         self.normal = self.get_normal()
 
 
@@ -32,9 +32,9 @@ class Face(object):
         Note that the direction of the normal will be reversed if the
         face's winding is reversed.
         '''
-        v0 = self.vertices[self.indices[0]]
-        v1 = self.vertices[self.indices[1]]
-        v2 = self.vertices[self.indices[2]]
+        v0 = self.shape.vertices[self.indices[0]]
+        v1 = self.shape.vertices[self.indices[1]]
+        v2 = self.shape.vertices[self.indices[2]]
         a = v0 - v1
         b = v2 - v1
         normal = b.cross(a).normalized()
@@ -47,13 +47,14 @@ class Shape(object):
     Defines a polyhedron, a 3D shape with flat faces and straight edges.
     Each vertex defines a point in 3d space. Each face is a list of integer
     indices into the vertex array, forming a coplanar convex ring defining the
-    face's edges. Each face has its own color.
+    face's edges. Duplicate indices do not have to be given at the start and
+    end of each face, the closed loop is implied. Each face has its own color.
 
     public interface to a Shape is:
         shape.vertices = [vector, vector, vector...]
         shape.faces = [
-            Face(vertices, color1, [1, 2, 3, 4]),
-            Face(vertices, color2, [4, 5, 1, 9]),
+            Face([1, 2, 3, 4], color1, shape),
+            Face([4, 5, 1, 9], color2, shape),
             ...
         ]
     '''    
@@ -70,26 +71,28 @@ class Shape(object):
         if len(vertices) > 0 and not isinstance(vertices[0], Vector):
             vertices = [Vector(*v) for v in vertices]
 
-        # if given one color (or a tuple that looks like a color)
-        # instead of a sequence of colors,
-        # then construct a sequence if identical colors out of it
+        # if color is a tuple that looks like a Color, convert it to a Color
         if (
             isinstance(colors, tuple) and
-            len(colors) == 4 and
+            len(colors) in (3, 4) and
             isinstance(colors[0], int)
         ):
             colors = Color(*colors)
+        # if color is a single color, then convert it to a sequence of
+        # identical colors, one entry for each vertex of the face
         if isinstance(colors, Color):
             colors = repeat(colors)
 
         self.vertices = vertices
         self.faces = [
-            Face(face, color, vertices)
+            Face(face, color, self)
             for face, color in zip(faces, colors)
         ]
 
     def __repr__(self):
-        return '<Shape %d verts, %d faces>' % (len(self.vertices), len(self.faces),)
+        return '<Shape %d verts, %d faces>' % (
+            len(self.vertices), len(self.faces),
+        )
 
 
 class MultiShape(object):
@@ -128,7 +131,7 @@ class MultiShape(object):
                 index + child_offset
                 for index in face.indices
             ]
-            faces.append(Face(new_indices, face.color, self.vertices))
+            faces.append(Face(new_indices, face.color, self))
 
         return faces
 
@@ -165,7 +168,7 @@ def tessellate(indices):
     Return the indices of the given face tesselated into a list of triangles,
     expressed as integer indices. The triangles will be wound in the
     same direction as the original poly. Does not work for concave faces.
-    e.g. Face(verts, [0, 1, 2, 3, 4]) -> [[0, 1, 2], [0, 2, 3], [0, 3, 4]]
+    e.g. [0, 1, 2, 3, 4] -> [[0, 1, 2], [0, 2, 3], [0, 3, 4]]
     '''
     return (
         [indices[0], indices[index], indices[index + 1]]
@@ -195,4 +198,5 @@ def get_normals(vertices, faces, num_glverts):
         repeat(face.normal, len(face))
         for face in faces
     )
+
 

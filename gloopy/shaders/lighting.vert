@@ -9,7 +9,7 @@ void main()
 
     vec3 tnorm = normalize(gl_NormalMatrix * normal);
     float costheta = dot(tnorm, LightPosition);
-    float a = 0.85 + 0.15 * costheta;
+    float a = 0.65 + 0.35 * costheta;
 
     gl_FrontColor = vec4(color.rgb * a, 1.0);
     gl_Position = gl_ModelViewProjectionMatrix * vec4(position, 1.0);

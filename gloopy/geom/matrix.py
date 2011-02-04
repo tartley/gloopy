@@ -8,7 +8,6 @@ class Matrix(object):
     zero_rotation = None
 
     def __init__(self, position=None, orientation=None):
-        print position, orientation
         if position is None:
             position = origin
         if orientation is None:

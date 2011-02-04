@@ -97,12 +97,12 @@ class Vector(namedtuple('VectorBase', 'x y z')):
         '''
         return self.x ** 2 + self.y ** 2 + self.z ** 2
 
-    def normalized(self):
+    def normalized(self, length=1):
         '''
         return a new vector in the same direction, but of length 1
         '''
-        length = self.length
-        return Vector(self.x / length, self.y / length, self.z / length)
+        factor = length / self.length
+        return Vector(self.x * factor, self.y * factor, self.z * factor)
 
     def cross(self, other):
         '''

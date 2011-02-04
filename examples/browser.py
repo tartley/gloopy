@@ -14,6 +14,7 @@ from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
 from gloopy.shapes.cube import Cube, Cuboid
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
+from gloopy.shapes.sphere import Subdivided, Normalize
 
 
 log = logging.getLogger(__name__)
@@ -24,6 +25,18 @@ bestiary = {
     key._2: Cuboid(0.5, 2.5, 3, Color.Periwinkle),
     key._3: Tetrahedron(1.8, Color.Blue.variations(Color.Cyan)),
     key._4: DualTetrahedron(1.8),
+    key._5: Normalize(
+        Subdivided( 
+            Subdivided(
+                Subdivided(
+                Subdivided(
+                Subdivided(
+                    Tetrahedron(1.8, Color.White)
+                )
+                ))
+            )
+        )
+    ),
 }
 
 
@@ -74,7 +87,6 @@ class Application(object):
                 self.gloopy.world.add(
                     GameItem(
                         shape=bestiary[symbol],
-                        position=Vector.RandomShell(4),
                         key=symbol,
                     )
                 )
