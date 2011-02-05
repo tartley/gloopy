@@ -1,18 +1,45 @@
 
 attribute vec3 position;
-attribute vec3 color;
+attribute vec4 color;
 attribute vec3 normal;
+
+varying vec4 baseColor;
+
+// both parameters must be normalised
+float dLight( 
+    in vec3 light_pos, 
+    in vec3 surface_norm
+) {
+    float n_dot_pos = max( 0.0, dot( 
+        surface_norm, light_pos
+    ) );
+    return n_dot_pos;
+}
+
+//uniform vec4 Global_ambient;
+//uniform vec4 Light_ambient;
+//uniform vec4 Light_diffuse;
+//uniform vec3 Light_location;
+//uniform vec4 Material_ambient;
+//uniform vec4 Material_diffuse;
 
 void main()
 {
-    vec3 LightPosition = vec3(0.2670, 0.267 * 3.0, 0.2673 * 2.0);
+    vec3 light_pos = vec3(0.2670, 0.267 * 3.0, 0.2673 * 2.0);
+    vec4 Global_ambient= vec4(0.5, 0.5, 0.5, 1.0);
+    vec4 Light_diffuse = vec4(1.0, 1.0, 1.0, 1.0);
+    vec4 Material_diffuse = vec4(1.0, 1.0, 1.0, 1.0);
 
-    vec3 tnorm = normalize(gl_NormalMatrix * normal);
-    float costheta = dot(tnorm, LightPosition);
-    float a = 0.65 + 0.35 * costheta;
-
-    gl_FrontColor = vec4(color.rgb * a, 1.0);
     gl_Position = gl_ModelViewProjectionMatrix * vec4(position, 1.0);
-    gl_TexCoord[0] = gl_MultiTexCoord0;
+    float diffuse_weight = dLight(
+        normalize(gl_NormalMatrix * light_pos),
+        normalize(gl_NormalMatrix * normal)
+    );
+    
+    // Light_ambient * Material_ambient +
+    baseColor = (
+        Global_ambient * color +
+        color * Light_diffuse * diffuse_weight
+    );
 }
 
