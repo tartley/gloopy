@@ -17,7 +17,8 @@ from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.icosahedron import Icosahedron
 from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
-from gloopy.shapes.sphere import subdivided, subdivided_center, normalize, nest
+from gloopy.shapes.sphere import subdivided, normalize, nest
+from gloopy.shapes.stellate import stellate
 
 
 log = logging.getLogger(__name__)
@@ -89,58 +90,17 @@ bestiary = {
         ),
     key.U: Dodecahedron(1.0, Color.Purple),
     key.I: Icosahedron(1, Color.Green),
-    key.A: normalize(
-            nest(subdivided_center, 1)(
-                Octahedron(2, Color.Random())
-            )
-        ),
-    key.S: normalize(
-            nest(subdivided_center, 2)(
-                Octahedron(2, Color.Random())
-            )
-        ),
-    key.D: normalize(
-            nest(subdivided_center, 3)(
-                Octahedron(2, Color.Random())
-            )
-        ),
-    key.F: normalize(
-            nest(subdivided_center, 4)(
-                Octahedron(2, Color.Random())
-            )
-        ),
-    key.G: normalize(
-            nest(subdivided_center, 5)(
-                Octahedron(2, Color.Random())
-            )
-        ),
 
-    key.Z: normalize(
-            nest(subdivided_center, 1)(
-                Cube(2, Color.Random())
-            )
-        ),
-    key.X: normalize(
-            nest(subdivided_center, 2)(
-                Cube(2, Color.Random())
-            )
-        ),
-    key.C: normalize(
-            nest(subdivided_center, 3)(
-                Cube(2, Color.Random())
-            )
-        ),
-    key.V: normalize(
-            nest(subdivided_center, 4)(
-                Cube(2, Color.Random())
-            )
-        ),
-    key.B: normalize(
-            nest(subdivided_center, 5)(
-                Cube(2, Color.Random())
-            )
-        ),
-    
+    key.A: stellate( Tetrahedron(1, Color.Random()), 2.0 ),
+    key.S: stellate( Tetrahedron(2, Color.Random()), -0.25 ),
+    key.D: stellate( Cube(0.5, Color.Random()), 2.5 ),
+    key.F: stellate( Cube(1, Color.Random()), -0.25 ),
+    key.G: stellate( Octahedron(0.5, Color.Random()), 2.5 ),
+    key.H: stellate( Octahedron(1, Color.Random()), -0.25 ),
+    key.J: stellate( Dodecahedron(0.5, Color.Random()), 1.5 ),
+    key.K: stellate( Dodecahedron(1, Color.Random()), -0.25 ),
+    key.L: stellate( Icosahedron(0.5, Color.Random()), 1.5 ),
+    key.M: stellate( Icosahedron(1, Color.Random()), -0.25 ),
 }
 
 

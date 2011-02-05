@@ -1,7 +1,6 @@
 from __future__ import division
 
 from .shape import Shape
-from ..geom.vector import origin
 from ..color import Color
 
 
@@ -16,8 +15,9 @@ def add_vertex(vertices, vert):
 
 def nest(func, depth):
     '''
-    Return the a new function which invokes the given function 'depth' times,
-    passing in the return value from the previous invocation.
+    Return the a new function which invokes the given single-arg function
+    'depth' times, each time passing in the return value from the previous
+    invocation.
     '''
     def inner(arg):
         for _ in xrange(depth):
@@ -68,35 +68,6 @@ def subdivided(original):
         ]:
             faces.append(indexlist)
             colors.append(color)
-
-    return Shape(vertices, faces, colors)
-
-
-def subdivided_center(original):
-    '''
-    Returns a new Shape instance, copied from the given original but with each
-    face subdivided into a fan of triangles with the fan nexus at the shape's
-    centroid. Works on faces with any number of sides.
-    '''
-    vertices = original.vertices[:]
-    faces = []
-    colors = []
-
-    for face in original.faces:
-        
-        # original vertices
-        orig_verts = [vertices[f] for f in face]
-        
-        # new vertex at the face centroid, and its index
-        # note: This isn't a good formula for the centroid,
-        #       it only works for regular polygons
-        vc = sum(orig_verts, origin) / len(orig_verts)
-        ic = add_vertex(vertices, vc)
-
-        for index in xrange(len(face)):
-            index2 = (index + 1) % len(face)
-            faces.append( [face[index], face[index2], ic] )
-            colors.append( face.color )
 
     return Shape(vertices, faces, colors)
 
