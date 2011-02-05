@@ -13,9 +13,10 @@ from gloopy.geom.vector import origin, Vector
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
 from gloopy.shapes.cube import Cube, Cuboid
+from gloopy.shapes.dodecahedron import Dodecahedron
+from gloopy.shapes.icosahedron import Icosahedron
 from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
-from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.sphere import Subdivided, Normalize, nest
 
 
@@ -88,6 +89,7 @@ bestiary = {
             )
         ),
     key.U: Dodecahedron(1.0, Color.Purple),
+    key.I: Icosahedron(1, Color.Green),
 }
 
 
@@ -106,7 +108,7 @@ class Application(object):
         )
         self.gloopy.camera.update=WobblyOrbit(
             center=origin,
-            radius=6,
+            radius=3,
             axis=Vector(2, 3, 1),
             angular_velocity=1,
             wobble_size=0.0,

@@ -209,20 +209,34 @@ Animation
     * Squaresnake
 
 
-DEMOS
+Demos
+-----
 
-* add demo which creates large and funky shapes
 * demo attaching point light source to position of gameitem
 * User-controlled camera. Add to a demo.
-* Lego - select a face with mouse, add a poly to it.
-  (or extrude from it?)
 * Interpenetrating cuboid solids and voids. (& rooms, a void in a solid)
-* Check out the lit up night sky behind these dark buildings.
-  Can we make something like this?
-    http://www.openbusiness.cc/wp-content/uploads/hk1.jpg
 
 
-IDEAS FOR LATER
+References
+----------
+
+complicated saddle surfaces with holes:
+http://www.cs.berkeley.edu/~sequin/SCULPTS/scherk.html
+
+building skyline at night:
+http://www.openbusiness.cc/wp-content/uploads/hk1.jpg
+
+bulbous blobs with holes
+http://www.cs.berkeley.edu/~sequin/MVS/index.html
+http://www.graphica.com/gallery/trott1.html
+
+Sections of a sphere:
+http://www.cs.berkeley.edu/~sequin/ART/MaxBill/MBTy5.jpg
+
+
+
+Ideas for later
+---------------
 
 * Fake skybox geometry:
     * vector:
