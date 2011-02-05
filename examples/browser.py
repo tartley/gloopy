@@ -19,6 +19,7 @@ from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
 from gloopy.shapes.sphere import subdivided, normalize, nest
 from gloopy.shapes.stellate import stellate
+from gloopy.shapes.truncate import truncate
 
 
 log = logging.getLogger(__name__)
@@ -29,65 +30,65 @@ bestiary = {
     key._3: Tetrahedron(2.0, Color.Blue.variations(Color.Cyan)),
     key._4: DualTetrahedron(2.0),
     key._5: normalize(
-            nest(subdivided, 0)(
-                Tetrahedron(1.0, Color.Random())
-            )
-        ),
+        nest(subdivided, 0)(
+            Tetrahedron(1.0, Color.Random())
+        )
+    ),
     key._6: normalize(
-            nest(subdivided, 1)(
-                Tetrahedron(1.0, Color.Random())
-            )
-        ),
+        nest(subdivided, 1)(
+            Tetrahedron(1.0, Color.Random())
+        )
+    ),
     key._7: normalize(
-            nest(subdivided, 2)(
-                Tetrahedron(1.0, Color.Random())
-            )
-        ),
+        nest(subdivided, 2)(
+            Tetrahedron(1.0, Color.Random())
+        )
+    ),
     key._8: normalize(
-            nest(subdivided, 3)(
-                Tetrahedron(1.0, Color.Random())
-            )
-        ),
+        nest(subdivided, 3)(
+            Tetrahedron(1.0, Color.Random())
+        )
+    ),
     key._9: normalize(
-            nest(subdivided, 4)(
-                Tetrahedron(1.0, Color.Random())
-            )
-        ),
+        nest(subdivided, 4)(
+            Tetrahedron(1.0, Color.Random())
+        )
+    ),
     key._0: normalize(
-            nest(subdivided, 5)(
-                Tetrahedron(1.0, Color.Random())
-            )
-        ),
+        nest(subdivided, 5)(
+            Tetrahedron(1.0, Color.Random())
+        )
+    ),
     key.Q: normalize(
-            nest(subdivided, 0)(
-                Octahedron(1.0, Color.Random())
-            )
-        ),
+        nest(subdivided, 0)(
+            Octahedron(1.0, Color.Random())
+        )
+    ),
     key.W: normalize(
-            nest(subdivided, 1)(
-                Octahedron(1.0, Color.Random())
-            )
-        ),
+        nest(subdivided, 1)(
+            Octahedron(1.0, Color.Random())
+        )
+    ),
     key.E: normalize(
-            nest(subdivided, 2)(
-                Octahedron(1.0, Color.Random())
-            )
-        ),
+        nest(subdivided, 2)(
+            Octahedron(1.0, Color.Random())
+        )
+    ),
     key.R: normalize(
-            nest(subdivided, 3)(
-                Octahedron(1.0, Color.Random())
-            )
-        ),
+        nest(subdivided, 3)(
+            Octahedron(1.0, Color.Random())
+        )
+    ),
     key.T: normalize(
-            nest(subdivided, 4)(
-                Octahedron(1.0, Color.Random())
-            )
-        ),
+        nest(subdivided, 4)(
+            Octahedron(1.0, Color.Random())
+        )
+    ),
     key.Y: normalize(
-            nest(subdivided, 5)(
-                Octahedron(1.0, Color.Random())
-            )
-        ),
+        nest(subdivided, 5)(
+            Octahedron(1.0, Color.Random())
+        )
+    ),
     key.U: Dodecahedron(1.0, Color.Purple),
     key.I: Icosahedron(1, Color.Green),
 
@@ -101,6 +102,30 @@ bestiary = {
     key.K: stellate( Dodecahedron(1, Color.Random()), -0.25 ),
     key.L: stellate( Icosahedron(0.5, Color.Random()), 1.5 ),
     key.M: stellate( Icosahedron(1, Color.Random()), -0.25 ),
+
+    key.Z: stellate ( stellate(
+        Icosahedron(1, Color.Random()), -0.25
+    ), -0.25),
+    key.X: stellate ( stellate(
+        Icosahedron(1, Color.Random()), -0.1
+    ), -0.1),
+    key.C: stellate ( stellate(
+        Icosahedron(1, Color.Random()), -0.1
+    ), +0.1),
+    key.V: stellate ( stellate(
+        Icosahedron(1, Color.Random()), -0.25
+    ), 0.25),
+    key.B: stellate ( stellate(
+        Icosahedron(1, Color.Random()), 0.25
+    ), -0.25),
+    key.N: stellate ( stellate(
+        Icosahedron(1, Color.Random()), 2
+    ), 0.25),
+    key.M: stellate ( stellate(
+        Icosahedron(1, Color.Random()), 2
+    ), -0.25),
+
+    key.P: truncate( Tetrahedron(2, Color.Yellow), amount=0.2 ),
 }
 
 

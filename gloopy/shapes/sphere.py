@@ -19,14 +19,13 @@ def nest(func, depth):
 
 def subdivided(original):
     """
-    Returns a new shape instance, copied from the given original but with
-    each face subdivided into four triangles:
-          /  \
-         /____\
-        / \  / \
-       /___\/___\
-
-    Requires that the original faces are all triangles to begin with.
+    Given a shape consisting entirely of triangular faces, returns a new Shape
+    instance, copied from the given original but with each face subdivided into
+    four triangles:  /\
+                    /  \
+                   /----\
+                  / \  / \
+                 /___\/___\
     """
     vertices = original.vertices[:]
     faces = []
