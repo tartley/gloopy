@@ -17,11 +17,10 @@ from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.icosahedron import Icosahedron
 from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
-from gloopy.shapes.sphere import subdivided, normalize, nest
+from gloopy.shapes.sphere import subdivided, subdivided_center, normalize, nest
 
 
 log = logging.getLogger(__name__)
-
 
 bestiary = {
     key._1: Cube(1, Color.Blue),
@@ -30,66 +29,91 @@ bestiary = {
     key._4: DualTetrahedron(2.0),
     key._5: normalize(
             nest(subdivided, 0)(
-                Tetrahedron(1.0, Color.White)
+                Tetrahedron(1.0, Color.Random())
             )
         ),
     key._6: normalize(
             nest(subdivided, 1)(
-                Tetrahedron(1.0, Color.White)
+                Tetrahedron(1.0, Color.Random())
             )
         ),
     key._7: normalize(
             nest(subdivided, 2)(
-                Tetrahedron(1.0, Color.White)
+                Tetrahedron(1.0, Color.Random())
             )
         ),
     key._8: normalize(
             nest(subdivided, 3)(
-                Tetrahedron(1.0, Color.White)
+                Tetrahedron(1.0, Color.Random())
             )
         ),
     key._9: normalize(
             nest(subdivided, 4)(
-                Tetrahedron(1.0, Color.White)
+                Tetrahedron(1.0, Color.Random())
             )
         ),
     key._0: normalize(
             nest(subdivided, 5)(
-                Tetrahedron(1.0, Color.White)
+                Tetrahedron(1.0, Color.Random())
             )
         ),
     key.Q: normalize(
             nest(subdivided, 0)(
-                Octahedron(1.0, Color.White)
+                Octahedron(1.0, Color.Random())
             )
         ),
     key.W: normalize(
             nest(subdivided, 1)(
-                Octahedron(1.0, Color.White)
+                Octahedron(1.0, Color.Random())
             )
         ),
     key.E: normalize(
             nest(subdivided, 2)(
-                Octahedron(1.0, Color.White)
+                Octahedron(1.0, Color.Random())
             )
         ),
     key.R: normalize(
             nest(subdivided, 3)(
-                Octahedron(1.0, Color.White)
+                Octahedron(1.0, Color.Random())
             )
         ),
     key.T: normalize(
             nest(subdivided, 4)(
-                Octahedron(1.0, Color.White)
+                Octahedron(1.0, Color.Random())
             )
         ),
     key.Y: normalize(
             nest(subdivided, 5)(
-                Octahedron(1.0, Color.White)
+                Octahedron(1.0, Color.Random())
             )
         ),
     key.U: Dodecahedron(1.0, Color.Purple),
     key.I: Icosahedron(1, Color.Green),
+    key.A: normalize(
+            nest(subdivided_center, 0)(
+                Octahedron(2, Color.Random())
+            )
+        ),
+    key.S: normalize(
+            nest(subdivided_center, 1)(
+                Octahedron(2, Color.Random())
+            )
+        ),
+    key.D: normalize(
+            nest(subdivided_center, 2)(
+                Octahedron(2, Color.Random())
+            )
+        ),
+    key.F: normalize(
+            nest(subdivided_center, 3)(
+                Octahedron(2, Color.Random())
+            )
+        ),
+    key.G: normalize(
+            nest(subdivided_center, 4)(
+                Octahedron(2, Color.Random())
+            )
+        ),
 }
 
 
@@ -110,7 +134,7 @@ class Application(object):
             center=origin,
             radius=3,
             axis=Vector(2, 3, 1),
-            angular_velocity=1,
+            angular_velocity=0.2,
             wobble_size=0.0,
             wobble_freq=1,
         )

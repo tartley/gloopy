@@ -1,14 +1,24 @@
 from __future__ import division
 
 from .shape import Shape
+from ..geom.vector import origin
+from ..color import Color
 
 
 def add_vertex(vertices, vert):
+    '''
+    Add a vertex to the given list of vertices, and return the index number
+    which should be used to refer to the new vertex. Modifies vertices in-place.
+    '''
     vertices.append(vert)
     return len(vertices) - 1
 
 
 def nest(func, depth):
+    '''
+    Return the a new function which invokes the given function 'depth' times,
+    passing in the return value from the previous invocation.
+    '''
     def inner(arg):
         for _ in xrange(depth):
             arg = func(arg)
@@ -18,8 +28,14 @@ def nest(func, depth):
 
 def subdivided(original):
     """
-    Subdivides all triangular faces of original shape into 4 smaller triangles.
-    Barfs if any face is not triangular. Returns a new Shape.
+    Returns a new shape instance, copied from the given original but with
+    each face subdivided into four triangles:
+          /  \
+         /____\
+        / \  / \
+       /___\/___\
+
+    Requires that the original faces are all triangles to begin with.
     """
     vertices = original.vertices[:]
     faces = []
@@ -50,7 +66,53 @@ def subdivided(original):
             [ic, ia, ib],
         ]:
             faces.append(indexlist)
-            colors.append( face.color )
+            colors.append( #face.color )
+                Color(
+                    face.color.r,
+                    face.color.g,
+                    face.color.b,
+                    face.color.a,
+                )
+            )
+
+    return Shape(vertices, faces, colors)
+
+
+def subdivided_center(original):
+    '''
+    Returns a new Shape instance, copied from the given original but with each
+    face subdivided into a fan of triangles with the fan nexus at the shape's
+    centroid. Works on faces with any number of sides.
+    '''
+    vertices = original.vertices[:]
+    faces = []
+    colors = []
+
+    for face in original.faces:
+        
+        # original vertices
+        orig_verts = [vertices[f] for f in face]
+        
+        # new vertex at the face centroid, and its index
+        # note: This isn't a good formula for the centroid,
+        #       it only works for regular polygons
+        vc = sum(orig_verts, origin) / len(orig_verts)
+        ic = add_vertex(vertices, vc)
+
+        for indexlist in [
+            [face[0], face[1], ic],
+            [face[1], face[2], ic],
+            [face[2], face[0], ic],
+        ]:
+            faces.append(indexlist)
+            colors.append(
+                Color(
+                    face.color.r,
+                    face.color.g,
+                    face.color.b,
+                    face.color.a,
+                )
+            )
 
     return Shape(vertices, faces, colors)
 
@@ -63,6 +125,7 @@ def normalize(original, length=1):
     original.vertices = [
         v.normalized(length) for v in original.vertices
     ]
+    # after moving vertices, we need to recalc the face normals
     for face in original.faces:
         face.normal = face.get_normal()
     return original

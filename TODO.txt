@@ -355,4 +355,5 @@ DONE
 * color in top level package
 * add an example which allows browsing of a bestiary
 * the regular solids
+* try subdividing shapes with a new vertex in the middle of the face
 
