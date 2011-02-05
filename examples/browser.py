@@ -24,66 +24,66 @@ log = logging.getLogger(__name__)
 bestiary = {
     key._1: Cube(1, Color.Blue),
     key._2: Cuboid(0.5, 2.5, 3, Color.Periwinkle),
-    key._3: Tetrahedron(1.8, Color.Blue.variations(Color.Cyan)),
-    key._4: DualTetrahedron(1.8),
+    key._3: Tetrahedron(2.0, Color.Blue.variations(Color.Cyan)),
+    key._4: DualTetrahedron(2.0),
     key._5: Normalize(
             nest(Subdivided, 0)(
-                Tetrahedron(1.8, Color.White)
+                Tetrahedron(1.0, Color.White)
             )
         ),
     key._6: Normalize(
             nest(Subdivided, 1)(
-                Tetrahedron(1.8, Color.White)
+                Tetrahedron(1.0, Color.White)
             )
         ),
     key._7: Normalize(
             nest(Subdivided, 2)(
-                Tetrahedron(1.8, Color.White)
+                Tetrahedron(1.0, Color.White)
             )
         ),
     key._8: Normalize(
             nest(Subdivided, 3)(
-                Tetrahedron(1.8, Color.White)
+                Tetrahedron(1.0, Color.White)
             )
         ),
     key._9: Normalize(
             nest(Subdivided, 4)(
-                Tetrahedron(1.8, Color.White)
+                Tetrahedron(1.0, Color.White)
             )
         ),
     key._0: Normalize(
             nest(Subdivided, 5)(
-                Tetrahedron(1.8, Color.White)
+                Tetrahedron(1.0, Color.White)
             )
         ),
     key.Q: Normalize(
             nest(Subdivided, 0)(
-                Octahedron(1.8, Color.White)
+                Octahedron(1.0, Color.White)
             )
         ),
     key.W: Normalize(
             nest(Subdivided, 1)(
-                Octahedron(1.8, Color.White)
+                Octahedron(1.0, Color.White)
             )
         ),
     key.E: Normalize(
             nest(Subdivided, 2)(
-                Octahedron(1.8, Color.White)
+                Octahedron(1.0, Color.White)
             )
         ),
     key.R: Normalize(
             nest(Subdivided, 3)(
-                Octahedron(1.8, Color.White)
+                Octahedron(1.0, Color.White)
             )
         ),
     key.T: Normalize(
             nest(Subdivided, 4)(
-                Octahedron(1.8, Color.White)
+                Octahedron(1.0, Color.White)
             )
         ),
     key.Y: Normalize(
             nest(Subdivided, 5)(
-                Octahedron(1.8, Color.White)
+                Octahedron(1.0, Color.White)
             )
         ),
     }
@@ -104,10 +104,10 @@ class Application(object):
         )
         self.gloopy.camera.update=WobblyOrbit(
             center=origin,
-            radius=5,
+            radius=4,
             axis=Vector(2, 3, 1),
             angular_velocity=1,
-            wobble_size=0.2,
+            wobble_size=0.0,
             wobble_freq=1,
         )
         self.gloopy.camera.look_at = Vector(0, 0, 0)

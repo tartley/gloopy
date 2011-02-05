@@ -2,15 +2,11 @@
 Next
 ----
 
-* Bid's spherical vertex distributor
-    :pics to Bid.
-        tetra, 1 iter, 2 iter, 3 iter, 4 iter, 5 iter
-        octahedron, 1 to 5 iter
+* the regular solids
+* function to truncate a shape
+* Add all good shapes from previous programs
 
 * add pgup/pgdown vary camera orbit radius
-
-* Add all good shapes from previous programs
-* the regular solids
 
 * close-packed cube patterns, specified as tuple ordinates, eliminating
   faces of cubes which abut.
