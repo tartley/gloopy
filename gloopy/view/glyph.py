@@ -69,7 +69,7 @@ class Glyph(object):
             GL.glEnableVertexAttribArray(self.shader.attrib['color'])
             GL.glEnableVertexAttribArray(self.shader.attrib['normal'])
 
-            STRIDE = 36
+            STRIDE = 40
             NORMAL_COMPONENTS = 3
             GL.glVertexAttribPointer( 
                 self.shader.attrib['position'], Glyph.DIMENSIONS, GL.GL_FLOAT,
@@ -81,7 +81,7 @@ class Glyph(object):
             )
             GL.glVertexAttribPointer( 
                 self.shader.attrib['normal'], NORMAL_COMPONENTS, GL.GL_FLOAT,
-                False, STRIDE, c_void_p(24)
+                False, STRIDE, c_void_p(28)
             )
         finally:
             glBindVertexArray(0)

@@ -4,14 +4,18 @@ from collections import namedtuple
 from random import randint, uniform
 
 
-class Color(namedtuple('Color', 'r g b')):
+class Color(namedtuple('Color', 'r g b a')):
     '''
     r: red
     g: green
     b: blue
+    a: alpha (defaults to fully opaque)
 
     Colors in Gloopy are specified using unsigned bytes, meaning that all of r,
-    g, b are ints from 0 to 255 (Color.MAX_CHANNEL.)
+    g, b, a are ints from 0 to 255 (Color.MAX_CHANNEL.) Alpha values of less
+    than MAX_CHANNEL represent levels of transparency, down to an alpha of 0,
+    which is completely invisible. Specifying alpha is optional, it defaults
+    to fully-opaque.
     
     For example, to specify a red color::
 
@@ -28,10 +32,15 @@ class Color(namedtuple('Color', 'r g b')):
     survey: http://blog.xkcd.com/2010/05/03/color-survey-results/
     '''
 
-    COMPONENTS = 3
+    COMPONENTS = 4
     MAX_CHANNEL = 0xff
 
     __slots__ = []
+
+    # make constructor's 'a' argument optional
+    def __new__(cls, r, g, b, a=MAX_CHANNEL):
+        return super(Color, cls).__new__(cls, r, g, b, a)
+
 
     @staticmethod
     def Random():
@@ -40,6 +49,11 @@ class Color(namedtuple('Color', 'r g b')):
             randint(0, Color.MAX_CHANNEL),
             randint(0, Color.MAX_CHANNEL),
         )
+
+    @staticmethod
+    def Randoms():
+        while True:
+            yield Color.Random()
 
 
     def as_floats(self):
@@ -51,6 +65,7 @@ class Color(namedtuple('Color', 'r g b')):
             1 / Color.MAX_CHANNEL * self.r,
             1 / Color.MAX_CHANNEL * self.g,
             1 / Color.MAX_CHANNEL * self.b,
+            1 / Color.MAX_CHANNEL * self.a,
         )
 
 
@@ -59,6 +74,7 @@ class Color(namedtuple('Color', 'r g b')):
             int(self.r * (1 - bias) + other.r * bias),
             int(self.g * (1 - bias) + other.g * bias),
             int(self.b * (1 - bias) + other.b * bias),
+            self.a
         )
 
 
@@ -74,6 +90,7 @@ class Color(namedtuple('Color', 'r g b')):
             255 - self.r,
             255 - self.g,
             255 - self.b,
+            self.a
         )
 
 

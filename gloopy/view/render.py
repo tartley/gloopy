@@ -68,7 +68,7 @@ class Render(object):
 
 
     def clear_window(self, color):
-        r, g, b = color.as_floats()
+        r, g, b = color.as_floats()[:3]
         gl.glClearColor(r, g, b, 1.0)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
 
