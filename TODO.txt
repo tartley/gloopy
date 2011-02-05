@@ -6,6 +6,12 @@ Next
 
 * Add good shapes from previous programs
 
+* interlinked rings. knots.
+
+* some method whereby color.random can be reinvoked each time a shape using
+  this color is instantiated. preumably items in the bestiary should become
+  callables, rather than pre-created instances
+
 * Add some method of selecting and highlighting a gameitem, then operations
   like subdivide can be applied to selected item with a keypress
 
@@ -17,11 +23,11 @@ Talk Outline
      the demo scene. (1m)
    * A convenient & Pythonic way to model 3D polyhedra, and some neat
      generators to convert these into OpenGL arrays at runtime. (7m)
-   * Algorithmic modification of existing shapes, such as bevels, geometric
+   * Algorithmic modification of shapes, such as bevels, geometric
      duals, and polyhedron stellation. (2m)
-   * Composition of polyhedra to create more complex shapes. (3m)
    * The resulting performance characteristics: What works well from Python,
      and what doesn't. (2m)
+   * Composition of polyhedra to create more complex shapes (3m)
    * Koch tetrahedron & tetrix, aka Sierpinski tetrahedron. (1m)
    * Surprisingly effective 3D models created from small bitmaps. (1m)
    * Automatic generation of trees, mazes, complex spaces. (3m)

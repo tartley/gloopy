@@ -7,6 +7,18 @@ from ..color import Color
 from ..view.glyph import Glyph
 
 
+
+def add_vertex(vertices, new_vert):
+    '''
+    Add a vertex to the given list of vertices, and return the index number
+    which should be used to refer to the new vertex. Modifies vertices in-place.
+    Loads of Shape-modifying algorithms seem to need this function. Can't make
+    it a method because they often haven't constructed the shape instance yet.
+    '''
+    vertices.append(new_vert)
+    return len(vertices) - 1
+
+
 class Face(object):
     '''
     A single flat face that forms part of a Shape.

@@ -1,16 +1,7 @@
 from __future__ import division
 
-from .shape import Shape
+from .shape import Shape, add_vertex
 from ..color import Color
-
-
-def add_vertex(vertices, vert):
-    '''
-    Add a vertex to the given list of vertices, and return the index number
-    which should be used to refer to the new vertex. Modifies vertices in-place.
-    '''
-    vertices.append(vert)
-    return len(vertices) - 1
 
 
 def nest(func, depth):
