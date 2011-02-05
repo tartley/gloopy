@@ -25,8 +25,8 @@ float dLight(
 
 void main()
 {
-    vec3 light_pos = vec3(0.2670, 0.267 * 3.0, 0.2673 * 2.0);
-    vec4 Global_ambient= vec4(0.5, 0.5, 0.5, 1.0);
+    vec3 light_pos = vec3(0.2670, 0.267 * 3.0, 0.2673 * -2.0);
+    vec4 Global_ambient= vec4(0.1, 0.1, 0.1, 1.0);
     vec4 Light_diffuse = vec4(1.0, 1.0, 1.0, 1.0);
     vec4 Material_diffuse = vec4(1.0, 1.0, 1.0, 1.0);
 
