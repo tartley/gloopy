@@ -3,22 +3,17 @@ Next
 ----
 
 * the regular solids
+* function to stellate a shape (either strict stellation, or else just replace
+  each face with a pointy thing. The second seems both easier and more
+  flexible - pointy could be varied in height, even made negative.
 * function to truncate a shape
-* Add all good shapes from previous programs
+
+* Add good shapes from previous programs
+
+* Add some method of selecting and highlighting a gameitem, then operations
+  like subdivide can be applied to selected item with a keypress
 
 * add pgup/pgdown vary camera orbit radius
-
-* close-packed cube patterns, specified as tuple ordinates, eliminating
-  faces of cubes which abut.
-* Tetris shapes
-* Cube cluster generated from pixels of small bitmaps. Invader! Mario! etc.
-
-* 2D poly extruder
-* 2D poly into ring
-
-* polyhedra face-extruder
-* polyhedra bevel
-* apply bevel multiple times
 
 
 Talk Outline
@@ -154,6 +149,24 @@ Design
     - be called for one item, AS its update method
     - be called for one item, FROM its update method.
     - be called for all items, from world.update
+
+
+Geometry
+--------
+
+* make shape generators take 'radius of vertices' as a size param
+
+* 2D poly extruder
+* 2D poly into ring
+
+* polyhedra face-extruder
+* polyhedra bevel
+* apply bevel multiple times
+
+* close-packed cube patterns, specified as tuple ordinates, eliminating
+  faces of cubes which abut.
+* Tetris shapes
+* Cube cluster generated from pixels of small bitmaps. Invader! Mario! etc.
 
 
 Rendering

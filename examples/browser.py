@@ -15,6 +15,7 @@ from gloopy.model.move import WobblyOrbit
 from gloopy.shapes.cube import Cube, Cuboid
 from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
+from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.sphere import Subdivided, Normalize, nest
 
 
@@ -86,7 +87,8 @@ bestiary = {
                 Octahedron(1.0, Color.White)
             )
         ),
-    }
+    key.U: Dodecahedron(1.0, Color.Purple),
+}
 
 
 class Application(object):
@@ -104,7 +106,7 @@ class Application(object):
         )
         self.gloopy.camera.update=WobblyOrbit(
             center=origin,
-            radius=4,
+            radius=6,
             axis=Vector(2, 3, 1),
             angular_velocity=1,
             wobble_size=0.0,
