@@ -10,10 +10,11 @@ float dLight(
     in vec3 light_pos, 
     in vec3 surface_norm
 ) {
-    float n_dot_pos = max( 0.0, dot( 
-        surface_norm, light_pos
-    ) );
-    return n_dot_pos;
+    float value = dot(surface_norm, light_pos);
+    // cheat to make directional light extend right across dark side of objects
+    value = 0.5 + value * 0.5;
+    return value;
+    //return max(0.0, value);
 }
 
 //uniform vec4 Global_ambient;
