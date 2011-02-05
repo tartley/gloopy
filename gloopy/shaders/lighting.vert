@@ -13,8 +13,7 @@ float dLight(
     float value = dot(surface_norm, light_pos);
     // cheat to make directional light extend right across dark side of objects
     value = 0.5 + value * 0.5;
-    return value;
-    //return max(0.0, value);
+    return max(0.0, value);
 }
 
 //uniform vec4 Global_ambient;
@@ -39,8 +38,8 @@ void main()
     
     // Light_ambient * Material_ambient +
     baseColor = (
-        Global_ambient * color +
-        color * Light_diffuse * diffuse_weight
+        Global_ambient * color
+        + color * Light_diffuse * diffuse_weight
     );
 }
 

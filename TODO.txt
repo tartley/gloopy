@@ -2,16 +2,8 @@
 Next
 ----
 
-* function to stellate a shape (either strict stellation, or else just replace
-  each face with a pointy thing. The second seems both easier and more
-  flexible - pointy could be varied in height, even made negative.
-  (REPLACE the current subdivide_center with this - it is of little use for
-  iterated application)
-
-* ambient light level should be a uniform shader var which is populated
-  using world.background_color
-* decide what to do about uniformly dark faces on opposite side of polyhedra
-  to the directional light source
+* ambient light level should be a uniform shader var 
+  demo should populate this using world.background_color
 
 * function to truncate a shape - is this the same as transform towards its dual?
 
@@ -363,4 +355,11 @@ DONE
 * add an example which allows browsing of a bestiary
 * the regular solids
 * try subdividing shapes with a new vertex in the middle of the face
+* function to stellate a shape (either strict stellation, or else just replace
+  each face with a pointy thing. The second seems both easier and more
+  flexible - pointy could be varied in height, even made negative.
+  (REPLACE the current subdivide_center with this - it is of little use for
+  iterated application)
+* decide what to do about uniformly dark faces on opposite side of polyhedra
+  to the directional light source
 
