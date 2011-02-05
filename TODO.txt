@@ -2,9 +2,6 @@
 Next
 ----
 
-* ambient light level should be a uniform shader var 
-  demo should populate this using world.background_color
-
 * function to truncate a shape - is this the same as transform towards its dual?
 
 * Add good shapes from previous programs
@@ -16,20 +13,20 @@ Next
 Talk Outline
 ------------
 
-   1. Inspirations - Effective non-photo-realistic work in gaming, movies and
-      the demo scene. (1m)
-   2. A convenient & Pythonic way to model 3D polyhedra, and some neat
-      generators to convert these into OpenGL arrays at runtime. (7m)
-   3. Composition of polyhedra to create more complex shapes. (3m)
-   4. The resulting performance characteristics: What works well from Python,
-      and what doesn't. (2m)
-   5. Koch tetrahedron & tetrix, aka Sierpinski tetrahedron. (1m)
-   6. Surprisingly effective 3D models created from small bitmaps. (1m)
-   7. Automatic generation of trees, mazes, complex spaces. (3m)
-   8. Algorithmic modification of existing shapes, such as bevels, geometric
-      duals, and polyhedron stellation. (2m)
-   9. Shapes that morph: Rearranging vertices on the fly (5m)
-  10. Questions (5m)
+   * Inspirations - Effective non-photo-realistic work in gaming, movies and
+     the demo scene. (1m)
+   * A convenient & Pythonic way to model 3D polyhedra, and some neat
+     generators to convert these into OpenGL arrays at runtime. (7m)
+   * Algorithmic modification of existing shapes, such as bevels, geometric
+     duals, and polyhedron stellation. (2m)
+   * Composition of polyhedra to create more complex shapes. (3m)
+   * The resulting performance characteristics: What works well from Python,
+     and what doesn't. (2m)
+   * Koch tetrahedron & tetrix, aka Sierpinski tetrahedron. (1m)
+   * Surprisingly effective 3D models created from small bitmaps. (1m)
+   * Automatic generation of trees, mazes, complex spaces. (3m)
+   * Shapes that morph: Rearranging vertices on the fly (5m)
+   * Questions (5m)
 
 
 Infrastructure
@@ -188,15 +185,22 @@ Rendering
   each adjacent participating face. Assume colors are fixed across the whole
   surface?
 
-* better shaders: incorporate the lighting shaders from pyopengl tutorials,
-  and provide a class which binds named uniforms to instance attributes
-  or somesuch. Does pyopengl already have such a class?
-* Control over ambient and directional light sources, as uniforms
-* Point light source(s) - pass in locations, colors, as uniforms
-* per pixel lighting so that specular highlights in middle of flat faces
-  look good
-* Textures. See:
-    http://www.lighthouse3d.com/opengl/glsl/index.php?textureComb
+* better shaders:
+    * ambient light level should be a uniform
+    * demo should populate this using world.background_color
+    * directional light position should be a uniform
+    * directional light color should be a uniform
+    * point light source position should be a uniform
+    * point light source color should be a uniform
+    * specular highlights from directional light
+    * specular highlights from point light
+    * demo should include a moving object that acts as point light source
+    * per pixel lighting so that specular highlights in middle of flat faces
+      look good
+    * Textures. See:
+      http://www.lighthouse3d.com/opengl/glsl/index.php?textureComb
+    * if skybox is drawn, demo should draw a 'sun' or 'moon' or somesuch
+      in direction of directional light source
 
 * Allow each gameitem to specify its own shader program
 
