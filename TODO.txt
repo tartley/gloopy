@@ -2,18 +2,16 @@
 Next
 ----
 
-* the regular solids
 * function to stellate a shape (either strict stellation, or else just replace
   each face with a pointy thing. The second seems both easier and more
   flexible - pointy could be varied in height, even made negative.
-* function to truncate a shape
+
+* function to truncate a shape - is this the same as transform towards its dual?
 
 * Add good shapes from previous programs
 
 * Add some method of selecting and highlighting a gameitem, then operations
   like subdivide can be applied to selected item with a keypress
-
-* add pgup/pgdown vary camera orbit radius
 
 
 Talk Outline
@@ -154,8 +152,6 @@ Design
 Geometry
 --------
 
-* make shape generators take 'radius of vertices' as a size param
-
 * 2D poly extruder
 * 2D poly into ring
 
@@ -167,6 +163,21 @@ Geometry
   faces of cubes which abut.
 * Tetris shapes
 * Cube cluster generated from pixels of small bitmaps. Invader! Mario! etc.
+
+* make shape generators take 'radius of vertices' as a size param
+
+complicated saddle surfaces with holes:
+http://www.cs.berkeley.edu/~sequin/SCULPTS/scherk.html
+
+building skyline at night:
+http://www.openbusiness.cc/wp-content/uploads/hk1.jpg
+
+bulbous blobs with holes
+http://www.cs.berkeley.edu/~sequin/MVS/index.html
+http://www.graphica.com/gallery/trott1.html
+
+Sections of a sphere:
+http://www.cs.berkeley.edu/~sequin/ART/MaxBill/MBTy5.jpg
 
 
 Rendering
@@ -211,27 +222,11 @@ Animation
 
 Demos
 -----
-
+* add pgup/pgdown vary camera orbit radius
 * demo attaching point light source to position of gameitem
 * User-controlled camera. Add to a demo.
 * Interpenetrating cuboid solids and voids. (& rooms, a void in a solid)
 
-
-References
-----------
-
-complicated saddle surfaces with holes:
-http://www.cs.berkeley.edu/~sequin/SCULPTS/scherk.html
-
-building skyline at night:
-http://www.openbusiness.cc/wp-content/uploads/hk1.jpg
-
-bulbous blobs with holes
-http://www.cs.berkeley.edu/~sequin/MVS/index.html
-http://www.graphica.com/gallery/trott1.html
-
-Sections of a sphere:
-http://www.cs.berkeley.edu/~sequin/ART/MaxBill/MBTy5.jpg
 
 
 
@@ -359,4 +354,5 @@ DONE
     http://swiftcoder.wordpress.com/2008/12/19/simple-glsl-wrapper-for-pyglet/
 * color in top level package
 * add an example which allows browsing of a bestiary
+* the regular solids
 

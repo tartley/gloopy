@@ -16,7 +16,7 @@ def nest(func, depth):
     return inner
 
 
-def Subdivided(original):
+def subdivided(original):
     """
     Subdivides all triangular faces of original shape into 4 smaller triangles.
     Barfs if any face is not triangular. Returns a new Shape.
@@ -55,7 +55,7 @@ def Subdivided(original):
     return Shape(vertices, faces, colors)
 
 
-def Normalize(original, length=1):
+def normalize(original, length=1):
     """
     Normalizes the length of every vertex position to equal 'size', squishing
     the shape to become roughly spherical. Acts on the given Shape.

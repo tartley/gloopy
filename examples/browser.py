@@ -17,7 +17,7 @@ from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.icosahedron import Icosahedron
 from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
-from gloopy.shapes.sphere import Subdivided, Normalize, nest
+from gloopy.shapes.sphere import subdivided, normalize, nest
 
 
 log = logging.getLogger(__name__)
@@ -28,63 +28,63 @@ bestiary = {
     key._2: Cuboid(0.5, 2.5, 3, Color.Periwinkle),
     key._3: Tetrahedron(2.0, Color.Blue.variations(Color.Cyan)),
     key._4: DualTetrahedron(2.0),
-    key._5: Normalize(
-            nest(Subdivided, 0)(
+    key._5: normalize(
+            nest(subdivided, 0)(
                 Tetrahedron(1.0, Color.White)
             )
         ),
-    key._6: Normalize(
-            nest(Subdivided, 1)(
+    key._6: normalize(
+            nest(subdivided, 1)(
                 Tetrahedron(1.0, Color.White)
             )
         ),
-    key._7: Normalize(
-            nest(Subdivided, 2)(
+    key._7: normalize(
+            nest(subdivided, 2)(
                 Tetrahedron(1.0, Color.White)
             )
         ),
-    key._8: Normalize(
-            nest(Subdivided, 3)(
+    key._8: normalize(
+            nest(subdivided, 3)(
                 Tetrahedron(1.0, Color.White)
             )
         ),
-    key._9: Normalize(
-            nest(Subdivided, 4)(
+    key._9: normalize(
+            nest(subdivided, 4)(
                 Tetrahedron(1.0, Color.White)
             )
         ),
-    key._0: Normalize(
-            nest(Subdivided, 5)(
+    key._0: normalize(
+            nest(subdivided, 5)(
                 Tetrahedron(1.0, Color.White)
             )
         ),
-    key.Q: Normalize(
-            nest(Subdivided, 0)(
+    key.Q: normalize(
+            nest(subdivided, 0)(
                 Octahedron(1.0, Color.White)
             )
         ),
-    key.W: Normalize(
-            nest(Subdivided, 1)(
+    key.W: normalize(
+            nest(subdivided, 1)(
                 Octahedron(1.0, Color.White)
             )
         ),
-    key.E: Normalize(
-            nest(Subdivided, 2)(
+    key.E: normalize(
+            nest(subdivided, 2)(
                 Octahedron(1.0, Color.White)
             )
         ),
-    key.R: Normalize(
-            nest(Subdivided, 3)(
+    key.R: normalize(
+            nest(subdivided, 3)(
                 Octahedron(1.0, Color.White)
             )
         ),
-    key.T: Normalize(
-            nest(Subdivided, 4)(
+    key.T: normalize(
+            nest(subdivided, 4)(
                 Octahedron(1.0, Color.White)
             )
         ),
-    key.Y: Normalize(
-            nest(Subdivided, 5)(
+    key.Y: normalize(
+            nest(subdivided, 5)(
                 Octahedron(1.0, Color.White)
             )
         ),
