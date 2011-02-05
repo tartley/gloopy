@@ -41,6 +41,7 @@ def subdivided(original):
     faces = []
     colors = []
 
+    color2 = original.faces[0].color.tinted(Color.Random(), 0.5)
     for face in original.faces:
         assert len(face.indices) == 3
 
@@ -59,21 +60,14 @@ def subdivided(original):
         ib = add_vertex(vertices, mb)
         ic = add_vertex(vertices, mc)
 
-        for indexlist in [
-            [face[0], ia, ic],
-            [ia, face[1], ib],
-            [ic, ib, face[2]],
-            [ic, ia, ib],
+        for indexlist, color in [
+            ([face[0], ia, ic], face.color),
+            ([ia, face[1], ib], face.color),
+            ([ic, ib, face[2]], face.color),
+            ([ic, ia, ib], color2),
         ]:
             faces.append(indexlist)
-            colors.append( #face.color )
-                Color(
-                    face.color.r,
-                    face.color.g,
-                    face.color.b,
-                    face.color.a,
-                )
-            )
+            colors.append(color)
 
     return Shape(vertices, faces, colors)
 
@@ -99,20 +93,10 @@ def subdivided_center(original):
         vc = sum(orig_verts, origin) / len(orig_verts)
         ic = add_vertex(vertices, vc)
 
-        for indexlist in [
-            [face[0], face[1], ic],
-            [face[1], face[2], ic],
-            [face[2], face[0], ic],
-        ]:
-            faces.append(indexlist)
-            colors.append(
-                Color(
-                    face.color.r,
-                    face.color.g,
-                    face.color.b,
-                    face.color.a,
-                )
-            )
+        for index in xrange(len(face)):
+            index2 = (index + 1) % len(face)
+            faces.append( [face[index], face[index2], ic] )
+            colors.append( face.color )
 
     return Shape(vertices, faces, colors)
 

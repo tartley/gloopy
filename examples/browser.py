@@ -90,30 +90,57 @@ bestiary = {
     key.U: Dodecahedron(1.0, Color.Purple),
     key.I: Icosahedron(1, Color.Green),
     key.A: normalize(
-            nest(subdivided_center, 0)(
-                Octahedron(2, Color.Random())
-            )
-        ),
-    key.S: normalize(
             nest(subdivided_center, 1)(
                 Octahedron(2, Color.Random())
             )
         ),
-    key.D: normalize(
+    key.S: normalize(
             nest(subdivided_center, 2)(
                 Octahedron(2, Color.Random())
             )
         ),
-    key.F: normalize(
+    key.D: normalize(
             nest(subdivided_center, 3)(
                 Octahedron(2, Color.Random())
             )
         ),
-    key.G: normalize(
+    key.F: normalize(
             nest(subdivided_center, 4)(
                 Octahedron(2, Color.Random())
             )
         ),
+    key.G: normalize(
+            nest(subdivided_center, 5)(
+                Octahedron(2, Color.Random())
+            )
+        ),
+
+    key.Z: normalize(
+            nest(subdivided_center, 1)(
+                Cube(2, Color.Random())
+            )
+        ),
+    key.X: normalize(
+            nest(subdivided_center, 2)(
+                Cube(2, Color.Random())
+            )
+        ),
+    key.C: normalize(
+            nest(subdivided_center, 3)(
+                Cube(2, Color.Random())
+            )
+        ),
+    key.V: normalize(
+            nest(subdivided_center, 4)(
+                Cube(2, Color.Random())
+            )
+        ),
+    key.B: normalize(
+            nest(subdivided_center, 5)(
+                Cube(2, Color.Random())
+            )
+        ),
+    
 }
 
 
@@ -133,7 +160,7 @@ class Application(object):
         self.gloopy.camera.update=WobblyOrbit(
             center=origin,
             radius=3,
-            axis=Vector(2, 3, 1),
+            axis=Vector(2, -3, 1),
             angular_velocity=0.2,
             wobble_size=0.0,
             wobble_freq=1,
