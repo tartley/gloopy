@@ -3,12 +3,7 @@ Next
 ----
 
 * keypresses should map to invocation of a callable.
-    * Callables to create basic shapes and add them to the world
-    * Callables to modify the shape of the last-added item
-        * subdivide, etc
     * Callables to change the colors
-        * one random color all over
-        * different random color for each face
         * alternate random color and its inverse
         * alternate with different duty cycles
     * keys to zoom camera orbit in and out
@@ -17,9 +12,6 @@ Next
     * Callables to change the orbital parameters
     * Display a cursor on currently selected item, tab changes selected
       item, callables above modify this item
-
-* normalise the sizes of the basic shapes to all have verts at the given
-  radius
 
 * Add good shapes from previous programs
 
@@ -390,4 +382,13 @@ DONE
   iterated application)
 * decide what to do about uniformly dark faces on opposite side of polyhedra
   to the directional light source
+* keypresses should map to invocation of a callable.
+    * Callables to create basic shapes and add them to the world
+    * Callables to modify the shape of the last-added item
+        * subdivide, etc
+    * Callables to change the colors
+        * one random color all over
+        * different random color for each face
+* normalise the sizes of the basic shapes to all have verts at the given
+  radius
 

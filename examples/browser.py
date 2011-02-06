@@ -2,6 +2,7 @@
 from __future__ import division
 import logging
 from random import randrange, shuffle
+import sys
 
 import fixpath; fixpath
 
@@ -27,7 +28,7 @@ from gloopy.shapes.stellate import stellate
 log = logging.getLogger(__name__)
 
 
-class WorldModifier(object):
+class KeyHandler(object):
 
     def __init__(self, world):
         self.world = world
@@ -47,10 +48,23 @@ class WorldModifier(object):
                 self.add_shape(DualTetrahedron(1, Color.Random()), key=symbol),
             key.S: self.mod_subdivide,
             key.N: self.mod_normalize,
+            key.O: self.mod_stellate,
+            key.I: self.mod_stellate_in,
             key.U: self.mod_color_uniform,
             key.V: self.mod_color_variations,
             key.R: self.mod_color_random,
         }
+
+    def on_key_press(self, symbol, modifiers):
+        try:
+            if symbol in self.bestiary:
+                if modifiers & key.MOD_SHIFT:
+                    self.remove_by_symbol(symbol)
+                else:
+                    self.bestiary[symbol](symbol)
+                return EVENT_HANDLED
+        except Exception as e:
+            raise(e)
 
     def add_shape(self, shape, **kwargs):
         self.world.add(
@@ -79,8 +93,9 @@ class WorldModifier(object):
         #)
 
     def get_selected_item(self):
-        itemid = max(self.world.items.iterkeys())
-        return self.world[itemid]
+        if self.world.items:
+            itemid = max(self.world.items.iterkeys())
+            return self.world[itemid]
 
     def mod_subdivide(self, _):
         item = self.get_selected_item()
@@ -92,6 +107,22 @@ class WorldModifier(object):
         item.shape = normalize(item.shape)
         item.glyph = shape_to_glyph(item.shape)
 
+    def mod_spike(self, _):
+        pass
+        # TODO: peturb the height of existing vertices     
+        # maybe at first just have spike_in and spike_out, that
+        # move the positions of every 4th vertex?
+
+    def mod_stellate(self, _):
+        item = self.get_selected_item()
+        item.shape = stellate(item.shape, 1.0)
+        item.glyph = shape_to_glyph(item.shape)
+
+    def mod_stellate_in(self, _):
+        item = self.get_selected_item()
+        item.shape = stellate(item.shape, -0.5)
+        item.glyph = shape_to_glyph(item.shape)
+               
     def mod_color_random(self, _):
         item = self.get_selected_item()
         for face in item.shape.faces:
@@ -111,98 +142,6 @@ class WorldModifier(object):
         for face in item.shape.faces:
             face.color = colors.next()
         item.glyph = shape_to_glyph(item.shape)
-
-    def mod_grow(self, _):
-        pass
-
-    #key._9: normalize(
-        #nest(subdivided, 4)(
-            #Tetrahedron(1.0, Color.Random())
-        #)
-    #),
-    #key._0: normalize(
-        #nest(subdivided, 5)(
-            #Tetrahedron(1.0, Color.Random())
-        #)
-    #),
-    #key.Q: normalize(
-        #nest(subdivided, 0)(
-            #Octahedron(1.0, Color.Random())
-        #)
-    #),
-    #key.W: normalize(
-        #nest(subdivided, 1)(
-            #Octahedron(1.0, Color.Random())
-        #)
-    #),
-    #key.E: normalize(
-        #nest(subdivided, 2)(
-            #Octahedron(1.0, Color.Random())
-        #)
-    #),
-    #key.R: normalize(
-        #nest(subdivided, 3)(
-            #Octahedron(1.0, Color.Random())
-        #)
-    #),
-    #key.T: normalize(
-        #nest(subdivided, 4)(
-            #Octahedron(1.0, Color.Random())
-        #)
-    #),
-    #key.Y: normalize(
-        #nest(subdivided, 5)(
-            #Octahedron(1.0, Color.Random())
-        #)
-    #),
-
-    #key.A: stellate( Tetrahedron(1, Color.Random()), 2.0 ),
-    #key.S: stellate( Tetrahedron(2, Color.Random()), -0.25 ),
-    #key.D: stellate( Cube(0.5, Color.Random()), 2.5 ),
-    #key.F: stellate( Cube(1, Color.Random()), -0.25 ),
-    #key.G: stellate( Octahedron(0.5, Color.Random()), 2.5 ),
-    #key.H: stellate( Octahedron(1, Color.Random()), -0.25 ),
-    #key.J: stellate( Dodecahedron(0.5, Color.Random()), 1.5 ),
-    #key.K: stellate( Dodecahedron(1, Color.Random()), -0.25 ),
-    #key.L: stellate( Icosahedron(0.5, Color.Random()), 1.5 ),
-    #key.M: stellate( Icosahedron(1, Color.Random()), -0.25 ),
-
-    #key.Z: stellate ( stellate(
-        #Icosahedron(1, Color.Random()), -0.25
-    #), -0.25),
-    #key.X: stellate ( stellate(
-        #Icosahedron(1, Color.Random()), -0.1
-    #), -0.1),
-    #key.C: stellate ( stellate(
-        #Icosahedron(1, Color.Random()), -0.1
-    #), +0.1),
-    #key.V: stellate ( stellate(
-        #Icosahedron(1, Color.Random()), -0.25
-    #), 0.25),
-    #key.B: stellate ( stellate(
-        #Icosahedron(1, Color.Random()), 0.25
-    #), -0.25),
-    #key.N: stellate ( stellate(
-        #Icosahedron(1, Color.Random()), 2
-    #), 0.25),
-    #key.M: stellate ( stellate(
-        #Icosahedron(1, Color.Random()), 2
-    #), -0.25),
-    #key.P: truncate( Tetrahedron(2, Color.Yellow), amount=0.2 ),
-
-
-class KeyHandler(object):
-
-    def __init__(self, world):
-        self.world_modifier = WorldModifier(world)
-
-    def on_key_press(self, symbol, modifiers):
-        if symbol in self.world_modifier.bestiary:
-            if modifiers & key.MOD_SHIFT:
-                self.world_modifier.remove_by_symbol(symbol)
-            else:
-                self.world_modifier.bestiary[symbol](symbol)
-            return EVENT_HANDLED
 
 
 class Application(object):
