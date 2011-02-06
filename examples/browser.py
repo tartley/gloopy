@@ -19,13 +19,14 @@ from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
 from gloopy.shapes.sphere import subdivided, normalize, nest
 from gloopy.shapes.stellate import stellate
-from gloopy.shapes.truncate import truncate
+#from gloopy.shapes.truncate import truncate
 
 
 log = logging.getLogger(__name__)
 
+
 bestiary = {
-    key._1: Cube(1, Color.Blue),
+    key._1: Cube(1, Color.Random()),
     key._2: Cuboid(0.5, 2.5, 3, Color.Periwinkle),
     key._3: Tetrahedron(2.0, Color.Blue.variations(Color.Cyan)),
     key._4: DualTetrahedron(2.0),
@@ -124,9 +125,38 @@ bestiary = {
     key.M: stellate ( stellate(
         Icosahedron(1, Color.Random()), 2
     ), -0.25),
-
-    key.P: truncate( Tetrahedron(2, Color.Yellow), amount=0.2 ),
+    #key.P: truncate( Tetrahedron(2, Color.Yellow), amount=0.2 ),
 }
+
+
+class KeyHandler(object):
+
+    def __init__(self, world):
+        self.world = world
+
+    def remove_items(self, symbol):
+        to_remove = [
+            item
+            for item in self.world
+            if item.key == symbol
+        ]
+        for item in to_remove:
+            self.world.remove(item)
+
+
+    def on_key_press(self, symbol, modifiers):
+
+        if symbol in bestiary:
+            if modifiers & key.MOD_SHIFT:
+                self.remove_items( symbol )
+            else:
+                self.world.add(
+                    GameItem(
+                        shape=bestiary[symbol],
+                        key=symbol,
+                    )
+                )
+            return EVENT_HANDLED
 
 
 class Application(object):
@@ -138,10 +168,6 @@ class Application(object):
         self.gloopy = Gloopy()
         self.gloopy.init()
         self.gloopy.world.background_color = Color.Orange
-
-        self.gloopy.eventloop.window.push_handlers(
-            on_key_press=self.on_key_press
-        )
         self.gloopy.camera.update=WobblyOrbit(
             center=origin,
             radius=3,
@@ -151,38 +177,14 @@ class Application(object):
             wobble_freq=1,
         )
         self.gloopy.camera.look_at = Vector(0, 0, 0)
+        
+        self.keyhandler = KeyHandler(self.gloopy.world)
+        self.gloopy.eventloop.window.push_handlers(self.keyhandler)
+
         try:
             self.gloopy.start()
         finally:
             self.gloopy.stop()
-
-
-    def remove_items(self, symbol):
-        to_remove = [
-            item
-            for item in self.gloopy.world
-            if item.key == symbol
-        ]
-        for item in to_remove:
-            self.gloopy.world.remove(item)
-
-
-    def on_key_press(self, symbol, modifiers):
-
-        if symbol in bestiary:
-            if modifiers & key.MOD_SHIFT:
-                self.remove_items( symbol )
-            else:
-                self.gloopy.world.add(
-                    GameItem(
-                        shape=bestiary[symbol],
-                        key=symbol,
-                    )
-                )
-        else:
-            return
-
-        return EVENT_HANDLED
 
 
 if __name__ == '__main__':

@@ -2,18 +2,31 @@
 Next
 ----
 
-* function to truncate a shape - is this the same as transform towards its dual?
+* keypresses should map to invocation of a callable.
+    * Callables to create basic shapes and add them to the world
+    * Callables to modify the shape of the last-added item
+        * subdivide, etc
+    * Callables to change the colors
+        * one random color all over
+        * different random color for each face
+        * alternate random color and its inverse
+        * alternate with different duty cycles
+    * Callables to put an object in orbit around another object
+    * Callables to change the orbital parameters
+    * Display a cursor on currently selected item, tab changes selected
+      item, callables above modify this item
 
 * Add good shapes from previous programs
 
+* modifier to extrude faces of a given shape
+    (this could form a possible source for tweening data)
+
 * interlinked rings. knots.
 
-* some method whereby color.random can be reinvoked each time a shape using
-  this color is instantiated. preumably items in the bestiary should become
-  callables, rather than pre-created instances
-
-* Add some method of selecting and highlighting a gameitem, then operations
-  like subdivide can be applied to selected item with a keypress
+* function to truncate a shape by amount from 0 to 1. Truncation by 1 results
+  in the geometric dual. This is half done, but turns out to be a bit hard,
+  because we don't know precisely what order to add the newly-generated
+  vertices.
 
 
 Talk Outline
