@@ -4,19 +4,6 @@ from .shape import Shape, add_vertex
 from ..color import Color
 
 
-def nest(func, depth):
-    '''
-    Return the a new function which invokes the given single-arg function
-    'depth' times, each time passing in the return value from the previous
-    invocation.
-    '''
-    def inner(arg):
-        for _ in xrange(depth):
-            arg = func(arg)
-        return arg
-    return inner
-
-
 def subdivided(original):
     """
     Given a shape consisting entirely of triangular faces, returns a new Shape
