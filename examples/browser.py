@@ -33,6 +33,7 @@ class KeyHandler(object):
     def __init__(self, world):
         self.world = world
         self.bestiary = {
+
             key._1: lambda symbol:
                 self.add_shape(Tetrahedron(1, Color.Random()), key=symbol),
             key._2: lambda symbol:
@@ -43,13 +44,14 @@ class KeyHandler(object):
                 self.add_shape(Dodecahedron(1, Color.Random()), key=symbol),
             key._5: lambda symbol:
                 self.add_shape(Icosahedron(1, Color.Random()), key=symbol),
-            #key._6: self.add_cuboid,
             key._7: lambda symbol:
                 self.add_shape(DualTetrahedron(1, Color.Random()), key=symbol),
-            key.S: self.mod_subdivide,
-            key.N: self.mod_normalize,
-            key.O: self.mod_stellate,
-            key.I: self.mod_stellate_in,
+
+            key.S: lambda _: self.mod_shape(subdivided),
+            key.N: lambda _: self.mod_shape(normalize),
+            key.O: lambda _: self.mod_shape(lambda s: stellate(s, 1)),
+            key.I: lambda _: self.mod_shape(lambda s: stellate(s, -0.5)),
+
             key.U: self.mod_color_uniform,
             key.V: self.mod_color_variations,
             key.R: self.mod_color_random,
@@ -102,24 +104,6 @@ class KeyHandler(object):
         item.shape = modifier(item.shape)
         item.glyph = shape_to_glyph(item.shape)
 
-    def mod_subdivide(self, _):
-        self.mod_shape(subdivided)
-
-    def mod_normalize(self, _):
-        self.mod_shape(normalize)
-
-    def mod_spike(self, _):
-        pass
-        # TODO: peturb the height of existing vertices     
-        # maybe at first just have spike_in and spike_out, that
-        # move the positions of every 4th vertex?
-
-    def mod_stellate(self, _):
-        self.mod_shape(lambda s: stellate(s, 1))
-
-    def mod_stellate_in(self, _):
-        self.mod_shape(lambda s: stellate(s, -0.5))
-               
     def mod_color_random(self, _):
         item = self.get_selected_item()
         for face in item.shape.faces:
