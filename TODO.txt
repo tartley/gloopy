@@ -11,10 +11,15 @@ Next
         * different random color for each face
         * alternate random color and its inverse
         * alternate with different duty cycles
+    * keys to zoom camera orbit in and out
+    * shift-add puts new object in an orbit at half camera orbit radius
     * Callables to put an object in orbit around another object
     * Callables to change the orbital parameters
     * Display a cursor on currently selected item, tab changes selected
       item, callables above modify this item
+
+* normalise the sizes of the basic shapes to all have verts at the given
+  radius
 
 * Add good shapes from previous programs
 
