@@ -20,7 +20,8 @@ from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.icosahedron import Icosahedron
 from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
-from gloopy.shapes.sphere import subdivided, normalize
+from gloopy.shapes.normalize import normalize
+from gloopy.shapes.subdivide import subdivided
 from gloopy.shapes.stellate import stellate
 #from gloopy.shapes.truncate import truncate
 
