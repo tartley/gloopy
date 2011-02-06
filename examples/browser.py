@@ -97,15 +97,16 @@ class KeyHandler(object):
             itemid = max(self.world.items.iterkeys())
             return self.world[itemid]
 
-    def mod_subdivide(self, _):
+    def mod_shape(self, modifier):
         item = self.get_selected_item()
-        item.shape = subdivided(item.shape)
+        item.shape = modifier(item.shape)
         item.glyph = shape_to_glyph(item.shape)
 
+    def mod_subdivide(self, _):
+        self.mod_shape(subdivided)
+
     def mod_normalize(self, _):
-        item = self.get_selected_item()
-        item.shape = normalize(item.shape)
-        item.glyph = shape_to_glyph(item.shape)
+        self.mod_shape(normalize)
 
     def mod_spike(self, _):
         pass
@@ -114,14 +115,10 @@ class KeyHandler(object):
         # move the positions of every 4th vertex?
 
     def mod_stellate(self, _):
-        item = self.get_selected_item()
-        item.shape = stellate(item.shape, 1.0)
-        item.glyph = shape_to_glyph(item.shape)
+        self.mod_shape(lambda s: stellate(s, 1))
 
     def mod_stellate_in(self, _):
-        item = self.get_selected_item()
-        item.shape = stellate(item.shape, -0.5)
-        item.glyph = shape_to_glyph(item.shape)
+        self.mod_shape(lambda s: stellate(s, -0.5))
                
     def mod_color_random(self, _):
         item = self.get_selected_item()

@@ -2,6 +2,13 @@
 Next
 ----
 
+* subdivide should work on faces with any number of edges.
+  leave same shape as original in middle, surround it with triangles from
+  cutting off each corner
+
+* modifier to extrude faces of a given shape
+    (this could form a possible source for tweening data)
+
 * keypresses should map to invocation of a callable.
     * Callables to change the colors
         * alternate random color and its inverse
@@ -14,16 +21,6 @@ Next
       item, callables above modify this item
 
 * Add good shapes from previous programs
-
-* modifier to extrude faces of a given shape
-    (this could form a possible source for tweening data)
-
-* interlinked rings. knots.
-
-* function to truncate a shape by amount from 0 to 1. Truncation by 1 results
-  in the geometric dual. This is half done, but turns out to be a bit hard,
-  because we don't know precisely what order to add the newly-generated
-  vertices.
 
 
 Talk Outline
@@ -164,19 +161,21 @@ Design
 Geometry
 --------
 
+* polyhedra bevel
+
+* function to truncate a shape by amount from 0 to 1. Truncation by 1 results
+  in the geometric dual. This is half done, but turns out to be a bit hard,
+  because we don't know precisely what order to add the newly-generated
+  vertices.
+
 * 2D poly extruder
 * 2D poly into ring
-
-* polyhedra face-extruder
-* polyhedra bevel
-* apply bevel multiple times
+* interlinked rings. knots.
 
 * close-packed cube patterns, specified as tuple ordinates, eliminating
   faces of cubes which abut.
 * Tetris shapes
 * Cube cluster generated from pixels of small bitmaps. Invader! Mario! etc.
-
-* make shape generators take 'radius of vertices' as a size param
 
 complicated saddle surfaces with holes:
 http://www.cs.berkeley.edu/~sequin/SCULPTS/scherk.html
