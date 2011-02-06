@@ -2,9 +2,15 @@
 Next
 ----
 
+* subdivide adds more vertices than it needs to: two at the midpoint of each
+  edge (one for each adjacent face.)
+
 * subdivide should work on faces with any number of edges.
   leave same shape as original in middle, surround it with triangles from
   cutting off each corner
+
+* add centroid method to face
+  use it in stellate and subdivided
 
 * modifier to extrude faces of a given shape
     (this could form a possible source for tweening data)
@@ -21,6 +27,11 @@ Next
       item, callables above modify this item
 
 * Add good shapes from previous programs
+
+* shape modifier that subdivides, then stellates just the new shape at the
+  center of each former face? (or extrudes, or whatever.)
+  BETTER: find some way to identify these faces after the fact, then
+  arbitrary operations could operate on them.
 
 
 Talk Outline

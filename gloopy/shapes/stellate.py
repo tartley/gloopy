@@ -16,8 +16,7 @@ def stellate(original, height):
 
     for face in original.faces:
         
-        # original vertices
-        orig_verts = [vertices[f] for f in face]
+        orig_verts = [vertices[i] for i in face]
         
         # new vertex at the face centroid
         # note: This isn't a good formula for the centroid,

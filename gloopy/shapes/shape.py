@@ -53,7 +53,6 @@ class Face(object):
         return normal
 
 
-
 class Shape(object):
     '''
     Defines a polyhedron, a 3D shape with flat faces and straight edges.
@@ -89,7 +88,7 @@ class Shape(object):
         # if color is a tuple that looks like a Color, convert it to a Color
         if (
             isinstance(colors, tuple) and
-            len(colors) in (3, 4) and
+            len(colors) == Color.COMPONENTS and
             isinstance(colors[0], int)
         ):
             colors = Color(*colors)
