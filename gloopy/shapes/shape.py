@@ -83,6 +83,9 @@ class Shape(object):
         if len(vertices) > 0 and not isinstance(vertices[0], Vector):
             vertices = [Vector(*v) for v in vertices]
 
+        # NOTE: the following color handling will fail if given a sequence of
+        # color-like tuples, I think.
+
         # if color is a tuple that looks like a Color, convert it to a Color
         if (
             isinstance(colors, tuple) and
@@ -149,12 +152,11 @@ class MultiShape(object):
 
 
 
-def shape_to_glyph(shape, shader):
+def shape_to_glyph(shape):
     vertices = list(shape.vertices)
     faces = list(shape.faces)
     num_glverts = get_num_verts(faces)
     return Glyph(
-        shader,
         num_glverts,
         get_verts(vertices, faces, num_glverts),
         get_indices(faces, num_glverts),

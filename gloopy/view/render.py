@@ -9,6 +9,7 @@ from pyglet import gl
 from .modelview import ModelView
 from .projection import Projection
 from .shader import Shader
+from .glyph import Glyph
 from ..shapes.shape import shape_to_glyph
 
 
@@ -49,6 +50,7 @@ class Render(object):
             'lighting.vert', 'lighting.frag',
             attribs=['position', 'color', 'normal']
         )
+        Glyph.shader = self.shader
 
 
     def drawable_items(self, world):
@@ -61,7 +63,7 @@ class Render(object):
         for item in world:
             if not item.glyph:
                 if item.shape:
-                    item.glyph = shape_to_glyph(item.shape, self.shader)
+                    item.glyph = shape_to_glyph(item.shape)
                 else:
                     continue
             yield item

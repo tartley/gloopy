@@ -42,9 +42,9 @@ def glarray(gltype, seq, length):
 class Glyph(object):
 
     DIMENSIONS = 3
+    shader = None
 
-    def __init__(self, shader, num_verts, verts, indices, colors, normals):
-        self.shader = shader
+    def __init__(self, num_verts, verts, indices, colors, normals):
         self.num_glverts = num_verts
         self.vbo = vbo.VBO(
             array(
@@ -72,15 +72,15 @@ class Glyph(object):
             STRIDE = 40
             NORMAL_COMPONENTS = 3
             GL.glVertexAttribPointer( 
-                self.shader.attrib['position'], Glyph.DIMENSIONS, GL.GL_FLOAT,
+                Glyph.shader.attrib['position'], Glyph.DIMENSIONS, GL.GL_FLOAT,
                 False, STRIDE, c_void_p(0)
             )
             GL.glVertexAttribPointer( 
-                self.shader.attrib['color'], Color.COMPONENTS, GL.GL_FLOAT,
+                Glyph.shader.attrib['color'], Color.COMPONENTS, GL.GL_FLOAT,
                 False, STRIDE, c_void_p(12)
             )
             GL.glVertexAttribPointer( 
-                self.shader.attrib['normal'], NORMAL_COMPONENTS, GL.GL_FLOAT,
+                Glyph.shader.attrib['normal'], NORMAL_COMPONENTS, GL.GL_FLOAT,
                 False, STRIDE, c_void_p(28)
             )
         finally:
@@ -88,5 +88,5 @@ class Glyph(object):
 
 
     def __repr__(self):
-        return '<Glyph %d verts>' % (self.num_glverts,)
+        return '<Glyph %x %d verts>' % (id(self), self.num_glverts,)
 
