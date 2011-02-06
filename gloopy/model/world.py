@@ -17,6 +17,9 @@ class World(object):
     def __iter__(self):
         return self.items.itervalues()
 
+    def __getitem__(self, itemid):
+        return self.items[itemid]
+
     def add(self, item, position=None):
         if position is not None:
             if not isinstance(position, Vector):
