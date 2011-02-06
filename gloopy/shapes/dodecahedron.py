@@ -1,46 +1,46 @@
 from math import sqrt
 
 from .shape import Shape
-from ..geom.vector import Vector
 
 
-def Dodecahedron(size, face_colors=None):
+def Dodecahedron(radius, face_colors=None):
     '''
     size doesn't correspond well to a particular dimension of the resulting
     shape. Edges are size * (sqrt(5) - 1). Verts are at radius size * sqrt(3)
     '''
+
     phi = (1 + sqrt(5)) / 2
-    b = 1 / phi
-    c = 2 - phi
+    size = radius / sqrt(3) * phi
+    b = size / phi
+    c = size * (2 - phi)
     vertices = [
-        ( 0,  1,  c), # 0
-        ( 0,  1, -c), # 1
-        ( 0, -1,  c), # 2
-        ( 0, -1, -c), # 3
+        (    0,  size,     c), # 0
+        (    0,  size,    -c), # 1
+        (    0, -size,     c), # 2
+        (    0, -size,    -c), # 3
 
-        ( 1,  c,  0), # 4
-        ( 1, -c,  0), # 5
+        ( size,     c,     0), # 4
+        ( size,    -c,     0), # 5
 
-        ( b,  b,  b), # 6
-        ( b,  b, -b), # 7
-        ( b, -b,  b), # 8
-        ( b, -b, -b), # 9
+        (    b,     b,     b), # 6
+        (    b,     b, -   b), # 7
+        (    b, -   b,     b), # 8
+        (    b, -   b, -   b), # 9
 
-        ( c,  0,  1), # 10
-        ( c,  0, -1), # 11
+        (    c,     0,  size), # 10
+        (    c,     0, -size), # 11
 
-        (-1,  c,  0), # 12
-        (-1, -c,  0), # 13
+        (-size,     c,     0), # 12
+        (-size,    -c,     0), # 13
 
-        (-b,  b,  b), # 14
-        (-b,  b, -b), # 15
-        (-b, -b,  b), # 16
-        (-b, -b, -b), # 17
+        (   -b,     b,     b), # 14
+        (   -b,     b,    -b), # 15
+        (   -b,    -b,     b), # 16
+        (   -b,    -b,    -b), # 17
 
-        (-c,  0,  1), # 18
-        (-c,  0, -1), # 19
+        (   -c,     0,  size), # 18
+        (   -c,     0, -size), # 19
     ]
-    vertices = [Vector(*v) * size for v in vertices]
     faces = [
         [ 6,  0, 14, 18, 10],
         [16,  2,  8, 10, 18],

@@ -1,11 +1,13 @@
 from __future__ import division
 from itertools import product
+from math import sqrt
 
 from .shape import Shape
 
 
-def Cube(edge, colors=None):
-    return Cuboid(edge, edge, edge, colors)
+def Cube(radius, colors=None):
+    size = sqrt(3 * radius * radius) / 1.5
+    return Cuboid(size, size, size, colors)
 
 
 def Cuboid(x, y, z, colors=None):

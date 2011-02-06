@@ -4,21 +4,22 @@ from math import sqrt
 from .shape import Shape
 
 
-def Icosahedron(size, colors):
+def Icosahedron(radius, colors):
     phi = (sqrt(5) + 1) / 2
+    size = sqrt( radius / ( 1 + phi * phi ) )
     vertices = [
-        ( phi/2,    0.5,    0.0), #0
-        ( phi/2,   -0.5,    0.0), #1
-        (-phi/2,   -0.5,    0.0), #2
-        (-phi/2,    0.5,    0.0), #3
-        (  -0.5,    0.0,  phi/2), #4
-        (   0.5,    0.0,  phi/2), #5
-        (   0.5,    0.0, -phi/2), #6
-        (  -0.5,    0.0, -phi/2), #7
-        (   0.0,  phi/2,    0.5), #8
-        (   0.0,  phi/2,   -0.5), #9
-        (   0.0, -phi/2,   -0.5), #10
-        (   0.0, -phi/2,    0.5), #11
+        ( phi * size,        size,         0.0), #0
+        ( phi * size,       -size,         0.0), #1
+        (-phi * size,       -size,         0.0), #2
+        (-phi * size,        size,         0.0), #3
+        (      -size,         0.0,  phi * size), #4
+        (       size,         0.0,  phi * size), #5
+        (       size,         0.0, -phi * size), #6
+        (      -size,         0.0, -phi * size), #7
+        (        0.0,  phi * size,        size), #8
+        (        0.0,  phi * size,       -size), #9
+        (        0.0, -phi * size,       -size), #10
+        (        0.0, -phi * size,        size), #11
     ]
     # 20 equiangular triangles
     faces = [
