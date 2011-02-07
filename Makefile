@@ -11,15 +11,9 @@ SCRIPT := $(shell python -c "from setup import SCRIPT; print SCRIPT")
 VERSION := $(shell python -c "from ${NAME} import VERSION; print VERSION")
 
 
-clean:
-	rm -rf build dist tags pip-log.txt
-	-find . \( -name "*.py[oc]" -o -name "*.orig" \) -exec rm {} \;
-.PHONY: clean
-
-
-tags:
-	ctags -R ${NAME}
-.PHONY: tags
+test:
+	python -m unittest discover gloopy
+.PHONY: tests
 
 
 # runsnake is a GUI profile visualiser, very useful.
@@ -30,9 +24,15 @@ profile:
 .PHONY: profile
 
 
-test:
-	python -m unittest discover gloopy
-.PHONY: tests
+clean:
+	rm -rf build dist tags pip-log.txt
+	-find . \( -name "*.py[oc]" -o -name "*.orig" \) -exec rm {} \;
+.PHONY: clean
+
+
+tags:
+	ctags -R ${NAME}
+.PHONY: tags
 
 
 sdist:

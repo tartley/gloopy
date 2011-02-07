@@ -35,7 +35,6 @@ Demos
 Geometry
 --------
 
-
 * polyhedra bevel
 
 * add proper centroid method to face
