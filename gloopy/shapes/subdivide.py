@@ -1,20 +1,6 @@
 from __future__ import division
 
 from .shape import Shape, add_vertex
-from ..color import Color
-
-def get_edges(shape):
-    '''
-    Return a set of pairs, each pair represents indices that start and end
-    an edge. Contents of each pair is sorted. e.g Tetrahedron:
-    { (0, 1), (1, 2), (0, 2), (0, 3), (1, 3), (2, 3), }
-    '''
-    edges = set()
-    for face in shape.faces:
-        for i in xrange(len(face)):
-            next_i = (i + 1) % len(face)
-            edges.add( tuple(sorted((face[i], face[next_i]))) )
-    return edges
 
 
 def subdivided(original):
@@ -35,8 +21,11 @@ def subdivided(original):
     faces = []
     colors = []
 
-    # map edges of the original: (start, end)
-    # to index of the new vertex inserted at that edge's midpoint
+    # one entry per index of the original shape
+    # keys are (start, end) vertex indices (sorted by numerical value)
+    # values are index of new vertex inserted at that edge's midpoint
+    # This is reqd to make sure we only insert each midpoint vertex once
+    # per edge, not every time we traverse a face which adjoins that edge.
     edges = {}
 
     for face in original.faces:

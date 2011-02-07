@@ -108,6 +108,19 @@ class Shape(object):
             len(self.vertices), len(self.faces),
         )
 
+    def get_edges(self):
+        '''
+        Return a set of pairs, each pair represents indices that start and end
+        an edge. Contents of each pair is sorted. e.g Tetrahedron:
+        { (0, 1), (1, 2), (0, 2), (0, 3), (1, 3), (2, 3), }
+        '''
+        edges = set()
+        for face in self.faces:
+            for i in xrange(len(face)):
+                next_i = (i + 1) % len(face)
+                edges.add( tuple(sorted((face[i], face[next_i]))) )
+        return edges
+
 
 class MultiShape(object):
     '''
