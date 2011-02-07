@@ -35,8 +35,10 @@ def glarray(gltype, seq, length):
     Convert a list of lists into a flattened ctypes array, eg:
     [ (1, 2, 3), (4, 5, 6) ] -> (GLfloat*6)(1, 2, 3, 4, 5, 6)
     '''
-    arraytype = gltype * length
-    return arraytype(*seq)
+    carray = (gltype * length)()
+    carray[:] = seq
+    return carray
+
 
 
 class Glyph(object):
