@@ -2,16 +2,6 @@
 Next
 ----
 
-* subdivide adds more vertices than it needs to: two at the midpoint of each
-  edge (one for each adjacent face.)
-
-* subdivide should work on faces with any number of edges.
-  leave same shape as original in middle, surround it with triangles from
-  cutting off each corner
-
-* add centroid method to face
-  use it in stellate and subdivided
-
 * modifier to extrude faces of a given shape
     (this could form a possible source for tweening data)
 
@@ -28,29 +18,27 @@ Next
 
 * Add good shapes from previous programs
 
-* shape modifier that subdivides, then stellates just the new shape at the
-  center of each former face? (or extrudes, or whatever.)
-  BETTER: find some way to identify these faces after the fact, then
-  arbitrary operations could operate on them.
+* add proper centroid method to face
+  use it in stellate and subdivided
 
 
 Talk Outline
 ------------
 
-   * Inspirations - Effective non-photo-realistic work in gaming, movies and
-     the demo scene. (1m)
-   * A convenient & Pythonic way to model 3D polyhedra, and some neat
-     generators to convert these into OpenGL arrays at runtime. (7m)
-   * Algorithmic modification of shapes, such as bevels, geometric
-     duals, and polyhedron stellation. (2m)
-   * The resulting performance characteristics: What works well from Python,
-     and what doesn't. (2m)
-   * Composition of polyhedra to create more complex shapes (3m)
-   * Koch tetrahedron & tetrix, aka Sierpinski tetrahedron. (1m)
-   * Surprisingly effective 3D models created from small bitmaps. (1m)
-   * Automatic generation of trees, mazes, complex spaces. (3m)
-   * Shapes that morph: Rearranging vertices on the fly (5m)
-   * Questions (5m)
+* Inspirations - Effective non-photo-realistic work in gaming, movies and the
+  demo scene. (1m)
+* A convenient & Pythonic way to model 3D polyhedra, and some neat generators
+  to convert these into OpenGL arrays at runtime. (7m)
+* Algorithmic modification of shapes, such as bevels, geometric duals, and
+  polyhedron stellation. (2m)
+* The resulting performance characteristics: What works well from Python, and
+  what doesn't. (2m)
+* Composition of polyhedra to create more complex shapes (3m)
+* Koch tetrahedron & tetrix, aka Sierpinski tetrahedron. (1m)
+* Surprisingly effective 3D models created from small bitmaps. (1m)
+* Automatic generation of trees, mazes, complex spaces. (3m)
+* Shapes that morph: Rearranging vertices on the fly (5m)
+* Questions (5m)
 
 
 Infrastructure
@@ -174,10 +162,52 @@ Geometry
 
 * polyhedra bevel
 
-* function to truncate a shape by amount from 0 to 1. Truncation by 1 results
-  in the geometric dual. This is half done, but turns out to be a bit hard,
-  because we don't know precisely what order to add the newly-generated
-  vertices.
+with face labelling:
+
+    * label each face with a 'generation' count? Or a 'face type' UID, so that
+      modifications could operate on just a subset of faces.
+      * UID is bad because how to subsequent operations know which UID to
+        operate on?
+      * generation count is bad because subsequent operations could create#
+        identical counts on very different faces
+      * maybe each face has a list of operations that have been performed on it
+
+        Tetrahedron:
+            f0 [tetrahedron]
+            f1 [tetrahedron]
+            f2 [tetrahedron]
+            f3 [tetrahedron]
+
+        subdivide:
+            f0.0 [tetrahedron,center]
+            f0.1 [tetrahedron,corner]
+            f0.2 [tetrahedron,corner]
+            f0.3 [tetrahedron,corner]
+            f1.0 [tetrahedron,center]
+            f1.1 [tetrahedron,corner]
+            f1.1 [tetrahedron,corner]
+            f1.1 [tetrahedron,corner]
+            etc
+
+    * add shape modifiers that subdivide, then operate on just a subset of the
+      new faces. Recreate Koche tetra using this.
+
+With proper edge modelling:
+
+    * subdivide adds more vertices than it needs to: two at the midpoint of each
+      edge (one for each adjacent face.)
+
+    I fear edge modelling will not provide the ordering info required by the
+    following two:
+
+    * subdivide should work on faces with any number of edges.
+      leave same shape as original in middle, surround it with triangles from
+      cutting off each corner
+
+    * function to truncate a shape by amount from 0 to 1. Truncation by 1
+      results in the geometric dual. This is half done, but turns out to be a
+      bit hard, because we don't know precisely what order to add the
+      newly-generated vertices.
 
 * 2D poly extruder
 * 2D poly into ring
@@ -255,8 +285,6 @@ Demos
 * demo attaching point light source to position of gameitem
 * User-controlled camera. Add to a demo.
 * Interpenetrating cuboid solids and voids. (& rooms, a void in a solid)
-
-
 
 
 Ideas for later

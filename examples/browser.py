@@ -51,7 +51,7 @@ class KeyHandler(object):
             key.S: lambda _: self.mod_shape(subdivided),
             key.N: lambda _: self.mod_shape(normalize),
             key.O: lambda _: self.mod_shape(lambda s: stellate(s, 1)),
-            key.I: lambda _: self.mod_shape(lambda s: stellate(s, -0.5)),
+            key.I: lambda _: self.mod_shape(lambda s: stellate(s, -0.33)),
 
             key.U: self.mod_color_uniform,
             key.V: self.mod_color_variations,
@@ -137,7 +137,7 @@ class Application(object):
         self.gloopy.world.background_color = Color.Orange
         self.gloopy.camera.update=WobblyOrbit(
             center=origin,
-            radius=9,
+            radius=3,
             axis=Vector(2, -3, 1),
             angular_velocity=0.2,
             wobble_size=0.0,
