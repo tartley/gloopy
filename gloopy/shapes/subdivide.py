@@ -19,14 +19,14 @@ def subdivided(original):
     faces = []
     colors = []
 
-    # edges gets populated with one entry per edge of the original shape
-    # keys are (start, end) vertex indices (sorted by numerical value)
-    # value is the index of the new vertex inserted at that edge's midpoint
+    # Edges gets populated with one entry per edge of the original shape.
+    # Keys are (start, end) vertex indices (sorted by numerical value)
+    # Value is the index of the new vertex inserted at that edge's midpoint
     edges = {}
     
     for face in original.faces:
-        assert len(face.indices) == 3
 
+        # verts at the midpoint of each edge
         midpoints = []
 
         for i in xrange(len(face)):
