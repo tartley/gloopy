@@ -27,11 +27,9 @@ def subdivided(original):
     for face in original.faces:
         assert len(face.indices) == 3
 
-        # mid = ia, ib, ic
-        mid = []
+        midpoints = []
 
         for i in xrange(len(face)):
-            # find the indices of the start and end
             next_i = (i + 1) % len(face)
             start = face[i]
             end = face[next_i]
@@ -39,13 +37,13 @@ def subdivided(original):
             if edge not in edges:
                 midpoint = (vertices[start] + vertices[end]) / 2
                 edges[edge] = add_vertex(vertices, midpoint)
-            mid.append( edges[edge] )
+            midpoints.append( edges[edge] )
 
         for i in xrange(len(face)):
             prev_i = (i - 1) % len(face)
-            faces.append([face[i], mid[i], mid[prev_i]])
+            faces.append([face[i], midpoints[i], midpoints[prev_i]])
             colors.append(face.color)
-        faces.append([mid[i] for i in xrange(len(face))])
+        faces.append([midpoints[i] for i in xrange(len(face))])
         colors.append(face.color.inverted())
 
     return Shape(vertices, faces, colors)
