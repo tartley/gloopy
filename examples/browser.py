@@ -40,7 +40,7 @@ class KeyHandler(object):
             key._3: self.add_octahedron,
             key._4: self.add_dodecahedron,
             key._5: self.add_icosahedron,
-            key._7: self.add_dualtetrahedron,
+            key._6: self.add_dualtetrahedron,
 
             key.S: self.mod_subdivided,
             key.N: self.mod_normalize,
@@ -53,15 +53,12 @@ class KeyHandler(object):
         }
 
     def on_key_press(self, symbol, modifiers):
-        try:
-            if symbol in self.bestiary:
-                if modifiers & key.MOD_SHIFT:
-                    self.remove_by_symbol(symbol)
-                else:
-                    self.bestiary[symbol](symbol)
-                return EVENT_HANDLED
-        except Exception as e:
-            raise(e)
+        if symbol in self.bestiary:
+            if modifiers & key.MOD_SHIFT:
+                self.remove_by_symbol(symbol)
+            else:
+                self.bestiary[symbol](symbol)
+            return EVENT_HANDLED
 
     def add_shape(self, shape, **kwargs):
         self.world.add(

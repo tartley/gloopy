@@ -23,10 +23,11 @@ class Face(object):
     '''
     A single flat face that forms part of a Shape.
     '''
-    def __init__(self, indices, color, shape):
+    def __init__(self, indices, color, shape, source='unknown'):
         self.indices = indices
         self.color = color
         self.shape = shape
+        self.source = source
         self.normal = self.get_normal()
 
 
@@ -69,7 +70,7 @@ class Shape(object):
             ...
         ]
     '''    
-    def __init__(self, vertices, faces, colors):
+    def __init__(self, vertices, faces, colors, name='unknown'):
 
         # sanity checks
         len_verts = len(vertices)
@@ -99,7 +100,7 @@ class Shape(object):
 
         self.vertices = vertices
         self.faces = [
-            Face(face, color, self)
+            Face(face, color, self, source=name)
             for face, color in zip(faces, colors)
         ]
 
@@ -158,7 +159,7 @@ class MultiShape(object):
                 index + child_offset
                 for index in face.indices
             ]
-            faces.append(Face(new_indices, face.color, self))
+            faces.append(Face(new_indices, face.color, self, face.source))
 
         return faces
 

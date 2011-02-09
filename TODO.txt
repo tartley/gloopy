@@ -1,16 +1,14 @@
 
 Next
 ----
-
-* being added to the world converts shapes to glyphs:
-    - not being rendered
-
+ 
 * creating a shape labels faces with 'Tetrahedron', etc
 * or '?' if unknown
 * Make sure all faces use same instance of the string
 
 * change modifiers 'subdivide', 'stellate', 'normalize' to expose fn which
-  operates on just a single given face.
+  operates on just a single given face, and to expose a function which
+  operates on specified faces (specified as a list of integer face-indices.)
 
 * change modifiers to append to face's label: 'Tetrahedron.subdivided-center'
 
@@ -23,7 +21,6 @@ Next
     * callables to grow or shrink an object
 
 * Add good shapes from flyinghigh
-
 
 Demos
 -----
@@ -251,6 +248,10 @@ OR
 Design
 ------
 
+* being added to the world converts shapes to glyphs, not being rendered.
+  Reassigning to an item's shape attr also needs to do it
+  As does modifying a shape in place.
+  How to manage this?
 * render should maybe specialise as 'RenderGlyphs' - take list of glyphs,
   positions, orientations (or glyphs, matrices) instead of needing access to
   world or items?
