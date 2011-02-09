@@ -29,29 +29,23 @@ from gloopy.shapes.stellate import stellate
 log = logging.getLogger(__name__)
 
 
+
 class KeyHandler(object):
 
     def __init__(self, world):
         self.world = world
         self.bestiary = {
+            key._1: self.add_tetrahedron,
+            key._2: self.add_cube,
+            key._3: self.add_octahedron,
+            key._4: self.add_dodecahedron,
+            key._5: self.add_icosahedron,
+            key._7: self.add_dualtetrahedron,
 
-            key._1: lambda symbol:
-                self.add_shape(Tetrahedron(1, Color.Random()), key=symbol),
-            key._2: lambda symbol:
-                self.add_shape(Cube(1, Color.Random()), key=symbol),
-            key._3: lambda symbol:
-                self.add_shape(Octahedron(1, Color.Random()), key=symbol),
-            key._4: lambda symbol:
-                self.add_shape(Dodecahedron(1, Color.Random()), key=symbol),
-            key._5: lambda symbol:
-                self.add_shape(Icosahedron(1, Color.Random()), key=symbol),
-            key._7: lambda symbol:
-                self.add_shape(DualTetrahedron(1, Color.Random()), key=symbol),
-
-            key.S: lambda _: self.mod_shape(subdivided),
-            key.N: lambda _: self.mod_shape(normalize),
-            key.O: lambda _: self.mod_shape(lambda s: stellate(s, 1)),
-            key.I: lambda _: self.mod_shape(lambda s: stellate(s, -0.33)),
+            key.S: self.mod_subdivided,
+            key.N: self.mod_normalize,
+            key.O: self.mod_stellate_out,
+            key.I: self.mod_stellate_in,
 
             key.U: self.mod_color_uniform,
             key.V: self.mod_color_variations,
@@ -76,6 +70,25 @@ class KeyHandler(object):
                 **kwargs
             )
         )
+
+    def add_tetrahedron(self, symbol):
+        self.add_shape(Tetrahedron(1, Color.Random()), key=symbol)
+
+    def add_cube(self, symbol):
+        self.add_shape(Cube(1, Color.Random()), key=symbol)
+
+    def add_octahedron(self, symbol):
+        self.add_shape(Octahedron(1, Color.Random()), key=symbol)
+
+    def add_dodecahedron(self, symbol):
+        self.add_shape(Dodecahedron(1, Color.Random()), key=symbol)
+
+    def add_icosahedron(self, symbol):
+        self.add_shape(Icosahedron(1, Color.Random()), key=symbol)
+
+    def add_dualtetrahedron(self, symbol):
+        self.add_shape(DualTetrahedron(1, Color.Random()), key=symbol)
+
 
     def remove_by_symbol(self, symbol):
         to_remove = [
@@ -105,25 +118,26 @@ class KeyHandler(object):
         item.shape = modifier(item.shape)
         item.glyph = shape_to_glyph(item.shape)
 
-    def mod_color_random(self, _):
+    def mod_subdivided(self, _): self.mod_shape(subdivided)
+    def mod_normalize(self, _): self.mod_shape(normalize)
+    def mod_stellate_out(self, _): self.mod_shape(lambda s: stellate(s, 1))
+    def mod_stellate_in(self, _): self.mod_shape(lambda s: stellate(s, -0.33))
+
+    def mod_color(self, get_color):
         item = self.get_selected_item()
         for face in item.shape.faces:
-            face.color = Color.Random()
+            face.color = get_color()
         item.glyph = shape_to_glyph(item.shape)
+
+    def mod_color_random(self, _):
+        self.mod_color(Color.Random)
 
     def mod_color_uniform(self, _):
-        item = self.get_selected_item()
-        color = Color.Random()
-        for face in item.shape.faces:
-            face.color = color
-        item.glyph = shape_to_glyph(item.shape)
+        c = Color.Random()
+        self.mod_color(lambda: c)
 
     def mod_color_variations(self, _):
-        item = self.get_selected_item()
-        colors = Color.Random().variations()
-        for face in item.shape.faces:
-            face.color = colors.next()
-        item.glyph = shape_to_glyph(item.shape)
+        self.mod_color(Color.Random().variations().next)
 
 
 class Application(object):

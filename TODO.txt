@@ -2,8 +2,21 @@
 Next
 ----
 
-* modifier to extrude faces of a given shape
-    (this could form a possible source for tweening data)
+* being added to the world converts shapes to glyphs:
+    - not being rendered
+
+* creating a shape labels faces with 'Tetrahedron', etc
+* or '?' if unknown
+* Make sure all faces use same instance of the string
+
+* change modifiers 'subdivide', 'stellate', 'normalize' to expose fn which
+  operates on just a single given face.
+
+* change modifiers to append to face's label: 'Tetrahedron.subdivided-center'
+
+* change modifiers to only act on faces with particular labels
+
+* new modifier to extrude faces
 
 * keypresses should map to invocation of a callable.
     * keys to zoom camera orbit in and out
@@ -102,6 +115,12 @@ http://www.graphica.com/gallery/trott1.html
 Sections of a sphere:
 http://www.cs.berkeley.edu/~sequin/ART/MaxBill/MBTy5.jpg
 
+screenshots on the geexlab website
+
+Seirpinky cubes with floating debris:
+http://www.youtube.com/user/xenopusRTRT#p/u/2/SDzZchuhECY
+
+
 
 Rendering
 ---------
@@ -111,6 +130,8 @@ Rendering
   next, and normals for each vertex are interpolated between surface normal for
   each adjacent participating face. Assume colors are fixed across the whole
   surface?
+* Cylinder * sphere * Ring (hollow cylinder) * donut * ring with crosses
+* equipotential surfaces in scalar fields, (see examples in geometry)
 
 * better shaders:
     * ambient light level should be a uniform
@@ -306,7 +327,6 @@ Ideas for later
   and then insert indices of value MAXINT into the index array to form a
   break between strips. Bear in mind this is meant to be a space & time
   optimisation, so measure the latter before deciding the keep it.
-
 * Noise shaders
 * Geometry instancing, see techniques enumerated here:
   http://www.geeks3d.com/20100629/test-opengl-geometry-instancing-geforce-gtx-480-vs-radeon-hd-5870/
