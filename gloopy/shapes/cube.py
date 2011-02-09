@@ -7,10 +7,10 @@ from .shape import Shape
 
 def Cube(radius, colors=None):
     size = sqrt(3 * radius * radius) / 1.5
-    return Cuboid(size, size, size, colors)
+    return Cuboid(size, size, size, colors, source='Cube')
 
 
-def Cuboid(x, y, z, colors=None):
+def Cuboid(x, y, z, colors=None, source='Cuboid'):
     verts = list(product((-x/2, +x/2), (-y/2, +y/2), (-z/2, +z/2)))
     faces = [
         [0, 1, 3, 2], # left
@@ -20,5 +20,5 @@ def Cuboid(x, y, z, colors=None):
         [3, 7, 6, 2], # +y top
         [1, 0, 4, 5], # -y bottom
     ]
-    return Shape(verts, faces, colors)
+    return Shape(verts, faces, colors, source)
 

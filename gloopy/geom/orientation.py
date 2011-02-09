@@ -4,7 +4,9 @@ from random import uniform
 
 from OpenGL import GL
 
-from .vector import Vector, neg_y_axis, neg_z_axis, origin, y_axis, z_axis
+from .vector import (
+    Vector, neg_y_axis, neg_z_axis, origin, x_axis, y_axis, z_axis,
+)
 from .matrix import Matrix
 
 
@@ -162,6 +164,7 @@ class Orientation(object):
 
 
 identity = Orientation()
+inverted = Orientation(x_axis)
 
 # ugly hack to prevent cyclic imports
 Matrix.zero_rotation = identity

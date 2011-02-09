@@ -12,7 +12,9 @@ Next
 
 * change modifiers to append to face's label: 'Tetrahedron.subdivided-center'
 
-* change modifiers to only act on faces with particular labels
+* create functions to return list of face indices based on face labels
+
+* rewrite DualTetrahedron to use the above faculty
 
 * new modifier to extrude faces
 

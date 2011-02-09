@@ -44,5 +44,5 @@ def Icosahedron(radius, colors):
         [  2,  4,  3,],
         [  3,  4,  8,]
     ]
-    return Shape(vertices, faces, colors)
+    return Shape(vertices, faces, colors, 'Icosahedron')
 

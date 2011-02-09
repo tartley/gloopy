@@ -159,8 +159,9 @@ class MultiShape(object):
                 index + child_offset
                 for index in face.indices
             ]
-            faces.append(Face(new_indices, face.color, self, face.source))
-
+            faces.append(
+                Face( new_indices, face.color, self )
+            )
         return faces
 
 
