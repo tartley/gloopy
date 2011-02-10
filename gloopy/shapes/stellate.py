@@ -35,15 +35,19 @@ def stellate_face(shape, height, face_index):
         shape.faces.append( new_faces.pop() )
 
 
-def stellate(shape, height):
+def stellate(shape, height, faces=None):
     '''
-    Stellate every face of the given shape.
+    Stellate the faces of the given shape.
     By 'stellate' I mean add a new vertex in the middle of the face, raised
-    by 'height' out of the plane of the face, and replace the face by
+    by 'height' out of the plane of the face, and replace the original face by
     an n-sided pyramid connecting this new vertex to each of the original
     face's edges.
+    By default, all faces are opertated on, but this can be overidden by
+    specifying 'faces' as an iterable of integer face indices.
     Operates in-place on the given shape.
     '''
-    for face in xrange(len(shape.faces)):
+    if faces is None:
+        faces = xrange(len(shape.faces))
+    for face in faces:
         stellate_face(shape, height, face)
 

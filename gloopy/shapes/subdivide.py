@@ -55,10 +55,10 @@ def subdivide_face(shape, face_index, edges):
         shape.faces.append( new_faces.pop() )
 
 
-def subdivide(shape):
+def subdivide(shape, faces=None):
     r"""
-    Given a shape consisting entirely of triangular faces, subdivide each of
-    its faces by cutting the corners off to form new shapes.
+    Subdivide the faces of the given shape.
+    Subdivision forms new, smaller faces by cutting the corners off a face.
                      v0
                      /\       vertices v0-v2 correspond to indices face[0:2]
                     /  \
@@ -66,8 +66,13 @@ def subdivide(shape):
                   / \  / \
                  /___\/___\
                v1  mid[1]  v2
+    By default, all faces are operated on, but this can be overidden by
+    specifying 'faces' as an iterable of integer face indices.
+    Operates in-place on the given shape.
     """
+    if faces is None:
+        faces = xrange(len(shape.faces))
     edges = {}
-    for face in xrange(len(shape.faces)):
+    for face in faces:
         subdivide_face(shape, face, edges)
 

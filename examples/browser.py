@@ -96,15 +96,6 @@ class KeyHandler(object):
         for item in to_remove:
             self.world.remove(item)
 
-    #def add_cuboid(self, symbol):
-        #dimensions = [randrange(1, 3), randrange(2, 8), randrange(2, 8)]
-        #shuffle(dimensions)
-        #self.add_shape(
-            #symbol,
-            #Cuboid(*dimensions, colors=Color.Random()),
-            #position=(randrange(-20,20), randrange(-20,20), randrange(-20,20)),
-        #)
-
     def get_selected_item(self):
         if self.world.items:
             itemid = max(self.world.items.iterkeys())
@@ -117,8 +108,11 @@ class KeyHandler(object):
 
     def mod_subdivide(self, _): self.mod_shape(subdivide)
     def mod_normalize(self, _): self.mod_shape(normalize)
-    def mod_stellate_out(self, _): self.mod_shape(lambda s: stellate(s, 0.5))
-    def mod_stellate_in(self, _): self.mod_shape(lambda s: stellate(s, -0.33))
+
+    def stellate_out(self, shape): stellate(shape, 0.5)
+    def stellate_in(self, shape): stellate(shape, -0.33)
+    def mod_stellate_out(self, _): self.mod_shape(self.stellate_out)
+    def mod_stellate_in(self, _): self.mod_shape(self.stellate_in)
 
     def mod_color(self, get_color):
         item = self.get_selected_item()
