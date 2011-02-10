@@ -83,18 +83,8 @@ class Shape(object):
         if len(vertices) > 0 and not isinstance(vertices[0], Vector):
             vertices = [Vector(*v) for v in vertices]
 
-        # NOTE: the following color handling will fail if given a sequence of
-        # color-like tuples, I think.
-
-        # if color is a tuple that looks like a Color, convert it to a Color
-        if (
-            isinstance(colors, tuple) and
-            len(colors) == Color.COMPONENTS and
-            isinstance(colors[0], int)
-        ):
-            colors = Color(*colors)
         # if color is a single color, then convert it to a sequence of
-        # identical colors, one entry for each vertex of the face
+        # identical colors, one for each face
         if isinstance(colors, Color):
             colors = repeat(colors)
 

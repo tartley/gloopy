@@ -2,10 +2,6 @@
 Next
 ----
  
-* creating a shape labels faces with 'Tetrahedron', etc
-* or '?' if unknown
-* Make sure all faces use same instance of the string
-
 * change modifiers 'subdivide', 'stellate', 'normalize' to expose fn which
   operates on just a single given face, and to expose a function which
   operates on specified faces (specified as a list of integer face-indices.)
@@ -444,4 +440,7 @@ DONE
   Instead use:
     array = arraytype()
     array[:] = seq # eg. [11, 22, 33... ]
+* creating a shape labels faces with 'Tetrahedron', etc
+* or '?' if unknown
+* Make sure all faces use same instance of the string
 

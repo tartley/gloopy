@@ -21,7 +21,7 @@ from gloopy.shapes.icosahedron import Icosahedron
 from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
 from gloopy.shapes.normalize import normalize
-from gloopy.shapes.subdivide import subdivided
+from gloopy.shapes.subdivide import subdivide
 from gloopy.shapes.stellate import stellate
 #from gloopy.shapes.truncate import truncate
 
@@ -42,7 +42,7 @@ class KeyHandler(object):
             key._5: self.add_icosahedron,
             key._6: self.add_dualtetrahedron,
 
-            key.S: self.mod_subdivided,
+            key.S: self.mod_subdivide,
             key.N: self.mod_normalize,
             key.O: self.mod_stellate_out,
             key.I: self.mod_stellate_in,
@@ -112,12 +112,12 @@ class KeyHandler(object):
 
     def mod_shape(self, modifier):
         item = self.get_selected_item()
-        item.shape = modifier(item.shape)
+        modifier(item.shape)
         item.glyph = shape_to_glyph(item.shape)
 
-    def mod_subdivided(self, _): self.mod_shape(subdivided)
+    def mod_subdivide(self, _): self.mod_shape(subdivide)
     def mod_normalize(self, _): self.mod_shape(normalize)
-    def mod_stellate_out(self, _): self.mod_shape(lambda s: stellate(s, 1))
+    def mod_stellate_out(self, _): self.mod_shape(lambda s: stellate(s, 0.5))
     def mod_stellate_in(self, _): self.mod_shape(lambda s: stellate(s, -0.33))
 
     def mod_color(self, get_color):

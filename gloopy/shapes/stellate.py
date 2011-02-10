@@ -1,36 +1,49 @@
 from __future__ import division
 
-from .shape import Shape, add_vertex
+from .shape import Face, add_vertex
 from ..geom.vector import origin
 
 
-def stellate(original, height):
+def stellate_face(shape, height, face_index):
     '''
-    Returns a new Shape instance, copied from the given original but with each
-    face subdivided into a fan of triangles with the fan nexus at the shape's
-    centroid. Works on faces with any number of sides.
+    Stellate face 'face_index' of the given shape.
     '''
-    vertices = original.vertices[:]
-    faces = []
-    colors = []
+    face = shape.faces[face_index]
+    verts = [shape.vertices[i] for i in face]
+    
+    # new vertex at the face centroid
+    # note: This isn't a good formula for the centroid,
+    #       it only works for regular polygons
+    vc = sum(verts, origin) / len(verts)
+    # offset the new vertex out of the plane of the face
+    vc += face.normal * (vc - verts[0]).length * height
+    # index of the new vertex
+    ic = add_vertex(shape.vertices, vc)
 
-    for face in original.faces:
-        
-        orig_verts = [vertices[i] for i in face]
-        
-        # new vertex at the face centroid
-        # note: This isn't a good formula for the centroid,
-        #       it only works for regular polygons
-        vc = sum(orig_verts, origin) / len(orig_verts)
-        # offset the new vertex out of the plane of the face
-        vc += face.normal * (vc - orig_verts[0]).length * height
-        # index of the new vertex
-        ic = add_vertex(vertices, vc)
+    # create new faces and their colors
+    new_faces = []
+    source = '%s.%s' % (face.source, 'stellate')
+    for i in xrange(len(face)):
+        next_i = (i + 1) % len(face)
+        indices = [face[i], face[next_i], ic]
+        new_faces.append( Face(indices, face.color, shape, source) )
 
-        for index in xrange(len(face)):
-            index2 = (index + 1) % len(face)
-            faces.append( [face[index], face[index2], ic] )
-            colors.append( face.color )
+    # replace the face being stellated with one of our new faces
+    shape.faces[face_index] = new_faces.pop()
+    # and append our remaining new faces to the shape
+    while new_faces:
+        shape.faces.append( new_faces.pop() )
 
-    return Shape(vertices, faces, colors)
+
+def stellate(shape, height):
+    '''
+    Stellate every face of the given shape.
+    By 'stellate' I mean add a new vertex in the middle of the face, raised
+    by 'height' out of the plane of the face, and replace the face by
+    an n-sided pyramid connecting this new vertex to each of the original
+    face's edges.
+    Operates in-place on the given shape.
+    '''
+    for face in xrange(len(shape.faces)):
+        stellate_face(shape, height, face)
 
