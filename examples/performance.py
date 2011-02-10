@@ -4,6 +4,7 @@ import logging
 from math import pi, sqrt
 from random import choice, uniform
 
+# let this script run within the 'examples' dir, even if Gloopy is not installed
 import fixpath; fixpath
 
 from pyglet.event import EVENT_HANDLED

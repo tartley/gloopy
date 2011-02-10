@@ -12,21 +12,16 @@ def edges(shape, index, face=None):
     index.
     Presumably this should be a method on Shape
     '''
-    #print
-    #print 'edges of', index
     joined_indices= set()
     for face in shape.faces:
         for i in xrange(len(face)):
             if face[i] == index:
-                prev_i = ((i - 1) + len(face)) % len(face)
-                joined_indices.add(face[prev_i])
-                next_i = (i + 1) % len(face)
-                joined_indices.add(face[next_i])
+                joined_indices.add(face[i-1])
+                joined_indices.add(face[i+1])
     d = {
         i: shape.vertices[i] - shape.vertices[index]
         for i in joined_indices
     }
-    #print '\n'.join('%s: %s' % (k, v) for k, v in d.iteritems())
     return d
 
 

@@ -24,8 +24,7 @@ def stellate_face(shape, height, face_index):
     new_faces = []
     source = '%s.%s' % (face.source, 'stellate')
     for i in xrange(len(face)):
-        next_i = (i + 1) % len(face)
-        indices = [face[i], face[next_i], ic]
+        indices = [face[i], face[i+1], ic]
         new_faces.append( Face(indices, face.color, shape, source) )
 
     # replace the face being stellated with one of our new faces

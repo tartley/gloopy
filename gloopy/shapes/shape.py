@@ -30,14 +30,14 @@ class Face(object):
         self.source = source
         self.normal = self.get_normal()
 
-
     def __getitem__(self, index):
-        return self.indices[index]
+        return self.indices[index % len(self.indices)]
 
+    def __iter__(self):
+        return self.indices.__iter__()
 
     def __len__(self):
         return len(self.indices)
-
 
     def get_normal(self):
         '''
@@ -108,8 +108,7 @@ class Shape(object):
         edges = set()
         for face in self.faces:
             for i in xrange(len(face)):
-                next_i = (i + 1) % len(face)
-                edges.add( tuple(sorted((face[i], face[next_i]))) )
+                edges.add( tuple(sorted((face[i], face[i+1]))) )
         return edges
 
 

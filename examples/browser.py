@@ -1,13 +1,12 @@
 #! /usr/bin/env python
 from __future__ import division
 import logging
-from random import randrange, shuffle
-import sys
-
-import fixpath; fixpath
 
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
+
+# let this script run within the 'examples' dir, even if Gloopy is not installed
+import fixpath; fixpath
 
 from gloopy import Gloopy
 from gloopy.color import Color
@@ -15,7 +14,7 @@ from gloopy.geom.vector import origin, Vector
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
 from gloopy.shapes.shape import shape_to_glyph
-from gloopy.shapes.cube import Cube, Cuboid
+from gloopy.shapes.cube import Cube
 from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.icosahedron import Icosahedron
 from gloopy.shapes.octahedron import Octahedron

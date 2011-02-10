@@ -2,6 +2,7 @@
 from __future__ import division
 from math import pi
 
+# let this script run within the 'examples' dir, even if Gloopy is not installed
 import fixpath; fixpath
 
 from gloopy import Gloopy

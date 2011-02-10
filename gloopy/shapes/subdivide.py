@@ -27,10 +27,7 @@ def subdivide_face(shape, face_index, edges):
     # verts at the midpoint of each edge
     midpoints = []
     for i in xrange(len(face)):
-        next_i = (i + 1) % len(face)
-        start = face[i]
-        end = face[next_i]
-        midpoints.append( get_index_of_midpoint(start, end) )
+        midpoints.append( get_index_of_midpoint(face[i], face[i+1]) )
 
     # add new faces at each corner of face
     new_faces = []
