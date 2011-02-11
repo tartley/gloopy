@@ -121,6 +121,16 @@ class Shape(object):
         return edges
 
 
+    def replace_face(self, index, new_faces):
+        '''
+        Replace the face 'index' with the list of Face instances in 'new_faces'
+        '''
+        self.faces[index] = new_faces.pop()
+        while new_faces:
+            self.faces.append( new_faces.pop() )
+
+
+
 class MultiShape(object):
     '''
     A composite of multiple Shapes. This allows many shapes to be stuck

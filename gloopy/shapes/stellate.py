@@ -22,11 +22,7 @@ def stellate_face(shape, height, face_index):
         indices = [face[i], face[i+1], ic]
         new_faces.append( Face(indices, face.color, shape, source) )
 
-    # replace the face being stellated with one of our new faces
-    shape.faces[face_index] = new_faces.pop()
-    # and append our remaining new faces to the shape
-    while new_faces:
-        shape.faces.append( new_faces.pop() )
+    shape.replace_face(face_index, new_faces)
 
 
 def stellate(shape, height, faces=None):

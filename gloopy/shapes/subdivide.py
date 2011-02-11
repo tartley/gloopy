@@ -37,19 +37,14 @@ def subdivide_face(shape, face_index, edges):
         indices = [face[i], midpoints[i], midpoints[prev_i]]
         new_faces.append( Face(indices, face.color, shape, source) )
 
-    # add an extra face in the center of face
+    # add an extra face in the center
     source_center = '%s.%s' % (face.source, 'subdivide-center')
     indices = [midpoints[i] for i in xrange(len(face))]
     new_faces.append(
         Face(indices, face.color.inverted(), shape, source_center )
     )
 
-    # TODO, make this a method on shape?
-    # replace the face being stellated with one of our new faces
-    shape.faces[face_index] = new_faces.pop()
-    # and append our remaining new faces to the shape
-    while new_faces:
-        shape.faces.append( new_faces.pop() )
+    shape.replace_face(face_index, new_faces)
 
 
 def subdivide(shape, faces=None):
