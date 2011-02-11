@@ -1,4 +1,3 @@
-
 from __future__ import division
 from collections import namedtuple
 from math import acos, cos, sin, sqrt
@@ -59,6 +58,9 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     def __truediv__(self, scalar):
         return Vector(self.x / scalar, self.y / scalar, self.z / scalar)
+
+    __div__ = __truediv__
+
 
     @staticmethod
     def RandomCube(size, ints=False):

@@ -1,4 +1,3 @@
-
 from __future__ import division
 from math import sqrt, pi
 from unittest import TestCase, main
@@ -12,6 +11,9 @@ class testVector(TestCase):
 
     def testConstructor(self):
         v = Vector(1, 2, 3)
+        self.assertEquals(v.x, 1)
+        self.assertEquals(v.y, 2)
+        self.assertEquals(v.z, 3)
         self.assertRaises(TypeError, lambda: Vector())
         self.assertRaises(TypeError, lambda: Vector(1))
         self.assertRaises(TypeError, lambda: Vector(1, 2))
@@ -82,7 +84,7 @@ class testVector(TestCase):
         v = Vector(3, 4, 5)
         self.assertEqual(
             v.normalized(),
-            Vector(3/v.length, 4/v.length, 5/v.length) )
+            Vector(3.0 / v.length, 4.0 / v.length, 5.0 / v.length) )
 
     def testNeg(self):
         v = -Vector(1, 2, 3)
@@ -109,7 +111,7 @@ class testVector(TestCase):
         self.assertEqual(10 * Vector(1, 2, 3), Vector(10, 20, 30))
 
     def testDiv(self):
-        self.assertEqual(Vector(10, 20, 30) / 10, Vector(1, 2, 3))
+        self.assertEqual(Vector(20, 40, 30) / 20, Vector(1, 2, 1.5))
         self.assertEqual(Vector(2, 0, 0) / 3, Vector(0.6666666666666667, 0, 0))
         self.assertRaises(ZeroDivisionError, lambda: Vector(1, 2, 3) / 0)
         self.assertRaises(TypeError, lambda: 3 / Vector(1, 2, 3))
