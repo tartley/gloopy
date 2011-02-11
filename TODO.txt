@@ -1,24 +1,24 @@
 
 Next
 ----
- 
-* change modifiers 'subdivide', 'stellate', 'normalize' to expose fn which
-  operates on just a single given face, and to expose a function which
-  operates on specified faces (specified as a list of integer face-indices.)
-
-* change modifiers to append to face's label: 'Tetrahedron.subdivided-center'
 
 * create functions to return list of face indices based on face labels
 
 * rewrite DualTetrahedron to use the above faculty
+* write a couple of other canned funky shape generations
+* color a shape by its face labels?
 
 * new modifier to extrude faces
 
 * keypresses should map to invocation of a callable.
     * keys to zoom camera orbit in and out
     * callables to grow or shrink an object
+    * key to toggle cull backface?
 
 * Add good shapes from flyinghigh
+
+* demo: nested slices of spheres
+
 
 Demos
 -----
@@ -43,10 +43,9 @@ Demos
 Geometry
 --------
 
-* polyhedra bevel
+* fix Face.centroid method - take the one from solescion
 
-* add proper centroid method to face
-  use it in stellate and subdivided
+* polyhedra bevel
 
 * face labelling:
 
@@ -443,4 +442,9 @@ DONE
 * creating a shape labels faces with 'Tetrahedron', etc
 * or '?' if unknown
 * Make sure all faces use same instance of the string
+* change modifiers 'subdivide', 'stellate', 'normalize' to expose fn which
+  operates on just a single given face, and to expose a function which
+  operates on specified faces (specified as a list of integer face-indices.)
+* change modifiers to append to face's label: 'Tetrahedron.subdivided-center'
+* move centroid method to Face
 

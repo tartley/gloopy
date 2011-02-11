@@ -45,6 +45,8 @@ class KeyHandler(object):
             key.N: self.mod_normalize,
             key.O: self.mod_stellate_out,
             key.I: self.mod_stellate_in,
+            key.P: self.mod_stellate_out_central,
+            key.L: self.mod_stellate_out_corners,
 
             key.U: self.mod_color_uniform,
             key.V: self.mod_color_variations,
@@ -105,13 +107,36 @@ class KeyHandler(object):
         modifier(item.shape)
         item.glyph = shape_to_glyph(item.shape)
 
-    def mod_subdivide(self, _): self.mod_shape(subdivide)
     def mod_normalize(self, _): self.mod_shape(normalize)
+
+    def mod_subdivide(self, _): self.mod_shape(subdivide)
 
     def stellate_out(self, shape): stellate(shape, 0.5)
     def stellate_in(self, shape): stellate(shape, -0.33)
     def mod_stellate_out(self, _): self.mod_shape(self.stellate_out)
     def mod_stellate_in(self, _): self.mod_shape(self.stellate_in)
+
+    def faces_subdivide_central(self, shape):
+        for index, face in enumerate(shape.faces):
+            if face.source.endswith('subdivide-center'):
+                yield index
+
+    def faces_subdivide_corners(self, shape):
+        for index, face in enumerate(shape.faces):
+            if face.source.endswith('subdivide-corner'):
+                yield index
+
+    def stellate_out_central(self, shape):
+        stellate(shape, 1, self.faces_subdivide_central(shape))
+
+    def mod_stellate_out_central(self, _):
+        self.mod_shape(self.stellate_out_central)
+
+    def stellate_out_corners(self, shape):
+        stellate(shape, 1, self.faces_subdivide_corners(shape))
+
+    def mod_stellate_out_corners(self, _):
+        self.mod_shape(self.stellate_out_corners)
 
     def mod_color(self, get_color):
         item = self.get_selected_item()

@@ -31,7 +31,7 @@ def subdivide_face(shape, face_index, edges):
 
     # add new faces at each corner of face
     new_faces = []
-    source = '%s.%s' % (face.source, 'subdivide-edge')
+    source = '%s.%s' % (face.source, 'subdivide-corner')
     for i in xrange(len(face)):
         prev_i = (i - 1) % len(face)
         indices = [face[i], midpoints[i], midpoints[prev_i]]
