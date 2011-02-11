@@ -2,9 +2,10 @@
 from __future__ import division
 from math import sqrt
 
-from .shape import Shape, MultiShape
+from .shape import Shape
+from .stellate import stellate
+from .subdivide import subdivide
 from ..color import Color
-from ..geom.orientation import inverted
 
 
 def Tetrahedron(radius, face_colors=None):
@@ -24,8 +25,12 @@ def DualTetrahedron(radius, color1=None, color2=None):
         color1 = Color.Random()
     if color2 is None:
         color2 = color1.inverted()
-    m = MultiShape()
-    m.add( Tetrahedron(radius, color1) )
-    m.add( Tetrahedron(radius, color2), orientation=inverted)
-    return m
+    shape = Tetrahedron(radius, color1)
+    subdivide(shape)
+    center_faces = [
+        i for i, face in enumerate(shape.faces)
+        if face.source.endswith('subdivide-center')
+    ]
+    stellate(shape, 1, center_faces)
+    return shape
 

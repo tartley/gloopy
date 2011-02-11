@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 from __future__ import division
-import logging
 from math import pi, sqrt
 from random import choice, uniform
 
@@ -17,9 +16,6 @@ from gloopy.geom.orientation import Orientation
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import Newtonian, Orbit, WobblyOrbit
 from gloopy.shapes.cube import Cube
-
-
-log = logging.getLogger(__name__)
 
 
 SIZE = 50
@@ -70,7 +66,6 @@ currently_set = {}
 def toggle_attr(gloopy, name, get_value):
     new_state = not currently_set.get(name, False)
     currently_set[name] = new_state
-    log.info('%s: %s' % (name, new_state))
     for item in gloopy.world:
         if new_state:
             setattr(item, name, get_value())

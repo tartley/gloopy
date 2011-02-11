@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 from __future__ import division
-import logging
 
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
@@ -22,10 +21,6 @@ from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
 from gloopy.shapes.normalize import normalize
 from gloopy.shapes.subdivide import subdivide
 from gloopy.shapes.stellate import stellate
-#from gloopy.shapes.truncate import truncate
-
-
-log = logging.getLogger(__name__)
 
 
 

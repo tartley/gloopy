@@ -2,8 +2,6 @@
 Next
 ----
 
-* create functions to return list of face indices based on face labels
-
 * rewrite DualTetrahedron to use the above faculty
 * write a couple of other canned funky shape generations
 * color a shape by its face labels?
@@ -447,4 +445,5 @@ DONE
   operates on specified faces (specified as a list of integer face-indices.)
 * change modifiers to append to face's label: 'Tetrahedron.subdivided-center'
 * move centroid method to Face
+* create functions to return list of face indices based on face labels
 

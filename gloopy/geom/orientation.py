@@ -164,7 +164,6 @@ class Orientation(object):
 
 
 identity = Orientation()
-inverted = Orientation(x_axis)
 
 # ugly hack to prevent cyclic imports
 Matrix.zero_rotation = identity
