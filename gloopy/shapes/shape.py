@@ -2,7 +2,7 @@
 from itertools import chain, repeat
 
 from ..geom.matrix import Matrix
-from ..geom.vector import Vector
+from ..geom.vector import Vector, origin
 from ..color import Color
 from ..view.glyph import Glyph
 
@@ -52,6 +52,15 @@ class Face(object):
         b = v2 - v1
         normal = b.cross(a).normalized()
         return normal
+
+    @property
+    def centroid(self):
+        '''
+        Warning: Not an accurate centroid, just the mean vertex position
+        '''
+        return sum(
+            [self.shape.vertices[i] for i in self], origin
+        ) / len(self.indices)
 
 
 class Shape(object):

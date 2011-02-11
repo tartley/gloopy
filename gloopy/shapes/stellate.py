@@ -1,7 +1,6 @@
 from __future__ import division
 
 from .shape import Face, add_vertex
-from ..geom.vector import origin
 
 
 def stellate_face(shape, height, face_index):
@@ -9,14 +8,10 @@ def stellate_face(shape, height, face_index):
     Stellate face 'face_index' of the given shape.
     '''
     face = shape.faces[face_index]
-    verts = [shape.vertices[i] for i in face]
     
-    # new vertex at the face centroid
-    # note: This isn't a good formula for the centroid,
-    #       it only works for regular polygons
-    vc = sum(verts, origin) / len(verts)
-    # offset the new vertex out of the plane of the face
-    vc += face.normal * (vc - verts[0]).length * height
+    # new vertex at the face centroid offset out of the plane of the face
+    vc = face.centroid
+    vc += face.normal * (vc - shape.vertices[face[0]]).length * height
     # index of the new vertex
     ic = add_vertex(shape.vertices, vc)
 
