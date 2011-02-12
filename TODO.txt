@@ -2,6 +2,9 @@
 Next
 ----
 
+* extrude center subdivisions
+* extrude corner subdivisions
+* stellate extrusion-ends
 * keypress to generate koche tetra and color it nicely
 
 * keypresses should map to invocation of a callable.

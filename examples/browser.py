@@ -45,80 +45,75 @@ class KeyHandler(object):
             key.P: self.mod_stellate_out_central,
             key.L: self.mod_stellate_out_corners,
             key.E: self.mod_extrude_out,
-            key.X: self.mod_extrude_one,
+            key.X: self.mod_extrude_one_face,
 
             key.U: self.mod_color_uniform,
             key.V: self.mod_color_variations,
             key.R: self.mod_color_random,
+            key.BACKSPACE: self.remove,
         }
 
     def on_key_press(self, symbol, modifiers):
+        item = self.get_selected_item()
         if symbol in self.bestiary:
-            if modifiers & key.MOD_SHIFT:
-                self.remove_by_symbol(symbol)
-            else:
-                item = self.bestiary[symbol]()
-                if item:
-                    item.key = symbol
+            self.bestiary[symbol](item)
             return EVENT_HANDLED
-
-    def add_shape(self, shape):
-        item = GameItem(shape=shape)
-        self.world.add(item)
-        return item
-
-
-    def add_tetrahedron(self):
-        return self.add_shape(Tetrahedron(1, Color.Random()))
-
-    def add_cube(self):
-        return self.add_shape(Cube(1, Color.Random()))
-
-    def add_octahedron(self):
-        return self.add_shape(Octahedron(1, Color.Random()))
-
-    def add_dodecahedron(self):
-        return self.add_shape(Dodecahedron(1, Color.Random()))
-
-    def add_icosahedron(self):
-        return self.add_shape(Icosahedron(1, Color.Random()))
-
-    def add_dualtetrahedron(self):
-        return self.add_shape(DualTetrahedron(1, Color.Random()))
-
-
-    def remove_by_symbol(self, symbol):
-        to_remove = [
-            item
-            for item in self.world
-            if item.key == symbol
-        ]
-        for item in to_remove:
-            self.world.remove(item)
 
     def get_selected_item(self):
         if self.world.items:
             itemid = max(self.world.items.iterkeys())
             return self.world[itemid]
 
-    def mod_shape(self, modifier):
-        item = self.get_selected_item()
+    def add_shape(self, shape):
+        item = GameItem(shape=shape)
+        self.world.add(item)
+        return item
+
+    def remove(self, item):
+        if item:
+            self.world.remove(item)
+
+
+    def add_tetrahedron(self, _):
+        return self.add_shape(Tetrahedron(1, Color.Random()))
+
+    def add_cube(self, _):
+        return self.add_shape(Cube(1, Color.Random()))
+
+    def add_octahedron(self, _):
+        return self.add_shape(Octahedron(1, Color.Random()))
+
+    def add_dodecahedron(self, _):
+        return self.add_shape(Dodecahedron(1, Color.Random()))
+
+    def add_icosahedron(self, _):
+        return self.add_shape(Icosahedron(1, Color.Random()))
+
+    def add_dualtetrahedron(self, _):
+        return self.add_shape(DualTetrahedron(1, Color.Random()))
+
+
+    def mod_shape(self, item, modifier):
         modifier(item.shape)
         item.glyph = shape_to_glyph(item.shape)
 
-    def mod_normalize(self): self.mod_shape(normalize)
+    def mod_normalize(self, item): self.mod_shape(item, normalize)
 
-    def mod_subdivide(self): self.mod_shape(subdivide)
+    def mod_subdivide(self, item): self.mod_shape(item, subdivide)
 
     def stellate_out(self, shape): stellate(shape, 0.5)
+    def mod_stellate_out(self, item): self.mod_shape(item, self.stellate_out)
+
     def stellate_in(self, shape): stellate(shape, -0.33)
+    def mod_stellate_in(self, item): self.mod_shape(item, self.stellate_in)
+
     def extrude_out(self, shape): extrude(shape, 0.5)
-    def extrude_one(self, shape):
+    def mod_extrude_out(self, item): self.mod_shape(item, self.extrude_out)
+
+    def extrude_one_face(self, shape):
         extrude(shape, 0.5, [randint(0, len(shape.faces) - 1)])
-    def mod_stellate_out(self): self.mod_shape(self.stellate_out)
-    def mod_stellate_in(self): self.mod_shape(self.stellate_in)
-    def mod_extrude_out(self): self.mod_shape(self.extrude_out)
-    def mod_extrude_one(self): self.mod_shape(self.extrude_one)
+    def mod_extrude_one_face(self, item):
+        self.mod_shape(item, self.extrude_one_face)
 
     def faces_endswith(self, shape, text):
         for index, face in enumerate(shape.faces):
@@ -128,30 +123,29 @@ class KeyHandler(object):
     def stellate_out_central(self, shape):
         stellate(shape, 1, self.faces_endswith(shape, 'subdivide-center'))
 
-    def mod_stellate_out_central(self):
-        self.mod_shape(self.stellate_out_central)
+    def mod_stellate_out_central(self, item):
+        self.mod_shape(item, self.stellate_out_central)
 
     def stellate_out_corners(self, shape):
         stellate(shape, 1, self.faces_endswith(shape, 'subdivide-corner'))
 
-    def mod_stellate_out_corners(self):
-        self.mod_shape(self.stellate_out_corners)
+    def mod_stellate_out_corners(self, item):
+        self.mod_shape(item, self.stellate_out_corners)
 
-    def mod_color(self, get_color):
-        item = self.get_selected_item()
+    def mod_color(self, item, get_color):
         for face in item.shape.faces:
             face.color = get_color()
         item.glyph = shape_to_glyph(item.shape)
 
-    def mod_color_random(self):
-        self.mod_color(Color.Random)
+    def mod_color_random(self, item):
+        self.mod_color(item, Color.Random)
 
-    def mod_color_uniform(self):
+    def mod_color_uniform(self, item):
         c = Color.Random()
-        self.mod_color(lambda: c)
+        self.mod_color(item, lambda: c)
 
-    def mod_color_variations(self):
-        self.mod_color(Color.Random().variations().next)
+    def mod_color_variations(self, item):
+        self.mod_color(item, Color.Random().variations().next)
 
 
 
