@@ -3,7 +3,7 @@ from __future__ import division
 from .shape import add_vertex, Face
 
 
-def extrude_face(shape, offset, face_index):
+def extrude_face(shape, face_index, offset):
     '''
     Extrude the specified face of the given face by 'offset'
     '''
@@ -33,7 +33,7 @@ def extrude_face(shape, offset, face_index):
     shape.replace_face(face_index, new_faces)
 
     
-def extrude(shape, offset, faces=None):
+def extrude(shape, faces=None, offset=0):
     """
     Extrude the specified faces of the given Shape, by 'offset'.
     Faces is an iterable of integer face indices upon which to operate.
@@ -42,5 +42,5 @@ def extrude(shape, offset, faces=None):
     if faces is None:
         faces = xrange(len(shape.faces))
     for face in faces:
-        extrude_face(shape, offset, face)
+        extrude_face(shape, face, offset)
 

@@ -60,7 +60,6 @@ class KeyHandler(object):
         }
 
     def on_key_press(self, symbol, modifiers):
-        item = self.get_selected_item()
         if modifiers & key.MOD_SHIFT:
             if symbol in self.keys_faces:
                 self.keys_faces[symbol]()
@@ -70,7 +69,7 @@ class KeyHandler(object):
                 self.keys_add[symbol]()
                 return EVENT_HANDLED
             if symbol in self.keys_modify:
-                self.keys_modify[symbol](item)
+                self.keys_modify[symbol](self.get_selected_item())
                 return EVENT_HANDLED
 
     def get_selected_item(self):
@@ -121,26 +120,26 @@ class KeyHandler(object):
     def mod_normalize(self, item):
         normalize(item.shape)
 
-    def mod_subdivide(self, item):
+    def mod_shape(self, modifier, item, *args):
         faces = self.faces_endswith(item.shape, self.faces_suffix)
-        subdivide(item.shape, faces)
+        modifier(item.shape, faces, *args)
         item.glyph = shape_to_glyph(item.shape)
+
+    def mod_subdivide(self, item):
+        self.mod_shape(subdivide, item)
+        self.set_faces_suffix('subdivide-center')
 
     def mod_stellate_out(self, item):
-        faces = self.faces_endswith(item.shape, self.faces_suffix)
-        stellate(item.shape, 0.5, faces)
-        item.glyph = shape_to_glyph(item.shape)
+        self.mod_shape(stellate, item, 0.5)
+        self.set_faces_suffix('stellate')
 
     def mod_stellate_in(self, item):
-        faces = self.faces_endswith(item.shape, self.faces_suffix)
-        stellate(item.shape, -0.33, faces)
-        item.glyph = shape_to_glyph(item.shape)
+        self.mod_shape(stellate, item, -0.33)
+        self.set_faces_suffix('stellate')
         
     def mod_extrude(self, item):
-        faces = self.faces_endswith(item.shape, self.faces_suffix)
-        extrude(item.shape, 0.5, faces)
-        item.glyph = shape_to_glyph(item.shape)
-
+        self.mod_shape(extrude, item, 0.5)
+        self.set_faces_suffix('extrude-end')
 
 
     def mod_color(self, item, get_color):

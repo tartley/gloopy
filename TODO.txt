@@ -2,7 +2,7 @@
 Next
 ----
 
-* stellate extrusion-ends
+* color modifiers should operate on selected faces
 * keypress to generate koche tetra and color it nicely
 
 * keypresses should map to invocation of a callable.
@@ -451,4 +451,8 @@ DONE
 * new modifier to extrude faces
 * extrude center subdivisions
 * extrude corner subdivisions
+* stellate extrusion-ends
+* browser demo should have keys to select face type, then other keys to operate
+  on the selected faces
+
 

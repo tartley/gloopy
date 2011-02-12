@@ -3,7 +3,7 @@ from __future__ import division
 from .shape import Face, add_vertex
 
 
-def stellate_face(shape, height, face_index):
+def stellate_face(shape, face_index, height):
     '''
     Stellate face 'face_index' of the given shape.
     '''
@@ -25,7 +25,7 @@ def stellate_face(shape, height, face_index):
     shape.replace_face(face_index, new_faces)
 
 
-def stellate(shape, height, faces=None):
+def stellate(shape, faces=None, height=0):
     '''
     Stellate the faces of the given shape.
     By 'stellate' I mean add a new vertex in the middle of the face, raised
@@ -39,5 +39,5 @@ def stellate(shape, height, faces=None):
     if faces is None:
         faces = xrange(len(shape.faces))
     for face in faces:
-        stellate_face(shape, height, face)
+        stellate_face(shape, face, height)
 
