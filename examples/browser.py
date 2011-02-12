@@ -69,8 +69,10 @@ class KeyHandler(object):
                 self.keys_add[symbol]()
                 return EVENT_HANDLED
             if symbol in self.keys_modify:
-                self.keys_modify[symbol](self.get_selected_item())
-                return EVENT_HANDLED
+                item = self.get_selected_item()
+                if item:
+                    self.keys_modify[symbol](item)
+                    return EVENT_HANDLED
 
     def get_selected_item(self):
         if self.world.items:
