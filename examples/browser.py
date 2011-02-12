@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 from __future__ import division
+from random import randint
 
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
@@ -44,6 +45,7 @@ class KeyHandler(object):
             key.P: self.mod_stellate_out_central,
             key.L: self.mod_stellate_out_corners,
             key.E: self.mod_extrude_out,
+            key.X: self.mod_extrude_one,
 
             key.U: self.mod_color_uniform,
             key.V: self.mod_color_variations,
@@ -111,9 +113,12 @@ class KeyHandler(object):
     def stellate_out(self, shape): stellate(shape, 0.5)
     def stellate_in(self, shape): stellate(shape, -0.33)
     def extrude_out(self, shape): extrude(shape, 0.5)
+    def extrude_one(self, shape):
+        extrude(shape, 0.5, [randint(0, len(shape.faces) - 1)])
     def mod_stellate_out(self): self.mod_shape(self.stellate_out)
     def mod_stellate_in(self): self.mod_shape(self.stellate_in)
     def mod_extrude_out(self): self.mod_shape(self.extrude_out)
+    def mod_extrude_one(self): self.mod_shape(self.extrude_one)
 
     def faces_endswith(self, shape, text):
         for index, face in enumerate(shape.faces):

@@ -2,8 +2,6 @@
 Next
 ----
 
-* new modifier to extrude faces
-
 * keypress to generate koche tetra and color it nicely
 
 * keypresses should map to invocation of a callable.
@@ -449,4 +447,5 @@ DONE
 * move centroid method to Face
 * create functions to return list of face indices based on face labels
 * rewrite DualTetrahedron to use the above faculty
+* new modifier to extrude faces
 
