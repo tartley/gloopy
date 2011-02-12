@@ -45,7 +45,9 @@ class KeyHandler(object):
             key.P: self.mod_stellate_out_central,
             key.L: self.mod_stellate_out_corners,
             key.E: self.mod_extrude_out,
-            key.X: self.mod_extrude_one_face,
+            key.F: self.mod_extrude_central,
+            key.G: self.mod_extrude_corners,
+            key.H: self.mod_extrude_one_face,
 
             key.U: self.mod_color_uniform,
             key.V: self.mod_color_variations,
@@ -109,6 +111,16 @@ class KeyHandler(object):
 
     def extrude_out(self, shape): extrude(shape, 0.5)
     def mod_extrude_out(self, item): self.mod_shape(item, self.extrude_out)
+
+    def extrude_central(self, shape):
+        extrude(shape, 0.5, self.faces_endswith(shape, 'subdivide-center'))
+    def mod_extrude_central(self, item):
+        self.mod_shape(item, self.extrude_central)
+
+    def extrude_corners(self, shape):
+        extrude(shape, 0.5, self.faces_endswith(shape, 'subdivide-corner'))
+    def mod_extrude_corners(self, item):
+        self.mod_shape(item, self.extrude_corners)
 
     def extrude_one_face(self, shape):
         extrude(shape, 0.5, [randint(0, len(shape.faces) - 1)])
