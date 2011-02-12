@@ -31,6 +31,6 @@ def DualTetrahedron(radius, color1=None, color2=None):
         i for i, face in enumerate(shape.faces)
         if face.source.endswith('subdivide-center')
     ]
-    stellate(shape, 1, center_faces)
+    stellate(shape, center_faces, sqrt(2))
     return shape
 
