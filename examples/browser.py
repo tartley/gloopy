@@ -111,24 +111,19 @@ class KeyHandler(object):
     def mod_stellate_out(self): self.mod_shape(self.stellate_out)
     def mod_stellate_in(self): self.mod_shape(self.stellate_in)
 
-    def faces_subdivide_central(self, shape):
+    def faces_endswith(self, shape, text):
         for index, face in enumerate(shape.faces):
-            if face.source.endswith('subdivide-center'):
-                yield index
-
-    def faces_subdivide_corners(self, shape):
-        for index, face in enumerate(shape.faces):
-            if face.source.endswith('subdivide-corner'):
+            if face.source.endswith(text):
                 yield index
 
     def stellate_out_central(self, shape):
-        stellate(shape, 1, self.faces_subdivide_central(shape))
+        stellate(shape, 1, self.faces_endswith(shape, 'subdivide-center'))
 
     def mod_stellate_out_central(self):
         self.mod_shape(self.stellate_out_central)
 
     def stellate_out_corners(self, shape):
-        stellate(shape, 1, self.faces_subdivide_corners(shape))
+        stellate(shape, 1, self.faces_endswith(shape, 'subdivide-corner'))
 
     def mod_stellate_out_corners(self):
         self.mod_shape(self.stellate_out_corners)
@@ -164,7 +159,7 @@ class Application(object):
             center=origin,
             radius=3,
             axis=Vector(2, -3, 1),
-            angular_velocity=0.2,
+            angular_velocity=0.8,
             wobble_size=0.0,
             wobble_freq=1,
         )
