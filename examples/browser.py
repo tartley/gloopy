@@ -14,6 +14,7 @@ from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
 from gloopy.shapes.shape import shape_to_glyph
 from gloopy.shapes.cube import Cube
+from gloopy.shapes.extrude import extrude
 from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.icosahedron import Icosahedron
 from gloopy.shapes.octahedron import Octahedron
@@ -42,6 +43,7 @@ class KeyHandler(object):
             key.I: self.mod_stellate_in,
             key.P: self.mod_stellate_out_central,
             key.L: self.mod_stellate_out_corners,
+            key.E: self.mod_extrude_out,
 
             key.U: self.mod_color_uniform,
             key.V: self.mod_color_variations,
@@ -108,8 +110,10 @@ class KeyHandler(object):
 
     def stellate_out(self, shape): stellate(shape, 0.5)
     def stellate_in(self, shape): stellate(shape, -0.33)
+    def extrude_out(self, shape): extrude(shape, 0.5)
     def mod_stellate_out(self): self.mod_shape(self.stellate_out)
     def mod_stellate_in(self): self.mod_shape(self.stellate_in)
+    def mod_extrude_out(self): self.mod_shape(self.extrude_out)
 
     def faces_endswith(self, shape, text):
         for index, face in enumerate(shape.faces):

@@ -4,10 +4,12 @@ Next
 
 * new modifier to extrude faces
 
+* keypress to generate koche tetra and color it nicely
+
 * keypresses should map to invocation of a callable.
+    * key to toggle cull backface?
     * keys to zoom camera orbit in and out
     * callables to grow or shrink an object
-    * key to toggle cull backface?
 
 * Add good shapes from flyinghigh
 
@@ -36,6 +38,8 @@ Demos
 
 Geometry
 --------
+
+* color should be a float throughout
 
 * color a shape by its face labels?
 
