@@ -30,36 +30,48 @@ class KeyHandler(object):
 
     def __init__(self, world):
         self.world = world
-        self.bestiary = {
+        self.faces_suffix = ''
+        self.keys_add = {
             key._1: self.add_tetrahedron,
             key._2: self.add_cube,
             key._3: self.add_octahedron,
             key._4: self.add_dodecahedron,
             key._5: self.add_icosahedron,
             key._6: self.add_dualtetrahedron,
-
-            key.S: self.mod_subdivide,
+        }
+        self.keys_modify = {
             key.N: self.mod_normalize,
+            key.S: self.mod_subdivide,
             key.O: self.mod_stellate_out,
             key.I: self.mod_stellate_in,
-            key.P: self.mod_stellate_out_central,
-            key.L: self.mod_stellate_out_corners,
-            key.E: self.mod_extrude_out,
-            key.F: self.mod_extrude_central,
-            key.G: self.mod_extrude_corners,
-            key.H: self.mod_extrude_one_face,
+            key.E: self.mod_extrude,
 
             key.U: self.mod_color_uniform,
             key.V: self.mod_color_variations,
             key.R: self.mod_color_random,
             key.BACKSPACE: self.remove,
         }
+        self.keys_faces = {
+            key.A: lambda: self.set_faces_suffix(None),
+            key.S: lambda: self.set_faces_suffix('subdivide-center'),
+            key.D: lambda: self.set_faces_suffix('subdivide-corner'),
+            key.E: lambda: self.set_faces_suffix('extrude-end'),
+            key.R: lambda: self.set_faces_suffix('extrude-side'),
+        }
 
     def on_key_press(self, symbol, modifiers):
         item = self.get_selected_item()
-        if symbol in self.bestiary:
-            self.bestiary[symbol](item)
-            return EVENT_HANDLED
+        if modifiers & key.MOD_SHIFT:
+            if symbol in self.keys_faces:
+                self.keys_faces[symbol]()
+                return EVENT_HANDLED
+        else:
+            if symbol in self.keys_add:
+                self.keys_add[symbol]()
+                return EVENT_HANDLED
+            if symbol in self.keys_modify:
+                self.keys_modify[symbol](item)
+                return EVENT_HANDLED
 
     def get_selected_item(self):
         if self.world.items:
@@ -76,73 +88,60 @@ class KeyHandler(object):
             self.world.remove(item)
 
 
-    def add_tetrahedron(self, _):
+    def add_tetrahedron(self):
         return self.add_shape(Tetrahedron(1, Color.Random()))
 
-    def add_cube(self, _):
+    def add_cube(self):
         return self.add_shape(Cube(1, Color.Random()))
 
-    def add_octahedron(self, _):
+    def add_octahedron(self):
         return self.add_shape(Octahedron(1, Color.Random()))
 
-    def add_dodecahedron(self, _):
+    def add_dodecahedron(self):
         return self.add_shape(Dodecahedron(1, Color.Random()))
 
-    def add_icosahedron(self, _):
+    def add_icosahedron(self):
         return self.add_shape(Icosahedron(1, Color.Random()))
 
-    def add_dualtetrahedron(self, _):
+    def add_dualtetrahedron(self):
         return self.add_shape(DualTetrahedron(1, Color.Random()))
 
 
-    def mod_shape(self, item, modifier):
-        modifier(item.shape)
+    def set_faces_suffix(self, suffix):
+        self.faces_suffix = suffix
+
+    def faces_endswith(self, shape, suffix):
+        if suffix:
+            return [
+                index
+                for index, face in enumerate(shape.faces)
+                if face.source.endswith(suffix)
+            ]
+
+    def mod_normalize(self, item):
+        normalize(item.shape)
+
+    def mod_subdivide(self, item):
+        faces = self.faces_endswith(item.shape, self.faces_suffix)
+        subdivide(item.shape, faces)
         item.glyph = shape_to_glyph(item.shape)
 
-    def mod_normalize(self, item): self.mod_shape(item, normalize)
+    def mod_stellate_out(self, item):
+        faces = self.faces_endswith(item.shape, self.faces_suffix)
+        stellate(item.shape, 0.5, faces)
+        item.glyph = shape_to_glyph(item.shape)
 
-    def mod_subdivide(self, item): self.mod_shape(item, subdivide)
+    def mod_stellate_in(self, item):
+        faces = self.faces_endswith(item.shape, self.faces_suffix)
+        stellate(item.shape, -0.33, faces)
+        item.glyph = shape_to_glyph(item.shape)
+        
+    def mod_extrude(self, item):
+        faces = self.faces_endswith(item.shape, self.faces_suffix)
+        extrude(item.shape, 0.5, faces)
+        item.glyph = shape_to_glyph(item.shape)
 
-    def stellate_out(self, shape): stellate(shape, 0.5)
-    def mod_stellate_out(self, item): self.mod_shape(item, self.stellate_out)
 
-    def stellate_in(self, shape): stellate(shape, -0.33)
-    def mod_stellate_in(self, item): self.mod_shape(item, self.stellate_in)
-
-    def extrude_out(self, shape): extrude(shape, 0.5)
-    def mod_extrude_out(self, item): self.mod_shape(item, self.extrude_out)
-
-    def extrude_central(self, shape):
-        extrude(shape, 0.5, self.faces_endswith(shape, 'subdivide-center'))
-    def mod_extrude_central(self, item):
-        self.mod_shape(item, self.extrude_central)
-
-    def extrude_corners(self, shape):
-        extrude(shape, 0.5, self.faces_endswith(shape, 'subdivide-corner'))
-    def mod_extrude_corners(self, item):
-        self.mod_shape(item, self.extrude_corners)
-
-    def extrude_one_face(self, shape):
-        extrude(shape, 0.5, [randint(0, len(shape.faces) - 1)])
-    def mod_extrude_one_face(self, item):
-        self.mod_shape(item, self.extrude_one_face)
-
-    def faces_endswith(self, shape, text):
-        for index, face in enumerate(shape.faces):
-            if face.source.endswith(text):
-                yield index
-
-    def stellate_out_central(self, shape):
-        stellate(shape, 1, self.faces_endswith(shape, 'subdivide-center'))
-
-    def mod_stellate_out_central(self, item):
-        self.mod_shape(item, self.stellate_out_central)
-
-    def stellate_out_corners(self, shape):
-        stellate(shape, 1, self.faces_endswith(shape, 'subdivide-corner'))
-
-    def mod_stellate_out_corners(self, item):
-        self.mod_shape(item, self.stellate_out_corners)
 
     def mod_color(self, item, get_color):
         for face in item.shape.faces:
