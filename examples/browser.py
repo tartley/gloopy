@@ -53,34 +53,34 @@ class KeyHandler(object):
             if modifiers & key.MOD_SHIFT:
                 self.remove_by_symbol(symbol)
             else:
-                self.bestiary[symbol](symbol)
+                item = self.bestiary[symbol]()
+                if item:
+                    item.key = symbol
             return EVENT_HANDLED
 
-    def add_shape(self, shape, **kwargs):
-        self.world.add(
-            GameItem(
-                shape=shape,
-                **kwargs
-            )
-        )
+    def add_shape(self, shape):
+        item = GameItem(shape=shape)
+        self.world.add(item)
+        return item
 
-    def add_tetrahedron(self, symbol):
-        self.add_shape(Tetrahedron(1, Color.Random()), key=symbol)
 
-    def add_cube(self, symbol):
-        self.add_shape(Cube(1, Color.Random()), key=symbol)
+    def add_tetrahedron(self):
+        return self.add_shape(Tetrahedron(1, Color.Random()))
 
-    def add_octahedron(self, symbol):
-        self.add_shape(Octahedron(1, Color.Random()), key=symbol)
+    def add_cube(self):
+        return self.add_shape(Cube(1, Color.Random()))
 
-    def add_dodecahedron(self, symbol):
-        self.add_shape(Dodecahedron(1, Color.Random()), key=symbol)
+    def add_octahedron(self):
+        return self.add_shape(Octahedron(1, Color.Random()))
 
-    def add_icosahedron(self, symbol):
-        self.add_shape(Icosahedron(1, Color.Random()), key=symbol)
+    def add_dodecahedron(self):
+        return self.add_shape(Dodecahedron(1, Color.Random()))
 
-    def add_dualtetrahedron(self, symbol):
-        self.add_shape(DualTetrahedron(1, Color.Random()), key=symbol)
+    def add_icosahedron(self):
+        return self.add_shape(Icosahedron(1, Color.Random()))
+
+    def add_dualtetrahedron(self):
+        return self.add_shape(DualTetrahedron(1, Color.Random()))
 
 
     def remove_by_symbol(self, symbol):
@@ -102,14 +102,14 @@ class KeyHandler(object):
         modifier(item.shape)
         item.glyph = shape_to_glyph(item.shape)
 
-    def mod_normalize(self, _): self.mod_shape(normalize)
+    def mod_normalize(self): self.mod_shape(normalize)
 
-    def mod_subdivide(self, _): self.mod_shape(subdivide)
+    def mod_subdivide(self): self.mod_shape(subdivide)
 
     def stellate_out(self, shape): stellate(shape, 0.5)
     def stellate_in(self, shape): stellate(shape, -0.33)
-    def mod_stellate_out(self, _): self.mod_shape(self.stellate_out)
-    def mod_stellate_in(self, _): self.mod_shape(self.stellate_in)
+    def mod_stellate_out(self): self.mod_shape(self.stellate_out)
+    def mod_stellate_in(self): self.mod_shape(self.stellate_in)
 
     def faces_subdivide_central(self, shape):
         for index, face in enumerate(shape.faces):
@@ -124,13 +124,13 @@ class KeyHandler(object):
     def stellate_out_central(self, shape):
         stellate(shape, 1, self.faces_subdivide_central(shape))
 
-    def mod_stellate_out_central(self, _):
+    def mod_stellate_out_central(self):
         self.mod_shape(self.stellate_out_central)
 
     def stellate_out_corners(self, shape):
         stellate(shape, 1, self.faces_subdivide_corners(shape))
 
-    def mod_stellate_out_corners(self, _):
+    def mod_stellate_out_corners(self):
         self.mod_shape(self.stellate_out_corners)
 
     def mod_color(self, get_color):
@@ -139,15 +139,16 @@ class KeyHandler(object):
             face.color = get_color()
         item.glyph = shape_to_glyph(item.shape)
 
-    def mod_color_random(self, _):
+    def mod_color_random(self):
         self.mod_color(Color.Random)
 
-    def mod_color_uniform(self, _):
+    def mod_color_uniform(self):
         c = Color.Random()
         self.mod_color(lambda: c)
 
-    def mod_color_variations(self, _):
+    def mod_color_variations(self):
         self.mod_color(Color.Random().variations().next)
+
 
 
 class Application(object):

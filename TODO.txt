@@ -2,10 +2,6 @@
 Next
 ----
 
-* rewrite DualTetrahedron to use the above faculty
-* write a couple of other canned funky shape generations
-* color a shape by its face labels?
-
 * new modifier to extrude faces
 
 * keypresses should map to invocation of a callable.
@@ -40,6 +36,8 @@ Demos
 
 Geometry
 --------
+
+* color a shape by its face labels?
 
 * fix Face.centroid method - take the one from solescion
 
@@ -446,4 +444,5 @@ DONE
 * change modifiers to append to face's label: 'Tetrahedron.subdivided-center'
 * move centroid method to Face
 * create functions to return list of face indices based on face labels
+* rewrite DualTetrahedron to use the above faculty
 
