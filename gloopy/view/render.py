@@ -35,6 +35,7 @@ class Render(object):
         self.options = options
         self.clock_display = pyglet.clock.ClockDisplay()
 
+
     def init(self):
         log_opengl_version()
         gl.glEnable(gl.GL_DEPTH_TEST)
@@ -43,14 +44,26 @@ class Render(object):
         gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
         gl.glHint(gl.GL_POLYGON_SMOOTH_HINT, gl.GL_NICEST)
 
-        gl.glCullFace(gl.GL_BACK)
-        gl.glEnable(gl.GL_CULL_FACE)
+        self.backface_culling = True
 
         self.shader = Shader(
             'lighting.vert', 'lighting.frag',
             attribs=['position', 'color', 'normal']
         )
         Glyph.shader = self.shader
+
+
+    def _set_backface_culling(self, value):
+        self._backface_culling = value
+        if self._backface_culling:
+            gl.glCullFace(gl.GL_BACK)
+            gl.glEnable(gl.GL_CULL_FACE)
+        else:
+            gl.glDisable(gl.GL_CULL_FACE)
+
+    backface_culling = property(
+        lambda s: s._backface_culling, _set_backface_culling
+    )
 
 
     def drawable_items(self, world):

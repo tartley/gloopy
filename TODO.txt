@@ -3,7 +3,6 @@ Next
 ----
 
 * keypresses should map to invocation of a callable.
-    * key to toggle cull backface?
     * keys to zoom camera orbit in and out
 
 * Add good shapes from flyinghigh
@@ -452,4 +451,5 @@ DONE
   on the selected faces
 * color modifiers should operate on selected faces
 * keypress to generate koche tetra and color it nicely
+* key to toggle cull backface?
 

@@ -17,7 +17,9 @@ class Eventloop(object):
         self.world = world
         self.camera = camera
         self.options = options
+
         self.window = None
+        self.render = None
         self.fpss = []
         self.time = 0.0
 

@@ -27,8 +27,9 @@ from gloopy.shapes.stellate import stellate
 
 class KeyHandler(object):
 
-    def __init__(self, world):
-        self.world = world
+    def __init__(self, gloopy):
+        self.world = gloopy.world
+        self.render = gloopy.eventloop.render
         self.faces_suffix = ''
         self.keys = {
             key._1: self.add_tetrahedron,
@@ -45,6 +46,7 @@ class KeyHandler(object):
             key.E: self.mod_extrude,
             key.C: self.mod_color,
             key.BACKSPACE: self.remove,
+            key.B: self.toggle_backface_culling,
         }
         self.keys_shift = {
             key.A: lambda: self.set_faces_suffix(''),
@@ -152,6 +154,10 @@ class KeyHandler(object):
         self.mod_shape(self.recolor, Color.Random())
 
 
+    def toggle_backface_culling(self):
+        self.render.backface_culling = not self.render.backface_culling
+
+
 class Application(object):
 
     def __init__(self):
@@ -171,7 +177,7 @@ class Application(object):
         )
         self.gloopy.camera.look_at = Vector(0, 0, 0)
         
-        self.keyhandler = KeyHandler(self.gloopy.world)
+        self.keyhandler = KeyHandler(self.gloopy)
         self.gloopy.eventloop.window.push_handlers(self.keyhandler)
 
         try:
