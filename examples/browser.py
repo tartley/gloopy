@@ -27,10 +27,11 @@ from gloopy.shapes.stellate import stellate
 
 class KeyHandler(object):
 
-    def __init__(self, gloopy):
-        self.world = gloopy.world
-        self.render = gloopy.eventloop.render
-        self.faces_suffix = ''
+    def __init__(self, world, render, camera):
+        self.world = world
+        self.render = render
+        self.camera = camera
+
         self.keys = {
             key._1: self.add_tetrahedron,
             key._2: self.add_cube,
@@ -48,7 +49,7 @@ class KeyHandler(object):
             key.BACKSPACE: self.remove,
             key.B: self.toggle_backface_culling,
             key.PAGEDOWN: lambda: self.camera_orbit(0.5),
-            key.PAGEDOWN: lambda: self.camera_orbit(2.0),
+            key.PAGEUP: lambda: self.camera_orbit(2.0),
         }
         self.keys_shift = {
             key.A: lambda: self.set_faces_suffix(''),
@@ -57,6 +58,7 @@ class KeyHandler(object):
             key.E: lambda: self.set_faces_suffix('extrude-end'),
             key.R: lambda: self.set_faces_suffix('extrude-side'),
         }
+        self.faces_suffix = ''
 
     def on_key_press(self, symbol, modifiers):
         if modifiers & key.MOD_SHIFT:
@@ -159,6 +161,10 @@ class KeyHandler(object):
     def toggle_backface_culling(self):
         self.render.backface_culling = not self.render.backface_culling
 
+    def camera_orbit(self, factor):
+        self.camera.update.radius *= factor
+
+
 
 class Application(object):
 
@@ -179,7 +185,11 @@ class Application(object):
         )
         self.gloopy.camera.look_at = Vector(0, 0, 0)
         
-        self.keyhandler = KeyHandler(self.gloopy)
+        self.keyhandler = KeyHandler(
+            self.gloopy.world,
+            self.gloopy.eventloop.render,
+            self.gloopy.camera,
+        )
         self.gloopy.eventloop.window.push_handlers(self.keyhandler)
 
         try:
