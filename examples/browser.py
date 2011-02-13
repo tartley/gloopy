@@ -46,9 +46,7 @@ class KeyHandler(object):
             key.I: self.mod_stellate_in,
             key.E: self.mod_extrude,
 
-            key.U: self.mod_color_uniform,
-            key.V: self.mod_color_variations,
-            key.R: self.mod_color_random,
+            key.U: self.mod_color,
             key.BACKSPACE: self.remove,
         }
         self.keys_faces = {
@@ -138,27 +136,17 @@ class KeyHandler(object):
     def mod_stellate_in(self, item):
         self.mod_shape(stellate, item, -0.33)
         self.set_faces_suffix('stellate')
-        
+
     def mod_extrude(self, item):
         self.mod_shape(extrude, item, 0.5)
         self.set_faces_suffix('extrude-end')
 
+    def recolor(self, shape, faces, color):
+        for face_index in faces:
+            shape.faces[face_index].color = color
 
-    def mod_color(self, item, get_color):
-        for face in item.shape.faces:
-            face.color = get_color()
-        item.glyph = shape_to_glyph(item.shape)
-
-    def mod_color_random(self, item):
-        self.mod_color(item, Color.Random)
-
-    def mod_color_uniform(self, item):
-        c = Color.Random()
-        self.mod_color(item, lambda: c)
-
-    def mod_color_variations(self, item):
-        self.mod_color(item, Color.Random().variations().next)
-
+    def mod_color(self, item):
+        self.mod_shape(self.recolor, item, Color.Random())
 
 
 class Application(object):
