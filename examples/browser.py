@@ -47,6 +47,8 @@ class KeyHandler(object):
             key.C: self.mod_color,
             key.BACKSPACE: self.remove,
             key.B: self.toggle_backface_culling,
+            key.PAGEDOWN: lambda: self.camera_orbit(0.5),
+            key.PAGEDOWN: lambda: self.camera_orbit(2.0),
         }
         self.keys_shift = {
             key.A: lambda: self.set_faces_suffix(''),
