@@ -1,14 +1,17 @@
 from __future__ import division
 
 from .shape import Face, add_vertex
+from ..color import Color
 
 
-def subdivide_face(shape, face_index, edges):
+def subdivide_face(shape, face_index, edges, color2=None):
     '''
     Subdivide face 'face_index' of the given shape.
     TODO: internalise edges. Make it reset every time a new shape is passed.
     '''
     face = shape.faces[face_index]
+    if color2 is None:
+        color2 = Color.Grey
 
     def get_index_of_midpoint(start, end):
         '''
@@ -41,7 +44,7 @@ def subdivide_face(shape, face_index, edges):
     source_center = '%s.%s' % (face.source, 'subdivide-center')
     indices = [midpoints[i] for i in xrange(len(face))]
     new_faces.append(
-        Face(indices, face.color.inverted(), shape, source_center )
+        Face(indices, color2, shape, source_center )
     )
 
     shape.replace_face(face_index, new_faces)
@@ -65,6 +68,7 @@ def subdivide(shape, faces=None):
     if faces is None:
         faces = xrange(len(shape.faces))
     edges = {}
+    color2 = Color.Random()
     for face in faces:
-        subdivide_face(shape, face, edges)
+        subdivide_face(shape, face, edges, color2)
 
