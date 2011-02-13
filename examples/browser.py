@@ -30,7 +30,7 @@ class KeyHandler(object):
     def __init__(self, world):
         self.world = world
         self.faces_suffix = ''
-        self.keys_add = {
+        self.keys = {
             key._1: self.add_tetrahedron,
             key._2: self.add_cube,
             key._3: self.add_octahedron,
@@ -38,18 +38,15 @@ class KeyHandler(object):
             key._5: self.add_icosahedron,
             key._6: self.add_dualtetrahedron,
             key._7: self.add_koche_tetra,
-        }
-        self.keys_modify = {
             key.N: self.mod_normalize,
             key.S: self.mod_subdivide,
             key.O: self.mod_stellate_out,
             key.I: self.mod_stellate_in,
             key.E: self.mod_extrude,
-
-            key.U: self.mod_color,
+            key.C: self.mod_color,
             key.BACKSPACE: self.remove,
         }
-        self.keys_faces = {
+        self.keys_shift = {
             key.A: lambda: self.set_faces_suffix(''),
             key.S: lambda: self.set_faces_suffix('subdivide-center'),
             key.D: lambda: self.set_faces_suffix('subdivide-corner'),
@@ -59,18 +56,13 @@ class KeyHandler(object):
 
     def on_key_press(self, symbol, modifiers):
         if modifiers & key.MOD_SHIFT:
-            if symbol in self.keys_faces:
-                self.keys_faces[symbol]()
+            if symbol in self.keys_shift:
+                self.keys_shift[symbol]()
                 return EVENT_HANDLED
         else:
-            if symbol in self.keys_add:
-                self.keys_add[symbol]()
+            if symbol in self.keys:
+                self.keys[symbol]()
                 return EVENT_HANDLED
-            if symbol in self.keys_modify:
-                item = self.get_selected_item()
-                if item:
-                    self.keys_modify[symbol](item)
-                    return EVENT_HANDLED
 
     def get_selected_item(self):
         if self.world.items:
@@ -82,7 +74,8 @@ class KeyHandler(object):
         self.world.add(item)
         return item
 
-    def remove(self, item):
+    def remove(self):
+        item = self.get_selected_item()
         if item:
             self.world.remove(item)
 
@@ -125,36 +118,38 @@ class KeyHandler(object):
             if face.source.endswith(suffix)
         ]
 
-    def mod_normalize(self, item):
+    def mod_normalize(self):
+        item = self.get_selected_item()
         normalize(item.shape)
 
-    def mod_shape(self, modifier, item, *args):
+    def mod_shape(self, modifier, *args):
+        item = self.get_selected_item()
         faces = self.faces_endswith(item.shape, self.faces_suffix)
         modifier(item.shape, faces, *args)
         item.glyph = shape_to_glyph(item.shape)
 
-    def mod_subdivide(self, item):
-        self.mod_shape(subdivide, item)
+    def mod_subdivide(self):
+        self.mod_shape(subdivide)
         self.set_faces_suffix('subdivide-center')
 
-    def mod_stellate_out(self, item):
-        self.mod_shape(stellate, item, 0.5)
+    def mod_stellate_out(self):
+        self.mod_shape(stellate, 0.5)
         self.set_faces_suffix('stellate')
 
-    def mod_stellate_in(self, item):
-        self.mod_shape(stellate, item, -0.33)
+    def mod_stellate_in(self):
+        self.mod_shape(stellate, -0.33)
         self.set_faces_suffix('stellate')
 
-    def mod_extrude(self, item):
-        self.mod_shape(extrude, item, 0.5)
+    def mod_extrude(self):
+        self.mod_shape(extrude, 0.5)
         self.set_faces_suffix('extrude-end')
 
     def recolor(self, shape, faces, color):
         for face_index in faces:
             shape.faces[face_index].color = color
 
-    def mod_color(self, item):
-        self.mod_shape(self.recolor, item, Color.Random())
+    def mod_color(self):
+        self.mod_shape(self.recolor, Color.Random())
 
 
 class Application(object):
