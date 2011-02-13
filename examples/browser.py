@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 from __future__ import division
-from random import randint
 
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
@@ -38,6 +37,7 @@ class KeyHandler(object):
             key._4: self.add_dodecahedron,
             key._5: self.add_icosahedron,
             key._6: self.add_dualtetrahedron,
+            key._7: self.add_koche_tetra,
         }
         self.keys_modify = {
             key.N: self.mod_normalize,
@@ -50,7 +50,7 @@ class KeyHandler(object):
             key.BACKSPACE: self.remove,
         }
         self.keys_faces = {
-            key.A: lambda: self.set_faces_suffix(None),
+            key.A: lambda: self.set_faces_suffix(''),
             key.S: lambda: self.set_faces_suffix('subdivide-center'),
             key.D: lambda: self.set_faces_suffix('subdivide-corner'),
             key.E: lambda: self.set_faces_suffix('extrude-end'),
@@ -105,17 +105,25 @@ class KeyHandler(object):
     def add_dualtetrahedron(self):
         return self.add_shape(DualTetrahedron(1, Color.Random()))
 
+    def add_koche_tetra(self):
+        color1 = Color.Random()
+        color2 = Color.Random()
+        shape = Tetrahedron(1, color1)
+        for i in range(6):
+            subdivide(shape, color=color1.tinted(color2, i/5))
+            stellate(shape, self.faces_endswith(shape, 'subdivide-center'), 1)
+        return self.add_shape(shape)
+
 
     def set_faces_suffix(self, suffix):
         self.faces_suffix = suffix
 
     def faces_endswith(self, shape, suffix):
-        if suffix:
-            return [
-                index
-                for index, face in enumerate(shape.faces)
-                if face.source.endswith(suffix)
-            ]
+        return [
+            index
+            for index, face in enumerate(shape.faces)
+            if face.source.endswith(suffix)
+        ]
 
     def mod_normalize(self, item):
         normalize(item.shape)

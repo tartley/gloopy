@@ -50,7 +50,7 @@ def subdivide_face(shape, face_index, edges, color2=None):
     shape.replace_face(face_index, new_faces)
 
 
-def subdivide(shape, faces=None):
+def subdivide(shape, faces=None, color=None):
     r"""
     Subdivide the faces of the given shape.
     Subdivision forms new, smaller faces by cutting the corners off a face.
@@ -68,7 +68,8 @@ def subdivide(shape, faces=None):
     if faces is None:
         faces = xrange(len(shape.faces))
     edges = {}
-    color2 = Color.Random()
+    if color is None:
+        color = Color.Random()
     for face in faces:
-        subdivide_face(shape, face, edges, color2)
+        subdivide_face(shape, face, edges, color)
 

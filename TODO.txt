@@ -2,13 +2,9 @@
 Next
 ----
 
-* color modifiers should operate on selected faces
-* keypress to generate koche tetra and color it nicely
-
 * keypresses should map to invocation of a callable.
     * key to toggle cull backface?
     * keys to zoom camera orbit in and out
-    * callables to grow or shrink an object
 
 * Add good shapes from flyinghigh
 
@@ -454,5 +450,6 @@ DONE
 * stellate extrusion-ends
 * browser demo should have keys to select face type, then other keys to operate
   on the selected faces
-
+* color modifiers should operate on selected faces
+* keypress to generate koche tetra and color it nicely
 
