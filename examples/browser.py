@@ -60,6 +60,7 @@ class KeyHandler(object):
         }
         self.faces_suffix = ''
 
+
     def on_key_press(self, symbol, modifiers):
         if modifiers & key.MOD_SHIFT:
             if symbol in self.keys_shift:
@@ -125,8 +126,13 @@ class KeyHandler(object):
         ]
 
     def mod_normalize(self):
+        '''
+        This makes a mess when the selected shape has longer edges of a
+        single face which abut a chain of shorter edges of smaller faces.
+        '''
         item = self.get_selected_item()
         normalize(item.shape)
+        item.glyph = shape_to_glyph(item.shape)
 
     def mod_shape(self, modifier, *args):
         item = self.get_selected_item()
@@ -163,6 +169,19 @@ class KeyHandler(object):
 
     def camera_orbit(self, factor):
         self.camera.update.radius *= factor
+
+
+
+class Interpolate(float):
+    def __init__(self, current, target=None):
+        self.current = current
+        if target is None:
+            target = current
+        self.target = target
+        self.rate = 0.1
+
+    def update(self):
+        self.current += (self.target - self.current) * self.rate
 
 
 

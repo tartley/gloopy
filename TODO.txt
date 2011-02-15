@@ -8,6 +8,8 @@ Next
 * Add good shapes from flyinghigh
 
 * demo: nested slices of spheres
+  Actually, do cylinders first. Spheres have complications in that a single
+  flat outer surface won't be adequate, esp. near the poles.
 
 
 Demos
@@ -155,8 +157,6 @@ Animation
 
 * Add to geometry while it is being displayed
     * recreate it from scratch? Or modify (& grow) existing vertex array?
-    * colors too
-    * Squaresnake
 
 
 Infrastructure
