@@ -29,6 +29,7 @@ class KeyHandler(object):
 
     def __init__(self, world, render, camera):
         self.world = world
+        self.world.update += self.update
         self.render = render
         self.camera = camera
 
@@ -59,6 +60,7 @@ class KeyHandler(object):
             key.R: lambda: self.set_faces_suffix('extrude-side'),
         }
         self.faces_suffix = ''
+        self.camera_radius = 3
 
 
     def on_key_press(self, symbol, modifiers):
@@ -168,21 +170,12 @@ class KeyHandler(object):
         self.render.backface_culling = not self.render.backface_culling
 
     def camera_orbit(self, factor):
-        self.camera.update.radius *= factor
+        self.camera_radius *= factor
 
-
-
-class Interpolate(float):
-    def __init__(self, current, target=None):
-        self.current = current
-        if target is None:
-            target = current
-        self.target = target
-        self.rate = 0.1
-
-    def update(self):
-        self.current += (self.target - self.current) * self.rate
-
+    def update(self, time, dt):
+        rate = 10.0 * dt
+        self.camera.update.radius += (
+            self.camera_radius - self.camera.update.radius) * rate
 
 
 class Application(object):

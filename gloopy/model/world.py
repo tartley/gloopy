@@ -12,6 +12,7 @@ class World(object):
         self.items = {}
         self.item_added = Event()
         self.item_removed = Event()
+        self.update = Event()
         self.background_color = Color.Orange
 
     def __iter__(self):
@@ -33,7 +34,8 @@ class World(object):
         self.item_removed.fire(item)
         item.position = None
 
-    def update(self, t, dt):
+    def update_all(self, t, dt):
+        self.update.fire(t, dt)
         for item in self:
             if item.update:
                 item.update(item, t, dt)

@@ -48,7 +48,7 @@ class Eventloop(object):
     def update(self, dt):
         dt = min(dt, 1 / 30)
         self.time += dt
-        self.world.update(self.time, dt)
+        self.world.update_all(self.time, dt)
 
         # this is a bit weird, passing camera into its own method, but
         # we need it because 'update' may be set to a generic object
