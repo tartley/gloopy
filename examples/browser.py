@@ -14,6 +14,7 @@ from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
 from gloopy.shapes.shape import shape_to_glyph
 from gloopy.shapes.cube import Cube
+from gloopy.shapes.cube_groups import CubeCross
 from gloopy.shapes.extrude import extrude
 from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.icosahedron import Icosahedron
@@ -29,28 +30,21 @@ class KeyHandler(object):
 
     def __init__(self, world, render, camera):
         self.world = world
-        self.world.update += self.update
+        self.world.update += self.world_update
         self.render = render
         self.camera = camera
 
         self.keys = {
-            key._1: self.add_tetrahedron,
-            key._2: self.add_cube,
-            key._3: self.add_octahedron,
-            key._4: self.add_dodecahedron,
-            key._5: self.add_icosahedron,
-            key._6: self.add_dualtetrahedron,
-            key._7: self.add_koche_tetra,
-
-            key.N: self.mod_normalize,
-            key.S: self.mod_subdivide,
-            key.O: self.mod_stellate_out,
-            key.I: self.mod_stellate_in,
-            key.E: self.mod_extrude,
-            key.C: self.mod_color,
-
+            key._1: lambda: self.add_shape(Tetrahedron(1, Color.Random())),
+            key._2: lambda: self.add_shape(Cube(1, Color.Random())),
+            key._3: lambda: self.add_shape(Octahedron(1, Color.Random())),
+            key._4: lambda: self.add_shape(Dodecahedron(1, Color.Random())),
+            key._5: lambda: self.add_shape(Icosahedron(1, Color.Random())),
+            key._6: lambda: self.add_shape(DualTetrahedron(1, Color.Random())),
+            key._7: lambda: self.add_shape(CubeCross(1, Color.Yellow, Color.Yellow.tinted(Color.White))),
+            key.T: self.add_koche_tetra,
             key.BACKSPACE: self.remove,
-            key.B: self.toggle_backface_culling,
+            key.F11: self.toggle_backface_culling,
             key.PAGEDOWN: lambda: self.camera_orbit(0.5),
             key.PAGEUP: lambda: self.camera_orbit(2.0),
         }
@@ -61,14 +55,32 @@ class KeyHandler(object):
             key.E: lambda: self.set_faces_suffix('extrude-end'),
             key.R: lambda: self.set_faces_suffix('extrude-side'),
         }
+        self.keys_alt = {
+            key.N: self.mod_normalize,
+            key.S: self.mod_subdivide,
+            key.O: self.mod_stellate_out,
+            key.I: self.mod_stellate_in,
+            key.E: self.mod_extrude,
+            key.C: self.mod_color,
+        }
         self.faces_suffix = ''
         self.camera_radius = 3
+
+
+    def world_update(self, time, dt):
+        rate = 10.0 * dt
+        self.camera.update.radius += (
+            self.camera_radius - self.camera.update.radius) * rate
 
 
     def on_key_press(self, symbol, modifiers):
         if modifiers & key.MOD_SHIFT:
             if symbol in self.keys_shift:
                 self.keys_shift[symbol]()
+                return EVENT_HANDLED
+        elif modifiers & key.MOD_ALT:
+            if symbol in self.keys_alt:
+                self.keys_alt[symbol]()
                 return EVENT_HANDLED
         else:
             if symbol in self.keys:
@@ -91,23 +103,6 @@ class KeyHandler(object):
             self.world.remove(item)
 
 
-    def add_tetrahedron(self):
-        return self.add_shape(Tetrahedron(1, Color.Random()))
-
-    def add_cube(self):
-        return self.add_shape(Cube(1, Color.Random()))
-
-    def add_octahedron(self):
-        return self.add_shape(Octahedron(1, Color.Random()))
-
-    def add_dodecahedron(self):
-        return self.add_shape(Dodecahedron(1, Color.Random()))
-
-    def add_icosahedron(self):
-        return self.add_shape(Icosahedron(1, Color.Random()))
-
-    def add_dualtetrahedron(self):
-        return self.add_shape(DualTetrahedron(1, Color.Random()))
 
     def add_koche_tetra(self):
         color1 = Color.Random()
@@ -173,11 +168,6 @@ class KeyHandler(object):
 
     def camera_orbit(self, factor):
         self.camera_radius *= factor
-
-    def update(self, time, dt):
-        rate = 10.0 * dt
-        self.camera.update.radius += (
-            self.camera_radius - self.camera.update.radius) * rate
 
 
 class Application(object):
