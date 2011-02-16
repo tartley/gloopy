@@ -4,9 +4,7 @@ from random import uniform
 
 from OpenGL import GL
 
-from .vector import (
-    Vector, neg_y_axis, neg_z_axis, origin, x_axis, y_axis, z_axis,
-)
+from .vector import Vector
 from .matrix import Matrix
 
 
@@ -29,7 +27,7 @@ class Orientation(object):
         If 'up' is omitted, a sensible default up vector is chosen.
         '''
         if forward is None:
-            forward = neg_z_axis
+            forward = Vector.ZNegAxis
         elif not isinstance(forward, Vector):
             forward = Vector(*forward)
         self._forward = forward.normalized()
@@ -95,15 +93,15 @@ class Orientation(object):
         but pointed as near to the Y axis as possible)
         '''
         # special case for forward is y-axis or negative y-axis
-        if self.forward == y_axis:
-            return z_axis
-        elif self.forward == neg_y_axis:
-            return neg_z_axis
+        if self.forward == Vector.YAxis:
+            return Vector.ZAxis
+        elif self.forward == Vector.YNegAxis:
+            return Vector.ZNegAxis
 
         # project 'forward' onto y=0 plane
         flat = Vector(self.forward.x, 0, self.forward.z)
         # find 'axis', a vector in the y=0 plane at right angles to 'flat'
-        axis = flat.cross(y_axis)
+        axis = flat.cross(Vector.YAxis)
         # rotate 'forward' by 90 deg about 'axis'
         up = self.forward.rotate(axis, -pi/2)
         return up.normalized()
@@ -159,7 +157,7 @@ class Orientation(object):
         to represent this orientation.
         '''
         if self._matrix is None:
-            self._matrix = matrix_type( *Matrix(origin, self) )
+            self._matrix = matrix_type( *Matrix(Vector.Origin, self) )
         return self._matrix
 
 

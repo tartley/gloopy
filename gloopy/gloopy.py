@@ -2,7 +2,7 @@ import logging
 import sys
 
 from .controller.eventloop import Eventloop
-from .geom.vector import Vector, origin
+from .geom.vector import Vector
 from .model.item.gameitem import GameItem
 from .model.world import World
 from .util.log import init_log
@@ -31,7 +31,7 @@ class Gloopy(object):
         self.world = World()
         self.camera = GameItem(
             position=Vector(0, 0, 10),
-            look_at=origin,
+            look_at=Vector.Origin,
         )
         self.eventloop = Eventloop(self.world, self.camera, self.options)
         self.eventloop.init()

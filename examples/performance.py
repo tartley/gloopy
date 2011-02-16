@@ -11,7 +11,7 @@ from pyglet.window import key
 
 from gloopy import Gloopy
 from gloopy.color import Color
-from gloopy.geom.vector import origin, Vector
+from gloopy.geom.vector import Vector
 from gloopy.geom.orientation import Orientation
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import Newtonian, Orbit, WobblyOrbit
@@ -36,7 +36,7 @@ def add_items(gloopy, number=None):
         color = col1.tinted(col2, abs(length) / SIZE)
         item = GameItem(
             shape=Cube( 1 + length / 5, color ),
-            position=origin,
+            position=Vector.Origin,
             update=Orbit(
                 Vector(0, -50/length, 0),
                 radius=length,
@@ -120,7 +120,7 @@ def main():
         on_key_press=lambda s, m: on_key_press(gloopy, s, m)
     )
     gloopy.camera.update=WobblyOrbit(
-        center=origin,
+        center=Vector.Origin,
         radius=SIZE * 0.8,
         axis=Vector(2, 3, 1),
         angular_velocity=0,

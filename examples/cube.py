@@ -7,7 +7,7 @@ import fixpath; fixpath
 
 from gloopy import Gloopy
 from gloopy.color import Color
-from gloopy.geom.vector import origin, Vector
+from gloopy.geom.vector import Vector
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
 from gloopy.shapes.cube import Cube
@@ -18,7 +18,7 @@ def main():
     gloopy.init()
     gloopy.world.background_color = Color.Periwinkle
     gloopy.camera.update=WobblyOrbit(
-        center=origin,
+        center=Vector.Origin,
         radius=5,
         axis=Vector(2, 3, 1),
         wobble_size=0.5,

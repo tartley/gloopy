@@ -2,7 +2,7 @@
 from itertools import chain, repeat
 
 from ..geom.matrix import Matrix
-from ..geom.vector import Vector, origin
+from ..geom.vector import Vector
 from ..color import Color
 from ..view.glyph import Glyph
 
@@ -59,7 +59,7 @@ class Face(object):
         Warning: Not an accurate centroid, just the mean vertex position
         '''
         return sum(
-            [self.shape.vertices[i] for i in self], origin
+            [self.shape.vertices[i] for i in self], Vector.Origin
         ) / len(self.indices)
 
 

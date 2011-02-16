@@ -9,7 +9,7 @@ import fixpath; fixpath
 
 from gloopy import Gloopy
 from gloopy.color import Color
-from gloopy.geom.vector import origin, Vector
+from gloopy.geom.vector import Vector
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
 from gloopy.shapes.shape import shape_to_glyph
@@ -41,12 +41,14 @@ class KeyHandler(object):
             key._5: self.add_icosahedron,
             key._6: self.add_dualtetrahedron,
             key._7: self.add_koche_tetra,
+
             key.N: self.mod_normalize,
             key.S: self.mod_subdivide,
             key.O: self.mod_stellate_out,
             key.I: self.mod_stellate_in,
             key.E: self.mod_extrude,
             key.C: self.mod_color,
+
             key.BACKSPACE: self.remove,
             key.B: self.toggle_backface_culling,
             key.PAGEDOWN: lambda: self.camera_orbit(0.5),
@@ -188,7 +190,7 @@ class Application(object):
         self.gloopy.init()
         self.gloopy.world.background_color = Color.Orange
         self.gloopy.camera.update=WobblyOrbit(
-            center=origin,
+            center=Vector.Origin,
             radius=3,
             axis=Vector(2, -3, 1),
             angular_velocity=0.8,

@@ -2,10 +2,8 @@
 Next
 ----
 
-* keypresses should map to invocation of a callable.
-    * keys to zoom camera orbit in and out
-
 * Add good shapes from flyinghigh
+* talk new draft
 
 * demo: nested slices of spheres
   Actually, do cylinders first. Spheres have complications in that a single
@@ -43,40 +41,8 @@ Geometry
 
 * polyhedra bevel
 
-* face labelling:
-
-    * label each face with a 'generation' count? Or a 'face type' UID, so that
-      modifications could operate on just a subset of faces.
-      * UID is bad because how to subsequent operations know which UID to
-        operate on?
-      * generation count is bad because subsequent operations could create#
-        identical counts on very different faces
-      * maybe each face has a list of operations that have been performed on it
-
-        Tetrahedron:
-            f0 [tetrahedron]
-            f1 [tetrahedron]
-            f2 [tetrahedron]
-            f3 [tetrahedron]
-
-        subdivide:
-            f0.0 [tetrahedron,center]
-            f0.1 [tetrahedron,corner]
-            f0.2 [tetrahedron,corner]
-            f0.3 [tetrahedron,corner]
-            f1.0 [tetrahedron,center]
-            f1.1 [tetrahedron,corner]
-            f1.1 [tetrahedron,corner]
-            f1.1 [tetrahedron,corner]
-            etc
-
-    * add shape modifiers that subdivide, then operate on just a subset of the
-      new faces. Recreate Koche tetra using this.
-    * Callables to change the colors which use labelled faces
-        * different colors for different labels
-        * subdivided center inverse from subdivided corners
-          but adjacent subdivided surfaces should be the opposite,
-          so that every new face is surrounded by its inverse
+* modifier to change colors using labelled faces, one color for each unique
+  label
 
 * function to truncate a shape by amount from 0 to 1. Truncation by 1
   results in the geometric dual. This is half done, but turns out to be a
@@ -109,7 +75,6 @@ screenshots on the geexlab website
 
 Seirpinky cubes with floating debris:
 http://www.youtube.com/user/xenopusRTRT#p/u/2/SDzZchuhECY
-
 
 
 Rendering
@@ -357,7 +322,7 @@ DONE
 * make sure all access to pyeuclid is using the local copy.
 * any_orthogonal has a bug if given vector is negative y axis.
     Should set friend as:
-    'x_axis if abs(x) < abs(y) or abs(x) < abs(z)) else y_axis
+    'Vector.XAxis if abs(x) < abs(y) or abs(x) < abs(z)) else Vector.YAxis
 * current diffs cause slowdown because of __setattr__ on gameitem. (measure
   to confirm this) Fix might be to explicitly pass 'item' to item.update,
   in world.update, so that orbits, etc would no longer need to have their
@@ -451,5 +416,32 @@ DONE
   on the selected faces
 * color modifiers should operate on selected faces
 * keypress to generate koche tetra and color it nicely
+* face labelling:
+    * label each face with a 'generation' count? Or a 'face type' UID, so that
+      modifications could operate on just a subset of faces.
+      * UID is bad because how to subsequent operations know which UID to
+        operate on?
+      * generation count is bad because subsequent operations could create#
+        identical counts on very different faces
+      * maybe each face has a list of operations that have been performed on it
+        Tetrahedron:
+            f0 [tetrahedron]
+            f1 [tetrahedron]
+            f2 [tetrahedron]
+            f3 [tetrahedron]
+        subdivide:
+            f0.0 [tetrahedron,center]
+            f0.1 [tetrahedron,corner]
+            f0.2 [tetrahedron,corner]
+            f0.3 [tetrahedron,corner]
+            f1.0 [tetrahedron,center]
+            f1.1 [tetrahedron,corner]
+            f1.1 [tetrahedron,corner]
+            f1.1 [tetrahedron,corner]
+            etc
+    * add shape modifiers that subdivide, then operate on just a subset of the
+      new faces. Recreate Koche tetra using this.
 * key to toggle cull backface?
+* keys to zoom camera orbit in and out
+* make camera zoom smooth
 

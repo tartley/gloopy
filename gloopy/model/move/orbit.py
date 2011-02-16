@@ -1,7 +1,7 @@
 from __future__ import division
 from math import sin
 
-from ...geom.vector import Vector, y_axis
+from ...geom.vector import Vector
 from ...model.item.gameitem import position_or_gameitem
 
 
@@ -17,7 +17,7 @@ class Orbit(object):
             self.center = Vector(center)
         self.radius = radius
         if axis is None:
-            axis = y_axis
+            axis = Vector.YAxis
         else:
             axis = axis.normalized()
         self.axis = axis

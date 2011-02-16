@@ -3,7 +3,7 @@ from unittest import TestCase, main
 
 from ..orientation import Orientation
 from ..matrix import Matrix
-from ..vector import Vector, x_axis, y_axis
+from ..vector import Vector
 
 
 class TestMatrix(TestCase):
@@ -46,11 +46,11 @@ class TestMatrix(TestCase):
         self.assertEqual(matrix.transform(vert) - position, vert)
 
         # now try a couple of transforms which do involve a rotation
-        orientation = Orientation(y_axis)
+        orientation = Orientation(Vector.YAxis)
         matrix = Matrix(position, orientation)
         self.assertEqual(matrix.transform(vert) - position, (1, 3, -2))
 
-        orientation = Orientation(x_axis)
+        orientation = Orientation(Vector.XAxis)
         matrix = Matrix(position, orientation)
         self.assertEqual(matrix.transform(vert) - position, (3, 2, -1))
 

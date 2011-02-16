@@ -1,5 +1,5 @@
 
-from .vector import Vector, origin
+from .vector import Vector
 
 
 class Matrix(object):
@@ -9,7 +9,7 @@ class Matrix(object):
 
     def __init__(self, position=None, orientation=None):
         if position is None:
-            position = origin
+            position = Vector.Origin
         if orientation is None:
             orientation = Matrix.zero_rotation
         self.position = p = position
