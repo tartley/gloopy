@@ -6,6 +6,7 @@ from random import randint
 from .shape import MultiShape
 from .cube import Cube
 from ..color import Color
+from ..geom.orientation import Orientation
 from ..geom.vector import Vector
 
 
@@ -38,6 +39,21 @@ def CubeCorners(edge, color1, color2):
             position=Vector(*pos) * (edge / 2),
         )
     return multi
+
+
+def CubeGlob(radius, number, colors):
+    GAP = 20
+    glob = MultiShape()
+    cube = Cube(1, colors)
+    for _ in xrange(number):
+        pos = Vector.RandomSphere(radius - GAP)
+        gap = pos.normalized() * GAP
+        pos = pos + gap
+        glob.add(
+            cube,
+            position=pos,
+            orientation=Orientation(pos) )
+    return glob
 
 
 def RgbCubeCluster(edge, cluster_edge, cube_count, hole=0):

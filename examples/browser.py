@@ -15,7 +15,9 @@ from gloopy.model.move import WobblyOrbit
 from gloopy.model.move.spin import Spinner
 from gloopy.shapes.shape import shape_to_glyph
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
-from gloopy.shapes.cube_groups import CubeCross, CubeCorners, RgbCubeCluster
+from gloopy.shapes.cube_groups import (
+    CubeCross, CubeCorners, CubeGlob, RgbCubeCluster,
+)
 from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.extrude import extrude
 from gloopy.shapes.icosahedron import Icosahedron
@@ -56,7 +58,8 @@ class KeyHandler(object):
             ),
             key.E: lambda: self.add_shape( Ring(Cube(1, Color.Green), 2, 13) ),
 
-            key.Z: lambda: self.add_shape( RgbCubeCluster(1, 40, 4000) ),
+            key.Z: lambda: self.add_shape( CubeGlob(40, 4000, Color.Red) ),
+            key.X: lambda: self.add_shape( RgbCubeCluster(1, 40, 4000) ),
             key.C: self.add_koche_tetra,
 
             key.BACKSPACE: self.remove,
