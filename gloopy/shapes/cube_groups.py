@@ -1,9 +1,11 @@
 from __future__ import division
 
 from itertools import repeat, product
+from random import randint
 
 from .shape import MultiShape
 from .cube import Cube
+from ..color import Color
 from ..geom.vector import Vector
 
 
@@ -36,4 +38,28 @@ def CubeCorners(edge, color1, color2):
             position=Vector(*pos) * (edge / 2),
         )
     return multi
+
+
+def RgbCubeCluster(edge, cluster_edge, cube_count, hole=0):
+    cluster = MultiShape()
+    for _ in xrange(cube_count):
+        while True:
+            pos = Vector(
+                randint(-cluster_edge, +cluster_edge),
+                randint(-cluster_edge, +cluster_edge),
+                randint(-cluster_edge, +cluster_edge),
+            )
+            color = Color(
+                int((pos.x + cluster_edge) / cluster_edge / 2 * 255),
+                int((pos.y + cluster_edge) / cluster_edge / 2 * 255),
+                int((pos.z + cluster_edge) / cluster_edge / 2 * 255),
+            )
+            # make a hole in the center
+            if pos.length > hole:
+                break
+        cluster.add(
+            Cube(edge, repeat(color)),
+            position=pos
+        )
+    return cluster
 

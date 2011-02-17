@@ -15,7 +15,7 @@ from gloopy.model.move import WobblyOrbit
 from gloopy.model.move.spin import Spinner
 from gloopy.shapes.shape import shape_to_glyph
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
-from gloopy.shapes.cube_groups import CubeCross, CubeCorners
+from gloopy.shapes.cube_groups import CubeCross, CubeCorners, RgbCubeCluster
 from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.extrude import extrude
 from gloopy.shapes.icosahedron import Icosahedron
@@ -56,7 +56,8 @@ class KeyHandler(object):
             ),
             key.E: lambda: self.add_shape( Ring(Cube(1, Color.Green), 2, 13) ),
 
-            key.Z: self.add_koche_tetra,
+            key.Z: lambda: self.add_shape( RgbCubeCluster(1, 40, 4000) ),
+            key.C: self.add_koche_tetra,
 
             key.BACKSPACE: self.remove,
             key.F11: self.toggle_backface_culling,
@@ -117,7 +118,6 @@ class KeyHandler(object):
         item = self.get_selected_item()
         if item:
             self.world.remove(item)
-
 
 
     def add_koche_tetra(self):
