@@ -46,7 +46,7 @@ class KeyHandler(object):
             key._5: lambda: self.add_shape(Icosahedron(1, Color.Random())),
             key._6: lambda: self.add_shape(DualTetrahedron(1, Color.Random())),
             key._7: lambda: self.add_shape(
-                TruncatedCube(1, colors=[Color.Cyan, Color.Blue]),
+                TruncatedCube(1, 0.5, Color.Cyan, Color.Blue),
             ),
             key._8: lambda: self.add_shape( SpaceStation(1.1) ),
 
@@ -57,7 +57,12 @@ class KeyHandler(object):
                 CubeCorners(1, Color.Yellow.tinted(Color.White), Color.Yellow)
             ),
             key.E: lambda: self.add_shape( Ring(Cube(1, Color.Green), 2, 13) ),
-            key.R: lambda: self.add_shape(
+            key.R: lambda: self.add_shape( Ring(
+                TruncatedCube(1, 0.67, Color.SeaGreen, Color.Periwinkle),
+                3.45, 25
+            ) ),
+
+            key.T: lambda: self.add_shape(
                 TriRings(Cube(1, Color.Green), 6, 32)
             ),
 
@@ -189,7 +194,7 @@ class KeyHandler(object):
         if item.update:
             item.update = None
         else:
-            item.update = Spinner()
+            item.update = Spinner(item.orientation)
 
 
     def toggle_backface_culling(self):
@@ -212,7 +217,7 @@ class Application(object):
             center=Vector.Origin,
             radius=3,
             axis=Vector(2, -3, 1),
-            angular_velocity=0.8,
+            angular_velocity=0.08,
             wobble_size=0.0,
             wobble_freq=1,
         )

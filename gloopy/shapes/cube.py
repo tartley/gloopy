@@ -25,10 +25,11 @@ def Cuboid(x, y, z, colors=None, source='Cuboid'):
     return Shape(verts, faces, colors, source)
 
 
-def TruncatedCube(edge, truncation=0.67, colors=None):
-    if colors is None:
-        color = Color.Random()
-        colors = [color, color.inverted()]
+def TruncatedCube(edge, truncation=0.67, color1=None, color2=None):
+    if color1 is None:
+        color1 = Color.Random()
+    if color2 is None:
+        color2 = color1.inverted()
     e2 = edge / 2
     verts = [
         (-e2 + e2 * truncation, -e2, -e2),
@@ -81,8 +82,8 @@ def TruncatedCube(edge, truncation=0.67, colors=None):
         [21, 22, 23],
     ]
     face_colors = chain(
-        repeat(colors[0], 6),
-        repeat(colors[1], 8),
+        repeat(color1, 6),
+        repeat(color2, 8),
     )
     return Shape(verts, faces, face_colors)
 
@@ -90,8 +91,7 @@ def TruncatedCube(edge, truncation=0.67, colors=None):
 def SpaceStation(edge):
 
     color = Color.Grey.tinted(Color.Cyan)
-    colors = [color, color]
-    shape = TruncatedCube(edge, truncation=0.999, colors=colors)
+    shape = TruncatedCube(edge, 0.999, color, color)
 
     # add the door
     e2 = edge / 2

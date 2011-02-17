@@ -2,14 +2,15 @@
 from math import cos, sin
 
 from ...geom.orientation import Orientation
-from ...geom.vector import Vector
 
 
 class Spinner(object):
 
-    def __init__(self, speed=1.0):
+    def __init__(self, orientation=None, speed=1.0):
+        if orientation is None:
+            orientation = Orientation()
         self.speed = speed
-        self.orientation = Orientation(Vector.XAxis)
+        self.orientation = orientation
 
     def __call__(self, item, time, dt):
         self.orientation.pitch(sin(time) * dt * self.speed)
