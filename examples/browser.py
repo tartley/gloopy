@@ -12,17 +12,19 @@ from gloopy.color import Color
 from gloopy.geom.vector import Vector
 from gloopy.model.item.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
+from gloopy.model.move.spin import Spinner
 from gloopy.shapes.shape import shape_to_glyph
-from gloopy.shapes.cube import Cube
-from gloopy.shapes.cube_groups import CubeCross
-from gloopy.shapes.extrude import extrude
+from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
+from gloopy.shapes.cube_groups import CubeCross, CubeCorners
 from gloopy.shapes.dodecahedron import Dodecahedron
+from gloopy.shapes.extrude import extrude
 from gloopy.shapes.icosahedron import Icosahedron
-from gloopy.shapes.octahedron import Octahedron
-from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
 from gloopy.shapes.normalize import normalize
-from gloopy.shapes.subdivide import subdivide
+from gloopy.shapes.octahedron import Octahedron
+from gloopy.shapes.ring import Ring
 from gloopy.shapes.stellate import stellate
+from gloopy.shapes.subdivide import subdivide
+from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
 
 
 
@@ -41,8 +43,21 @@ class KeyHandler(object):
             key._4: lambda: self.add_shape(Dodecahedron(1, Color.Random())),
             key._5: lambda: self.add_shape(Icosahedron(1, Color.Random())),
             key._6: lambda: self.add_shape(DualTetrahedron(1, Color.Random())),
-            key._7: lambda: self.add_shape(CubeCross(1, Color.Yellow, Color.Yellow.tinted(Color.White))),
-            key.T: self.add_koche_tetra,
+            key._7: lambda: self.add_shape(
+                TruncatedCube(1, colors=[Color.Cyan, Color.Blue]),
+            ),
+            key._8: lambda: self.add_shape( SpaceStation(1.1) ),
+
+            key.Q: lambda: self.add_shape(
+                CubeCross(1, Color.Red, Color.Red.tinted(Color.Orange))
+            ),
+            key.W: lambda: self.add_shape(
+                CubeCorners(1, Color.Yellow.tinted(Color.White), Color.Yellow)
+            ),
+            key.E: lambda: self.add_shape( Ring(Cube(1, Color.Green), 2, 13) ),
+
+            key.Z: self.add_koche_tetra,
+
             key.BACKSPACE: self.remove,
             key.F11: self.toggle_backface_culling,
             key.PAGEDOWN: lambda: self.camera_orbit(0.5),
@@ -62,6 +77,7 @@ class KeyHandler(object):
             key.I: self.mod_stellate_in,
             key.E: self.mod_extrude,
             key.C: self.mod_color,
+            key.R: self.mod_spin,
         }
         self.faces_suffix = ''
         self.camera_radius = 3
@@ -161,6 +177,13 @@ class KeyHandler(object):
 
     def mod_color(self):
         self.mod_shape(self.recolor, Color.Random())
+
+    def mod_spin(self):
+        item = self.get_selected_item()
+        if item.update:
+            item.update = None
+        else:
+            item.update = Spinner()
 
 
     def toggle_backface_culling(self):
