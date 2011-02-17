@@ -23,7 +23,7 @@ from gloopy.shapes.extrude import extrude
 from gloopy.shapes.icosahedron import Icosahedron
 from gloopy.shapes.normalize import normalize
 from gloopy.shapes.octahedron import Octahedron
-from gloopy.shapes.ring import Ring
+from gloopy.shapes.ring import Ring, TriRings
 from gloopy.shapes.stellate import stellate
 from gloopy.shapes.subdivide import subdivide
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
@@ -57,6 +57,9 @@ class KeyHandler(object):
                 CubeCorners(1, Color.Yellow.tinted(Color.White), Color.Yellow)
             ),
             key.E: lambda: self.add_shape( Ring(Cube(1, Color.Green), 2, 13) ),
+            key.R: lambda: self.add_shape(
+                TriRings(Cube(1, Color.Green), 6, 32)
+            ),
 
             key.Z: lambda: self.add_shape( CubeGlob(40, 4000, Color.Red) ),
             key.X: lambda: self.add_shape( RgbCubeCluster(1, 40, 4000) ),
