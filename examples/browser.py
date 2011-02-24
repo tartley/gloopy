@@ -48,25 +48,41 @@ class KeyHandler(object):
             key._7: lambda: self.add_shape(
                 TruncatedCube(1, 0.5, Color.Cyan, Color.Blue),
             ),
-            key._8: lambda: self.add_shape( SpaceStation(1.1) ),
+            key._8: lambda: self.add_shape( SpaceStation(1.1), ),
 
             key.Q: lambda: self.add_shape(
-                CubeCross(1, Color.Red, Color.Red.tinted(Color.Orange))
+                CubeCross(1, Color.Red, Color.Red.tinted(Color.Orange)),
             ),
             key.W: lambda: self.add_shape(
-                CubeCorners(1, Color.Yellow.tinted(Color.White), Color.Yellow)
+                CubeCorners(
+                    1, Color.Yellow.tinted(Color.White), Color.Yellow
+                ),
             ),
-            key.E: lambda: self.add_shape( Ring(Cube(1, Color.Green), 2, 13) ),
-            key.R: lambda: self.add_shape( Ring(
-                TruncatedCube(1, 0.67, Color.SeaGreen, Color.Periwinkle),
-                3.45, 25
-            ) ),
-
+            key.E: lambda: self.add_shape(
+                Ring(Cube(1, Color.Green), 2, 13),
+                update=Spinner(speed=1),
+            ),
+            key.R: lambda: self.add_shape(
+                Ring(
+                    TruncatedCube(1, 0.67, Color.SeaGreen, Color.Periwinkle),
+                    3.45, 25
+                ),
+                update=Spinner(speed=0.5),
+            ),
             key.T: lambda: self.add_shape(
-                TriRings(Cube(1, Color.Green), 6, 32)
+                TriRings(Cube(1, Color.DarkTeal), 6, 32),
+                update=Spinner(speed=0.2),
+            ),
+            key.Y: lambda: self.add_shape(
+                shape=TriRings(
+                    CubeCorners(1, Color.Lavender, Color.Gold),
+                    8, 24),
+                update=Spinner(speed=0.1),
             ),
 
-            key.Z: lambda: self.add_shape( CubeGlob(40, 4000, Color.Red) ),
+            key.Z: lambda: self.add_shape(
+                CubeGlob(40, 4000, Color.Red)
+            ),
             key.X: lambda: self.add_shape( RgbCubeCluster(1, 40, 4000) ),
             key.C: self.add_koche_tetra,
 
@@ -120,8 +136,8 @@ class KeyHandler(object):
             itemid = max(self.world.items.iterkeys())
             return self.world[itemid]
 
-    def add_shape(self, shape):
-        item = GameItem(shape=shape)
+    def add_shape(self, shape, **kwargs):
+        item = GameItem(shape=shape, **kwargs)
         self.world.add(item)
         return item
 

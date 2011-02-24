@@ -2,23 +2,29 @@
 Next
 ----
 
-* Add good shapes from flyinghigh
-* talk new draft
+* lighting is wrong! Stationary camera, spinning object, lighting stays fixed.
+  Maybe compare my shader with the tutorial at:
+  http://www.arcsynthesis.org/gltut/Illumination/Illumination.html
+  Add a point light source while we're at it?
 
-* demo: nested slices of spheres
-  Actually, do cylinders first. Spheres have complications in that a single
-  flat outer surface won't be adequate, esp. near the poles.
+* demo: nested radial slices of cylinders orbiting a common axis
+
+* Callables to put an object in orbit?
+
+* Talk: Set up the tension of posing problems, then solving them:
+    vertex arrays are nasty denormalized, Shape->Glyph solves that
+    performance of many independently positions shapes is bad,
+        use VBOs to avoid sending data every frame
+        optimise by cleaning up the main render loop, incl VAO
+        Cython
+        Hypothetical: purely shader based with single draw call
+    processing each vertex every frame is hard:
+        use shaders to animate
 
 
 Demos
 -----
 
-* alt-add puts new object in orbit around selected item
-* Callables to put an object in orbit around another object
-* Callables to change orbital parameters
-    - of camera
-    - of selected object
-* User-controlled camera.
 * Display a cursor on currently selected item, tab changes selected
   item, callables modify this item
 
@@ -444,4 +450,6 @@ DONE
 * key to toggle cull backface?
 * keys to zoom camera orbit in and out
 * make camera zoom smooth
+* Add good shapes from flyinghigh
+* talk new draft
 
