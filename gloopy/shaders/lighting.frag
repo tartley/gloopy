@@ -1,8 +1,11 @@
 
 varying vec4 baseColor;
 
+out vec4 fragColor;
+
+
 void main()
 {
-    gl_FragColor = baseColor;
+    fragColor = baseColor;
 }
 
