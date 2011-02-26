@@ -233,9 +233,9 @@ class Application(object):
             center=Vector.Origin,
             radius=3,
             axis=Vector(2, -3, 1),
-            angular_velocity=0.08,
+            angular_velocity=0.8,
             wobble_size=0.0,
-            wobble_freq=1,
+            wobble_freq=0.01,
         )
         self.gloopy.camera.look_at = Vector(0, 0, 0)
         
