@@ -35,6 +35,11 @@ tags:
 .PHONY: tags
 
 
+docs:
+	docs/make.bat
+.PHONY: docs
+
+
 sdist:
 	rm -rf dist/${NAME}-${VERSION}.* build
 	python setup.py --quiet sdist
