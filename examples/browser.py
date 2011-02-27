@@ -4,8 +4,8 @@ from __future__ import division
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
 
-# let this script run within the 'examples' dir, even if Gloopy is not installed
-import fixpath; fixpath
+# let this script run from the 'examples' dir, even if Gloopy isn't installed
+import fixpath
 
 from gloopy import Gloopy
 from gloopy.color import Color
