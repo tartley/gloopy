@@ -36,7 +36,7 @@ tags:
 
 
 docs:
-	docs/make.bat
+	sphinx-build docs docs/html
 .PHONY: docs
 
 

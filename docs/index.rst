@@ -6,8 +6,6 @@
 Welcome to Gloopy's documentation!
 ==================================
 
-.. automodule:: gloopy
-
 Contents:
 
 .. toctree::
@@ -19,4 +17,6 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. automodule:: gloopy
 
