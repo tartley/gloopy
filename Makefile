@@ -36,6 +36,7 @@ tags:
 
 
 docs:
+	sphinx-apidoc gloopy -o docs
 	sphinx-build docs docs/html
 .PHONY: docs
 

@@ -70,14 +70,6 @@ class Shape(object):
     indices into the vertex array, forming a coplanar convex ring defining the
     face's edges. Duplicate indices do not have to be given at the start and
     end of each face, the closed loop is implied. Each face has its own color.
-
-    public interface to a Shape is:
-        shape.vertices = [vector, vector, vector...]
-        shape.faces = [
-            Face([1, 2, 3, 4], color1, shape),
-            Face([4, 5, 1, 9], color2, shape),
-            ...
-        ]
     '''    
     def __init__(self, vertices, faces, colors, name='unknown'):
 

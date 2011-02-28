@@ -53,7 +53,8 @@ def subdivide_face(shape, face_index, edges, color2=None):
 def subdivide(shape, faces=None, color=None):
     r"""
     Subdivide the faces of the given shape.
-    Subdivision forms new, smaller faces by cutting the corners off a face.
+    Subdivision forms new, smaller faces by cutting the corners off a face::
+
                      v0
                      /\       vertices v0-v2 correspond to indices face[0:2]
                     /  \
@@ -61,6 +62,7 @@ def subdivide(shape, faces=None, color=None):
                   / \  / \
                  /___\/___\
                v1  mid[1]  v2
+
     By default, all faces are operated on, but this can be overidden by
     specifying 'faces' as an iterable of integer face indices.
     Operates in-place on the given shape.
