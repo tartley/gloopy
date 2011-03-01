@@ -6,15 +6,23 @@
 Welcome to Gloopy's documentation
 =================================
 
-Contents:
+:Author: `Jonathan Hartley <http://tartley.com>`_
+:Version: |release|
+:Download: `Gloopy on PyPI <http://pypi.python.org/pypi/gloopy>`_
+:Source: `Gloopy on BitBucket <https://bitbucket.org/tartley/gloopy>`_
+:Documentation: `TODO <http://TODO>`_
+:License: `BSD or other OSI-approved <https://bitbucket.org/tartley/gloopy/src/tip/LICENSE.txt>`_
+
+
+Contents
+========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
-Indices and tables
-==================
+   overview
+   modules
 
-* :ref:`genindex`
-* :ref:`modindex`
+
 * :ref:`search`
 
