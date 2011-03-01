@@ -2,14 +2,21 @@
 Next
 ----
 
-* lighting is wrong! Stationary camera, spinning object, lighting stays fixed.
-  Maybe compare my shader with the tutorial at:
-  http://www.arcsynthesis.org/gltut/Illumination/Illumination.html
-  Add a point light source while we're at it?
+* finish documentation
+    * figure out how to link to classes, modules, etc
+    * add a worked example
+    * add screenshots to the example
+    * add docstrings throughout
+    * reorg the modules
 
-* demo: nested radial slices of cylinders orbiting a common axis
-
-* Callables to put an object in orbit?
+* release on PyPI
+    * create a local source dist
+    * install using that
+    * run examples in isolation using the installed Gloopy
+    * Repeat on Ubuntu
+    * make upload
+    * binary release not required (it's a library)
+    * add a comment on my old announcement on pyweek message board
 
 * Talk: Set up the tension of posing problems, then solving them:
     vertex arrays are nasty denormalized, Shape->Glyph solves that
@@ -20,6 +27,9 @@ Next
         Hypothetical: purely shader based with single draw call
     processing each vertex every frame is hard:
         use shaders to animate
+
+* demo: nested radial slices of cylinders orbiting a common axis
+
 
 
 Demos
@@ -85,6 +95,11 @@ http://www.youtube.com/user/xenopusRTRT#p/u/2/SDzZchuhECY
 
 Rendering
 ---------
+
+* lighting is wrong! Stationary camera, spinning object, lighting stays fixed.
+  Maybe compare my shader with the tutorial at:
+  http://www.arcsynthesis.org/gltut/Illumination/Illumination.html
+  Add a point light source while we're at it?
 
 * Curved surfaces: Expressed in shape as a collection of faces. Verts for all
   faces within the collection are shared, not duplicated from one face to the
