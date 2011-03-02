@@ -7,7 +7,7 @@ from .model.item.gameitem import GameItem
 from .model.world import World
 from .util.log import init_log
 from .util.options import Options
-from .version import VERSION
+from .version import RELEASE
 
 
 log = None
@@ -26,7 +26,7 @@ class Gloopy(object):
         self.eventloop = None
 
     def init(self):
-        log.info('v%s' % (VERSION,))
+        log.info('v%s' % (RELEASE,))
         self.options = Options(sys.argv)
         self.world = World()
         self.camera = GameItem(

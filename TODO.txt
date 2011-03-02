@@ -4,6 +4,7 @@ Next
 
 * finish documentation
     * figure out how to link to classes, modules, etc
+    * move docs makefile into docs dir
     * add a worked example, with screenshots
     * add docstrings throughout
 
