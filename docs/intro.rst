@@ -7,12 +7,17 @@ and PyOpenGL for OpenGL bindings.
 
 Gloopy provides the following services:
 
-* Creation and manipulation of 3D, flat-surfaced, polyhedra, using the `Shape` class.
-* Factory functions to produce particular shapes, such as `Cube` or `Isocosahedron`.
-* Some basic algorithms to modify existing shapes, such as by subdividing or extruding their surfaces.
+* Creation and manipulation of 3D, flat-surfaced, polyhedra, using the `Shape`
+  class.
+* Factory functions to produce particular shapes, such as `Cube` or
+  `Icososahedron`.
+* Some basic algorithms to modify existing shapes, such as by subdividing or
+  extruding their surfaces.
 * Conversion of shapes into `Glyphs`, OpenGL vertex arrays stored in VBOs.
-* A simple `Renderer` renders an iterable of glyphs, each with its own position and orientation.
-* A `Camera` class that can be positioned, oriented, or told to look at a particular item or position.
+* A simple `Renderer` renders an iterable of glyphs, each with its own position
+  and orientation.
+* A `Camera` class that can be positioned, oriented, or told to look at a
+  particular item or position.
 
 
 Dependencies
