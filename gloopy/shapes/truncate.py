@@ -37,10 +37,12 @@ def truncate(original, amount=0.5):
     Returns a new Shape instance, copied from the original but with every
     vertex truncated, exposing new faces which occupy volume within the
     original shape. The amount of truncation must lie between 0 and 1:
-        0: do nothing, although some redundant new vertices and zero-sized
-           faces will be created.
-        intermediate: truncation of vertices forms new faces on the shape.
-        1: new faces grow until they meet - original faces entirely dissapear.
+    
+    - 0: do nothing, although some redundant new vertices and zero-sized
+      faces will be created.
+    - intermediate: truncation of vertices forms new faces on the shape.
+    - 1: new faces grow until they meet - original faces entirely dissapear.
+
     Truncating by an amount of 1 results in the original's geometric dual.
     '''
     vertices = []
