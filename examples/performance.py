@@ -116,7 +116,7 @@ def main():
     add_items(gloopy, 400)
     toggle_attr(gloopy, 'orientation', Orientation.Random)
 
-    gloopy.eventloop.window.push_handlers(
+    gloopy.window.push_handlers(
         on_key_press=lambda s, m: on_key_press(gloopy, s, m)
     )
     gloopy.camera.update=WobblyOrbit(

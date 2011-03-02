@@ -1,5 +1,5 @@
 '''
-Wrap any fiddly OpenGL functions
+Wrap any OpenGL functions which are fiddly to access via the raw bindings.
 '''
 
 from OpenGL import GL

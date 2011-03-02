@@ -241,10 +241,10 @@ class Application(object):
         
         self.keyhandler = KeyHandler(
             self.gloopy.world,
-            self.gloopy.eventloop.render,
+            self.gloopy.render,
             self.gloopy.camera,
         )
-        self.gloopy.eventloop.window.push_handlers(self.keyhandler)
+        self.gloopy.window.push_handlers(self.keyhandler)
 
         self.gloopy.run()
 

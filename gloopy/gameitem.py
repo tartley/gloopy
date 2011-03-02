@@ -23,8 +23,7 @@ class GameItem(object):
         
             .. function:: update(self, time, dt)
 
-            This is called in between every render. Assign this to
-            a function to modify the item's position, animate it's shape, etc.
+            This is called in between every render (unless it is None.)
 
         You should feel free to pass in other attributes, which you might
         use in this item's ``update`` method, for example ``.velocity``, which
