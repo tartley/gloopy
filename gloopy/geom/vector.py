@@ -8,6 +8,20 @@ EPSILON = 1e-7
 
 
 class Vector(namedtuple('VectorBase', 'x y z')):
+    '''
+    3-component named tuple: (x, y, z), with some methods, including value
+    type equality semantics.
+
+    .. function:: __init__(x, y, z)
+
+    Arithmetic operators are supported:
+
+    .. function:: __neg__(): unary minus to invert direction
+    .. function:: __add__(other): addition of vector or 3-tuple
+    .. function:: __sub__(other): subtraction of vector or 3-tuple
+    .. function:: __mul__(float): scale a vector
+    .. function:: __div__(float): scale a vector (truediv also supported)
+    '''
 
     __slots__ = []
 
@@ -64,15 +78,21 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     @staticmethod
     def RandomCube(size, ints=False):
+        '''
+        A new random Vector, evenly distributed within a cube of `size` sides.
+        '''
         rand = randint if ints else uniform
         return Vector(
-            rand(-size, +size),
-            rand(-size, +size),
-            rand(-size, +size),
+            rand(-size/2, +size/2),
+            rand(-size/2, +size/2),
+            rand(-size/2, +size/2),
         )
 
     @staticmethod
     def RandomSphere(radius):
+        '''
+        A new random Vector, evenly distributed within a sphere of `radius`.
+        '''
         while True:
             p = Vector.RandomCube(radius)
             if p.length2 < radius ** 2:
@@ -80,6 +100,9 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     @staticmethod
     def RandomShell(radius):
+        '''
+        A new random Vector, evenly distributed on surface a sphere of `radius`.
+        '''
         while True:
             p = Vector.RandomCube(radius)
             if p.length2 < radius ** 2:
@@ -87,28 +110,25 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     @property
     def length(self):
-        '''
-        the length
-        '''
         return sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
 
     @property
     def length2(self):
         '''
-        the length squared
+        Length squared. Cheaper to calculate.
         '''
         return self.x ** 2 + self.y ** 2 + self.z ** 2
 
     def normalized(self, length=1):
         '''
-        return a new vector in the same direction, but of length 1
+        Return a new vector in the same direction, but given length (default 1)
         '''
         factor = length / self.length
         return Vector(self.x * factor, self.y * factor, self.z * factor)
 
     def cross(self, other):
         '''
-        return a new vector, the cross product
+        Return a new vector, the cross product
         a x b = (a2b3 - a3b2, a3b1 - a1b3, a1b2 - a2b1)
         http://en.wikipedia.org/wiki/Cross_product
         '''
@@ -119,7 +139,7 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     def dot(self, other):
         '''
-        return the scalar dot product
+        Return the scalar dot product
         '''
         return self[0] * other[0] + self[1] * other[1] + self[2] * other[2]
 
@@ -131,7 +151,11 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     def rotate(self, axis, angle):
         '''
-        return a new vector, rotated about the given axis
+        Return a new vector, rotated about the given axis
+
+        If rotating many verts around the same axis, consider creating a
+        Matrix to represent the rotation instead, and calling m.transform(v)
+        on each vertex, which might be faster.
         '''
         c = cos(-angle)
         t = 1 - c
@@ -158,7 +182,7 @@ class Vector(namedtuple('VectorBase', 'x y z')):
        
     def any_orthogonal(self):
         '''
-        return any unit vector at right angles to the given vector
+        Return any unit vector at right angles to the given vector
         '''
         assert self != Vector.Origin
         # friend = any vector at all, so long as it isn't parallel to orig

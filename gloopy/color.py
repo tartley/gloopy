@@ -7,9 +7,11 @@ from random import randint, uniform
 
 class Color(namedtuple('__BaseColor', 'r g b a')):
     '''
-    A Color is a named tuple of four unsigned bytes (Note this is likely to
-    change in the future to using floats throughout. It seems that once
-    geometry is pushed to a VBO, the performance gains of using ubytes
+    4-component named tuple: (r, g, b, a), with some methods.
+
+    Each component is an unsigned byte in the range 0 to 255. (Note this is
+    likely to change in the future to using floats throughout. It seems that
+    once geometry is pushed to a VBO, the performance gains of using ubytes
     diminish substantially).
 
     .. function:: __init__(r, g, b[, a=255])
