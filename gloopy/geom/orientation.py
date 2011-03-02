@@ -17,7 +17,17 @@ class Orientation(object):
     '''
     Defines an orientation by maintaining a `forward` and `up` vector (and a
     derived `right`, orthogonal to both.)
-    The identity orientation, which results in zero rotation, is with forward
+
+    .. function:: __init__(forward=None, up=None)
+    
+        Constructs an orientation looking along the `forward` vector. If none
+        is given then defaul to the negative Z axis.
+
+        If `up` is specified, it must lie at right angles to `forward`. If none
+        is given then a default is chosen, the vector at right angles to forward
+        which lies closest to the positive Y axis.
+
+    Orientation.Identity, which results in zero rotation, is with forward
     pointing along the negative Z axis, up along the positive Y axis (and
     hence right along the positive X axis.)
     '''
@@ -48,6 +58,7 @@ class Orientation(object):
         # whenever self.forward or self.up change.
         self._matrix = None
 
+
     def __repr__(self):
         return 'Orientation(%s, up=%s)' % (self.forward, self.up)
 
@@ -65,7 +76,10 @@ class Orientation(object):
 
     @staticmethod
     def Random():
-        fwd = Vector.RandomCube(1)
+        '''
+        Return a new random Orientation
+        '''
+        fwd = Vector.RandomSphere(1)
         orientation = Orientation(fwd)
         orientation.roll(uniform(-pi, +pi))
         return orientation
@@ -116,7 +130,7 @@ class Orientation(object):
 
     def roll(self, angle):
         '''
-        rotate about the 'forward' axis (ie. +ve angle rolls to the right)
+        Rotate about the 'forward' axis (ie. +ve angle rolls to the right.)
         '''
         self.up = self.up.rotate(self.forward, -angle).normalized()
         self.right = self._get_right()
@@ -124,7 +138,7 @@ class Orientation(object):
 
     def yaw(self, angle):
         '''
-        rotate about the 'down' axis (ie. +ve angle yaws to the right)
+        Rotate about the 'down' axis (ie. +ve angle yaws to the right.)
         '''
         self.forward = self.forward.rotate(self.up, angle).normalized()
         self.right = self._get_right()
@@ -132,13 +146,16 @@ class Orientation(object):
 
     def pitch(self, angle):
         '''
-        rotate about the 'right' axis (ie. +ve angle pitches up)
+        Rotate about the 'right' axis (ie. +ve angle pitches up.)
         '''
         self.forward = self.forward.rotate(self.right, -angle).normalized()
         self.up = self.up.rotate(self.right, -angle).normalized()
 
 
     def rotate(self, axis, angle):
+        '''
+        Rotate about the given axis by the given angle.
+        '''
         self.forward = self.forward.rotate(axis, angle)
         self.up = self.up.rotate(axis, angle)
         self.right = self._get_right()
@@ -154,7 +171,8 @@ class Orientation(object):
     def matrix(self):
         '''
         The matrix that the OpenGL modelview matrix should be multiplied by
-        to represent this orientation.
+        to represent this orientation. It's likely that this method will
+        disappear in later releases of Gloopy.
         '''
         if self._matrix is None:
             self._matrix = matrix_type( *Matrix(Vector.Origin, self) )
