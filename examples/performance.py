@@ -13,7 +13,7 @@ from gloopy import Gloopy
 from gloopy.color import Color
 from gloopy.geom.vector import Vector
 from gloopy.geom.orientation import Orientation
-from gloopy.model.item.gameitem import GameItem
+from gloopy.gameitem import GameItem
 from gloopy.model.move import Newtonian, Orbit, WobblyOrbit
 from gloopy.shapes.cube import Cube
 

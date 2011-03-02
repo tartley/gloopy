@@ -2,8 +2,8 @@ import logging
 import sys
 
 from .controller.eventloop import Eventloop
+from .gameitem import GameItem
 from .geom.vector import Vector
-from .model.item.gameitem import GameItem
 from .model.world import World
 from .util.log import init_log
 from .util.options import Options

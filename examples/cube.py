@@ -8,7 +8,7 @@ import fixpath; fixpath
 from gloopy import Gloopy
 from gloopy.color import Color
 from gloopy.geom.vector import Vector
-from gloopy.model.item.gameitem import GameItem
+from gloopy.gameitem import GameItem
 from gloopy.model.move import WobblyOrbit
 from gloopy.shapes.cube import Cube
 

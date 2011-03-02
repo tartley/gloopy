@@ -1,5 +1,5 @@
 
-from ...geom.vector import Vector
+from .geom.vector import Vector
 
 
 class GameItem(object):
