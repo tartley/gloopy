@@ -1,7 +1,7 @@
 
-from ..color import Color
-from ..geom.vector import Vector
-from ..util.event import Event
+from .color import Color
+from .geom.vector import Vector
+from .util.event import Event
 
 
 class World(object):

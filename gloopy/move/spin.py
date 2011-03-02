@@ -1,7 +1,7 @@
 
 from math import cos, sin
 
-from ...geom.orientation import Orientation
+from ..geom.orientation import Orientation
 
 
 class Spinner(object):

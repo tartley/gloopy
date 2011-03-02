@@ -44,7 +44,7 @@ world::
 
     gloopy.world.add(item)
 
-``gloopy.world`` is an instance of :class:`~gloopy.model.world.World`, which is
+``gloopy.world`` is an instance of :class:`~gloopy.world.World`, which is
 just a dumb collection of :class:`~gloopy.gameitem.GameItem`
 instances.
 

@@ -6,10 +6,9 @@ import sys
 import pyglet
 from pyglet.window import key
 
-from .eventloop import Eventloop
 from .gameitem import GameItem
 from .geom.vector import Vector
-from .model.world import World
+from .world import World
 from .util.log import init_log
 from .util.options import Options
 from .util.screenshot import screenshot

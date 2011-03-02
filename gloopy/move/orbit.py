@@ -1,8 +1,8 @@
 from __future__ import division
 from math import sin
 
-from ...geom.vector import Vector
-from ...gameitem import position_or_gameitem
+from ..geom.vector import Vector
+from ..gameitem import position_or_gameitem
 
 
 class Orbit(object):

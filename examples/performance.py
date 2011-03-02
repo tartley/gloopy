@@ -4,7 +4,7 @@ from math import pi, sqrt
 from random import choice, uniform
 
 # let this script run within the 'examples' dir, even if Gloopy is not installed
-import fixpath; fixpath
+import fixpath
 
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
@@ -14,7 +14,7 @@ from gloopy.color import Color
 from gloopy.geom.vector import Vector
 from gloopy.geom.orientation import Orientation
 from gloopy.gameitem import GameItem
-from gloopy.model.move import Newtonian, Orbit, WobblyOrbit
+from gloopy.move import Newtonian, Orbit, WobblyOrbit
 from gloopy.shapes.cube import Cube
 
 

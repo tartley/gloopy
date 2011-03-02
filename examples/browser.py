@@ -11,8 +11,7 @@ from gloopy import Gloopy
 from gloopy.color import Color
 from gloopy.geom.vector import Vector
 from gloopy.gameitem import GameItem
-from gloopy.model.move import WobblyOrbit
-from gloopy.model.move.spin import Spinner
+from gloopy.move import Spinner, WobblyOrbit
 from gloopy.shapes.shape import shape_to_glyph
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
 from gloopy.shapes.cube_groups import (

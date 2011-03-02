@@ -1,5 +1,5 @@
 
-from ...geom.orientation import Orientation
+from ..geom.orientation import Orientation
 
 
 class Newtonian(object):

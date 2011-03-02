@@ -3,13 +3,13 @@ from __future__ import division
 from math import pi
 
 # let this script run within the 'examples' dir, even if Gloopy is not installed
-import fixpath; fixpath
+import fixpath
 
 from gloopy import Gloopy
 from gloopy.color import Color
 from gloopy.geom.vector import Vector
 from gloopy.gameitem import GameItem
-from gloopy.model.move import WobblyOrbit
+from gloopy.move import WobblyOrbit
 from gloopy.shapes.cube import Cube
 
 
