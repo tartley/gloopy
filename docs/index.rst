@@ -17,7 +17,7 @@ Contents
    :maxdepth: 4
 
    intro
-   modules
+   api/modules
 
 
 * :ref:`search`
