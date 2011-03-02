@@ -15,11 +15,11 @@ matrix_type = GL.GLfloat * 16
 
 class Orientation(object):
     '''
-    Define's an orientation by maintaining a forward and up vector (and a
-    derived 'right' vector, orthogonal to both) which defines an orientation.
+    Defines an orientation by maintaining a `forward` and `up` vector (and a
+    derived `right`, orthogonal to both.)
     The identity orientation, which results in zero rotation, is with forward
-    pointing along the negative Z axis, up along the positive Y axis, and
-    hence right along the positive X axis.
+    pointing along the negative Z axis, up along the positive Y axis (and
+    hence right along the positive X axis.)
     '''
     def __init__(self, forward=None, up=None):
         '''
@@ -161,8 +161,8 @@ class Orientation(object):
         return self._matrix
 
 
-identity = Orientation()
+Orientation.Identity = Orientation()
 
 # ugly hack to prevent cyclic imports
-Matrix.zero_rotation = identity
+Matrix._zero_rotation = Orientation.Identity
 

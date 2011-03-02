@@ -3,15 +3,22 @@ from .vector import Vector
 
 
 class Matrix(object):
+    '''
+    4x4 matrix. Supports iteration over elements.
+
+    .. function:: __init__(self, position=None, orientation=None)
+
+        Creates a matrix representing the given orientation and offset.
+    '''
 
     # ugly hack: orientation.py populates this to prevent cyclic imports
-    zero_rotation = None
+    _zero_rotation = None
 
     def __init__(self, position=None, orientation=None):
         if position is None:
             position = Vector.Origin
         if orientation is None:
-            orientation = Matrix.zero_rotation
+            orientation = Matrix._zero_rotation
         self.position = p = position
         self.orientation = o = orientation
         self.elements = [
@@ -26,8 +33,8 @@ class Matrix(object):
 
     def transform(self, vert):
         '''
-        return the product of the given vertex by self, to give the vertex
-        rotated by our orientation and translated by our position.
+        Return a new Vector equal to `vert` transformed by this matrix
+        (i.e. rotated by our orientation and translated by our position.)
         '''
         if self.orientation:
             e = self.elements
