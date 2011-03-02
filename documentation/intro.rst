@@ -62,10 +62,16 @@ a mess and may change substantially in later releases.
 No issue tracker is currently maintained, but the major shortfalls as
 I percieve them are:
 
+* Some algorithmic modifiers, such as face subdivision, extrusion, stellation,
+  do not currently work on MultiShapes. This is because these modifiers rely
+  on modifying attributes of the given shape in place, such as by inserting
+  new entries in the .faces collection. However, MultiShapes provide many of
+  these attributes by using generators to form a composite stream of their
+  children. I guess I ought to make all shape modifiers functional.
 * The supplied 'directional lighting' shader is broken - rotating an object
   does not modify the apparent illumination of its surfaces.
-* It doesn't handle texture mapped surfaces
-* It doesn't handle the use of multiple shaders within a single scene
+* No attempt is made to handle textures. All faces are plain colors.
+* We don't currently handle multiple shaders within a single scene.
 
 
 Thanks
@@ -74,5 +80,6 @@ Thanks
 `PyWeek <http://pyweek.org>`_ participants 'Scav' and 'Threads' for showing me
 how it should be done, and PyWeek message board users donal.h, Cosmologicon,
 RB[0], PyTM30, Tee and saluk for cajoling me into accepting the merit of
-allowing people to bring pre-existing codebases into PyWeek.
+allowing people to bring pre-existing codebases into PyWeek so long as they
+are public.
 
