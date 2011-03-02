@@ -4,7 +4,7 @@ from collections import namedtuple
 from random import randint, uniform
 
 
-class Color(namedtuple('Color', 'r g b a')):
+class Color(namedtuple('BaseColor', 'r g b a')):
     '''
     r: red
     g: green
@@ -29,7 +29,9 @@ class Color(namedtuple('Color', 'r g b a')):
         print Color.RoyalPurple
     
     The names and values are taken from the top 69 results of the xkcd color
-    survey: http://blog.xkcd.com/2010/05/03/color-survey-results/
+    survey:
+
+        http://blog.xkcd.com/2010/05/03/color-survey-results/
     '''
 
     COMPONENTS = 4
