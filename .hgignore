@@ -1,0 +1,3 @@
+syntax: regexp
+^documentation/api
+^documentation/html
