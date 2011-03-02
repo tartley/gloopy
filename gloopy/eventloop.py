@@ -12,6 +12,8 @@ log = logging.getLogger(__name__)
 
 
 class Eventloop(object):
+    '''
+    '''
 
     def __init__(self, world, camera, options):
         self.world = world
@@ -56,14 +58,6 @@ class Eventloop(object):
         dt = min(dt, 1 / 30)
         self.time += dt
         self.world.update_all(self.time, dt)
-
-        # this is a bit weird, passing camera into its own method, but
-        # we need it because 'update' may be set to a generic object
-        # like 'Newtonian()' or 'WobblyOrbit()', which doesn't know which
-        # gameitem (or camera) it is an attribute of
-        if self.camera.update:
-            self.camera.update(self.camera, self.time, dt)
-
         self.window.invalid = True
 
 

@@ -1,5 +1,5 @@
 '''
-The top level package.
+Gloopy's top level package.
 '''
 
 from .gloopy import Gloopy
