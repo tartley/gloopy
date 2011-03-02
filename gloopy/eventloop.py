@@ -4,8 +4,8 @@ import logging
 from pyglet import app, clock
 from pyglet.window import key, Window
 
-from ..view.render import Render
-from ..util.screenshot import screenshot
+from .view.render import Render
+from .util.screenshot import screenshot
 
 
 log = logging.getLogger(__name__)

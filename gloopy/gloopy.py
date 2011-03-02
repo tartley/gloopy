@@ -1,7 +1,7 @@
 import logging
 import sys
 
-from .controller.eventloop import Eventloop
+from .eventloop import Eventloop
 from .gameitem import GameItem
 from .geom.vector import Vector
 from .model.world import World
