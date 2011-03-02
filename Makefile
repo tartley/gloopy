@@ -42,7 +42,7 @@ tags:
 
 
 docs:
-	$(MAKE) -C documentation
+	@$(MAKE) -C documentation
 .PHONY: docs
 
 
