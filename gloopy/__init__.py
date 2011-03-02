@@ -1,7 +1,5 @@
 '''
-Overview
---------
-Gloopy is a small library for simple polyhedra, using pyglet and PyOpenGL.
+The top level package.
 '''
 
 from .gloopy import Gloopy

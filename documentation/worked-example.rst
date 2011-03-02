@@ -62,5 +62,7 @@ This makes the pyglet window visible, schedules screen refreshes using
 ``pyglet.clock.schedule()`` and calls ``pyglet.app.run()``, which will
 continue displaying our cube until the escape key is pressed.
 
+.. image:: _static/screenshot-simple-cube.png
+
 This script can be found at examples/simple-cube.py
 
