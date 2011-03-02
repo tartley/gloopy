@@ -1,17 +1,6 @@
 Introduction
 ============
 
-:Version: |release|
-:Download: `Gloopy on PyPI <http://pypi.python.org/pypi/gloopy>`_
-:Source: `Gloopy on BitBucket <https://bitbucket.org/tartley/gloopy>`_
-:Documentation: `TODO <http://TODO>`_
-:License: `BSD or other OSI-approved <https://bitbucket.org/tartley/gloopy/src/tip/LICENSE.txt>`_
-:Author: `Jonathan Hartley <mailto: tartley at tartley dot com>`_
-
-
-Overview
---------
-
 Gloopy is a Python library that creates and manipulates 3D polyhedra, and
 renders them using OpenGL. It uses Pyglet to open a window and manage events,
 and PyOpenGL for OpenGL bindings.
@@ -39,9 +28,11 @@ Written mostly on Windows, tested occasionally on Ubuntu.
 Documentation
 -------------
 
-See docs/html/index.html
+In the Gloopy source, see docs/html/index.html
 
 and the scripts in the 'examples' directory.
+
+Documentation is not currently available online.
 
 
 Status & Known Issues

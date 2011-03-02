@@ -4,19 +4,19 @@ Next
 
 * finish documentation
     * figure out how to link to classes, modules, etc
-    * add a worked example
-    * add screenshots to the example
+    * add a worked example, with screenshots
     * add docstrings throughout
-    * reorg the modules
 
 * release on PyPI
     * create a local source dist
     * install using that
     * run examples in isolation using the installed Gloopy
+        * test that fixpath prioritises local Gloopy over installed,
+          but finds installed if no local found
     * Repeat on Ubuntu
     * make upload
     * binary release not required (it's a library)
-    * add a comment on my old announcement on pyweek message board
+    * add a comment on pyweek message board
 
 * Talk: Set up the tension of posing problems, then solving them:
     vertex arrays are nasty denormalized, Shape->Glyph solves that
@@ -28,22 +28,13 @@ Next
     processing each vertex every frame is hard:
         use shaders to animate
 
-* demo: nested radial slices of cylinders orbiting a common axis
+* add Serpinski Gasket (tetrahedral, aka Tetrix)
+* add Serpinski Cube (aka ?)
+* fiddle with sizes of basic shapes so they interpenetrate interestingly
 
-
-
-Demos
------
-
-* Display a cursor on currently selected item, tab changes selected
-  item, callables modify this item
-
-* demo attaching point light source to position of gameitem
-
-* use newtonian update on every item. Use calculated forces to produce
-  orbits. Keys to add repulsive fields or similar?
-
-* Interpenetrating cuboid solids and voids. (& rooms, a void in a solid)
+* demo: co-axial rings spinning at various speeds about the common axis
+* demo: nested radial slices of cylinders (partial rings) orbiting a common
+        axis
 
 
 Geometry
@@ -51,7 +42,7 @@ Geometry
 
 * color should be a float throughout
 
-* color a shape by its face labels?
+* color a shape by its face labels
 
 * fix Face.centroid method - take the one from solescion
 
@@ -73,6 +64,8 @@ Geometry
   faces of cubes which abut.
 * Tetris shapes
 * Cube cluster generated from pixels of small bitmaps. Invader! Mario! etc.
+
+* Interpenetrating cuboid solids and voids. (& rooms, a void in a solid)
 
 complicated saddle surfaces with holes:
 http://www.cs.berkeley.edu/~sequin/SCULPTS/scherk.html
@@ -111,14 +104,13 @@ Rendering
 
 * better shaders:
     * ambient light level should be a uniform
-    * demo should populate this using world.background_color
-    * directional light position should be a uniform
-    * directional light color should be a uniform
-    * point light source position should be a uniform
-    * point light source color should be a uniform
+        * demo should populate this using world.background_color
+    * directional light position & color should be uniforms
+        * demo should assign these
+    * point light source position & color should be uniforms
+        * demo should attach point light source to a moving item
     * specular highlights from directional light
     * specular highlights from point light
-    * demo should include a moving object that acts as point light source
     * per pixel lighting so that specular highlights in middle of flat faces
       look good
     * Textures. See:
@@ -244,7 +236,7 @@ Design
         -scheduling calls to render.draw
         -creating iterator over world.items.glyphs (etc) to pass
          to render.draw
-    - shaders (compiling, linking, binding, and provided shaders)
+    - shaders: provided shaders and binding them
 * user should (can?) provide a world update function?
 * Orbit, Newtonion should maybe act functionally, return a new value 
   instead of attempting to set one? Then update() (or world.update)

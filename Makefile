@@ -36,8 +36,8 @@ tags:
 
 
 docs:
-	sphinx-apidoc gloopy -o docs
-	sphinx-build docs docs/html
+	sphinx-apidoc --doc-header=API\ Reference gloopy -o docs
+	sphinx-build -b html docs docs/html
 .PHONY: docs
 
 
