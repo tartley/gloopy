@@ -1,8 +1,12 @@
+'''
+Users of Gloopy shouldn't have to mess with this much.
+'''
+
 from __future__ import division
 import logging
 
 from pyglet import app, clock
-from pyglet.window import key, Window
+from pyglet.window import key
 
 from .view.render import Render
 from .util.screenshot import screenshot
@@ -13,6 +17,17 @@ log = logging.getLogger(__name__)
 
 class Eventloop(object):
     '''
+    Schedules world updates, screen redraws, and application-level key
+    handling.
+
+    .. function:: __init__(world, camera, options)
+
+        ``world``: instance of :class:`~gloopy.model.world.World`.
+
+        ``camera``: instance of :class:`~gloopy.gameitem.GameItem` that
+                    represents the camera.
+        
+        ``options``: instance of :class:`~gloopy.util.options.Options`
     '''
 
     def __init__(self, world, camera, options):
@@ -26,13 +41,12 @@ class Eventloop(object):
         self.time = 0.0
 
 
-    def init(self):
+    def init(self, window):
+        '''
+        Attach handlers for window.on_draw and on_key_press
+        '''
         log.info('init')
-        self.window = Window(
-            fullscreen=self.options.fullscreen,
-            vsync=self.options.vsync,
-            visible=False,
-            resizable=True)
+        self.window = window
         self.render = Render(self.window, self.camera, self.options)
         self.render.init()
         self.window.on_draw = lambda: self.render.draw(self.world)
@@ -40,6 +54,10 @@ class Eventloop(object):
 
 
     def start(self):
+        '''
+        Schedules calls to self.update, makes window visible and starts the
+        event loop by calling pyglet.app.run()
+        '''
         log.info('start')
         clock.schedule(self.update)
         self.window.set_visible()
@@ -55,6 +73,9 @@ class Eventloop(object):
 
 
     def update(self, dt):
+        '''
+        Called before every screen refresh,
+        '''
         dt = min(dt, 1 / 30)
         self.time += dt
         self.world.update_all(self.time, dt)
@@ -62,14 +83,26 @@ class Eventloop(object):
 
 
     def on_key_press(self, symbol, modifiers):
+        '''
+        Handle key presses:
+
+        ========= ==================
+        escape    quit
+        --------- ------------------
+        f12       toggle fps display
+        --------- ------------------
+        f9        take screenshot
+        --------- ------------------
+        alt-enter toggle fullscreen
+        ========= ==================
+        '''
         if symbol == key.ESCAPE:
             self.window.dispatch_event('on_close')
         elif symbol == key.F12:
             self.options.fps = not self.options.fps
         elif symbol == key.ENTER and (modifiers & key.MOD_ALT):
-            self.options.fullscreen = not self.options.fullscreen
-            log.info('fullscreen: %s' % (self.options.fullscreen,))
-            self.window.set_fullscreen(self.options.fullscreen)
+            log.info('fullscreen: %s' % (not self.window.fullscreen,))
+            self.window.set_fullscreen(not self.window.fullscreen)
         elif symbol == key.F9:
             screenshot()
 
