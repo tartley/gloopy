@@ -246,10 +246,7 @@ class Application(object):
         )
         self.gloopy.eventloop.window.push_handlers(self.keyhandler)
 
-        try:
-            self.gloopy.start()
-        finally:
-            self.gloopy.stop()
+        self.gloopy.run()
 
 
 if __name__ == '__main__':

@@ -30,8 +30,7 @@ def main():
     )
     gloopy.world.add(item)
 
-    gloopy.start()
-    gloopy.stop()
+    gloopy.run()
 
 
 if __name__ == '__main__':

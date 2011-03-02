@@ -42,7 +42,14 @@ class Eventloop(object):
         clock.schedule(self.update)
         self.window.set_visible()
         self.window.invalid = False
-        app.run()
+        try:
+            app.run()
+            log.info('stop')
+        except:
+            log.error('abnormal stop')
+        finally:
+            if self.window:
+                self.window.close()
 
 
     def update(self, dt):
@@ -71,10 +78,4 @@ class Eventloop(object):
             self.window.set_fullscreen(self.options.fullscreen)
         elif symbol == key.F9:
             screenshot()
-
-
-    def stop(self):
-        log.info('stop')
-        if self.window:
-            self.window.close()
 

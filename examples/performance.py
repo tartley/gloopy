@@ -128,8 +128,7 @@ def main():
         wobble_freq=pi/10,
     )
     gloopy.camera.look_at = Vector(0, -10, 0)
-    gloopy.start()
-    gloopy.stop()
+    gloopy.run()
 
 
 if __name__ == '__main__':
