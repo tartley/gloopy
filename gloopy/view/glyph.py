@@ -8,7 +8,7 @@ from OpenGL.GL.ARB.vertex_array_object import glBindVertexArray
 from OpenGLContext.arrays import array
 
 from ..color import Color
-from ..gl_wrap import glGenVertexArrays
+from ..gl_wrap import glGenVertexArray
 
 
 type_to_enum = {
@@ -62,7 +62,7 @@ class Glyph(object):
         self.glindices = glarray(index_type, indices, len(indices))
         self.index_type = type_to_enum[index_type]
 
-        self.vao = glGenVertexArrays(1)
+        self.vao = glGenVertexArray()
         glBindVertexArray(self.vao)
         try:
             self.vbo.bind()
