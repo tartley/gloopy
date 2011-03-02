@@ -3,24 +3,33 @@ from __future__ import division
 from collections import namedtuple
 from random import randint, uniform
 
+__BaseColor = namedtuple('BaseColor', 'r g b a')
 
-class Color(namedtuple('BaseColor', 'r g b a')):
+
+class Color(__BaseColor):
     '''
-    r: red
-    g: green
-    b: blue
-    a: alpha (defaults to fully opaque)
+    A Color is a named tuple of four unsigned bytes (Note this is likely to
+    change in the future to using floats throughout. It seems that once
+    geometry is pushed to a VBO, the performance gains of using ubytes
+    diminish substantially).
 
-    Colors in Gloopy are specified using unsigned bytes, meaning that all of r,
-    g, b, a are ints from 0 to 255 (Color.MAX_CHANNEL.) Alpha values of less
-    than MAX_CHANNEL represent levels of transparency, down to an alpha of 0,
-    which is completely invisible. Specifying alpha is optional, it defaults
-    to fully-opaque.
-    
-    For example, to specify a red color::
+    .. function:: __init__(r, g, b[, a])
 
-        from gloopy.color import Color
-        red = Color(255, 0, 0)
+        r: red
+        g: green
+        b: blue
+        a: alpha (defaults to fully opaque)
+        All of r, g, b, a are ints from 0 to 255 (Color.MAX_CHANNEL.)
+        
+        For example, to specify a red color::
+
+            from gloopy.color import Color
+            red = Color(255, 0, 0)
+
+        Or semi-transparent blue::
+
+            red = Color(0, 0, 255, 127)
+  
 
     Some predefined instances of Color provide named colors. These named colors
     are defined as attributes of the Color class::
@@ -43,9 +52,11 @@ class Color(namedtuple('BaseColor', 'r g b a')):
     def __new__(cls, r, g, b, a=MAX_CHANNEL):
         return super(Color, cls).__new__(cls, r, g, b, a)
 
-
     @staticmethod
     def Random():
+        '''
+        Return a new random color
+        '''
         return Color(
             randint(0, Color.MAX_CHANNEL),
             randint(0, Color.MAX_CHANNEL),
@@ -54,6 +65,9 @@ class Color(namedtuple('BaseColor', 'r g b a')):
 
     @staticmethod
     def Randoms():
+        '''
+        Generate an infinite sequence of random colors.
+        '''
         while True:
             yield Color.Random()
 
@@ -61,7 +75,9 @@ class Color(namedtuple('BaseColor', 'r g b a')):
     def as_floats(self):
         '''
         Returns this color as a tuple of normalised floats, suitable for use
-        with glSetClearColor.
+        with glSetClearColor. Note this method is likely to be deleted in a
+        subsequent release, when colors change to being stored internally as
+        floats.
         '''
         return (
             1 / Color.MAX_CHANNEL * self.r,
@@ -72,15 +88,25 @@ class Color(namedtuple('BaseColor', 'r g b a')):
 
 
     def tinted(self, other, bias=0.5):
+        '''
+        Return a new color, interpolated between this color and `other` by an
+        amount specified by `bias`, which normally ranges from 0.0 (entirely
+        this color) to 1.0 (entirely `other`.)
+        '''
         return Color(
             int(self.r * (1 - bias) + other.r * bias),
             int(self.g * (1 - bias) + other.g * bias),
             int(self.b * (1 - bias) + other.b * bias),
-            self.a
+            int(self.a * (1 - bias) + other.a * bias),
         )
 
 
     def variations(self, other=None):
+        '''
+        Generate an infinite sequence of colors which are tinted by random
+        amounts towards `other`, which defaults to a darker version of this
+        color.
+        '''
         if other is None:
             other = self.tinted(Color.Black, 0.5)
         while True:
@@ -88,6 +114,11 @@ class Color(namedtuple('BaseColor', 'r g b a')):
 
 
     def inverted(self):
+        '''
+        Return a new color which is the complement of this one, i.e. if this
+        color contains a lot of red, the return value will contain little red,
+        and so on.
+        '''
         return Color(
             255 - self.r,
             255 - self.g,
@@ -171,8 +202,8 @@ Color.White     = Color(0xff, 0xff, 0xff)
 Color.LightGrey = Color(0xc0, 0xc0, 0xc0)
 Color.DarkGrey  = Color(0x40, 0x40, 0x40)
 
-Color.All = (
-    c for c in Color.__dict__
-    if isinstance(c, Color)
-)
+Color.All = {
+    name: value for name, value in Color.__dict__.iteritems()
+    if isinstance(value, Color)
+}
 
