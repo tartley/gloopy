@@ -7,7 +7,7 @@ from ..gameitem import position_or_gameitem
 
 class Orbit(object):
     '''
-    Move position in a circular locus around the given center point,
+    Move item's position in a circular locus around the given center point,
     with the given axis, radius and angular_velocity.
     '''
     def __init__(self, center, radius, axis=None, angular_velocity=1, phase=0):
@@ -37,7 +37,9 @@ class Orbit(object):
 
 
 class WobblyOrbit(Orbit):
-
+    '''
+    Like an Orbit, but vary the radius size over time
+    '''
     def __init__(
         self, center, radius, axis=None, angular_velocity=1, phase=0,
         wobble_size=0.5, wobble_freq=1

@@ -11,7 +11,7 @@ from gloopy import Gloopy
 from gloopy.color import Color
 from gloopy.geom.vector import Vector
 from gloopy.gameitem import GameItem
-from gloopy.move import Spinner, WobblyOrbit
+from gloopy.move import Spinner, WobblySpinner, WobblyOrbit
 from gloopy.shapes.shape import shape_to_glyph
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
 from gloopy.shapes.cube_groups import (
@@ -59,24 +59,24 @@ class KeyHandler(object):
             ),
             key.E: lambda: self.add_shape(
                 Ring(Cube(1, Color.Green), 2, 13),
-                update=Spinner(speed=1),
+                update=WobblySpinner(speed=1),
             ),
             key.R: lambda: self.add_shape(
                 Ring(
                     TruncatedCube(1, 0.67, Color.SeaGreen, Color.Periwinkle),
                     3.45, 25
                 ),
-                update=Spinner(speed=0.5),
+                update=WobblySpinner(speed=0.5),
             ),
             key.T: lambda: self.add_shape(
                 TriRings(Cube(1, Color.DarkTeal), 6, 32),
-                update=Spinner(speed=0.2),
+                update=WobblySpinner(speed=0.2),
             ),
             key.Y: lambda: self.add_shape(
                 shape=TriRings(
                     CubeCorners(1, Color.Lavender, Color.Gold),
                     8, 24),
-                update=Spinner(speed=0.1),
+                update=WobblySpinner(speed=0.1),
             ),
 
             key.Z: lambda: self.add_shape(
@@ -111,9 +111,10 @@ class KeyHandler(object):
 
 
     def world_update(self, time, dt):
-        rate = 10.0 * dt
-        self.camera.update.radius += (
-            self.camera_radius - self.camera.update.radius) * rate
+        if self.camera.update:
+            rate = 10.0 * dt
+            self.camera.update.radius += (
+                self.camera_radius - self.camera.update.radius) * rate
 
 
     def on_key_press(self, symbol, modifiers):
@@ -133,7 +134,9 @@ class KeyHandler(object):
     def get_selected_item(self):
         if self.world.items:
             itemid = max(self.world.items.iterkeys())
-            return self.world[itemid]
+            item = self.world[itemid]
+            if item.glyph:
+                return self.world[itemid]
 
     def add_shape(self, shape, **kwargs):
         item = GameItem(shape=shape, **kwargs)
@@ -209,7 +212,7 @@ class KeyHandler(object):
         if item.update:
             item.update = None
         else:
-            item.update = Spinner(item.orientation)
+            item.update = WobblySpinner(orientation=item.orientation)
 
 
     def toggle_backface_culling(self):

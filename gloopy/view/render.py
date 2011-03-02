@@ -6,10 +6,12 @@ import pyglet
 from pyglet.event import EVENT_HANDLED
 from pyglet import gl
 
+from .glyph import Glyph
 from .modelview import ModelView
 from .projection import Projection
 from .shader import Shader
-from .glyph import Glyph
+from ..geom.vector import Vector
+from ..geom.orientation import Orientation
 from ..shapes.shape import shape_to_glyph
 
 
@@ -106,9 +108,9 @@ class Render(object):
             for item in items:
                 gl.glPushMatrix()
 
-                if item.position:
+                if item.position and item.position != Vector.Origin:
                     gl.glTranslatef(*item.position)
-                if item.orientation:
+                if item.orientation and item.orientation != Orientation.Identity:
                     gl.glMultMatrixf(item.orientation.matrix)
 
                 glBindVertexArray(item.glyph.vao)

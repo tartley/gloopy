@@ -54,6 +54,9 @@ camera::
     from gloopy.geom.vector import Vector
     gloopy.camera.position = Vector(1, 2, 3)
 
+By default, the camera looks at the origin, which is where the cube is located,
+so we should get a good view of it.
+
 Having completed all our setup, we call ``gloopy.run()``::
 
     gloopy.run()
@@ -64,5 +67,5 @@ continue displaying our cube until the escape key is pressed.
 
 .. image:: _static/screenshot-simple-cube.png
 
-This script can be found at examples/simple-cube.py
+This script can be found at examples/simple_cube.py
 

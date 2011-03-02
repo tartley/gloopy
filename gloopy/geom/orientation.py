@@ -80,9 +80,7 @@ class Orientation(object):
         Return a new random Orientation
         '''
         fwd = Vector.RandomSphere(1)
-        orientation = Orientation(fwd)
-        orientation.roll(uniform(-pi, +pi))
-        return orientation
+        return Orientation(fwd).roll(uniform(-pi, +pi))
 
 
     def _set_forward(self, new):
@@ -130,35 +128,43 @@ class Orientation(object):
 
     def roll(self, angle):
         '''
-        Rotate about the 'forward' axis (ie. +ve angle rolls to the right.)
+        Rotate new Orientation, rotated about the 'forward' axis
+        (ie. +ve angle rolls to the right.)
         '''
-        self.up = self.up.rotate(self.forward, -angle).normalized()
-        self.right = self._get_right()
+        return Orientation(
+            self.forward,
+            self.up.rotate(self.forward, -angle).normalized()
+        )
 
 
     def yaw(self, angle):
         '''
         Rotate about the 'down' axis (ie. +ve angle yaws to the right.)
         '''
-        self.forward = self.forward.rotate(self.up, angle).normalized()
-        self.right = self._get_right()
+        return Orientation(
+            self.forward.rotate(self.up, angle).normalized(),
+            self.up
+        )
 
 
     def pitch(self, angle):
         '''
         Rotate about the 'right' axis (ie. +ve angle pitches up.)
         '''
-        self.forward = self.forward.rotate(self.right, -angle).normalized()
-        self.up = self.up.rotate(self.right, -angle).normalized()
+        return Orientation(
+            self.forward.rotate(self.right, -angle).normalized(),
+            self.up.rotate(self.right, -angle).normalized()
+        )
 
 
     def rotate(self, axis, angle):
         '''
         Rotate about the given axis by the given angle.
         '''
-        self.forward = self.forward.rotate(axis, angle)
-        self.up = self.up.rotate(axis, angle)
-        self.right = self._get_right()
+        return Orientation(
+            self.forward.rotate(axis, angle),
+            self.up.rotate(axis, angle)
+        )
 
 
     # This method is an ugly performance hack. Orientation shouldn't need

@@ -65,18 +65,24 @@ class TestOrientation(TestCase):
 
     def testRoll(self):
         o = Orientation(Vector.ZAxis)
-        o.roll(pi/2)
-        self.assertEqual(o, Orientation(Vector.ZAxis, up=Vector.XNegAxis))
+        self.assertEqual(
+            o.roll(pi/2),
+            Orientation(Vector.ZAxis, up=Vector.XNegAxis)
+        )
 
     def testYaw(self):
         o = Orientation(Vector.ZAxis)
-        o.yaw(pi/2)
-        self.assertEqual(o, Orientation(Vector.XNegAxis))
+        self.assertEqual(
+            o.yaw(pi/2),
+            Orientation(Vector.XNegAxis)
+        )
 
     def testPitch(self):
         o = Orientation(Vector.ZAxis)
-        o.pitch(pi/2)
-        self.assertEqual(o, Orientation(Vector.YAxis, up=Vector.ZNegAxis))
+        self.assertEqual(
+            o.pitch(pi/2),
+            Orientation(Vector.YAxis, up=Vector.ZNegAxis)
+        )
 
     def testMatrix(self):
         o = Orientation((1, 2, 3))

@@ -1,5 +1,6 @@
 
 from .geom.vector import Vector
+from .geom.orientation import Orientation
 
 
 class GameItem(object):
@@ -45,11 +46,11 @@ class GameItem(object):
         self.shape = None
         self.glyph = None
 
-        self.position = None
+        self.position = Vector.Origin
         self.velocity = None
         self.acceleration = None
 
-        self.orientation = None
+        self.orientation = Orientation.Identity
         self.angular_velocity = None
 
         self.update = None

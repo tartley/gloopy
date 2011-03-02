@@ -17,7 +17,7 @@ def Ring(basic_shape, radius, number):
             radius * sin(angle),
             radius * cos(angle),
         )
-        orientation.pitch(delta_angle)
+        orientation = orientation.pitch(delta_angle)
         multi.add(basic_shape, pos, orientation)
     return multi
 

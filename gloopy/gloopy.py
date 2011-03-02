@@ -82,6 +82,7 @@ class Gloopy(object):
             log.info('stop')
         except:
             log.error('abnormal stop')
+            raise
         finally:
             if self.window:
                 self.window.close()
