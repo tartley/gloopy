@@ -1,23 +1,36 @@
 Introduction
 ============
 
+:Version: |release|
+:Download: `Gloopy on PyPI <http://pypi.python.org/pypi/gloopy>`_
+:Source: `Gloopy on BitBucket <https://bitbucket.org/tartley/gloopy>`_
+:License: `BSD or other OSI-approved <https://bitbucket.org/tartley/gloopy/src/tip/LICENSE.txt>`_
+:Author: `Jonathan Hartley <mailto: tartley at tartley dot com>`_
+
+
+Overview
+--------
+
 Gloopy is a Python library that creates and manipulates 3D polyhedra, and
 renders them using OpenGL. It uses Pyglet to open a window and manage events,
 and PyOpenGL for OpenGL bindings.
 
 Gloopy provides the following services:
 
-* Creation and manipulation of 3D, flat-surfaced, polyhedra, using the `Shape`
-  class.
-* Factory functions to produce particular shapes, such as `Cube` or
-  `Icososahedron`.
+* Creation and manipulation of 3D, flat-surfaced, polyhedra, using the
+  :class:`~gloopy.shapes.shape.Shape` class.
+* Factory functions to produce particular shapes, such as
+  :func:`~gloopy.shapes.cube.Cube` or
+  :func:`~gloopy.shapes.icosahedron.Icosahedron`.
 * Some basic algorithms to modify existing shapes, such as by subdividing or
   extruding their surfaces.
-* Conversion of shapes into `Glyphs`, OpenGL vertex arrays stored in VBOs.
-* A simple `Renderer` renders an iterable of glyphs, each with its own position
-  and orientation.
-* A `Camera` class that can be positioned, oriented, or told to look at a
-  particular item or position.
+* Conversion of shapes into :class:`~gloopy.view.glyph.Glyph` instances, which
+  manage vertex arrays stored in a VBO.
+* A simple :class:`~gloopy.view.render.Render` class which renders glyphs
+  with a given position and orientation.
+* A camera attribute on the single :class:`~gloopy.gloopy.Gloopy` instance,
+  that can be positioned, oriented, or told to look at a particular item or
+  position.
 
 
 Dependencies
@@ -43,13 +56,14 @@ Documentation is not currently available online.
 Status & Known Issues
 ---------------------
 
-It works for me, but has not been used any substantial projects. The API is
+It works for me, but has not been used any real projects. The API is
 a mess and may change substantially in later releases.
 
 No issue tracker is currently maintained, but the major shortfalls as
 I percieve them are:
 
-* The supplied 'directional lighting' shader is broken - rotating an object does not modify the apparent illumination of its surfaces.
+* The supplied 'directional lighting' shader is broken - rotating an object
+  does not modify the apparent illumination of its surfaces.
 * It doesn't handle texture mapped surfaces
 * It doesn't handle the use of multiple shaders within a single scene
 

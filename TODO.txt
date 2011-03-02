@@ -3,10 +3,9 @@ Next
 ----
 
 * finish documentation
-    * figure out how to link to classes, modules, etc
-    * move docs makefile into docs dir
     * add a worked example, with screenshots
     * add docstrings throughout
+    * tidy the package / module / class API
 
 * release on PyPI
     * create a local source dist
@@ -460,4 +459,8 @@ DONE
 * make camera zoom smooth
 * Add good shapes from flyinghigh
 * talk new draft
+* finish documentation
+    * patch sphinx-apidoc to not garble the user's specified --doc-header
+    * move docs makefile into docs dir
+    * figure out how to link to classes, modules, etc
 
