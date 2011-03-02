@@ -3,7 +3,6 @@ Next
 ----
 
 * finish documentation
-    * add a worked example, with screenshots
     * add docstrings throughout
     * tidy the package / module / class API
 
@@ -463,4 +462,5 @@ DONE
     * patch sphinx-apidoc to not garble the user's specified --doc-header
     * move docs makefile into docs dir
     * figure out how to link to classes, modules, etc
+    * add a worked example, with screenshots
 

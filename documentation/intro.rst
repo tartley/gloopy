@@ -11,9 +11,9 @@ Introduction
 Overview
 --------
 
-Gloopy is a Python library for creating 3D polyhedra, and
-renders them using OpenGL. It uses Pyglet to open a window and manage events,
-and PyOpenGL for OpenGL bindings.
+Gloopy is a Python library for creating 3D polyhedra and rendering them using
+OpenGL. It uses Pyglet to open a window and manage events, and PyOpenGL for
+OpenGL bindings.
 
 Gloopy provides the following services:
 

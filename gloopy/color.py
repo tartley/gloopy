@@ -3,25 +3,24 @@ from __future__ import division
 from collections import namedtuple
 from random import randint, uniform
 
-__BaseColor = namedtuple('BaseColor', 'r g b a')
 
 
-class Color(__BaseColor):
+class Color(namedtuple('__BaseColor', 'r g b a')):
     '''
     A Color is a named tuple of four unsigned bytes (Note this is likely to
     change in the future to using floats throughout. It seems that once
     geometry is pushed to a VBO, the performance gains of using ubytes
     diminish substantially).
 
-    .. function:: __init__(r, g, b[, a])
+    .. function:: __init__(r, g, b[, a=255])
 
-        r: red
-        g: green
-        b: blue
-        a: alpha (defaults to fully opaque)
+        ``r``,  ``g``, ``b``: red, green and blue
+
+        ``a``: alpha (defaults to fully opaque)
+
         All of r, g, b, a are ints from 0 to 255 (Color.MAX_CHANNEL.)
         
-        For example, to specify a red color::
+        For example, to specify red color::
 
             from gloopy.color import Color
             red = Color(255, 0, 0)
@@ -29,7 +28,6 @@ class Color(__BaseColor):
         Or semi-transparent blue::
 
             red = Color(0, 0, 255, 127)
-  
 
     Some predefined instances of Color provide named colors. These named colors
     are defined as attributes of the Color class::
