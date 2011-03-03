@@ -1,3 +1,7 @@
+'''
+Factory functions that return a single Shape instance in shapes similar
+to or derived from a cube
+'''
 from __future__ import division
 from itertools import chain, product, repeat
 from math import sqrt
@@ -8,11 +12,24 @@ from ..color import Color
 
 
 def Cube(radius, colors=None):
+    '''
+    Return a new Shape, shaped like a cube. Vertices are positioned at `radius`
+    from the center, meaning the cube edges are sqrt(3*radius^2).
+
+    `colors` may be either an instance of Color, or a sequence of colors,
+    one for each face.
+    '''
     size = sqrt(3 * radius * radius) / 1.5
     return Cuboid(size, size, size, colors, source='Cube')
 
 
 def Cuboid(x, y, z, colors=None, source='Cuboid'):
+    '''
+    Return a new Shape, cuboid of dimensions x, y, z, centered on the origin.
+
+    `colors` may be either an instance of Color, or a sequence of colors,
+    one for each face.
+    '''
     verts = list(product((-x/2, +x/2), (-y/2, +y/2), (-z/2, +z/2)))
     faces = [
         [0, 1, 3, 2], # left
@@ -26,6 +43,14 @@ def Cuboid(x, y, z, colors=None, source='Cuboid'):
 
 
 def TruncatedCube(edge, truncation=0.67, color1=None, color2=None):
+    '''
+    Return a new Shape, a cube with the corners cut off.
+
+    `truncation` varies from 0.0 (a regular cube) to 1.0 (cut off corners
+    start to meet each other at the midpoint of each edge.)
+
+    `color1' is for the cube faces. `color2` is for the exposed corners.
+    '''
     if color1 is None:
         color1 = Color.Random()
     if color2 is None:
@@ -89,7 +114,10 @@ def TruncatedCube(edge, truncation=0.67, color1=None, color2=None):
 
 
 def SpaceStation(edge):
-
+    '''
+    Return a new Shape, an space-station from the vintage computer game Elite,
+    a truncated cube with an extra black face for the entrance.
+    '''
     color = Color.Grey.tinted(Color.Cyan)
     shape = TruncatedCube(edge, 0.999, color, color)
 

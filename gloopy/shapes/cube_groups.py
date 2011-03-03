@@ -1,3 +1,7 @@
+'''
+Factory functions that return a single MultiShape instance formed by
+composing several cubes
+'''
 from __future__ import division
 
 from itertools import repeat, product
@@ -11,6 +15,10 @@ from ..geom.vector import Vector
 
 
 def CubeCross(edge, color1, color2):
+    '''
+    Return a new Shape, consisting of a single large cube, and six smaller
+    ones sticking out of each of its faces.
+    '''
     multi = MultiShape()
 
     multi.add(Cube(edge, repeat(color1)))
@@ -28,6 +36,10 @@ def CubeCross(edge, color1, color2):
 
 
 def CubeCorners(edge, color1, color2):
+    '''
+    Return a new Shape, consisting of a single, large cube, and eight smaller
+    ones at each of its corners.
+    '''
     multi = MultiShape()
     multi.add(
         Cube(edge, repeat(color1)),
@@ -42,6 +54,10 @@ def CubeCorners(edge, color1, color2):
 
 
 def CubeGlob(radius, number, colors):
+    '''
+    Return a new Shape consisting of a random glob of cubes arranged in a
+    spherical shell.
+    '''
     GAP = 20
     glob = MultiShape()
     cube = Cube(1, colors)
@@ -57,6 +73,20 @@ def CubeGlob(radius, number, colors):
 
 
 def RgbCubeCluster(edge, cluster_edge, cube_count, hole=0):
+    '''
+    Return a new Shape consisting of a random array of cubes arranged within
+    a large cube-shaped volume. The small cubes are colored by their position
+    in RGB space.
+
+    `edge`: the edge of a small cube
+
+    `cluster_edge`: the edge of the large volume
+
+    `cube_count`: the number of cubes to generate within the volume
+
+    `hole`: if >0, leave an empty hole of this radius in the middle of the
+        volume.
+    '''
     cluster = MultiShape()
     for _ in xrange(cube_count):
         while True:
