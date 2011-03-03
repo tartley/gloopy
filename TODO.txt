@@ -2,16 +2,11 @@
 Next
 ----
 
-* finish documentation
-    * add docstrings throughout
-    * tidy the package / module / class API
-
 * release on PyPI
-    * create a local source dist
-    * install using that
     * run examples in isolation using the installed Gloopy
         * test that fixpath prioritises local Gloopy over installed,
           but finds installed if no local found
+    * check it includes the documentation, in documentation/html
     * Repeat on Ubuntu
     * make upload
     * binary release not required (it's a library)
@@ -447,5 +442,13 @@ DONE
     * move docs makefile into docs dir
     * figure out how to link to classes, modules, etc
     * add a worked example, with screenshots
+    * add docstrings throughout
+    * tidy the package / module / class API
+    * can we include README.txt in the middle of intro.rst?
 * eventloop in top level package? render? world? camera? what else?
 * being added to the world converts shapes to glyphs, not being rendered.
+* release on PyPI
+    * create a local sdist
+    * that can run
+    * and that can install
+

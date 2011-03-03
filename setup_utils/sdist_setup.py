@@ -1,8 +1,8 @@
+from glob import glob
+from os import listdir
 from os.path import abspath, dirname, isfile, join
-from pprint import pprint
 import sys
-
-from .py2exe import get_py2exe_config
+from setuptools import find_packages
 
 
 def read_description():
@@ -25,17 +25,30 @@ def read_description():
     return paras[0], '\n'.join(paras[1:])
 
 
+def get_scripts(script):
+    script = [script] if script else []
+    examples = [
+        join('examples', f)
+        for f in listdir('examples')
+        if f.endswith('.py')
+    ]
+    return script + examples
+
+
 def get_sdist_config(name, version, script):
     description, long_description = read_description()
-    return dict(
+
+    config = dict(
         name=name,
         version=version,
         description=description,
         long_description=long_description,
         keywords='',
-        packages=[name],
-        scripts=[script],
-        #data_files=[('package', ['files'])],
+        packages=find_packages(),
+        scripts=get_scripts(script),
+        #data_files=[
+            #('dest-dir', ['source-files']),
+        #],
         classifiers=[
             'Development Status :: 1 - Planning',
             'Intended Audience :: Developers',
@@ -45,14 +58,5 @@ def get_sdist_config(name, version, script):
         ],    
         # see classifiers http://pypi.python.org/pypi?:action=list_classifiers
     )
-
-
-def get_config(name, version, script, console=False):
-    config = get_sdist_config(name, version, script)
-    config.update( get_py2exe_config(name, version, script, console) )
-    
-    if '--verbose' in sys.argv:
-        pprint(config)
-
     return config
 
