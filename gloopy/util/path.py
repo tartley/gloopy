@@ -57,5 +57,5 @@ else:
 
 DATA = join(ROOT, 'data')
 SOURCE = join(ROOT, 'gloopy')
-SHADERS = join(SOURCE, 'shaders')
+SHADERS = join(DATA, 'shaders')
 
