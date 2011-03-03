@@ -9,6 +9,14 @@ from ..color import Color
 
 
 def Tetrahedron(radius, face_colors=None):
+    '''
+    Return a new Shape, a regular triangular-based pyramid, or d4.
+    One of the platonic solids.
+    Vertices are at `radius` from the center.
+
+    `colors` may be either an instance of Color, or a sequence of colors,
+    one for each face.
+    '''
     size = sqrt(3 * radius * radius) / 3
     vertices = [
         (+size, +size, +size),
@@ -21,6 +29,11 @@ def Tetrahedron(radius, face_colors=None):
 
 
 def DualTetrahedron(radius, color1=None, color2=None):
+    '''
+    Return a new Shape, like two interpenetrating Tetrahedrons.
+    Vertices are at `radius` from the center. One color is used
+    for each of the tetrahedrons.
+    '''
     if color1 is None:
         color1 = Color.Random()
     if color2 is None:

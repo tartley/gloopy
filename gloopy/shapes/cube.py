@@ -11,10 +11,12 @@ from ..geom.vector import Vector
 from ..color import Color
 
 
-def Cube(radius, colors=None):
+def Cube(radius=None, colors=None):
     '''
-    Return a new Shape, shaped like a cube. Vertices are positioned at `radius`
-    from the center, meaning the cube edges are sqrt(3*radius^2).
+    Return a new Shape, shaped like a cube.
+    One of the platonic solids.
+    Vertices are positioned at `radius` from the center, meaning the cube edges
+    are sqrt(3*radius^2).
 
     `colors` may be either an instance of Color, or a sequence of colors,
     one for each face.

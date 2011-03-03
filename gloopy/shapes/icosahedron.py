@@ -6,7 +6,9 @@ from .shape import Shape
 
 def Icosahedron(radius, colors):
     '''
-    Return a new Shape. Verters are at the given radius.
+    Return a new Shape.
+    One of the platonic solids.
+    Verters are at the given radius.
 
     `face_colors` may either be a Color which is applied to every face, or
     a sequence of colors, one for each face.

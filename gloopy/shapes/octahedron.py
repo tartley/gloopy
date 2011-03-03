@@ -2,7 +2,9 @@ from .shape import Shape
 
 def Octahedron(radius, face_colors=None):
     '''
-    Return a new shape. Verts will be at the given radius.
+    Return a new shape.
+    One of the platonic solids.
+    Verts will be at the given radius.
 
     `face_colors` may either be a Color which is applied to every face, or
     a sequence of colors, one for each face.
