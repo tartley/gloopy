@@ -3,8 +3,13 @@ from __future__ import division
 
 def normalize(shape, length=1):
     """
-    Normalizes the length of every vertex position to equal 'size', squishing
-    the shape to become roughly spherical. Acts on the given Shape.
+    Modifies the given shape in-place, by normalizing the position of every
+    vertex to lie at `length` distance from the center. This squishes the shape
+    to make it roughly spherical.
+
+    If the shape contains edges which have one face on one side, but more than
+    one face on the other side, then normalizing will result in ugly split
+    seams, through which the interior of the object will be visible.
     """
     shape.vertices = [
         v.normalized(length) for v in shape.vertices

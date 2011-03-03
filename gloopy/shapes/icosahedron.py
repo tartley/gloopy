@@ -5,6 +5,12 @@ from .shape import Shape
 
 
 def Icosahedron(radius, colors):
+    '''
+    Return a new Shape. Verters are at the given radius.
+
+    `face_colors` may either be a Color which is applied to every face, or
+    a sequence of colors, one for each face.
+    '''
     phi = (sqrt(5) + 1) / 2
     size = sqrt( radius / ( 1 + phi * phi ) )
     vertices = [
