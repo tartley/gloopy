@@ -7,7 +7,10 @@ from ..gameitem import position_or_gameitem
 
 class ModelView(object):
     '''
-    Manage modelview matrix
+    Manage modelview matrix.
+    
+    Presumably this class will go away in future
+    releases of Gloopy as we use a more OpenGL3 style.
     '''
     def __init__(self, camera):
         self.camera = camera
@@ -17,6 +20,10 @@ class ModelView(object):
         gl.glLoadIdentity()
 
     def set_world(self):
+        '''
+        Set modelview matrix to account for camera `.position` and
+        `.look_at` attributes
+        '''
         gl.glMatrixMode(gl.GL_MODELVIEW)
         gl.glLoadIdentity()
         position = self.camera.position
