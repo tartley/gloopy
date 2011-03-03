@@ -66,7 +66,7 @@ class Render(object):
     def init(self):
         '''
         Set all initial OpenGL state, such as enabling DEPTH_TEST.
-        Also loads a shader.
+        Also loads a the lighting shader.
         '''
         log_opengl_version()
         gl.glEnable(gl.GL_DEPTH_TEST)
@@ -99,12 +99,18 @@ class Render(object):
 
 
     def clear_window(self, color):
+        '''
+        Clear window color and depth buffers, using the given color
+        '''
         r, g, b = color.as_floats()[:3]
         gl.glClearColor(r, g, b, 1.0)
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
 
 
     def draw_window(self):
+        '''
+        Redraw the whole window
+        '''
         self.clear_window(self.world.background_color)
         self.projection.set_perspective(45)
         self.modelview.set_world()
@@ -117,6 +123,9 @@ class Render(object):
 
 
     def draw_world_items(self):
+        '''
+        Draw all items that have been added to the world
+        '''
         for item in self.world:
 
             if not item.glyph:
@@ -147,6 +156,9 @@ class Render(object):
 
 
     def draw_hud(self):
+        '''
+        Draw any display items overlaid on the world, such as FPS counter
+        '''
         self.projection.set_screen()
         self.modelview.set_identity()
         gl.glEnableClientState(gl.GL_VERTEX_ARRAY)

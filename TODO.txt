@@ -27,6 +27,23 @@ Next
     processing each vertex every frame is hard:
         use shaders to animate
 
+    Talk Outline
+    ------------
+    * Inspirations - Effective non-photo-realistic work in gaming, movies and the
+      demo scene. (1m)
+    * A convenient & Pythonic way to model 3D polyhedra, and some neat generators
+      to convert these into OpenGL arrays at runtime. (7m)
+    * Algorithmic modification of shapes, such as bevels, geometric duals, and
+      polyhedron stellation. (2m)
+    * The resulting performance characteristics: What works well from Python, and
+      what doesn't. (2m)
+    * Composition of polyhedra to create more complex shapes (3m)
+    * Koch tetrahedron & tetrix, aka Sierpinski tetrahedron. (1m)
+    * Surprisingly effective 3D models created from small bitmaps. (1m)
+    * Automatic generation of trees, mazes, complex spaces. (3m)
+    * Shapes that morph: Rearranging vertices on the fly (5m)
+    * Questions (5m)
+
 * add Serpinski Gasket (tetrahedral, aka Tetrix)
 * add Serpinski Cube (aka ?)
 * fiddle with sizes of basic shapes so they interpenetrate interestingly
@@ -142,6 +159,7 @@ Infrastructure
 * pyglet latest from hg
 * Python 3
 
+* log file is broken?
 * log file should be created in app_root if possible, or else in
   application's scratch space, not cwd
 
@@ -216,54 +234,20 @@ OR
 Design
 ------
 
-* being added to the world converts shapes to glyphs, not being rendered.
-  Reassigning to an item's shape attr also needs to do it
+* Reassigning to an item's shape attr also needs to convert to glyph
   As does modifying a shape in place.
   How to manage this?
-* render should maybe specialise as 'RenderGlyphs' - take list of glyphs,
-  positions, orientations (or glyphs, matrices) instead of needing access to
-  world or items?
-* consider eliminating class Gloopy. Expose world, camera, etc to user.
-  Functionality provided by gloopy becomes the canonical demo script.
-* eventloop in top level package? render? world? camera? what else?
 * Review whether gloopy should be broken into separate libraries:
     - rendering: should know nothing of shapes or world.
         passed a list of (glyph, pos&orientation)
-    - shape: polyhedra to glyphs
-    - eventloop. Ties it together by:
-        -scheduling calls to world.update
-        -scheduling calls to render.draw
-        -creating iterator over world.items.glyphs (etc) to pass
-         to render.draw
+    - shape: model polyhedra and convert them to glyphs
     - shaders: provided shaders and binding them
 * user should (can?) provide a world update function?
-* Orbit, Newtonion should maybe act functionally, return a new value 
-  instead of attempting to set one? Then update() (or world.update)
-  becomes:
-    position = self.move()
 * newtonian movement should be provided as a public callable to either:
     - be called for one item, AS its update method
     - be called for one item, FROM its update method.
     - be called for all items, from world.update
 
-
-Talk Outline
-------------
-
-* Inspirations - Effective non-photo-realistic work in gaming, movies and the
-  demo scene. (1m)
-* A convenient & Pythonic way to model 3D polyhedra, and some neat generators
-  to convert these into OpenGL arrays at runtime. (7m)
-* Algorithmic modification of shapes, such as bevels, geometric duals, and
-  polyhedron stellation. (2m)
-* The resulting performance characteristics: What works well from Python, and
-  what doesn't. (2m)
-* Composition of polyhedra to create more complex shapes (3m)
-* Koch tetrahedron & tetrix, aka Sierpinski tetrahedron. (1m)
-* Surprisingly effective 3D models created from small bitmaps. (1m)
-* Automatic generation of trees, mazes, complex spaces. (3m)
-* Shapes that morph: Rearranging vertices on the fly (5m)
-* Questions (5m)
 
 
 Ideas for later
@@ -463,4 +447,5 @@ DONE
     * move docs makefile into docs dir
     * figure out how to link to classes, modules, etc
     * add a worked example, with screenshots
-
+* eventloop in top level package? render? world? camera? what else?
+* being added to the world converts shapes to glyphs, not being rendered.
