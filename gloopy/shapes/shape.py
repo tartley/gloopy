@@ -1,17 +1,17 @@
 
-from itertools import chain, repeat
+from itertools import repeat
 
 from ..geom.matrix import Matrix
 from ..geom.vector import Vector
 from ..color import Color
-from ..view.glyph import Glyph
 
 
 
 def add_vertex(vertices, new_vert):
     '''
-    Add a vertex to the given list of vertices, and return the index number
-    which should be used to refer to the new vertex. Modifies vertices in-place.
+    Modifies `vertices` in-place by appending the given `new_vert`.
+    Returns the index number of the new vertex.
+    
     Loads of Shape-modifying algorithms seem to need this function. Can't make
     it a method because they often haven't constructed the shape instance yet.
     '''
@@ -21,7 +21,34 @@ def add_vertex(vertices, new_vert):
 
 class Face(object):
     '''
-    A single flat face that forms part of a Shape.
+    A single flat face that forms part of a Shape. Attributes are the params
+    to the constructor below, plus:
+
+        `normal`: A Vector, perpendicular to the face
+
+    .. function:: __init__(indices, color, shape, source='unknown')
+
+        `indices`: a list of int indices into the parent shape's vertex list
+
+        `color`: an instance of Color
+
+        `shape`: a reference to the parent Shape
+
+        `source`: a descriptive string. These can be used when writing
+            algorithms that modify shapes, to select certain faces to operate
+            on.
+
+    .. function:: __getitem__(n)
+
+        Return the nth index, as an integer.
+
+    .. function:: __iter__()
+
+        Iterate through `indices`
+
+    .. function:: __len__()
+
+        Return the length of `indices`
     '''
     def __init__(self, indices, color, shape, source='unknown'):
         self.indices = indices
@@ -41,7 +68,8 @@ class Face(object):
 
     def get_normal(self):
         '''
-        Return the unit normal vector (at right angles to) this face.
+        Return the unit normal vector at right angles to this face.
+
         Note that the direction of the normal will be reversed if the
         face's winding is reversed.
         '''
@@ -66,10 +94,25 @@ class Face(object):
 class Shape(object):
     '''
     Defines a polyhedron, a 3D shape with flat faces and straight edges.
-    Each vertex defines a point in 3d space. Each face is a list of integer
-    indices into the vertex array, forming a coplanar convex ring defining the
-    face's edges. Duplicate indices do not have to be given at the start and
-    end of each face, the closed loop is implied. Each face has its own color.
+
+    .. function:: __init__(vertices, faces, colors, name='unknown')
+
+        `vertices`: a list of Vector points in 3D space, relative to the
+        shape's center point.
+
+        `faces`: a list of faces, where each face is a list of integer indices
+        into the vertices list. The referenced vertices of a single
+        face must form a coplanar ring defining the face's edges. Duplicate
+        indices do not have to be given at the start and end of each face,
+        the closed loop is implied.
+
+        `colors`: a single Color which is applied to every face, or a sequence
+        of colors, one for each face.
+
+        `name`: the 'source' attribute to be applied to each face.
+
+        See the source for factory functions like
+        :func:`~gloopy.shapes.cube.Cube` for examples of constructing Shapes.
     '''    
     def __init__(self, vertices, faces, colors, name='unknown'):
 
@@ -115,7 +158,8 @@ class Shape(object):
 
     def replace_face(self, index, new_faces):
         '''
-        Replace the face 'index' with the list of Face instances in 'new_faces'
+        Replace the face at position 'index' in self.faces with the list of
+        Face instances in 'new_faces'
         '''
         self.faces[index] = new_faces.pop()
         while new_faces:
@@ -163,68 +207,4 @@ class MultiShape(object):
                 Face( new_indices, face.color, self )
             )
         return faces
-
-
-
-def shape_to_glyph(shape):
-    vertices = list(shape.vertices)
-    faces = list(shape.faces)
-    num_glverts = get_num_verts(faces)
-    return Glyph(
-        num_glverts,
-        get_verts(vertices, faces, num_glverts),
-        get_indices(faces, num_glverts),
-        get_colors(faces, num_glverts),
-        get_normals(vertices, faces, num_glverts),
-    )
-
-
-def get_num_verts(faces):
-    return len(list(chain(*faces)))
-
-
-def get_verts(vertices, faces, num_glverts):
-    return (
-        vertices[index]
-        for face in faces
-        for index in face
-    )
-
-
-def tessellate(indices):
-    '''
-    Return the indices of the given face tesselated into a list of triangles,
-    expressed as integer indices. The triangles will be wound in the
-    same direction as the original poly. Does not work for concave faces.
-    e.g. [0, 1, 2, 3, 4] -> [[0, 1, 2], [0, 2, 3], [0, 3, 4]]
-    '''
-    return (
-        [indices[0], indices[index], indices[index + 1]]
-        for index in xrange(1, len(indices) - 1)
-    )
-
-
-def get_indices(faces, num_glverts):
-    indices = []
-    face_offset = 0
-    for face in faces:
-        face_indices = xrange(face_offset, face_offset + len(face))
-        indices.extend(chain(*tessellate(face_indices)))
-        face_offset += len(face)
-    return indices
-
-
-def get_colors(faces, num_glverts):
-    return chain.from_iterable(
-        repeat(face.color, len(face))
-        for face in faces
-    )
-
-
-def get_normals(vertices, faces, num_glverts):
-    return chain.from_iterable(
-        repeat(face.normal, len(face))
-        for face in faces
-    )
-
 
