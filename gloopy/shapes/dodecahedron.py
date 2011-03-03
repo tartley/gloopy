@@ -5,8 +5,10 @@ from .shape import Shape
 
 def Dodecahedron(radius, face_colors=None):
     '''
-    size doesn't correspond well to a particular dimension of the resulting
-    shape. Edges are size * (sqrt(5) - 1). Verts are at radius size * sqrt(3)
+    Return a new Shape. Verts are at the given `radius`.
+
+    `face_colors` may either be a Color which is applied to every face, or
+    a sequence of colors, one for each face.
     '''
 
     phi = (1 + sqrt(5)) / 2

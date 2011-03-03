@@ -5,7 +5,7 @@ from .shape import add_vertex, Face
 
 def extrude_face(shape, face_index, offset):
     '''
-    Extrude the specified face of the given face by 'offset'
+    Modify the given shape in-place, by extruding the specified face 'offset'.
     '''
     face = shape.faces[face_index]
 
@@ -35,9 +35,11 @@ def extrude_face(shape, face_index, offset):
     
 def extrude(shape, faces=None, offset=0):
     """
-    Extrude the specified faces of the given Shape, by 'offset'.
-    Faces is an iterable of integer face indices upon which to operate.
-    Defaults to all faces.
+    Modify the given shape in-place, by extruding the specified faces by
+    `offset`.
+
+    `faces` is an iterable of integer face indices upon which to operate. If
+    omitted, it defaults to all faces.
     """
     if faces is None:
         faces = xrange(len(shape.faces))
