@@ -15,6 +15,10 @@ def get_filename():
 
 
 def screenshot():
+    '''
+    save a screenshot to the current directory, named 'screenshotXX.png',
+    where XX is successive integers.
+    '''
     global image_no
 
     while isfile(get_filename()):

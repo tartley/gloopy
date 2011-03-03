@@ -2,16 +2,25 @@
 Access to all application path values should go via this module. In
 particular, use this module instead of using __file__ to locate resources,
 since resources will be separated from source code under some circumstances
-(e.g. when installed from rpm.)
-See excellent talk on this at:
+(e.g. when installed from an rpm.)
+See excellent talk on cross-platform development using these ideas at:
 http://us.pycon.org/2010/conference/schedule/event/38/
+
+| `CONTEXT`: tuple of (platform, setup), where:
+|     `platform`: windows | mac | linux
+|     `setup`: source | frozen
+
+| `ROOT`: application root directory
+| `DATA`: application data directory
+| `SOURCE`: root of application source code
+| `SHADERS`: location of application shader source code
 '''
 
 import sys
 from sys import argv, exit, platform
 from os.path import abspath, dirname, join
 
-# TODO: Context should just be a mini class, with named fields. Or named tuple
+# TODO: Maybe Context should be a mini class, with named fields. Or named tuple
 
 # context = (platform, setup)
 # platform = windows | mac | linux
