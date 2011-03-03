@@ -4,6 +4,11 @@ from ..view.glyph import Glyph
 
 
 def shape_to_glyph(shape):
+    '''
+    Return a new :class:`~gloopy.view.glyph.Glyph`, which contains the geometry
+    of the given shape converted into an indexed vertex array stored in a VBO,
+    ready for rendering in OpenGL as a single draw call.
+    '''
     vertices = list(shape.vertices)
     faces = list(shape.faces)
     num_glverts = _get_num_verts(faces)

@@ -5,7 +5,7 @@ from .shape import Face, add_vertex
 
 def stellate_face(shape, face_index, height):
     '''
-    Stellate face 'face_index' of the given shape.
+    Modify `shape` in-place. Stellate the single face at position 'face_index'.
     '''
     face = shape.faces[face_index]
     
@@ -27,14 +27,17 @@ def stellate_face(shape, face_index, height):
 
 def stellate(shape, faces=None, height=0):
     '''
-    Stellate the faces of the given shape.
-    By 'stellate' I mean add a new vertex in the middle of the face, raised
-    by 'height' out of the plane of the face, and replace the original face by
-    an n-sided pyramid connecting this new vertex to each of the original
-    face's edges.
+    Modify the given shape in-place. By 'stellate' I mean add a new vertex in
+    the middle of the face, raised by 'height' out of the plane of the face,
+    and replace the original face by an n-sided pyramid connecting this new
+    vertex to each edge of the original face's edges.
+
+    This isn't strictly 'stellation' as it is technically defined,
+    but is instead a more flexible superset of operations that includes
+    stellation.
+
     By default, all faces are opertated on, but this can be overidden by
     specifying 'faces' as an iterable of integer face indices.
-    Operates in-place on the given shape.
     '''
     if faces is None:
         faces = xrange(len(shape.faces))

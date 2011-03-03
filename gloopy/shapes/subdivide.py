@@ -6,8 +6,13 @@ from ..color import Color
 
 def subdivide_face(shape, face_index, edges, color2=None):
     '''
-    Subdivide face 'face_index' of the given shape.
-    TODO: internalise edges. Make it reset every time a new shape is passed.
+    Modify the given `shape` in-place. Subdivides the single face at position
+    `face_index`.
+
+    `edges` should be a dictionary, which starts empty, but is filled by
+    subdivide face for it's own internal bookkeeping. Pass in the same dict
+    object for every call to subdivide_face on the same shape. See `subdivide`
+    for an example of this.
     '''
     face = shape.faces[face_index]
     if color2 is None:
@@ -51,12 +56,12 @@ def subdivide_face(shape, face_index, edges, color2=None):
 
 
 def subdivide(shape, faces=None, color=None):
-    r"""
-    Subdivide the faces of the given shape.
-    Subdivision forms new, smaller faces by cutting the corners off a face::
+    r'''
+    Modify the given `shape` in-place. Subdivides each of its faces into
+    new, smaller faces, by cutting off the corners::
 
                      v0
-                     /\       vertices v0-v2 correspond to indices face[0:2]
+                     /\       
                     /  \
              mid[0]/----\mid[2]
                   / \  / \
@@ -65,13 +70,13 @@ def subdivide(shape, faces=None, color=None):
 
     By default, all faces are operated on, but this can be overidden by
     specifying 'faces' as an iterable of integer face indices.
-    Operates in-place on the given shape.
-    """
+    '''
     if faces is None:
         faces = xrange(len(shape.faces))
-    edges = {}
     if color is None:
         color = Color.Random()
+
+    edges = {}
     for face in faces:
         subdivide_face(shape, face, edges, color)
 
