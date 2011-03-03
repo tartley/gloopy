@@ -11,6 +11,27 @@ def read_shader_file(filename):
 
 
 class Shader(object):
+    '''
+    Wraps PyOpenGL's shader compile and link functions
+
+    .. function:: __init__(vertex, fragment, attributes)
+
+        `vertex`: filename of vertex shader source code
+
+        `fragment`: filename of fragment shader source code
+
+        `attribs`: a list of attribute names
+
+        Compiles and links the shader. For each attribute_name in
+        `attribs`, looks up the attribute location, and stores it
+        in self.attrib[attribute_name].
+
+    Can be bound and unbound by use as a context-manager::
+
+        shader = Shader('vert.glsl', 'frag.glsl', [])
+        with shader:
+            # draw calls
+    '''
 
     def __init__(self, vert_filename, frag_filename, attribs):
 
@@ -36,6 +57,6 @@ class Shader(object):
         GL.glUseProgram( 0 )
 
     def use(self):
-        """Use the program"""
+        """Use the linked shader program"""
         GL.glUseProgram(self.program)
 
