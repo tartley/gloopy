@@ -6,6 +6,8 @@ from .shape import add_vertex, Face
 def extrude_face(shape, face_index, offset):
     '''
     Modify the given shape in-place, by extruding the specified face 'offset'.
+
+    Doesn't work on Multishapes. This should get fixed in a future release.
     '''
     face = shape.faces[face_index]
 
@@ -40,6 +42,8 @@ def extrude(shape, faces=None, offset=0):
 
     `faces` is an iterable of integer face indices upon which to operate. If
     omitted, it defaults to all faces.
+
+    Doesn't work on Multishapes. This should get fixed in a future release.
     """
     if faces is None:
         faces = xrange(len(shape.faces))

@@ -10,6 +10,8 @@ def normalize(shape, length=1):
     If the shape contains edges which have one face on one side, but more than
     one face on the other side, then normalizing will result in ugly split
     seams, through which the interior of the object will be visible.
+
+    Doesn't work on Multishapes. This should get fixed in a future release.
     """
     shape.vertices = [
         v.normalized(length) for v in shape.vertices
