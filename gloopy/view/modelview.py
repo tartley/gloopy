@@ -11,6 +11,11 @@ class ModelView(object):
     
     Presumably this class will go away in future
     releases of Gloopy as we use a more OpenGL3 style.
+
+    .. function:: __init__(camera)
+
+        `camera` must have `.position` and `.look_at` attributes.
+        A GameItem instance would make a good camera.
     '''
     def __init__(self, camera):
         self.camera = camera
@@ -21,8 +26,8 @@ class ModelView(object):
 
     def set_world(self):
         '''
-        Set modelview matrix to account for camera `.position` and
-        `.look_at` attributes
+        Set the OpenGL modelview matrix to account for the camera's position
+        and orientation.
         '''
         gl.glMatrixMode(gl.GL_MODELVIEW)
         gl.glLoadIdentity()
