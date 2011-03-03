@@ -7,8 +7,8 @@ from __future__ import division
 from itertools import repeat, product
 from random import randint
 
-from .shape import MultiShape
 from .cube import Cube
+from .multishape import MultiShape
 from ..color import Color
 from ..geom.orientation import Orientation
 from ..geom.vector import Vector

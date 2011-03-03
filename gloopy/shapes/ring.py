@@ -1,6 +1,6 @@
 from math import cos, pi, sin
 
-from .shape import MultiShape
+from .multishape import MultiShape
 from ..geom.orientation import Orientation
 from ..geom.vector import Vector
 

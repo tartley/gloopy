@@ -1,7 +1,6 @@
 
 from itertools import repeat
 
-from ..geom.matrix import Matrix
 from ..geom.vector import Vector
 from ..color import Color
 
@@ -164,47 +163,4 @@ class Shape(object):
         self.faces[index] = new_faces.pop()
         while new_faces:
             self.faces.append( new_faces.pop() )
-
-
-
-class MultiShape(object):
-    '''
-    A composite of multiple Shapes. This allows many shapes to be stuck
-    together in a single MultiShape, which is then attached to a GameItem,
-    and is then rendered by Render as a single call to glDrawElements
-    (as opposed to many calls, as would be done for a collection of
-    individual Shapes)
-    '''
-
-    def __init__(self):
-        self.vertices = []
-        self.faces = []
-
-
-    def add(self, shape, position=None, orientation=None):
-        matrix = Matrix(position, orientation)
-        child_offset = len(self.vertices)
-        self.vertices.extend(self.child_vertices(shape, matrix))
-        self.faces.extend(self.child_faces(shape, child_offset))
-
-
-    def child_vertices(self, child, matrix):
-        return (
-            matrix.transform(vertex)
-            for vertex in child.vertices
-        )
-
-
-    def child_faces(self, child, child_offset):
-        faces = []
-
-        for face in child.faces:
-            new_indices = [
-                index + child_offset
-                for index in face.indices
-            ]
-            faces.append(
-                Face( new_indices, face.color, self )
-            )
-        return faces
 
