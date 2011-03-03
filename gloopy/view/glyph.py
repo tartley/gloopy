@@ -8,7 +8,7 @@ from OpenGL.GL.ARB.vertex_array_object import glBindVertexArray
 from OpenGLContext.arrays import array
 
 from ..color import Color
-from ..gl_wrap import glGenVertexArray
+from ..util.gl_wrap import glGenVertexArray
 
 
 type_to_enum = {
