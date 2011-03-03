@@ -9,6 +9,7 @@ from OpenGLContext.arrays import array
 
 from ..color import Color
 from ..util.gl_wrap import glGenVertexArray
+from ..geom.vector import Vector
 
 
 type_to_enum = {
@@ -20,7 +21,8 @@ type_to_enum = {
 
 def get_index_type(num_verts):
     '''
-    The type of the glindices array depends on how many vertices there are
+    Return the unsigned integer data type required to store the given number.
+    e.g. 255 can be stored in a GLubyte, whereas 256 rrequires a GLushort.
     '''
     if num_verts < 256:
         return GL.GLubyte
@@ -42,11 +44,19 @@ def glarray(gltype, seq, length):
 
 
 class Glyph(object):
+    '''
+    Passed iterables of vertex positions, colors, normals and indices,
+    converts them into ctypes arrays, stores them in a VBO, and then
+    creates a VAO that can be used to bind them later for rendering.
 
-    DIMENSIONS = 3
+    .. function:: __init__(num_verts, verts, colors, normals, indices)
+    '''
+
+    # currently we only support a single shader used to render the 
+    # whole scene
     shader = None
 
-    def __init__(self, num_verts, verts, indices, colors, normals):
+    def __init__(self, num_verts, verts, colors, normals, indices):
         self.num_glverts = num_verts
         self.vbo = vbo.VBO(
             array(
@@ -72,9 +82,8 @@ class Glyph(object):
             GL.glEnableVertexAttribArray(self.shader.attrib['normal'])
 
             STRIDE = 40
-            NORMAL_COMPONENTS = 3
             GL.glVertexAttribPointer( 
-                Glyph.shader.attrib['position'], Glyph.DIMENSIONS, GL.GL_FLOAT,
+                Glyph.shader.attrib['position'], Vector.COMPONENTS, GL.GL_FLOAT,
                 False, STRIDE, c_void_p(0)
             )
             GL.glVertexAttribPointer( 
@@ -82,7 +91,7 @@ class Glyph(object):
                 False, STRIDE, c_void_p(12)
             )
             GL.glVertexAttribPointer( 
-                Glyph.shader.attrib['normal'], NORMAL_COMPONENTS, GL.GL_FLOAT,
+                Glyph.shader.attrib['normal'], Vector.COMPONENTS, GL.GL_FLOAT,
                 False, STRIDE, c_void_p(28)
             )
         finally:

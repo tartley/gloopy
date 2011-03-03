@@ -15,9 +15,9 @@ def shape_to_glyph(shape):
     return Glyph(
         num_glverts,
         _get_verts(vertices, faces, num_glverts),
-        _get_indices(faces, num_glverts),
         _get_colors(faces, num_glverts),
         _get_normals(vertices, faces, num_glverts),
+        _get_indices(faces, num_glverts),
     )
 
 
