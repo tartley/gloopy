@@ -6,12 +6,9 @@ from ..geom.matrix import Matrix
 class MultiShape(object):
     '''
     A composite of multiple Shapes. This allows many shapes to be stuck
-    together in a single MultiShape, which is then attached to a GameItem,
-    and is then rendered by Render as a single call to glDrawElements
-    (as opposed to many calls, as would be done for a collection of
-    individual Shapes)
+    together and converted into a single Glyph, which means they are rendered
+    as a single call to glDrawElements.
     '''
-
     def __init__(self):
         self.vertices = []
         self.faces = []
