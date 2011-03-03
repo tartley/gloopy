@@ -12,7 +12,7 @@ from .projection import Projection
 from .shader import Shader
 from ..geom.vector import Vector
 from ..geom.orientation import Orientation
-from ..shapes.shape import shape_to_glyph
+from ..shapes.shape_to_glyph import shape_to_glyph
 
 
 log = logging.getLogger(__name__)
