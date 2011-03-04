@@ -6,8 +6,8 @@
 # the PATH
 
 
-NAME := $(shell python -c "from setup import NAME; print NAME")
-SCRIPT := $(shell python -c "from setup import SCRIPT; print SCRIPT")
+NAME := gloopy
+SCRIPT := noscript
 VERSION := $(shell python -c "from ${NAME} import VERSION; print VERSION")
 RELEASE := $(shell python -c "from ${NAME} import RELEASE; print RELEASE")
 
