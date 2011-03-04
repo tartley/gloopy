@@ -1,18 +1,5 @@
-
 Next
 ----
-
-* release on PyPI
-    * can we do without the data/examples/docs entries in MANIFEST.in now?
-    * run examples in isolation using the installed Gloopy
-        * test that fixpath prioritises local Gloopy over installed,
-          but finds installed if no local found
-    * code to generate setup.py's package_data param
-    * replace the setup.py to handle examples, put in MANIFEST.in
-    * Repeat on Ubuntu
-    * make upload
-    * binary release not required (it's a library)
-    * add a comment on pyweek message board
 
 * Talk: Set up the tension of posing problems, then solving them:
     vertex arrays are nasty denormalized, Shape->Glyph solves that
@@ -44,10 +31,10 @@ Next
 * add Serpinski Gasket (tetrahedral, aka Tetrix)
 * add Serpinski Cube (aka ?)
 * fiddle with sizes of basic shapes so they interpenetrate interestingly
-
 * demo: co-axial rings spinning at various speeds about the common axis
 * demo: nested radial slices of cylinders (partial rings) orbiting a common
         axis
+* load bitmaps idea (below)
 
 
 Geometry
@@ -153,6 +140,11 @@ Animation
 Infrastructure
 --------------
 
+* can we do without the data/examples/docs entries in MANIFEST.in now?
+* code to generate setup.py's package_data param
+* Repeat install and tests on Ubuntu
+* docs should be online somewhere
+* readme should have a screenshot
 * sdist documentation images are included twice
 * sdist documentation should not be in html subdir
 * documentation should not include test packages
@@ -453,4 +445,8 @@ DONE
     * that can run
     * and that can install
     * check it includes the documentation, in documentation/html
+    * upload to PyPI and repeat the above tests
+    * run examples in isolation using the installed Gloopy
+    * binary release not required (it's a library)
+    * add a comment on pyweek message board
 
