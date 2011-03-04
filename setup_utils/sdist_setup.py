@@ -22,7 +22,7 @@ def read_description():
 
     # return (first_para, rest_of_document)
     paras = text.split('\n\n')
-    return paras[0], '\n'.join(paras[1:])
+    return paras[0], '\n\n'.join(paras[1:])
 
 
 def get_scripts(script):
@@ -37,7 +37,6 @@ def get_scripts(script):
 
 def get_sdist_config(name, version, script):
     description, long_description = read_description()
-
     config = dict(
         name=name,
         version=version,
@@ -45,10 +44,21 @@ def get_sdist_config(name, version, script):
         long_description=long_description,
         keywords='',
         packages=find_packages(),
-        scripts=get_scripts(script),
-        #data_files=[
-            #('dest-dir', ['source-files']),
-        #],
+        data_files=[
+            ('examples', glob('examples/*.py')),
+            ('data/shaders', glob('data/shaders/*.*')),
+            ('documentation', glob('documentation/html/*.*')),
+            ('documentation/_images', glob('documentation/html/_images/*.*')),
+            ('documentation/_modules', glob('documentation/html/_modules/*.*')),
+            ('documentation/_modules/gloopy', glob('documentation/html/_modules/gloopy/*.*')),
+            ('documentation/_modules/gloopy/geom', glob('documentation/html/_modules/gloopy/geom/*.*')),
+            ('documentation/_modules/gloopy/move', glob('documentation/html/_modules/gloopy/move/*.*')),
+            ('documentation/_modules/gloopy/shapes', glob('documentation/html/_modules/gloopy/shapes/*.*')),
+            ('documentation/_modules/gloopy/util', glob('documentation/html/_modules/gloopy/util/*.*')),
+            ('documentation/_modules/gloopy/view', glob('documentation/html/_modules/gloopy/view/*.*')),
+            ('documentation/_static', glob('documentation/html/_static/*.*')),
+            ('documentation/_api', glob('documentation/html/_api/*.*')),
+        ],
         classifiers=[
             'Development Status :: 1 - Planning',
             'Intended Audience :: Developers',

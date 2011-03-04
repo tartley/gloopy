@@ -30,7 +30,7 @@ profile:
 
 
 clean:
-	rm -rf build dist tags pip-log.txt
+	rm -rf build dist/* tags pip-log.txt
 	-find . \( -name "*.py[oc]" -o -name "*.orig" \) -exec rm {} \;
 	$(MAKE) -C documentation clean
 .PHONY: clean
@@ -46,11 +46,25 @@ docs:
 .PHONY: docs
 
 
-sdist:
+sdist: docs
 	rm -rf dist/${NAME}-${RELEASE}.* build
 	python setup.py --quiet sdist
 	rm -rf ${NAME}.egg-info
 .PHONY: sdist
+
+
+register: docs
+	rm -rf dist/${NAME}-${RELEASE}.* build
+	python setup.py --quiet sdist register
+	rm -rf ${NAME}.egg-info
+.PHONY: register
+
+
+upload: docs
+	rm -rf dist/${NAME}-${VERSION}.* build
+	python setup.py --quiet sdist register upload
+	rm -rf ${NAME}.egg-info
+.PHONY: upload
 
 
 py2exe:

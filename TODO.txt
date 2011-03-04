@@ -6,7 +6,7 @@ Next
     * run examples in isolation using the installed Gloopy
         * test that fixpath prioritises local Gloopy over installed,
           but finds installed if no local found
-    * check it includes the documentation, in documentation/html
+    * replace the setup.py to handle examples, put in MANIFEST.in
     * Repeat on Ubuntu
     * make upload
     * binary release not required (it's a library)
@@ -24,14 +24,14 @@ Next
 
     Talk Outline
     ------------
-    * Inspirations - Effective non-photo-realistic work in gaming, movies and the
-      demo scene. (1m)
-    * A convenient & Pythonic way to model 3D polyhedra, and some neat generators
-      to convert these into OpenGL arrays at runtime. (7m)
+    * Inspirations - Effective non-photo-realistic work in gaming, movies and
+      the demo scene. (1m) A convenient & Pythonic way to model 3D polyhedra,
+      and some neat generators to convert these into OpenGL arrays at runtime.
+      (7m)
     * Algorithmic modification of shapes, such as bevels, geometric duals, and
       polyhedron stellation. (2m)
-    * The resulting performance characteristics: What works well from Python, and
-      what doesn't. (2m)
+    * The resulting performance characteristics: What works well from Python,
+      and what doesn't. (2m)
     * Composition of polyhedra to create more complex shapes (3m)
     * Koch tetrahedron & tetrix, aka Sierpinski tetrahedron. (1m)
     * Surprisingly effective 3D models created from small bitmaps. (1m)
@@ -150,6 +150,9 @@ Animation
 
 Infrastructure
 --------------
+
+* sdist documentation images are included twice
+* sdist documentation should not be in html subdir
 
 * pyglet latest from hg
 * Python 3
@@ -451,4 +454,5 @@ DONE
     * create a local sdist
     * that can run
     * and that can install
+    * check it includes the documentation, in documentation/html
 
