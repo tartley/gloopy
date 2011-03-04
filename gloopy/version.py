@@ -1,4 +1,4 @@
 
 VERSION = '0.1'
-RELEASE = VERSION + '.2a'
+RELEASE = VERSION + '.3a'
 

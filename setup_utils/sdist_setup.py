@@ -1,5 +1,3 @@
-from glob import glob
-from os import listdir
 from os.path import abspath, dirname, isfile, join
 import sys
 from setuptools import find_packages
@@ -25,16 +23,6 @@ def read_description():
     return paras[0], '\n\n'.join(paras[1:])
 
 
-def get_scripts(script):
-    script = [script] if script else []
-    examples = [
-        join('examples', f)
-        for f in listdir('examples')
-        if f.endswith('.py')
-    ]
-    return script + examples
-
-
 def get_sdist_config(name, version, script):
     description, long_description = read_description()
     config = dict(
@@ -44,23 +32,25 @@ def get_sdist_config(name, version, script):
         long_description=long_description,
         keywords='',
         packages=find_packages(),
-        data_files=[
-            ('examples', glob('examples/*.py')),
-            ('data/shaders', glob('data/shaders/*.*')),
-            ('documentation', glob('documentation/html/*.*')),
-            ('documentation/_images', glob('documentation/html/_images/*.*')),
-            ('documentation/_modules', glob('documentation/html/_modules/*.*')),
-            ('documentation/_modules/gloopy', glob('documentation/html/_modules/gloopy/*.*')),
-            ('documentation/_modules/gloopy/geom', glob('documentation/html/_modules/gloopy/geom/*.*')),
-            ('documentation/_modules/gloopy/move', glob('documentation/html/_modules/gloopy/move/*.*')),
-            ('documentation/_modules/gloopy/shapes', glob('documentation/html/_modules/gloopy/shapes/*.*')),
-            ('documentation/_modules/gloopy/util', glob('documentation/html/_modules/gloopy/util/*.*')),
-            ('documentation/_modules/gloopy/view', glob('documentation/html/_modules/gloopy/view/*.*')),
-            ('documentation/_static', glob('documentation/html/_static/*.*')),
-            ('documentation/_api', glob('documentation/html/_api/*.*')),
-        ],
+        package_data={
+            'gloopy': [
+                'docs/html/*.*',
+                'docs/html/_images/*.*',
+                'docs/html/_modules/*.*',
+                'docs/html/_modules/gloopy/*.*',
+                'docs/html/_modules/gloopy/geom/*.*',
+                'docs/html/_modules/gloopy/move/*.*',
+                'docs/html/_modules/gloopy/shapes/*.*',
+                'docs/html/_modules/gloopy/util/*.*',
+                'docs/html/_modules/gloopy/view/*.*',
+                'docs/html/_static/*.*',
+                'docs/html/api/*.*',
+                'data/shaders/*.*',
+                'examples/*.py',
+            ],
+        },
         classifiers=[
-            'Development Status :: 1 - Planning',
+            'Development Status :: 3 - Alpha',
             'Intended Audience :: Developers',
             'License :: OSI Approved :: BSD License',
             'Operating System :: Microsoft :: Windows',

@@ -1,11 +1,8 @@
 
 from math import cos
 
-# make sure we can find gloopy in '..', so that we can run from within
-# 'examples' dir, even if Gloopy isn't installed.
-import sys
-from os.path import abspath, dirname, join
-sys.path.insert(0, abspath(join(dirname(__file__), '..')))
+# find gloopy in '../..', so we can run even if Gloopy is not installed
+import fixpath
 
 from gloopy import Gloopy
 from gloopy.color import Color

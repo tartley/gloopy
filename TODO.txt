@@ -3,9 +3,11 @@ Next
 ----
 
 * release on PyPI
+    * can we do without the data/examples/docs entries in MANIFEST.in now?
     * run examples in isolation using the installed Gloopy
         * test that fixpath prioritises local Gloopy over installed,
           but finds installed if no local found
+    * code to generate setup.py's package_data param
     * replace the setup.py to handle examples, put in MANIFEST.in
     * Repeat on Ubuntu
     * make upload
@@ -153,6 +155,10 @@ Infrastructure
 
 * sdist documentation images are included twice
 * sdist documentation should not be in html subdir
+* documentation should not include test packages
+* pip install should install deps, e.g. pyglet, popengl
+* Readme cannot contain class links, but we'd like the intro.rst (derived
+  from it) to do so. Some sort of copy with a search-and-replace?
 
 * pyglet latest from hg
 * Python 3
@@ -162,18 +168,10 @@ Infrastructure
   application's scratch space, not cwd
 
 * Convert options to use argparse, so that it can provide command line usage
-* command-line option to select screen resolution on startup
-* restore desktop resolution on exit
+* command-line option to select screen resolution on startup, and restore
+  desktop resolution on exit
 * keys or something to select new screen resolution during runtime
 * persist options to store user's chosen screen resolution
-
-* should be pip installable, and doing so should install its deps
-* examples should be installed into site-packages
-* Check that examples work in isolation, using an installed version of gloopy
-* source install should be 'install python; pip install gloopy'
-* generate sphinx documentation
-* fill in doc strings
-* make 0.1 release on cheese shop
 
 
 OpenGL 3

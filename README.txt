@@ -32,7 +32,7 @@ Written mostly on Windows, tested occasionally on Ubuntu.
 Documentation
 -------------
 
-In the Gloopy source, see documentation/html/index.html
+In the Gloopy source, see gloopy/docs/html/index.html
 
 and the scripts in the 'examples' directory.
 

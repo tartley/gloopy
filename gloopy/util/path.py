@@ -55,7 +55,7 @@ elif CONTEXT == ('windows', 'binary'):
 else:
     exit('Error %s' % (CONTEXT,))
 
-DATA = join(ROOT, 'data')
 SOURCE = join(ROOT, 'gloopy')
+DATA = join(SOURCE, 'data')
 SHADERS = join(DATA, 'shaders')
 

@@ -30,9 +30,9 @@ profile:
 
 
 clean:
-	rm -rf build dist/* tags pip-log.txt
+	rm -rf build/* dist/* tags pip-log.txt
 	-find . \( -name "*.py[oc]" -o -name "*.orig" \) -exec rm {} \;
-	$(MAKE) -C documentation clean
+	$(MAKE) -C ${NAME}/docs clean
 .PHONY: clean
 
 
@@ -42,7 +42,7 @@ tags:
 
 
 docs:
-	@$(MAKE) -C documentation
+	@$(MAKE) -C ${NAME}/docs
 .PHONY: docs
 
 
