@@ -3,8 +3,11 @@ from __future__ import division
 from math import pi, sqrt
 from random import choice, uniform
 
-# let this script run within the 'examples' dir, even if Gloopy is not installed
-import fixpath
+# make sure we can find gloopy in '..', so that we can run from within
+# 'examples' dir, even if Gloopy isn't installed.
+import sys
+from os.path import abspath, dirname, join
+sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
