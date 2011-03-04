@@ -7,10 +7,18 @@ from pyglet import image
 
 log = logging.getLogger(__name__)
 
-image_no = 0
+image_no = -1
 
 
-def get_filename():
+def _get_next():
+    global image_no
+    image_no += 1
+    while isfile(_get_filename(image_no)):
+        image_no += 1
+    return image_no
+
+
+def _get_filename(number):
     return 'screenshot%02d.png' % (image_no,)
 
 
@@ -19,14 +27,8 @@ def screenshot():
     save a screenshot to the current directory, named 'screenshotXX.png',
     where XX is successive integers.
     '''
-    global image_no
-
-    while isfile(get_filename()):
-        image_no += 1
-
-    log.info('screenshot: %s' % (get_filename(),))
-    image.get_buffer_manager().get_color_buffer().save(get_filename())
-
-    image_no += 1
-    return get_filename()
+    number = _get_next()
+    log.info('screenshot: %s' % (_get_filename(number),))
+    image.get_buffer_manager().get_color_buffer().save(_get_filename(number))
+    return _get_filename(number)
 
