@@ -1,6 +1,5 @@
 
 from ctypes import c_void_p
-from itertools import chain
 
 from OpenGL import GL
 from OpenGL.arrays import vbo
@@ -32,44 +31,48 @@ def get_index_type(num_verts):
         return GL.GLuint
 
 
-def glarray(gltype, seq, length):
+def glarray(gltype, seq):
     '''
-    Convert a list of lists into a flattened ctypes array, eg:
-    [ (1, 2, 3), (4, 5, 6) ] -> (GLfloat*6)(1, 2, 3, 4, 5, 6)
+    Puts the given sequence into a ctypes array of gltypes.
+    [ 1, 2, 3, 4, 5, 6 ] -> (GLfloat*6)(1, 2, 3, 4, 5, 6)
     '''
-    carray = (gltype * length)()
+    carray = (gltype * len(seq))()
     carray[:] = seq
     return carray
 
 
-
 class Glyph(object):
     '''
-    Passed iterables of vertex positions, colors, normals and indices,
-    converts them into ctypes arrays, stores them in a VBO, and then
-    creates a VAO that can be used to bind them later for rendering.
+    Converts lists of vertices and indices into OpenGL vertex arrays stored
+    in a VBO. Creates a VAO that can be used to bind them for rendering.
 
-    .. function:: __init__(num_verts, verts, colors, normals, indices)
+    .. function:: __init__(vertices, indices)
+
+        :param vertices: each tuple contains attributes of one vertex
+        :type vertices: list of tuples of numbers
+        :param indices: order in which vertices should be drawn
+        :type indices: list of integers
+
+        The `vertex` list should be structured as follows (only the first
+        vertex is shown, in reality, more would follow it::
+
+            vertices=[
+                (
+                    pos.x, pos.y, pos.z,
+                    color.r, color.g, color.b, color.a,
+                    normal.x, normal.y, normal.z,
+                )
+                ...
+            ]
     '''
-
     # currently we only support a single shader used to render the 
     # whole scene
     shader = None
 
-    def __init__(self, num_verts, verts, colors, normals, indices):
-        self.num_glverts = num_verts
-        self.vbo = vbo.VBO(
-            array(
-                list(
-                    list(chain(v, c.as_floats(), n))
-                    for v, c, n in zip(verts, colors, normals)
-                ),
-                'f'
-            ),
-            usage='GL_STATIC_DRAW'
-        )
-        index_type = get_index_type(num_verts)
-        self.glindices = glarray(index_type, indices, len(indices))
+    def __init__(self, vertices, indices):
+        self.vbo = vbo.VBO(array(vertices, 'f'), usage='GL_STATIC_DRAW')
+        index_type = get_index_type(len(vertices))
+        self.glindices = glarray(index_type, indices)
         self.index_type = type_to_enum[index_type]
 
         self.vao = glGenVertexArray()
