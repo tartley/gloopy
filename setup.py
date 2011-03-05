@@ -32,7 +32,7 @@ def read_description(filename):
     return paras[0], '\n\n'.join(paras[1:])
 
 
-def get_package_data(topdir, excluded={}):
+def get_package_data(topdir, excluded=set()):
     retval = []
     for dirname, subdirs, files in os.walk(join(NAME, topdir)):
         for x in excluded:
