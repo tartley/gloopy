@@ -97,7 +97,3 @@ class Glyph(object):
         finally:
             glBindVertexArray(0)
 
-
-    def __repr__(self):
-        return '<Glyph %x %d verts>' % (id(self), self.num_glverts,)
-
