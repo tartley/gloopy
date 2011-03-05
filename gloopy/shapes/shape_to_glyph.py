@@ -12,7 +12,6 @@ def shape_to_glyph(shape):
     '''
     vertices = []
     indices = []
-
     for face in shape.faces:
         new_indices = {}
         color = face.color.as_floats()

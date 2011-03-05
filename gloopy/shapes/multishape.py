@@ -20,8 +20,9 @@ class MultiShape(object):
     .. function:: __init__()
     '''
     def __init__(self):
-        self.vertices = []
-        self.faces = []
+        self._children = []
+        self._vertices = None
+        self._faces = None
 
 
     def add(self, shape, position=None, orientation=None):
@@ -31,28 +32,38 @@ class MultiShape(object):
         MultiShape, and oriented by `orientation`.
         '''
         matrix = Matrix(position, orientation)
-        child_offset = len(self.vertices)
-        self.vertices.extend(self._child_vertices(shape, matrix))
-        self.faces.extend(self._child_faces(shape, child_offset))
+        self._children.append((shape, matrix))
 
 
-    def _child_vertices(self, child, matrix):
-        return (
-            matrix.transform(vertex)
-            for vertex in child.vertices
-        )
+    @property
+    def children(self):
+        for shape, transform in self._children:
+            yield shape, transform 
+            if hasattr(shape, 'children'):
+                for subshape, subtransform in shape.children:
+                    yield subshape, subtransform * transform
 
 
-    def _child_faces(self, child, child_offset):
-        faces = []
-
-        for face in child.faces:
-            new_indices = [
-                index + child_offset
-                for index in face.indices
+    @property
+    def vertices(self):
+        if self._vertices is None:
+            self._vertices = [
+                transform.transform(vertex)
+                for child, transform in self.children
+                for vertex in child.vertices
             ]
-            faces.append(
-                Face( new_indices, face.color, self )
-            )
-        return faces
+        return self._vertices
+
+
+    @property
+    def faces(self):
+        child_offset = 0
+        for child, _ in self.children:
+            for face in child.faces:
+                new_indices = [
+                    index + child_offset
+                    for index in face.indices
+                ]
+                yield Face( new_indices, face.color, self )
+            child_offset += len(child.vertices)
 
