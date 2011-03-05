@@ -1,4 +1,5 @@
-from os.path import isfile
+import os
+from os.path import isfile, join
 from pprint import pprint
 import sys
 
@@ -31,16 +32,29 @@ def read_description(filename):
     return paras[0], '\n\n'.join(paras[1:])
 
 
+def get_package_data(topdir, excluded={}):
+    retval = []
+    for dirname, subdirs, files in os.walk(join(NAME, topdir)):
+        for x in excluded:
+            if x in subdirs:
+                subdirs.remove(x)
+        retval.append(join(dirname[len(NAME)+1:], '*.*'))
+    return retval
+
+
 def main():
-    # must happen before the setuptools import
+    # these imports inside main() because we want to be able to import this
+    # module cheaply to get at the name
+    
+    # use_setuptools must be called before the setuptools import
     from distribute_setup import use_setuptools
     use_setuptools()
-
     from setuptools import find_packages, setup
 
     description, long_description = read_description(
         first_existing('README', 'README.txt', 'README.rst')
     )
+
     config = dict(
         name=NAME,
         version=RELEASE,
@@ -50,24 +64,13 @@ def main():
         license='New BSD',
         author='Jonathan Hartley',
         author_email='tartley@tartley.com',
-        keywords='opengl graphics games',
+        keywords='opengl 3d graphics games',
         packages=find_packages(),
         package_data={
-            'gloopy': [
-                'docs/html/*.*',
-                'docs/html/_images/*.*',
-                'docs/html/_modules/*.*',
-                'docs/html/_modules/gloopy/*.*',
-                'docs/html/_modules/gloopy/geom/*.*',
-                'docs/html/_modules/gloopy/move/*.*',
-                'docs/html/_modules/gloopy/shapes/*.*',
-                'docs/html/_modules/gloopy/util/*.*',
-                'docs/html/_modules/gloopy/view/*.*',
-                'docs/html/_static/*.*',
-                'docs/html/api/*.*',
-                'data/shaders/*.*',
-                'examples/*.py',
-            ],
+            NAME: 
+                get_package_data('data') +
+                get_package_data('docs/html', excluded={'.doctrees'}) +
+                ['examples/*.py']
         },
         classifiers=[
             'Development Status :: 3 - Alpha',
@@ -81,6 +84,8 @@ def main():
 
     if '--verbose' in sys.argv:
         pprint(config)
+    if '--dry-run' in sys.argv:
+        return
 
     setup(**config)
 
