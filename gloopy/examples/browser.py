@@ -144,9 +144,6 @@ class KeyHandler(object):
     def add_shape(self, shape, **kwargs):
         item = GameItem(shape=shape, **kwargs)
         self.world.add(item)
-        print 'verts', len(list(shape.vertices))
-        print 'faces', len(list(shape.faces))
-
         return item
 
     def remove(self):
