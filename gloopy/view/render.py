@@ -133,12 +133,9 @@ class Render(object):
 
             gl.glPushMatrix()
 
-            if item.position and item.position != Vector.Origin:
+            if item.position != Vector.Origin:
                 gl.glTranslatef(*item.position)
-            if (
-                item.orientation and
-                item.orientation != Orientation.Identity
-            ):
+            if item.orientation != Orientation.Identity:
                 gl.glMultMatrixf(item.orientation.matrix)
 
             glBindVertexArray(item.glyph.vao)
