@@ -112,7 +112,7 @@ class KeyHandler(object):
 
     def world_update(self, time, dt):
         if self.camera.update:
-            rate = 10.0 * dt
+            rate = 3 * dt
             self.camera.update.radius += (
                 self.camera_radius - self.camera.update.radius) * rate
 
@@ -212,7 +212,7 @@ class KeyHandler(object):
         if item.update:
             item.update = None
         else:
-            item.update = WobblySpinner(orientation=item.orientation)
+            item.update = WobblySpinner()
 
 
     def toggle_backface_culling(self):
