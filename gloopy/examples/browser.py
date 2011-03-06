@@ -48,7 +48,10 @@ class KeyHandler(object):
             key._7: lambda: self.add_shape(
                 TruncatedCube(1, 0.5, Color.Cyan, Color.Blue),
             ),
-            key._8: lambda: self.add_shape( SpaceStation(1.1), ),
+            key._8: lambda: self.add_shape( 
+                SpaceStation(1.1),
+                update=Spinner(Vector.XAxis, speed=1),
+            ),
 
             key.Q: lambda: self.add_shape(
                 CubeCross(1, Color.Red, Color.Red.tinted(Color.Orange)),
@@ -141,6 +144,9 @@ class KeyHandler(object):
     def add_shape(self, shape, **kwargs):
         item = GameItem(shape=shape, **kwargs)
         self.world.add(item)
+        print 'verts', len(list(shape.vertices))
+        print 'faces', len(list(shape.faces))
+
         return item
 
     def remove(self):
