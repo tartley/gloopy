@@ -11,6 +11,10 @@ from ..geom.vector import Vector
 from ..color import Color
 
 
+def _logical_xor(a, b):
+    return bool(a) ^ bool(b)
+
+
 def Cube(radius=None, colors=None, edge=None):
     '''
     Return a new Shape, shaped like a cube.
@@ -21,7 +25,7 @@ def Cube(radius=None, colors=None, edge=None):
     `colors` may be either an instance of Color, or a sequence of colors,
     one for each face.
     '''
-    assert bool(radius) ^ bool(edge)
+    assert _logical_xor(radius, edge)
     if radius:
         edge = sqrt(3 * radius * radius) / 1.5
     return Cuboid(edge, edge, edge, colors, source='Cube')
