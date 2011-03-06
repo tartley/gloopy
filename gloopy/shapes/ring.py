@@ -11,17 +11,16 @@ def Ring(basic_shape, radius, number):
     in a ring of `radius`.
     '''
     multi = MultiShape()
-    angle = 0
     orientation = Orientation()
     delta_angle = 2 * pi / number
-    while angle < 2 * pi:
-        angle += delta_angle
+    while number > 0:
+        number -= 1
         pos = Vector(
+            radius * sin(delta_angle * number),
+            radius * cos(delta_angle * number),
             0,
-            radius * sin(angle),
-            radius * cos(angle),
         )
-        orientation = orientation.pitch(delta_angle)
+        orientation = orientation.roll(delta_angle)
         multi.add(basic_shape, pos, orientation)
     return multi
 
