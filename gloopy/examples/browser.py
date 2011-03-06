@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 from __future__ import division
+from random import randint, uniform
 
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
@@ -20,7 +21,6 @@ from gloopy.shapes.cube_groups import (
 from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.extrude import extrude
 from gloopy.shapes.icosahedron import Icosahedron
-from gloopy.shapes.multishape import MultiShape
 from gloopy.shapes.normalize import normalize
 from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.ring import Ring, TriRings
@@ -37,6 +37,7 @@ class KeyHandler(object):
         self.world.update += self.world_update
         self.render = render
         self.camera = camera
+        self.coaxials = set()
 
         self.keys = {
             key._1: lambda: self.add_shape(Tetrahedron(1, Color.Random())),
@@ -80,8 +81,10 @@ class KeyHandler(object):
                 shape=TriRings(
                     CubeCorners(1, Color.Lavender, Color.Gold),
                     8, 24),
-                update=WobblySpinner(speed=0.1),
+                update=WobblySpinner(speed=-1),
             ),
+            key.U: self.add_coaxial_rings,
+
             key.Z: lambda: self.add_shape(
                 CubeGlob(40, 4000, Color.Red)
             ),
@@ -151,6 +154,20 @@ class KeyHandler(object):
         if item:
             self.world.remove(item)
 
+
+    def add_coaxial_rings(self):
+        height = randint(-10, 11)
+        radius = randint(7, 20)
+        self.add_shape(
+            shape=Ring(
+                CubeCross(1, Color.Random(), Color.Random()),
+                radius * 1.5, 
+                int(radius * 5),
+            ),
+            position=Vector(0, height * 1.5, 0),
+            orientation=Orientation(Vector.YAxis),
+            update=Spinner(Vector.YAxis, speed=uniform(-1, 1)),
+        )
 
     def add_koche_tetra(self):
         color1 = Color.Random()
