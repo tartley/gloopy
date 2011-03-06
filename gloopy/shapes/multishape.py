@@ -38,10 +38,11 @@ class MultiShape(object):
     @property
     def children(self):
         for shape, transform in self._children:
-            yield shape, transform 
-            if hasattr(shape, 'children'):
+            if isinstance(shape, MultiShape):
                 for subshape, subtransform in shape.children:
-                    yield subshape, subtransform * transform
+                    yield subshape, transform * subtransform
+            else:
+                yield shape, transform 
 
 
     @property

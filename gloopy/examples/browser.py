@@ -10,6 +10,7 @@ import fixpath
 from gloopy import Gloopy
 from gloopy.color import Color
 from gloopy.geom.vector import Vector
+from gloopy.geom.orientation import Orientation
 from gloopy.gameitem import GameItem
 from gloopy.move import Spinner, WobblySpinner, WobblyOrbit
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
@@ -19,6 +20,7 @@ from gloopy.shapes.cube_groups import (
 from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.extrude import extrude
 from gloopy.shapes.icosahedron import Icosahedron
+from gloopy.shapes.multishape import MultiShape
 from gloopy.shapes.normalize import normalize
 from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.ring import Ring, TriRings
@@ -26,7 +28,6 @@ from gloopy.shapes.shape_to_glyph import shape_to_glyph
 from gloopy.shapes.stellate import stellate
 from gloopy.shapes.subdivide import subdivide
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
-
 
 
 class KeyHandler(object):
@@ -78,7 +79,6 @@ class KeyHandler(object):
                     8, 24),
                 update=WobblySpinner(speed=0.1),
             ),
-
             key.Z: lambda: self.add_shape(
                 CubeGlob(40, 4000, Color.Red)
             ),
@@ -171,8 +171,8 @@ class KeyHandler(object):
 
     def mod_normalize(self):
         '''
-        This makes a mess when the selected shape has longer edges of a
-        single face which abut a chain of shorter edges of smaller faces.
+        This makes a mess when the selected shape has a longer edge of a single
+        face which abuts a chain of shorter edges of smaller faces.
         '''
         item = self.get_selected_item()
         normalize(item.shape)
