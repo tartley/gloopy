@@ -157,14 +157,15 @@ class KeyHandler(object):
 
     def add_coaxial_rings(self):
         height = randint(-10, 11)
-        radius = randint(7, 20)
+        radius = randint(3, 10)
+        color1 = Color.Blue.tinted(Color.Grey, radius/10)
         self.add_shape(
             shape=Ring(
-                CubeCross(1, Color.Random(), Color.Random()),
-                radius * 1.5, 
+                CubeCross(4, color1, color1.inverted()),
+                radius * 6, 
                 int(radius * 5),
             ),
-            position=Vector(0, height * 1.5, 0),
+            position=Vector(0, height * 6, 0),
             orientation=Orientation(Vector.YAxis),
             update=Spinner(Vector.YAxis, speed=uniform(-1, 1)),
         )

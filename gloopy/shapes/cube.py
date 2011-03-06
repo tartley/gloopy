@@ -11,18 +11,20 @@ from ..geom.vector import Vector
 from ..color import Color
 
 
-def Cube(radius=None, colors=None):
+def Cube(radius=None, colors=None, edge=None):
     '''
     Return a new Shape, shaped like a cube.
     One of the platonic solids.
-    Vertices are positioned at `radius` from the center, meaning the cube edges
-    are sqrt(3*radius^2).
+    Specify either radius of the vertices from the center, or the edge
+    dimension, not both.
 
     `colors` may be either an instance of Color, or a sequence of colors,
     one for each face.
     '''
-    size = sqrt(3 * radius * radius) / 1.5
-    return Cuboid(size, size, size, colors, source='Cube')
+    assert bool(radius) ^ bool(edge)
+    if radius:
+        edge = sqrt(3 * radius * radius) / 1.5
+    return Cuboid(edge, edge, edge, colors, source='Cube')
 
 
 def Cuboid(x, y, z, colors=None, source='Cuboid'):

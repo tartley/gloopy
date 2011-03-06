@@ -29,7 +29,7 @@ def CubeCross(edge, color1, color2):
     ]:
         center = pos * (edge / 2)
         multi.add(
-            Cube(1/2, repeat(color2)),
+            Cube(edge/2, repeat(color2)),
             position=center,
         )
     return multi
