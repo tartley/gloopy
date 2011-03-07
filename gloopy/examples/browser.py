@@ -44,15 +44,12 @@ class KeyHandler(object):
 
         self.keys = {
             key._1: lambda: self.add_shape(Tetrahedron(1, Color.Random())),
-            key._2: lambda: self.add_shape(Cube(1, Color.Random())),
-            key._3: lambda: self.add_shape(Octahedron(1, Color.Random())),
-            key._4: lambda: self.add_shape(Dodecahedron(1, Color.Random())),
-            key._5: lambda: self.add_shape(Icosahedron(1, Color.Random())),
-            key._6: lambda: self.add_shape(DualTetrahedron(1, Color.Random())),
-            key._7: lambda: self.add_shape(
-                TruncatedCube(1, 0.5, Color.Cyan, Color.Blue),
-            ),
-            key._8: lambda: self.add_shape( 
+            key._2: lambda: self.add_shape(Cube(0.75, Color.Random())),
+            key._3: lambda: self.add_shape(Octahedron(0.75, Color.Random())),
+            key._4: lambda: self.add_shape(Dodecahedron(0.65, Color.Random())),
+            key._5: lambda: self.add_shape(Icosahedron(0.4, Color.Random())),
+            key._6: lambda: self.add_shape(DualTetrahedron(0.9, Color.Random())),
+            key._7: lambda: self.add_shape( 
                 SpaceStation(1.1),
                 update=Spinner(Vector.XAxis, speed=1),
             ),
