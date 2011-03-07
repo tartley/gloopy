@@ -77,8 +77,7 @@ class Face(object):
         v2 = self.shape.vertices[self.indices[2]]
         a = v0 - v1
         b = v2 - v1
-        normal = b.cross(a).normalized()
-        return normal
+        return b.cross(a).normalized()
 
     @property
     def centroid(self):

@@ -65,8 +65,7 @@ class Glyph(object):
                 ...
             ]
     '''
-    # currently we only support a single shader used to render the 
-    # whole scene
+    # currently we only support a single shader used to render the whole scene
     shader = None
 
     def __init__(self, vertices, indices):
