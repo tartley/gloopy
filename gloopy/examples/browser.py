@@ -24,10 +24,13 @@ from gloopy.shapes.icosahedron import Icosahedron
 from gloopy.shapes.normalize import normalize
 from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.ring import Ring, TriRings
+from gloopy.shapes.shape import Shape
 from gloopy.shapes.shape_to_glyph import shape_to_glyph
 from gloopy.shapes.stellate import stellate
 from gloopy.shapes.subdivide import subdivide
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
+
+
 
 
 class KeyHandler(object):
@@ -53,6 +56,7 @@ class KeyHandler(object):
                 SpaceStation(1.1),
                 update=Spinner(Vector.XAxis, speed=1),
             ),
+            key._0: self.add_triangle_square,
 
             key.Q: lambda: self.add_shape(
                 CubeCross(1, Color.Red, Color.Red.tinted(Color.Orange)),
@@ -155,6 +159,25 @@ class KeyHandler(object):
             self.world.remove(item)
 
 
+    def add_triangle_square(self):
+        self.add_shape(
+            Shape(
+                vertices=[
+                    #       x   y   z
+                    Vector( 0,  2,  1), # p0
+                    Vector(-1,  0,  1), # p1
+                    Vector( 1,  0,  1), # p2
+                    Vector( 1,  0, -1), # p3
+                    Vector(-1,  0, -1), # p4
+                ],
+                faces=[
+                    [0, 1, 2],    # triangle
+                    [1, 2, 3, 4], # square
+                ],
+                colors=[Color.Red, Color.Yellow],
+            )
+        )
+        
     def add_coaxial_rings(self):
         height = randint(-10, 11)
         radius = randint(3, 10)
