@@ -40,7 +40,8 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     # __neq__ as 'not __eq__' seems to be inherited from tuple
 
-    __hash__ = None # Vector are mutable, so do not allow hashing
+    def __hash__(self):
+        return hash(self.x) ^ hash(self.y) ^ hash(self.z)
 
     def __neg__(self):
         return Vector(-self.x, -self.y, -self.z)

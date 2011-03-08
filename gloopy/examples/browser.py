@@ -15,6 +15,7 @@ from gloopy.geom.orientation import Orientation
 from gloopy.gameitem import GameItem
 from gloopy.move import Spinner, WobblySpinner, WobblyOrbit
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
+from gloopy.shapes.cube_cluster import CubeCluster
 from gloopy.shapes.cube_groups import (
     CubeCross, CubeCorners, CubeGlob, RgbCubeCluster,
 )
@@ -52,6 +53,14 @@ class KeyHandler(object):
             key._7: lambda: self.add_shape( 
                 SpaceStation(1.1),
                 update=Spinner(Vector.XAxis, speed=1),
+            ),
+            key._8: lambda: self.add_shape(
+                CubeCluster( {
+                    Vector(0, 0, 0): Color.White,
+                    Vector(1, 0, 0): Color.Red,
+                    Vector(0, 2, 0): Color.Green,
+                    Vector(0, 0, 3): Color.Blue,
+                } )
             ),
             key._0: self.add_triangle_square,
 
