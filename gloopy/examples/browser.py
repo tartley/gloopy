@@ -16,7 +16,7 @@ from gloopy.gameitem import GameItem
 from gloopy.move import Spinner, WobblySpinner, WobblyOrbit
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
 from gloopy.shapes.cube_groups import (
-    CubeCluster, CubeCross, CubeCorners, CubeGlob, RgbCubeCluster,
+    BitmapCubeCluster, CubeCross, CubeCorners, CubeGlob, RgbCubeCluster,
 )
 from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.extrude import extrude
@@ -52,12 +52,7 @@ class KeyHandler(object):
                 update=Spinner(Vector.XAxis, speed=1),
             ),
             key._8: lambda: self.add_shape(
-                CubeCluster( {
-                    Vector(0, 0, 0): Color.White,
-                    Vector(1, 0, 0): Color.Red,
-                    Vector(0, 2, 0): Color.Green,
-                    Vector(0, 0, 3): Color.Blue,
-                } )
+                BitmapCubeCluster('invader.png')
             ),
             key._0: self.add_triangle_square,
 

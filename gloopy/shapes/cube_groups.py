@@ -5,6 +5,7 @@ composing several cubes
 from __future__ import division
 
 from itertools import repeat, product
+from os.path import join
 from random import randint
 
 from .cube import Cube
@@ -12,6 +13,7 @@ from .multishape import MultiShape
 from ..color import Color
 from ..geom.orientation import Orientation
 from ..geom.vector import Vector
+from ..util import path
 
 
 def CubeCross(edge, color1, color2):
@@ -110,7 +112,6 @@ def RgbCubeCluster(edge, cluster_edge, cube_count, hole=0):
     return cluster
 
 
-
 def CubeCluster(locations):
     '''
     Returns a new shape, consisting of a cluster of cubes.
@@ -121,12 +122,30 @@ def CubeCluster(locations):
     In future could be optimised to remove faces of cubes which are never
     visible due to abutting a neighbour.
     '''
-
     multi = MultiShape()
     for location, color in locations.iteritems():
         multi.add(
             Cube(edge=1, colors=color),
-            position=location,
+            position=Vector(*location),
         )
     return multi
+
+from pyglet import image
+
+def BitmapCubeCluster(filename):
+    img = image.load(join(path.DATA, 'images', filename))
+    rawdata = img.get_image_data()
+    channels = 'RGBA'
+    pitch = rawdata.width * len(channels)
+    pixels = rawdata.get_data(rawdata.format, rawdata.pitch)
+    locations = {}
+    for x in xrange(img.width):
+        for y in xrange(img.height):
+            index = x * 4 + y * pitch
+            r, g, b, a = map(ord, pixels[index:index+4])
+            if a > 0:
+                cubex = x - img.width / 2
+                cubey = img.height / 2 - y
+                locations[cubex, cubey, 0] = Color(r, g, b)
+    return CubeCluster(locations)
 
