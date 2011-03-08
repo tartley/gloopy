@@ -59,7 +59,13 @@ class Render(object):
         # adding items to the world should convert their shapes to a glyph
         def convert_item_shape_to_glyph(item):
             if item.shape:
-                item.glyph = shape_to_glyph(item.shape)
+                if isinstance(item.shape, list):
+                    shapes = item.shape
+                else:
+                    shapes = [item.shape]
+                item.glyph = [ shape_to_glyph(shape) for shape in shapes ]
+                if not hasattr(item, 'frame') or item.frame is None:
+                    item.frame = 0
         self.world.item_added += convert_item_shape_to_glyph
 
 
@@ -138,13 +144,15 @@ class Render(object):
             if item.orientation != Orientation.Identity:
                 gl.glMultMatrixf(item.orientation.matrix)
 
-            glBindVertexArray(item.glyph.vao)
+            glyph = item.glyph[item.frame]
+
+            glBindVertexArray(glyph.vao)
 
             gl.glDrawElements(
                 gl.GL_TRIANGLES,
-                len(item.glyph.glindices),
-                item.glyph.index_type,
-                item.glyph.glindices
+                len(glyph.glindices),
+                glyph.index_type,
+                glyph.glindices
             )
 
             gl.glPopMatrix()

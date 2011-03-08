@@ -8,6 +8,8 @@ from itertools import repeat, product
 from os.path import join
 from random import randint
 
+from pyglet import image
+
 from .cube import Cube
 from .multishape import MultiShape
 from ..color import Color
@@ -130,7 +132,6 @@ def CubeCluster(locations):
         )
     return multi
 
-from pyglet import image
 
 def BitmapCubeCluster(filename):
     img = image.load(join(path.DATA, 'images', filename))

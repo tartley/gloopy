@@ -52,7 +52,10 @@ class KeyHandler(object):
                 update=Spinner(Vector.XAxis, speed=1),
             ),
             key._8: lambda: self.add_shape(
-                BitmapCubeCluster('invader.png')
+                [
+                    BitmapCubeCluster('invader1.png'),
+                    BitmapCubeCluster('invader2.png')
+                ]
             ),
             key._0: self.add_triangle_square,
 
@@ -95,8 +98,8 @@ class KeyHandler(object):
 
             key.BACKSPACE: self.remove,
             key.F11: self.toggle_backface_culling,
-            key.PAGEDOWN: lambda: self.camera_orbit(0.5),
-            key.PAGEUP: lambda: self.camera_orbit(2.0),
+            key.PAGEUP: lambda: self.camera_orbit(0.5),
+            key.PAGEDOWN: lambda: self.camera_orbit(2.0),
         }
         self.keys_shift = {
             key.A: lambda: self.set_faces_suffix(''),

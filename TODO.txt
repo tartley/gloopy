@@ -1,6 +1,8 @@
 Next
 ----
 
+* load bitmaps idea (below)
+
     Talk Outline
     ------------
     * Inspirations - Effective non-photo-realistic work in gaming, movies and
@@ -20,11 +22,8 @@ Next
 
 * add Serpinski Gasket (tetrahedral, aka Tetrix)
 * add Serpinski Cube (aka ?)
-* fiddle with sizes of basic shapes so they interpenetrate interestingly
-* demo: co-axial rings spinning at various speeds about the common axis
 * demo: nested radial slices of cylinde,frs (partial rings) orbiting a common
         axis
-* load bitmaps idea (below)
 
 
 Geometry
@@ -37,9 +36,10 @@ Geometry
 * fix Face.centroid method - take the one from solescion
 
 * polyhedra bevel
-
-* modifier to change colors using labelled faces, one color for each unique
-  label
+  To do this right is complicated by shapes such as those produced by
+  CubeCluster, in which several edges converge at a particular location, but
+  only some of them should be beveled. We don't want edges shared by coplanar
+  faces to be bevelled.
 
 * function to truncate a shape by amount from 0 to 1. Truncation by 1
   results in the geometric dual. This is half done, but turns out to be a
@@ -109,9 +109,15 @@ Rendering
       in direction of directional light source
 
 * Allow each gameitem to specify its own shader program
+    Requires some thought. Vertex attributes must match up with those
+    expected by the shader. Probably this involves wrapping shaders inside
+    Python source, which declares and exposes their attributes and uniforms.
 
 * scale movement by mean dt over last few frames to reduce jittery movement
-  caused by isolated slow or fast frames.
+  caused by isolated slow or fast frames. When producing rollin average,
+  take account of numerical imprecision brought about by subtracting very
+  small quantities from very large ones. Prob not important in this case,
+  but I should understand this.
 
 * anti-alias. Use multisampling. Expose as option to application.
 
@@ -131,10 +137,10 @@ Infrastructure
 --------------
 
 * can we do without the data/examples/docs entries in MANIFEST.in now?
-* code to generate setup.py's package_data param
 * Repeat install and tests on Ubuntu
 * docs should be online somewhere
-* readme should have a screenshot
+* readme should have a link to a screenshot, which is transformed into
+  the actual image embedded in the html documentation
 * sdist documentation images are included twice
 * sdist documentation should not be in html subdir
 * documentation should not include test packages
@@ -145,7 +151,7 @@ Infrastructure
 * pyglet latest from hg
 * Python 3
 
-* log file is broken?
+* log file is broken - no log file is created.
 * log file should be created in app_root if possible, or else in
   application's scratch space, not cwd
 
@@ -177,15 +183,6 @@ Startup Performance
 
 - check a profiler
 
-* Combining the orientations of nested multishapes is done in an innefficient
-  manner, multiplying every vertex by each multishape's orientation in
-  series. Modify to calculate the cumulative orientation first, then
-  multiply each vertex by the result.
-
-* totally rewrite shape_to_glyph algorithm, incorporating what Glyph then
-  subsequently does with the outputs. Suspect we're
-  doing too much work (e.g. vertex and index re-ordering)
-
 
 Render Performance
 ------------------
@@ -212,20 +209,13 @@ OR
 Design
 ------
 
-* Reassigning to an item's shape attr also needs to convert to glyph
-  As does modifying a shape in place.
-  How to manage this?
-* Review whether gloopy should be broken into separate libraries:
-    - rendering: should know nothing of shapes or world.
-        passed a list of (glyph, pos&orientation)
-    - shape: model polyhedra and convert them to glyphs
-    - shaders: provided shaders and binding them
-* user should (can?) provide a world update function?
-* newtonian movement should be provided as a public callable to either:
-    - be called for one item, AS its update method
-    - be called for one item, FROM its update method.
-    - be called for all items, from world.update
-
+* if same shape is assigned to many items, it gets a separate glyph in each
+  case. glyphs should not be stored as attribute of item. They should be
+  stored in a render.py (or submodule thereof), in a dictionary of shapes to
+  glyphs.
+* When a shape changes (either by internal modification in-place, or assignment
+  to an item) it fires an event that causes the corresponding glyph to be
+  regenerated.
 
 
 Ideas for later
@@ -439,4 +429,14 @@ DONE
     * run examples in isolation using the installed Gloopy
     * binary release not required (it's a library)
     * add a comment on pyweek message board
+* totally rewrite shape_to_glyph algorithm, incorporating what Glyph then
+  subsequently does with the outputs. Suspect we're
+  doing too much work (e.g. vertex and index re-ordering)
+* Combining the orientations of nested multishapes is done in an innefficient
+  manner, multiplying every vertex by each multishape's orientation in
+  series. Modify to calculate the cumulative orientation first, then
+  multiply each vertex by the result.
+* code to generate setup.py's package_data param
+* fiddle with sizes of basic shapes so they interpenetrate interestingly
+* demo: co-axial rings spinning at various speeds about the common axis
 
