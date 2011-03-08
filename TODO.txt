@@ -1,16 +1,6 @@
 Next
 ----
 
-* Talk: Set up the tension of posing problems, then solving them:
-    vertex arrays are nasty denormalized, Shape->Glyph solves that
-    performance of many independently positions shapes is bad,
-        use VBOs to avoid sending data every frame
-        optimise by cleaning up the main render loop, incl VAO
-        Cython
-        Hypothetical: purely shader based with single draw call
-    processing each vertex every frame is hard:
-        use shaders to animate
-
     Talk Outline
     ------------
     * Inspirations - Effective non-photo-realistic work in gaming, movies and
@@ -32,7 +22,7 @@ Next
 * add Serpinski Cube (aka ?)
 * fiddle with sizes of basic shapes so they interpenetrate interestingly
 * demo: co-axial rings spinning at various speeds about the common axis
-* demo: nested radial slices of cylinders (partial rings) orbiting a common
+* demo: nested radial slices of cylinde,frs (partial rings) orbiting a common
         axis
 * load bitmaps idea (below)
 

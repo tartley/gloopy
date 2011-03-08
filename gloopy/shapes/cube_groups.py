@@ -109,3 +109,24 @@ def RgbCubeCluster(edge, cluster_edge, cube_count, hole=0):
         )
     return cluster
 
+
+
+def CubeCluster(locations):
+    '''
+    Returns a new shape, consisting of a cluster of cubes.
+
+    :param locations: maps location of cubes to their color.
+    :type locations: dict
+
+    In future could be optimised to remove faces of cubes which are never
+    visible due to abutting a neighbour.
+    '''
+
+    multi = MultiShape()
+    for location, color in locations.iteritems():
+        multi.add(
+            Cube(edge=1, colors=color),
+            position=location,
+        )
+    return multi
+

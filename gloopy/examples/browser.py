@@ -15,9 +15,8 @@ from gloopy.geom.orientation import Orientation
 from gloopy.gameitem import GameItem
 from gloopy.move import Spinner, WobblySpinner, WobblyOrbit
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
-from gloopy.shapes.cube_cluster import CubeCluster
 from gloopy.shapes.cube_groups import (
-    CubeCross, CubeCorners, CubeGlob, RgbCubeCluster,
+    CubeCluster, CubeCross, CubeCorners, CubeGlob, RgbCubeCluster,
 )
 from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.extrude import extrude
@@ -30,8 +29,6 @@ from gloopy.shapes.shape_to_glyph import shape_to_glyph
 from gloopy.shapes.stellate import stellate
 from gloopy.shapes.subdivide import subdivide
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
-
-
 
 
 class KeyHandler(object):
