@@ -144,9 +144,9 @@ def BitmapCubeCluster(filename):
         for y in xrange(img.height):
             index = x * 4 + y * pitch
             r, g, b, a = map(ord, pixels[index:index+4])
-            if a > 0:
+            if a > 25:
                 cubex = x - img.width / 2
                 cubey = img.height / 2 - y
-                locations[cubex, cubey, 0] = Color(r, g, b)
+                locations[cubex, cubey, 0] = Color(r, g, b, a)
     return CubeCluster(locations)
 
