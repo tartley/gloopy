@@ -14,6 +14,7 @@ from gloopy.geom.vector import Vector
 from gloopy.geom.orientation import Orientation
 from gloopy.gameitem import GameItem
 from gloopy.move import Spinner, WobblySpinner, WobblyOrbit
+from gloopy.move.cycle_frames import CycleFrames
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
 from gloopy.shapes.cube_groups import (
     BitmapCubeCluster, CubeCross, CubeCorners, CubeGlob, RgbCubeCluster,
@@ -55,7 +56,8 @@ class KeyHandler(object):
                 [
                     BitmapCubeCluster('invader1.png'),
                     BitmapCubeCluster('invader2.png')
-                ]
+                ],
+                update=CycleFrames(1),
             ),
             key._0: self.add_triangle_square,
 
