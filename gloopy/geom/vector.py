@@ -131,14 +131,17 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     def cross(self, other):
         '''
-        Return a new vector, the cross product
+        Return a new vector, the cross product.
         a x b = (a2b3 - a3b2, a3b1 - a1b3, a1b2 - a2b1)
+        This will be at right angles to both self and other, with a length:
+            len(self) * len(other) * sin(angle_between_them)
         http://en.wikipedia.org/wiki/Cross_product
         '''
         return Vector(
             self.y * other.z - self.z * other.y,
             self.z * other.x - self.x * other.z,
-            self.x * other.y - self.y * other.x)
+            self.x * other.y - self.y * other.x
+        )
 
     def dot(self, other):
         '''
@@ -155,7 +158,7 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     def rotateX(self, angle):
         '''
-        return a new vector, rotated about the X axis
+        return a new vector, rotated `angle` radians about the X axis
         '''
         sina = sin(angle)
         cosa = cos(angle)
@@ -166,7 +169,7 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     def rotateY(self, angle):
         '''
-        return a new vector, rotated about the Y axis
+        return a new vector, rotated `angle` radians about the Y axis
         '''
         sina = sin(angle)
         cosa = cos(angle)
@@ -177,7 +180,7 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     def rotateZ(self, angle):
         '''
-        return a new vector, rotated about the Z axis
+        return a new vector, rotated `angle` radians about the Z axis
         '''
         sina = sin(angle)
         cosa = cos(angle)
