@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 from __future__ import division
+from math import pi
 from random import randint, uniform
 
 from pyglet.event import EVENT_HANDLED
@@ -219,10 +220,6 @@ class KeyHandler(object):
         ]
 
     def mod_normalize(self):
-        '''
-        This makes a mess when the selected shape has a longer edge of a single
-        face which abuts a chain of shorter edges of smaller faces.
-        '''
         item = self.get_selected_item()
         normalize(item.shape)
         item.glyph = [shape_to_glyph(item.shape)]
@@ -268,7 +265,9 @@ class KeyHandler(object):
         if isinstance(item.update, Orbit):
             item.update = None
         else:
-            item.update = Orbit()
+            center = Vector.ZAxis.rotateY(uniform(0, 2*pi))
+            axis = center.cross(Vector.YAxis)
+            item.update = Orbit(center, 2, axis)
 
 
     def toggle_backface_culling(self):
