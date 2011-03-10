@@ -53,7 +53,9 @@ class testVector(TestCase):
         self.assertTrue(Vector(1, 2, 3) != 1.23)
 
     def testHash(self):
-        self.assertRaises(TypeError, lambda: hash(Vector(1, 2, 3)))
+        self.assertNotEquals(hash(Vector(1, 2, 3)), hash(Vector(99, 2, 3)))
+        self.assertNotEquals(hash(Vector(1, 2, 3)), hash(Vector(1, 99, 3)))
+        self.assertNotEquals(hash(Vector(1, 2, 3)), hash(Vector(1, 2, 99)))
 
     def testAlmostEqual(self):
         error = EPSILON * 0.9
@@ -136,6 +138,23 @@ class testVector(TestCase):
         self.assertAlmostEqual(a.angle(b), pi/4, places=15)
         self.assertAlmostEqual(a.angle(a), 0, places=7)
         self.assertAlmostEqual(b.angle(b), 0, places=7)
+
+
+    def testRotateX(self):
+        self.assertEqual(Vector.XAxis.rotateX(pi/2), Vector.XAxis)
+        self.assertEqual(Vector.YAxis.rotateX(pi/2), Vector.ZNegAxis)
+        self.assertEqual(Vector.ZAxis.rotateX(pi/2), Vector.YAxis)
+
+    def testRotateY(self):
+        self.assertEqual(Vector.XAxis.rotateY(pi/2), Vector.ZAxis)
+        self.assertEqual(Vector.YAxis.rotateY(pi/2), Vector.YAxis)
+        self.assertEqual(Vector.ZAxis.rotateY(pi/2), Vector.XNegAxis)
+
+    def testRotateZ(self):
+        self.assertEqual(Vector.XAxis.rotateZ(pi/2), Vector.YNegAxis)
+        self.assertEqual(Vector.YAxis.rotateZ(pi/2), Vector.XAxis)
+        self.assertEqual(Vector.ZAxis.rotateZ(pi/2), Vector.ZAxis)
+
 
     def testRotate(self):
         self.assertEqual(Vector.XAxis.rotate(Vector.XAxis, pi/2), Vector.XAxis)

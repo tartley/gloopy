@@ -152,6 +152,42 @@ class Vector(namedtuple('VectorBase', 'x y z')):
         '''
         return acos(self.dot(other) / (self.length * other.length))
 
+
+    def rotateX(self, angle):
+        '''
+        return a new vector, rotated about the X axis
+        '''
+        sina = sin(angle)
+        cosa = cos(angle)
+        return Vector(
+            self.x,
+            self.y * cosa + self.z * sina,
+            -self.y * sina + self.z * cosa)
+
+    def rotateY(self, angle):
+        '''
+        return a new vector, rotated about the Y axis
+        '''
+        sina = sin(angle)
+        cosa = cos(angle)
+        return Vector(
+            self.x * cosa - self.z * sina,
+            self.y,
+            self.x * sina + self.z * cosa)
+
+    def rotateZ(self, angle):
+        '''
+        return a new vector, rotated about the Z axis
+        '''
+        sina = sin(angle)
+        cosa = cos(angle)
+        return Vector(
+            self.x * cosa + self.y * sina,
+            -self.x * sina + self.y * cosa,
+            self.z
+        )
+
+
     def rotate(self, axis, angle):
         '''
         Return a new vector, rotated about the given axis
