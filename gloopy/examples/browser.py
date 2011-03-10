@@ -63,11 +63,11 @@ class KeyHandler(object):
             key._0: self.add_triangle_square,
 
             key.Q: lambda: self.add_shape(
-                CubeCross(1, Color.Red, Color.Red.tinted(Color.Orange)),
+                CubeCross(0.67, Color.Red, Color.Red.tinted(Color.Orange)),
             ),
             key.W: lambda: self.add_shape(
                 CubeCorners(
-                    1, Color.Yellow.tinted(Color.White), Color.Yellow
+                    0.6, Color.Yellow.tinted(Color.White), Color.Yellow
                 ),
             ),
             key.E: lambda: self.add_shape(
