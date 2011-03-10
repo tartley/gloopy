@@ -35,7 +35,6 @@ class Gloopy(object):
         self.camera = None
         self.render = None
         self.options = Options(sys.argv)
-        self.time = None
 
 
     def init(self, window=None):
@@ -74,7 +73,6 @@ class Gloopy(object):
         event loop by calling pyglet.app.run()
         '''
         log.info('start')
-        self.time = 0.0
         pyglet.clock.schedule(self.update)
         self.window.set_visible()
         self.window.invalid = False
@@ -93,9 +91,7 @@ class Gloopy(object):
         '''
         Called before every screen refresh,
         '''
-        dt = min(dt, 1 / 30.0)
-        self.time += dt
-        self.world.update_all(self.time, dt)
+        self.world.update_all(min(dt, 1 / 30.0))
         self.window.invalid = True
 
 

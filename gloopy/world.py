@@ -32,6 +32,7 @@ class World(object):
         self.item_removed = Event()
         self.update = Event()
         self.background_color = Color.Orange
+        self.age = 0.0
 
     def __iter__(self):
         return self.items.itervalues()
@@ -63,14 +64,15 @@ class World(object):
         self.item_removed.fire(item)
         item.position = None
 
-    def update_all(self, t, dt):
+    def update_all(self, dt):
         '''
         Calls item.update() on each item that has a populated update attribute.
 
         Fires the self.update event.
         '''
-        self.update.fire(t, dt)
+        self.age += dt
+        self.update.fire(self.age, dt)
         for item in self:
             if item.update:
-                item.update(item, t, dt)
+                item.update(item, self.age, dt)
 
