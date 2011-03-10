@@ -49,7 +49,7 @@ class MultiShape(object):
     def vertices(self):
         if self._vertices is None:
             self._vertices = [
-                transform.transform(vertex)
+                transform * vertex
                 for child, transform in self.children
                 for vertex in child.vertices
             ]

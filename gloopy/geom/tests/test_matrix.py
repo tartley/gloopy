@@ -26,33 +26,33 @@ class TestMatrix(TestCase):
         self.assertEquals(matrix.elements[9], -orientation.forward.y)
         self.assertEquals(matrix.elements[10], -orientation.forward.z)
 
-        self.assertEquals(matrix.elements[12], position.x)
-        self.assertEquals(matrix.elements[13], position.y)
-        self.assertEquals(matrix.elements[14], position.z)
+        self.assertEquals(matrix.elements[3], position.x)
+        self.assertEquals(matrix.elements[7], position.y)
+        self.assertEquals(matrix.elements[11], position.z)
 
-        self.assertEquals(matrix.elements[3], 0)
-        self.assertEquals(matrix.elements[7], 0)
-        self.assertEquals(matrix.elements[11], 0)
+        self.assertEquals(matrix.elements[12], 0)
+        self.assertEquals(matrix.elements[13], 0)
+        self.assertEquals(matrix.elements[14], 0)
         self.assertEquals(matrix.elements[15], 1)
 
 
-    def testTransform(self):
+    def testMulVertex(self):
         position = Vector(10, 20, 30)
         vert = Vector(1, 2, 3)
 
         # default orientation, this should translate only, zero rotation
         orientation = Orientation()
         matrix = Matrix(position, orientation)
-        self.assertEqual(matrix.transform(vert) - position, vert)
+        self.assertEqual(matrix * vert - position, vert)
 
         # now try a couple of transforms which do involve a rotation
         orientation = Orientation(Vector.YAxis)
         matrix = Matrix(position, orientation)
-        self.assertEqual(matrix.transform(vert) - position, (1, 3, -2))
+        self.assertEqual(matrix * vert - position, (1, 3, -2))
 
         orientation = Orientation(Vector.XAxis)
         matrix = Matrix(position, orientation)
-        self.assertEqual(matrix.transform(vert) - position, (3, 2, -1))
+        self.assertEqual(matrix * vert - position, (3, 2, -1))
 
 
 if __name__ == '__main__':

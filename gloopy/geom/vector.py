@@ -196,7 +196,7 @@ class Vector(namedtuple('VectorBase', 'x y z')):
         Return a new vector, rotated about the given axis
 
         If rotating many verts around the same axis, consider creating a
-        Matrix to represent the rotation instead, and calling m.transform(v)
+        Matrix to represent the rotation instead, and calling m*v
         on each vertex, which might be faster.
         '''
         c = cos(-angle)
