@@ -120,7 +120,7 @@ class KeyHandler(object):
             key.E: self.mod_extrude,
             key.C: self.mod_color,
             key.R: self.mod_spin,
-            key.O: self.mod_orbit,
+            key.B: self.mod_orbit,
         }
         self.faces_suffix = ''
         self.camera_radius = 3
