@@ -72,7 +72,8 @@ class KeyHandler(object):
             ),
             key.E: lambda: self.add_shape(
                 Ring(Cube(1, Color.Green), 2, 13),
-                update=WobblySpinner(speed=1),
+                orientation=Orientation(Vector.YAxis),
+                update=Spinner(Vector.YAxis),
             ),
             key.R: lambda: self.add_shape(
                 Ring(
