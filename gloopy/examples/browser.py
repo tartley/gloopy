@@ -265,9 +265,10 @@ class KeyHandler(object):
         if isinstance(item.update, Orbit):
             item.update = None
         else:
-            center = Vector.ZAxis.rotateY(uniform(0, 2*pi))
+            radius = 2
+            center = Vector.ZAxis.rotateY(self.world.age) * radius
             axis = center.cross(Vector.YAxis)
-            item.update = Orbit(center, 2, axis)
+            item.update = Orbit(center, radius, axis, phase=-self.world.age)
 
 
     def toggle_backface_culling(self):
