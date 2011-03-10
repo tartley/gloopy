@@ -223,13 +223,13 @@ class KeyHandler(object):
         '''
         item = self.get_selected_item()
         normalize(item.shape)
-        item.glyph = shape_to_glyph(item.shape)
+        item.glyph = [shape_to_glyph(item.shape)]
 
     def mod_shape(self, modifier, *args):
         item = self.get_selected_item()
         faces = self.faces_endswith(item.shape, self.faces_suffix)
         modifier(item.shape, faces, *args)
-        item.glyph = shape_to_glyph(item.shape)
+        item.glyph = [shape_to_glyph(item.shape)]
 
     def mod_subdivide(self):
         self.mod_shape(subdivide)
