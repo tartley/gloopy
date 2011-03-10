@@ -13,7 +13,7 @@ from gloopy.color import Color
 from gloopy.geom.vector import Vector
 from gloopy.geom.orientation import Orientation
 from gloopy.gameitem import GameItem
-from gloopy.move import Spinner, WobblySpinner, WobblyOrbit
+from gloopy.move import Orbit, Spinner, WobblySpinner, WobblyOrbit
 from gloopy.move.cycle_frames import CycleFrames
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
 from gloopy.shapes.cube_groups import (
@@ -113,11 +113,13 @@ class KeyHandler(object):
         self.keys_alt = {
             key.N: self.mod_normalize,
             key.S: self.mod_subdivide,
-            key.O: self.mod_stellate_out,
             key.I: self.mod_stellate_in,
+            key.O: lambda: self.mod_stellate_out(0.5),
+            key.P: self.mod_stellate_out,
             key.E: self.mod_extrude,
             key.C: self.mod_color,
             key.R: self.mod_spin,
+            key.O: self.mod_orbit,
         }
         self.faces_suffix = ''
         self.camera_radius = 3
@@ -235,8 +237,8 @@ class KeyHandler(object):
         self.mod_shape(subdivide)
         self.set_faces_suffix('subdivide-center')
 
-    def mod_stellate_out(self):
-        self.mod_shape(stellate, 0.5)
+    def mod_stellate_out(self, amount=1):
+        self.mod_shape(stellate, amount)
         self.set_faces_suffix('stellate')
 
     def mod_stellate_in(self):
@@ -256,10 +258,17 @@ class KeyHandler(object):
 
     def mod_spin(self):
         item = self.get_selected_item()
-        if item.update:
+        if isinstance(item.update, WobblySpinner):
             item.update = None
         else:
             item.update = WobblySpinner()
+
+    def mod_orbit(self):
+        item = self.get_selected_item()
+        if isinstance(item.update, Orbit):
+            item.update = None
+        else:
+            item.update = Orbit()
 
 
     def toggle_backface_culling(self):
