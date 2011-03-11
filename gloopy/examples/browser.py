@@ -71,34 +71,35 @@ class KeyHandler(object):
                 ),
             ),
             key.E: lambda: self.add_shape(
-                Ring(Cube(1, Color.Green), 2, 13),
+                Ring(Cube(0.5, Color.Green), 2, 20),
                 orientation=Orientation(Vector.YAxis),
                 update=Spinner(Vector.YAxis),
             ),
             key.R: lambda: self.add_shape(
                 Ring(
-                    TruncatedCube(1, 0.67, Color.SeaGreen, Color.Periwinkle),
-                    3.45, 25
+                    TruncatedCube(1.75, 0.8, Color.SeaGreen, Color.Periwinkle),
+                    6, 25
                 ),
                 update=Spinner(axis=Vector.XAxis, speed=0.5),
             ),
             key.T: lambda: self.add_shape(
-                TriRings(Cube(1, Color.DarkTeal), 6, 32),
+                TriRings(Cube(1.02, Color.DarkTeal), 8, 40),
                 update=WobblySpinner(speed=-0.2),
             ),
             key.Y: lambda: self.add_shape(
-                shape=TriRings(
-                    CubeCorners(1, Color.Lavender, Color.Gold),
-                    8, 24),
+                shape=TriRings(Octahedron(5, Color.Teal), 12, 8),
                 update=WobblySpinner(speed=-1),
             ),
             key.U: self.add_coaxial_rings,
 
             key.Z: lambda: self.add_shape(
-                CubeGlob(40, 4000, Color.Red)
+                CubeGlob(4, 70, 1000, Color.Red)
             ),
-            key.X: lambda: self.add_shape( RgbCubeCluster(1, 40, 4000) ),
-            key.C: self.add_koche_tetra,
+            key.X: lambda: self.add_shape(
+                CubeGlob(8, 150, 2000, Color.DarkRed)
+            ),
+            key.C: lambda: self.add_shape( RgbCubeCluster(8, 4000) ),
+            key.V: self.add_koche_tetra,
 
             key.BACKSPACE: self.remove,
             key.F11: self.toggle_backface_culling,
@@ -188,7 +189,7 @@ class KeyHandler(object):
     def add_coaxial_rings(self):
         height = randint(-10, 11)
         radius = randint(3, 10)
-        color1 = Color.Blue.tinted(Color.Grey, radius/10)
+        color1 = Color.Blue.tinted(Color.Grey, abs(height/10))
         self.add_shape(
             shape=Ring(
                 CubeCross(4, color1, color1.inverted()),
@@ -287,7 +288,7 @@ class Application(object):
     def run(self):
         self.gloopy = Gloopy()
         self.gloopy.init()
-        self.gloopy.world.background_color = Color.Orange
+        self.gloopy.world.background_color = Color.NavyBlue
         self.gloopy.camera.update=WobblyOrbit(
             center=Vector.Origin,
             radius=3,

@@ -57,26 +57,23 @@ def CubeCorners(edge, color1, color2):
     return multi
 
 
-def CubeGlob(radius, number, colors):
+def CubeGlob(size, radius, number, colors):
     '''
     Return a new Shape consisting of a random glob of cubes arranged in a
     spherical shell.
     '''
-    GAP = 20
     glob = MultiShape()
-    cube = Cube(1, colors)
+    cube = Cube(size, colors)
     for _ in xrange(number):
-        pos = Vector.RandomSphere(radius - GAP)
-        gap = pos.normalized() * GAP
-        pos = pos + gap
         glob.add(
             cube,
-            position=pos,
-            orientation=Orientation(pos) )
+            position=Vector.RandomShell(radius),
+            orientation=Orientation.Random()
+        )
     return glob
 
 
-def RgbCubeCluster(edge, cluster_edge, cube_count, hole=0):
+def RgbCubeCluster(edge, cube_count, hole=0):
     '''
     Return a new Shape consisting of a random array of cubes arranged within
     a large cube-shaped volume. The small cubes are colored by their position
@@ -91,30 +88,21 @@ def RgbCubeCluster(edge, cluster_edge, cube_count, hole=0):
     `hole`: if >0, leave an empty hole of this radius in the middle of the
         volume.
     '''
-    cluster = MultiShape()
+    locations = {}
     for _ in xrange(cube_count):
         while True:
-            pos = Vector(
-                randint(-cluster_edge, +cluster_edge),
-                randint(-cluster_edge, +cluster_edge),
-                randint(-cluster_edge, +cluster_edge),
-            )
-            color = Color(
-                int((pos.x + cluster_edge) / cluster_edge / 2 * 255),
-                int((pos.y + cluster_edge) / cluster_edge / 2 * 255),
-                int((pos.z + cluster_edge) / cluster_edge / 2 * 255),
-            )
-            # make a hole in the center
+            r = randint(0, 254)
+            g = randint(0, 254)
+            b = randint(0, 254)
+            pos = Vector(r, g, b) - Vector(127, 127, 127)
+            # accept this entry if it isn't in the hole
             if pos.length > hole:
+                locations[pos] = Color(r, g, b)
                 break
-        cluster.add(
-            Cube(edge, repeat(color)),
-            position=pos
-        )
-    return cluster
+    return CubeCluster(locations, edge=edge)
 
 
-def CubeCluster(locations):
+def CubeCluster(locations, edge=1):
     '''
     Returns a new shape, consisting of a cluster of cubes.
 
@@ -127,7 +115,7 @@ def CubeCluster(locations):
     multi = MultiShape()
     for location, color in locations.iteritems():
         multi.add(
-            Cube(edge=1, colors=color),
+            Cube(edge=edge, colors=color),
             position=Vector(*location),
         )
     return multi
@@ -142,10 +130,10 @@ def BitmapCubeCluster(filename):
     locations = {}
     for x in xrange(img.width):
         for y in xrange(img.height):
-            index = x * 4 + y * pitch
+            index = x * len(channels) + y * pitch
             r, g, b, a = map(ord, pixels[index:index+4])
             if a > 25:
-                cubex = x - img.width / 2
+                cubex = x - img.width / 2 + 0.5
                 cubey = img.height / 2 - y
                 locations[cubex, cubey, 0] = Color(r, g, b, a)
     return CubeCluster(locations)
