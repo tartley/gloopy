@@ -121,7 +121,7 @@ def CubeCluster(locations, edge=1):
     return multi
 
 
-def BitmapCubeCluster(filename):
+def BitmapAsDict(filename):
     img = image.load(join(path.DATA, 'images', filename))
     rawdata = img.get_image_data()
     channels = 'RGBA'
@@ -136,5 +136,9 @@ def BitmapCubeCluster(filename):
                 cubex = x - img.width / 2 + 0.5
                 cubey = img.height / 2 - y
                 locations[cubex, cubey, 0] = Color(r, g, b, a)
-    return CubeCluster(locations)
+    return locations
+
+
+def BitmapCubeCluster(filename):
+    return CubeCluster( BitmapAsDict(filename) )
 
