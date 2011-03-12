@@ -1,6 +1,5 @@
 #! /usr/bin/env python
 from __future__ import division
-from math import pi
 from random import randint, uniform
 
 from pyglet.event import EVENT_HANDLED
@@ -53,13 +52,6 @@ class KeyHandler(object):
                 SpaceStation(1.1),
                 update=Spinner(Vector.XAxis, speed=1),
             ),
-            key._8: lambda: self.add_shape(
-                [
-                    BitmapCubeCluster('invader1.png'),
-                    BitmapCubeCluster('invader2.png')
-                ],
-                update=CycleFrames(1),
-            ),
             key._0: self.add_triangle_square,
 
             key.Q: lambda: self.add_shape(
@@ -92,6 +84,14 @@ class KeyHandler(object):
             ),
             key.U: self.add_coaxial_rings,
 
+            key.I: lambda: self.add_shape(
+                [
+                    BitmapCubeCluster('invader1.png'),
+                    BitmapCubeCluster('invader2.png')
+                ],
+                update=CycleFrames(1),
+            ),
+
             key.Z: lambda: self.add_shape(
                 CubeGlob(4, 70, 1000, Color.Red)
             ),
@@ -119,9 +119,14 @@ class KeyHandler(object):
             key.I: self.mod_stellate_in,
             key.O: lambda: self.mod_stellate_out(0.5),
             key.P: self.mod_stellate_out,
-            key.E: self.mod_extrude,
+            key.Q: lambda: self.mod_extrude(0.25),
+            key.W: lambda: self.mod_extrude(0.5),
+            key.E: lambda: self.mod_extrude(1),
+            key.R: lambda: self.mod_extrude(2),
+            key.T: lambda: self.mod_extrude(4),
+            key.Y: lambda: self.mod_extrude(8),
             key.C: self.mod_color,
-            key.R: self.mod_spin,
+            key.X: self.mod_spin,
             key.B: self.mod_orbit,
         }
         self.faces_suffix = ''
@@ -244,8 +249,8 @@ class KeyHandler(object):
         self.mod_shape(stellate, -0.33)
         self.set_faces_suffix('stellate')
 
-    def mod_extrude(self):
-        self.mod_shape(extrude, 0.5)
+    def mod_extrude(self, length=1.0):
+        self.mod_shape(extrude, length)
         self.set_faces_suffix('extrude-end')
 
     def recolor(self, shape, faces, color):
