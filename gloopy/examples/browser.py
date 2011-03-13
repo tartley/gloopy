@@ -50,7 +50,12 @@ class KeyHandler(object):
             key._6: lambda: self.add_shape(DualTetrahedron(0.9, Color.Random())),
             key._7: lambda: self.add_shape( 
                 SpaceStation(1.1),
-                update=Spinner(Vector.XAxis, speed=1),
+                orientation=Orientation(),
+                update=Spinner(
+                    Vector.XAxis,
+                    speed=1,
+                    orientation=Orientation()
+                ),
             ),
             key._0: self.add_triangle_square,
 
@@ -84,22 +89,25 @@ class KeyHandler(object):
             ),
             key.U: self.add_coaxial_rings,
 
-            key.I: lambda: self.add_shape(
-                [
-                    BitmapCubeCluster('invader1.png'),
-                    BitmapCubeCluster('invader2.png')
-                ],
-                update=CycleFrames(1),
-            ),
-
             key.Z: lambda: self.add_shape(
-                CubeGlob(4, 70, 1000, Color.Red)
+                CubeGlob(4, 70, 1000, Color.DarkRed)
             ),
             key.X: lambda: self.add_shape(
-                CubeGlob(8, 150, 2000, Color.DarkRed)
+                CubeGlob(8, 150, 2000, Color.Red)
             ),
-            key.C: lambda: self.add_shape( RgbCubeCluster(8, 4000) ),
-            key.V: self.add_koche_tetra,
+            key.C: lambda: self.add_shape(
+                RgbCubeCluster(16, 4000, scale=2, hole=70)
+            ),
+            #key.V: self.add_koche_tetra,
+
+            key.V: lambda: self.add_shape(
+                [
+                    BitmapCubeCluster('invader1.png', edge=10),
+                    BitmapCubeCluster('invader2.png', edge=10)
+                ],
+                position=Vector.RandomShell(350),
+                update=CycleFrames(1),
+            ),
 
             key.BACKSPACE: self.remove,
             key.F11: self.toggle_backface_culling,
@@ -113,12 +121,13 @@ class KeyHandler(object):
             key.E: lambda: self.set_faces_suffix('extrude-end'),
             key.R: lambda: self.set_faces_suffix('extrude-side'),
         }
-        self.keys_alt = {
+        self.keys_ctrl = {
             key.N: self.mod_normalize,
             key.S: self.mod_subdivide,
-            key.I: self.mod_stellate_in,
+            key.U: lambda: self.mod_stellate_in(-0.67),
+            key.I: lambda: self.mod_stellate_in(-0.33),
             key.O: lambda: self.mod_stellate_out(0.5),
-            key.P: self.mod_stellate_out,
+            key.P: lambda: self.mod_stellate_out(1),
             key.Q: lambda: self.mod_extrude(0.25),
             key.W: lambda: self.mod_extrude(0.5),
             key.E: lambda: self.mod_extrude(1),
@@ -127,7 +136,8 @@ class KeyHandler(object):
             key.Y: lambda: self.mod_extrude(8),
             key.C: self.mod_color,
             key.X: self.mod_spin,
-            key.B: self.mod_orbit,
+            key.M: self.mod_move,
+            key.Z: lambda: self.mod_move(Vector(0, 20, 0)),
         }
         self.faces_suffix = ''
         self.camera_radius = 3
@@ -145,9 +155,9 @@ class KeyHandler(object):
             if symbol in self.keys_shift:
                 self.keys_shift[symbol]()
                 return EVENT_HANDLED
-        elif modifiers & key.MOD_ALT:
-            if symbol in self.keys_alt:
-                self.keys_alt[symbol]()
+        elif modifiers & key.MOD_CTRL:
+            if symbol in self.keys_ctrl:
+                self.keys_ctrl[symbol]()
                 return EVENT_HANDLED
         else:
             if symbol in self.keys:
@@ -164,6 +174,7 @@ class KeyHandler(object):
     def add_shape(self, shape, **kwargs):
         item = GameItem(shape=shape, **kwargs)
         self.world.add(item)
+        self.set_faces_suffix('')
         return item
 
     def remove(self):
@@ -185,9 +196,11 @@ class KeyHandler(object):
                 ],
                 faces=[
                     [0, 1, 2],    # triangle
+                    [2, 1, 0],    # triangle
                     [1, 2, 3, 4], # square
+                    [4, 3, 2, 1], # square
                 ],
-                colors=[Color.Red, Color.Yellow],
+                colors=[Color.Red, Color.Red, Color.Yellow, Color.Yellow],
             )
         )
         
@@ -245,8 +258,8 @@ class KeyHandler(object):
         self.mod_shape(stellate, amount)
         self.set_faces_suffix('stellate')
 
-    def mod_stellate_in(self):
-        self.mod_shape(stellate, -0.33)
+    def mod_stellate_in(self, amount=-0.33):
+        self.mod_shape(stellate, amount)
         self.set_faces_suffix('stellate')
 
     def mod_extrude(self, length=1.0):
@@ -267,15 +280,17 @@ class KeyHandler(object):
         else:
             item.update = WobblySpinner()
 
-    def mod_orbit(self):
+    def mod_move(self, offset=None):
         item = self.get_selected_item()
-        if isinstance(item.update, Orbit):
-            item.update = None
-        else:
-            radius = 2
-            center = Vector.ZAxis.rotateY(self.world.age) * radius
-            axis = center.cross(Vector.YAxis)
-            item.update = Orbit(center, radius, axis, phase=-self.world.age)
+
+        if offset is None:
+            offset = Vector.RandomShell(5)
+        rate = 1
+
+        def mover(item, time, dt):
+            item.position = item.position + (offset- item.position) * rate * dt
+
+        item.update = mover
 
 
     def toggle_backface_culling(self):
@@ -293,7 +308,7 @@ class Application(object):
     def run(self):
         self.gloopy = Gloopy()
         self.gloopy.init()
-        self.gloopy.world.background_color = Color.NavyBlue
+        self.gloopy.world.background_color = Color.Orange
         self.gloopy.camera.update=WobblyOrbit(
             center=Vector.Origin,
             radius=3,

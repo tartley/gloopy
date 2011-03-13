@@ -3,7 +3,6 @@ from itertools import chain
 from ..view.glyph import Glyph
 from .shape import add_vertex
 
-
 def shape_to_glyph(shape):
     '''
     Return a new :class:`~gloopy.view.glyph.Glyph`, which contains the geometry

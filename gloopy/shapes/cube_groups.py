@@ -73,7 +73,7 @@ def CubeGlob(size, radius, number, colors):
     return glob
 
 
-def RgbCubeCluster(edge, cube_count, hole=0):
+def RgbCubeCluster(edge, cube_count, scale=1, hole=0):
     '''
     Return a new Shape consisting of a random array of cubes arranged within
     a large cube-shaped volume. The small cubes are colored by their position
@@ -97,7 +97,7 @@ def RgbCubeCluster(edge, cube_count, hole=0):
             pos = Vector(r, g, b) - Vector(127, 127, 127)
             # accept this entry if it isn't in the hole
             if pos.length > hole:
-                locations[pos] = Color(r, g, b)
+                locations[pos * scale] = Color(r, g, b)
                 break
     return CubeCluster(locations, edge=edge)
 
@@ -121,7 +121,7 @@ def CubeCluster(locations, edge=1):
     return multi
 
 
-def BitmapAsDict(filename):
+def BitmapAsDict(filename, edge=1):
     img = image.load(join(path.DATA, 'images', filename))
     rawdata = img.get_image_data()
     channels = 'RGBA'
@@ -135,10 +135,10 @@ def BitmapAsDict(filename):
             if a > 25:
                 cubex = x - img.width / 2 + 0.5
                 cubey = img.height / 2 - y
-                locations[cubex, cubey, 0] = Color(r, g, b, a)
+                locations[cubex * edge, cubey * edge, 0] = Color(r, g, b, a)
     return locations
 
 
-def BitmapCubeCluster(filename):
-    return CubeCluster( BitmapAsDict(filename) )
+def BitmapCubeCluster(filename, edge=1):
+    return CubeCluster( BitmapAsDict(filename, edge), edge=edge )
 
