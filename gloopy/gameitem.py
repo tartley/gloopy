@@ -32,7 +32,8 @@ class GameItem(object):
 
         ``glyph``: is used to store the shape converted into a VBO which OpenGL
         can render. If you update a ``GameItem`` shape, you must also update
-        its glyph attribute using :func:`~gloopy.shapes.shape.shape_to_glyph`.
+        its glyph attribute using
+        :func:`~gloopy.view.shape_to_glyph.shape_to_glyph`.
 
         In addition, the attribute ``.id`` is assigned a unique integer.
     '''

@@ -8,9 +8,9 @@ from pyglet import gl
 
 from .modelview import ModelView
 from .projection import Projection
+from .shape_to_glyph import shape_to_glyph
 from ..geom.vector import Vector
 from ..geom.orientation import Orientation
-from ..shapes.shape_to_glyph import shape_to_glyph
 
 
 log = logging.getLogger(__name__)

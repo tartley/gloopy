@@ -1,7 +1,7 @@
 from itertools import chain
 
-from ..view.glyph import Glyph
-from ..view.shaders.lighting import lighting
+from .glyph import Glyph
+from .shaders.lighting import lighting
 
 
 def shape_to_glyph(shape):

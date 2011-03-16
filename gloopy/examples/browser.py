@@ -13,7 +13,7 @@ from gloopy.color import Color
 from gloopy.geom.vector import Vector
 from gloopy.geom.orientation import Orientation
 from gloopy.gameitem import GameItem
-from gloopy.move import Orbit, Spinner, WobblySpinner, WobblyOrbit
+from gloopy.move import Spinner, WobblySpinner, WobblyOrbit
 from gloopy.move.cycle_frames import CycleFrames
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
 from gloopy.shapes.cube_groups import (
@@ -26,10 +26,10 @@ from gloopy.shapes.normalize import normalize
 from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.ring import Ring, TriRings
 from gloopy.shapes.shape import Shape
-from gloopy.shapes.shape_to_glyph import shape_to_glyph
 from gloopy.shapes.stellate import stellate
 from gloopy.shapes.subdivide import subdivide
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
+from gloopy.view.shape_to_glyph import shape_to_glyph
 
 
 class KeyHandler(object):
