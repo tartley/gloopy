@@ -1,6 +1,6 @@
 from ..shader import Shader
 
-VERTEX = """
+_VERTEX = """
 attribute vec3 position;
 attribute vec4 color;
 attribute vec3 normal;
@@ -30,7 +30,7 @@ void main()
     );
 }
 """
-FRAGMENT = """
+_FRAGMENT = """
 varying vec4 baseColor;
 
 out vec4 fragColor;
@@ -41,5 +41,5 @@ void main()
 }
 """
 
-lighting = Shader(VERTEX, FRAGMENT, ['position', 'color', 'normal'])
+lighting = Shader(_VERTEX, _FRAGMENT, ['position', 'color', 'normal'])
 

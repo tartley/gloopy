@@ -1,12 +1,10 @@
 
 from ctypes import c_void_p
-from itertools import chain
 
 from OpenGL import GL
 from OpenGL.arrays import vbo
 from OpenGL.GL.ARB.vertex_array_object import glBindVertexArray
 
-from .shaders.lighting import lighting
 from ..color import Color
 from ..util.gl_wrap import glGenVertexArray
 from ..geom.vector import Vector
@@ -64,8 +62,7 @@ class Glyph(object):
                 ...
             ]
     '''
-    def __init__(self, vertices, indices):
-        self.shader = lighting
+    def __init__(self, vertices, indices, shader):
         self.vbo = vbo.VBO(
             glarray(GL.GLfloat, vertices),
             usage='GL_STATIC_DRAW'
@@ -74,6 +71,7 @@ class Glyph(object):
         index_type = get_index_type(len(vertices) / 10)
         self.glindices = glarray(index_type, indices)
         self.index_type = type_to_enum[index_type]
+        self.shader = shader
 
         self.vao = glGenVertexArray()
         glBindVertexArray(self.vao)

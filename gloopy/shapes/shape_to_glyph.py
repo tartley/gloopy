@@ -1,6 +1,7 @@
 from itertools import chain
 
 from ..view.glyph import Glyph
+from ..view.shaders.lighting import lighting
 
 
 def shape_to_glyph(shape):
@@ -23,7 +24,7 @@ def shape_to_glyph(shape):
                 next_index += 1
             indices.append(new_indices[old_index])
 
-    return Glyph(vertices, indices)
+    return Glyph(vertices, indices, lighting)
 
 
 def _tessellate(indices):
