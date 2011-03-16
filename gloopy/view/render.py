@@ -6,10 +6,8 @@ import pyglet
 from pyglet.event import EVENT_HANDLED
 from pyglet import gl
 
-from .glyph import Glyph
 from .modelview import ModelView
 from .projection import Projection
-from .shaders.shader import Shader
 from ..geom.vector import Vector
 from ..geom.orientation import Orientation
 from ..shapes.shape_to_glyph import shape_to_glyph
@@ -72,7 +70,6 @@ class Render(object):
     def init(self):
         '''
         Set all initial OpenGL state, such as enabling DEPTH_TEST.
-        Also loads a the lighting shader.
         '''
         log_opengl_version()
         gl.glEnable(gl.GL_DEPTH_TEST)
@@ -83,11 +80,6 @@ class Render(object):
 
         self.backface_culling = True
 
-        self.shader = Shader(
-            'lighting.vert', 'lighting.frag',
-            attribs=['position', 'color', 'normal']
-        )
-        Glyph.shader = self.shader
 
 
     def _set_backface_culling(self, value):
@@ -120,8 +112,7 @@ class Render(object):
         self.clear_window(self.world.background_color)
         self.projection.set_perspective(45)
         self.modelview.set_world()
-        with self.shader:
-            self.draw_world_items()
+        self.draw_world_items()
         if self.options.fps:
             self.draw_hud()
         self.window.invalid = False
@@ -132,6 +123,7 @@ class Render(object):
         '''
         Draw all items that have been added to the world
         '''
+        shader = None
         for item in self.world:
 
             if not item.glyph:
@@ -145,6 +137,9 @@ class Render(object):
                 gl.glMultMatrixf(item.orientation.matrix)
 
             glyph = item.glyph[item.frame]
+            if glyph.shader is not shader:
+                shader = glyph.shader
+                shader.use()
 
             glBindVertexArray(glyph.vao)
 
@@ -158,6 +153,7 @@ class Render(object):
             gl.glPopMatrix()
 
         glBindVertexArray(0)
+        gl.glUseProgram(0)
 
 
     def draw_hud(self):

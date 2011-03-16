@@ -1,10 +1,11 @@
+from ..shader import Shader
 
+VERTEX = """
 attribute vec3 position;
 attribute vec4 color;
 attribute vec3 normal;
 
 varying vec4 baseColor;
-
 
 void main()
 {
@@ -28,4 +29,17 @@ void main()
         nDotL * diffuse_weight
     );
 }
+"""
+FRAGMENT = """
+varying vec4 baseColor;
+
+out vec4 fragColor;
+
+void main()
+{
+    fragColor = baseColor;
+}
+"""
+
+lighting = Shader(VERTEX, FRAGMENT, ['position', 'color', 'normal'])
 

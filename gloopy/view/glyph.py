@@ -6,6 +6,7 @@ from OpenGL import GL
 from OpenGL.arrays import vbo
 from OpenGL.GL.ARB.vertex_array_object import glBindVertexArray
 
+from .shaders.lighting import lighting
 from ..color import Color
 from ..util.gl_wrap import glGenVertexArray
 from ..geom.vector import Vector
@@ -63,10 +64,8 @@ class Glyph(object):
                 ...
             ]
     '''
-    # currently we only support a single shader used to render the whole scene
-    shader = None
-
     def __init__(self, vertices, indices):
+        self.shader = lighting
         self.vbo = vbo.VBO(
             glarray(GL.GLfloat, vertices),
             usage='GL_STATIC_DRAW'
@@ -87,15 +86,15 @@ class Glyph(object):
 
             STRIDE = 40
             GL.glVertexAttribPointer( 
-                Glyph.shader.attrib['position'], Vector.COMPONENTS, GL.GL_FLOAT,
+                self.shader.attrib['position'], Vector.COMPONENTS, GL.GL_FLOAT,
                 False, STRIDE, c_void_p(0)
             )
             GL.glVertexAttribPointer( 
-                Glyph.shader.attrib['color'], Color.COMPONENTS, GL.GL_FLOAT,
+                self.shader.attrib['color'], Color.COMPONENTS, GL.GL_FLOAT,
                 False, STRIDE, c_void_p(12)
             )
             GL.glVertexAttribPointer( 
-                Glyph.shader.attrib['normal'], Vector.COMPONENTS, GL.GL_FLOAT,
+                self.shader.attrib['normal'], Vector.COMPONENTS, GL.GL_FLOAT,
                 False, STRIDE, c_void_p(28)
             )
         finally:

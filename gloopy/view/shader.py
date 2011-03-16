@@ -1,13 +1,6 @@
-from os.path import join
-from ..util import path
 
 from OpenGL import GL
 from OpenGL.GL.shaders import compileShader, compileProgram
-
-
-def read_shader_file(filename):
-    with open(join(path.SHADERS, filename)) as fp:
-        return fp.read()
 
 
 class Shader(object):
@@ -33,10 +26,7 @@ class Shader(object):
             # draw calls
     '''
 
-    def __init__(self, vert_filename, frag_filename, attribs):
-
-        vert_src = read_shader_file(vert_filename)
-        frag_src = read_shader_file(frag_filename)
+    def __init__(self, vert_src, frag_src, attribs):
 
         self.program = compileProgram(
             compileShader(vert_src, GL.GL_VERTEX_SHADER),
