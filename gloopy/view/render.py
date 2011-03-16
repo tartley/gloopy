@@ -9,7 +9,7 @@ from pyglet import gl
 from .glyph import Glyph
 from .modelview import ModelView
 from .projection import Projection
-from .shader import Shader
+from .shaders.shader import Shader
 from ..geom.vector import Vector
 from ..geom.orientation import Orientation
 from ..shapes.shape_to_glyph import shape_to_glyph
