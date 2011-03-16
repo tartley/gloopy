@@ -1,17 +1,12 @@
 
-
 Geometry
 --------
-
-* color a shape by its face labels
-
-* fix Face.centroid method - take the one from solescion
 
 * polyhedra bevel
   To do this right is complicated by shapes such as those produced by
   CubeCluster, in which several edges converge at a particular location, but
-  only some of them should be beveled. We don't want edges shared by coplanar
-  faces to be bevelled.
+  ideally only some of them should be beveled. We don't want edges shared by
+  coplanar faces to be bevelled.
 
 * function to truncate a shape by amount from 0 to 1. Truncation by 1
   results in the geometric dual. This is half done, but turns out to be a
@@ -223,7 +218,7 @@ Ideas for later
     glPrimitiveRestartIndex( MAXINT ) # for eg
   and then insert indices of value MAXINT into the index array to form a
   break between strips. Bear in mind this is meant to be a space & time
-  optimisation, so measure the latter before deciding the keep it.
+  optimisation, so measure before deciding the keep it.
 * Noise shaders
 * Geometry instancing, see techniques enumerated here:
   http://www.geeks3d.com/20100629/test-opengl-geometry-instancing-geforce-gtx-480-vs-radeon-hd-5870/
@@ -233,10 +228,6 @@ Ideas for later
 * orbit should have an option to face in particular direction during orbit,
   i.e. in direction of motion, or toward rotated body. Presumably expressing
   this as a Q relative to direction of motion makes sense.
-* assigning orbit should not move the object discontinuously, but should
-  smoothly interpolate from initial position
-  (interpolate not quite right - might result in reversal of direction
-  towards the end. How to generate a feasible-looking orbital insertion?)
 * how to generalise the above for all movers?
 
 

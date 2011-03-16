@@ -65,7 +65,7 @@ def main():
         author='Jonathan Hartley',
         author_email='tartley@tartley.com',
         keywords='opengl 3d graphics games',
-        packages=find_packages(),
+        packages=find_packages(exclude=('*.tests',)),
         package_data={
             NAME: 
                 get_package_data('data') +
