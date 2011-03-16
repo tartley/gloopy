@@ -19,26 +19,23 @@ class Shader(object):
         `attribs`, looks up the attribute location, and stores it
         in self.attrib[attribute_name].
     '''
-
     def __init__(self, vert_src, frag_src, attribs):
-
         self.program = compileProgram(
             compileShader(vert_src, GL.GL_VERTEX_SHADER),
             compileShader(frag_src, GL.GL_FRAGMENT_SHADER)
         )
-
         self.attrib = {}
         for attrib in attribs:
             self.attrib[attrib] = GL.glGetAttribLocation(self.program, attrib)
 
 
     def use(self):
-        """Start use of the program at start of a with block"""
+        """Use this shader program"""
         GL.glUseProgram( self.program )
 
 
     @staticmethod
     def unuse():
-        """Stop use of the program at end of a with block"""
+        """Stop use of this shader program"""
         GL.glUseProgram( 0 )
 
