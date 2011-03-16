@@ -54,14 +54,12 @@ class Glyph(object):
         :type indices: list of integers
 
         The `vertex` list should be structured as follows (only the first
-        vertex is shown, in reality, more would follow it::
+        vertex is shown)::
 
             vertices=[
-                (
-                    pos.x, pos.y, pos.z,
-                    color.r, color.g, color.b, color.a,
-                    normal.x, normal.y, normal.z,
-                )
+                pos.x, pos.y, pos.z,
+                color.r, color.g, color.b, color.a,
+                normal.x, normal.y, normal.z,
                 ...
             ]
     '''

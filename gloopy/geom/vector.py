@@ -133,8 +133,10 @@ class Vector(namedtuple('VectorBase', 'x y z')):
         '''
         Return a new vector, the cross product.
         a x b = (a2b3 - a3b2, a3b1 - a1b3, a1b2 - a2b1)
-        This will be at right angles to both self and other, with a length:
+        This will be at right angles to both self and other, with a length::
+
             len(self) * len(other) * sin(angle_between_them)
+
         http://en.wikipedia.org/wiki/Cross_product
         '''
         return Vector(
