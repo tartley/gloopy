@@ -50,11 +50,6 @@ http://www.youtube.com/user/xenopusRTRT#p/u/2/SDzZchuhECY
 Rendering
 ---------
 
-* lighting is wrong! Stationary camera, spinning object, lighting stays fixed.
-  Maybe compare my shader with the tutorial at:
-  http://www.arcsynthesis.org/gltut/Illumination/Illumination.html
-  Add a point light source while we're at it?
-
 * Curved surfaces: Expressed in shape as a collection of faces. Verts for all
   faces within the collection are shared, not duplicated from one face to the
   next, and normals for each vertex are interpolated between surface normal for
@@ -78,11 +73,6 @@ Rendering
       http://www.lighthouse3d.com/opengl/glsl/index.php?textureComb
     * if skybox is drawn, demo should draw a 'sun' or 'moon' or somesuch
       in direction of directional light source
-
-* Allow each gameitem to specify its own shader program
-    Requires some thought. Vertex attributes must match up with those
-    expected by the shader. Probably this involves wrapping shaders inside
-    Python source, which declares and exposes their attributes and uniforms.
 
 * scale movement by mean dt over last few frames to reduce jittery movement
   caused by isolated slow or fast frames. When producing rollin average,
@@ -408,4 +398,12 @@ DONE
 * demo: co-axial rings spinning at various speeds about the common axis
 * Cube cluster generated from pixels of small bitmaps. Invader! Mario! etc.
 * color should be a float throughout
+* Allow each gameitem to specify its own shader program
+    Requires some thought. Vertex attributes must match up with those
+    expected by the shader. Probably this involves wrapping shaders inside
+    Python source, which declares and exposes their attributes and uniforms.
+* lighting is wrong! Stationary camera, spinning object, lighting stays fixed.
+  Maybe compare my shader with the tutorial at:
+  http://www.arcsynthesis.org/gltut/Illumination/Illumination.html
+  Add a point light source while we're at it?
 
