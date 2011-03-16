@@ -8,6 +8,7 @@ from pyglet import gl
 
 from .modelview import ModelView
 from .projection import Projection
+from .shader import Shader
 from .shape_to_glyph import shape_to_glyph
 from ..geom.vector import Vector
 from ..geom.orientation import Orientation
@@ -153,7 +154,7 @@ class Render(object):
             gl.glPopMatrix()
 
         glBindVertexArray(0)
-        gl.glUseProgram(0)
+        Shader.unuse()
 
 
     def draw_hud(self):

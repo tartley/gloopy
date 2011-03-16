@@ -18,12 +18,6 @@ class Shader(object):
         Compiles and links the shader. For each attribute_name in
         `attribs`, looks up the attribute location, and stores it
         in self.attrib[attribute_name].
-
-    Can be bound and unbound by use as a context-manager::
-
-        shader = Shader('vert.glsl', 'frag.glsl', [])
-        with shader:
-            # draw calls
     '''
 
     def __init__(self, vert_src, frag_src, attribs):
@@ -38,15 +32,13 @@ class Shader(object):
             self.attrib[attrib] = GL.glGetAttribLocation(self.program, attrib)
 
 
-    def __enter__( self ):
+    def use(self):
         """Start use of the program at start of a with block"""
         GL.glUseProgram( self.program )
 
-    def __exit__( self, typ, val, tb ):
+
+    @staticmethod
+    def unuse():
         """Stop use of the program at end of a with block"""
         GL.glUseProgram( 0 )
-
-    def use(self):
-        """Use the linked shader program"""
-        GL.glUseProgram(self.program)
 
