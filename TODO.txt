@@ -1,35 +1,7 @@
-Next
-----
-
-* load bitmaps idea (below)
-
-    Talk Outline
-    ------------
-    * Inspirations - Effective non-photo-realistic work in gaming, movies and
-      the demo scene. (1m) A convenient & Pythonic way to model 3D polyhedra,
-      and some neat generators to convert these into OpenGL arrays at runtime.
-      (7m)
-    * Algorithmic modification of shapes, such as bevels, geometric duals, and
-      polyhedron stellation. (2m)
-    * The resulting performance characteristics: What works well from Python,
-      and what doesn't. (2m)
-    * Composition of polyhedra to create more complex shapes (3m)
-    * Koch tetrahedron & tetrix, aka Sierpinski tetrahedron. (1m)
-    * Surprisingly effective 3D models created from small bitmaps. (1m)
-    * Automatic generation of trees, mazes, complex spaces. (3m)
-    * Shapes that morph: Rearranging vertices on the fly (5m)
-    * Questions (5m)
-
-* add Serpinski Gasket (tetrahedral, aka Tetrix)
-* add Serpinski Cube (aka ?)
-* demo: nested radial slices of cylinde,frs (partial rings) orbiting a common
-        axis
 
 
 Geometry
 --------
-
-* color should be a float throughout
 
 * color a shape by its face labels
 
@@ -53,7 +25,11 @@ Geometry
 * close-packed cube patterns, specified as tuple ordinates, eliminating
   faces of cubes which abut.
 * Tetris shapes
-* Cube cluster generated from pixels of small bitmaps. Invader! Mario! etc.
+
+* add Serpinski Gasket (tetrahedral, aka Tetrix)
+* add Serpinski Cube (aka ?)
+* demo: nested radial slices of cylinde,frs (partial rings) orbiting a common
+        axis
 
 * Interpenetrating cuboid solids and voids. (& rooms, a void in a solid)
 
@@ -439,4 +415,6 @@ DONE
 * code to generate setup.py's package_data param
 * fiddle with sizes of basic shapes so they interpenetrate interestingly
 * demo: co-axial rings spinning at various speeds about the common axis
+* Cube cluster generated from pixels of small bitmaps. Invader! Mario! etc.
+* color should be a float throughout
 

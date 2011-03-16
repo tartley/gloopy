@@ -13,11 +13,10 @@ def shape_to_glyph(shape):
     indices = []
     for face in shape.faces:
         new_indices = {}
-        color = face.color.as_floats()
         for old_index in _tessellate(face):
             if old_index not in new_indices:
                 vertex = list(chain(
-                    shape.vertices[old_index], color, face.normal)
+                    shape.vertices[old_index], face.color, face.normal)
                 )
                 new_indices[old_index] = add_vertex(vertices, vertex)
             indices.append(new_indices[old_index])
