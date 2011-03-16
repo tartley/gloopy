@@ -1,7 +1,7 @@
 from itertools import chain
 
 from ..view.glyph import Glyph
-from .shape import add_vertex
+
 
 def shape_to_glyph(shape):
     '''
@@ -11,14 +11,16 @@ def shape_to_glyph(shape):
     '''
     vertices = []
     indices = []
+    next_index = 0
     for face in shape.faces:
         new_indices = {}
         for old_index in _tessellate(face):
             if old_index not in new_indices:
-                vertex = list(chain(
-                    shape.vertices[old_index], face.color, face.normal)
-                )
-                new_indices[old_index] = add_vertex(vertices, vertex)
+                vertices.extend( chain(
+                    shape.vertices[old_index], face.color, face.normal
+                ) )
+                new_indices[old_index] = next_index
+                next_index += 1
             indices.append(new_indices[old_index])
 
     return Glyph(vertices, indices)

@@ -70,10 +70,11 @@ class Glyph(object):
 
     def __init__(self, vertices, indices):
         self.vbo = vbo.VBO(
-            glarray(GL.GLfloat, list(chain.from_iterable(vertices))),
+            glarray(GL.GLfloat, vertices),
             usage='GL_STATIC_DRAW'
         )
-        index_type = get_index_type(len(vertices))
+        # 10 floats in a vertex (x, y, z,  r, g, b, a,  nx, ny, nz)
+        index_type = get_index_type(len(vertices) / 10)
         self.glindices = glarray(index_type, indices)
         self.index_type = type_to_enum[index_type]
 
