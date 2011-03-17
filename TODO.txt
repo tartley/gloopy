@@ -1,4 +1,7 @@
 
+* generate an executable so that Jason can see what I did thus far
+
+
 Geometry
 --------
 
@@ -99,9 +102,10 @@ Infrastructure
 
 * can we do without the data/examples/docs entries in MANIFEST.in now?
 * Repeat install and tests on Ubuntu
-* docs should be online somewhere
+* docs should be online somewhere. Read the docs?
 * readme should have a link to a screenshot, which is transformed into
-  the actual image embedded in the html documentation
+  the actual image embedded in the html documentation (in the same way we'd
+  like for class links to be real in the html, but plain text in the readme)
 * sdist documentation images are included twice
 * sdist documentation should not be in html subdir
 * documentation should not include test packages

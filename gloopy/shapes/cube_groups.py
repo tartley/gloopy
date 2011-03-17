@@ -131,8 +131,11 @@ def BitmapAsDict(filename, edge=1):
     for x in xrange(img.width):
         for y in xrange(img.height):
             index = x * len(channels) + y * pitch
-            r, g, b, a = map(ord, pixels[index:index+4])
-            if a > 25:
+            r, g, b, a = map(
+                lambda x: ord(x) / 255,
+                pixels[index:index+4]
+            )
+            if a > 0.1:
                 cubex = x - img.width / 2 + 0.5
                 cubey = img.height / 2 - y
                 locations[cubex * edge, cubey * edge, 0] = Color(r, g, b, a)
