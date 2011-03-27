@@ -176,11 +176,12 @@ Design
 
 * if same shape is assigned to many items, it gets a separate glyph in each
   case. glyphs should not be stored as attribute of item. They should be
-  stored in a render.py (or submodule thereof), in a dictionary of shapes to
-  glyphs.
-* When a shape changes (either by internal modification in-place, or assignment
-  to an item) it fires an event that causes the corresponding glyph to be
-  regenerated.
+  stored in the view, in a dictionary of shapes to glyphs.
+* When an in-world item is assigned a new shape, it fires an event that causes
+  the corresponding glyph to be regenerated.
+* The above doesn't handle the case where a shape is modified in-place.
+  Consider eliminating this case, especially since it doesn't play nice with
+  multishapes which have generator properties.
 
 
 Ideas for later
@@ -191,16 +192,17 @@ Ideas for later
         * triangular stars
         * a ground, with mountains! and moon
         * animate: sky changes color, moon moves
-        * A sun! * moon has rings!
+        * A sun!
+        * moon has rings!
     * a real bitmap skybox thing
     * stack skyboxes, so that bitmap background has ground & mountains
       overlaid. Or sky background has ground overlaid.
     * (if bitmaps can contain alpha, then they can usefully overlay too.
       eg. big planet from UT skyboxes)
 * In game text:
+    as bitmaps on shapes
     for HUD
     for MENUS, instructions
-    as bitmaps on shapes
 * Allow items to toggle between being mobile (with a position)
   and 'static', which draws them as part of the 'world' render call
 * triangulation for convex faces
@@ -213,7 +215,8 @@ Ideas for later
   and then insert indices of value MAXINT into the index array to form a
   break between strips. Bear in mind this is meant to be a space & time
   optimisation, so measure before deciding the keep it.
-* Noise shaders
+* Noise shaders. See:
+  https://github.com/ashima/webgl-noise
 * Geometry instancing, see techniques enumerated here:
   http://www.geeks3d.com/20100629/test-opengl-geometry-instancing-geforce-gtx-480-vs-radeon-hd-5870/
 * Try enabling gamma correction using: glEnable(GL_FRAMEBUFFER_SRGB)
@@ -221,7 +224,7 @@ Ideas for later
 * 2D mode, with ortho projection and 2D verts
 * orbit should have an option to face in particular direction during orbit,
   i.e. in direction of motion, or toward rotated body. Presumably expressing
-  this as a Q relative to direction of motion makes sense.
+  this as an orientation relative to direction of motion makes sense.
 * how to generalise the above for all movers?
 
 
