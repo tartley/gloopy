@@ -1,7 +1,4 @@
 
-* use a function to generate data_files in setup.py
-* function should accept 'prune' kwarg to skip dirs like .doctrees
-
 Ubuntu
     * python setup.py install
         - source
@@ -467,4 +464,6 @@ Windows:
         y examples
         y runs
         y docs: in share/doc/gloopy
+* use a function to generate data_files in setup.py
+* prune (1Mb) .doctrees from documentation dir (pruned from sdist in manifest.in)
 

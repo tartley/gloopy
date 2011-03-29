@@ -34,6 +34,15 @@ def get_package_data(topdir, excluded=set()):
     return retval
 
 
+def get_data_files(dest, source):
+    retval = []
+    for dirname, subdirs, files in os.walk(source):
+        retval.append(
+            (join(dest, dirname[len(source)+1:]), glob(join(dirname, '*.*')))
+        )
+    return retval
+
+
 def main():
     # these imports inside main() so that we can import this file cheaply
     # to get at its module-level constants like NAME
@@ -56,26 +65,13 @@ def main():
         author_email='tartley@tartley.com',
         keywords='opengl 3d graphics games',
         packages=find_packages(exclude=('*.tests',)),
-        data_files=[
-            ('share/doc/gloopy', glob('docs/html/*.*')),
-            ('share/doc/gloopy/_images', glob('docs/html/_images/*.*')),
-            ('share/doc/gloopy/_modules', glob('docs/html/_modules/*.*')),
-            ('share/doc/gloopy/_modules/gloopy', glob('docs/html/_modules/gloopy/*.*')),
-            ('share/doc/gloopy/_modules/gloopy/geom', glob('docs/html/_modules/gloopy/geom/*.*')),
-            ('share/doc/gloopy/_modules/gloopy/move', glob('docs/html/_modules/gloopy/move/*.*')),
-            ('share/doc/gloopy/_modules/gloopy/shapes', glob('docs/html/_modules/gloopy/shapes/*.*')),
-            ('share/doc/gloopy/_modules/gloopy/util', glob('docs/html/_modules/gloopy/util/*.*')),
-            ('share/doc/gloopy/_modules/gloopy/view', glob('docs/html/_modules/gloopy/view/*.*')),
-            ('share/doc/gloopy/_sources', glob('docs/html/_sources/*.*')),
-            ('share/doc/gloopy/_sources/api', glob('docs/html/_sources/api/*.*')),
-            ('share/doc/gloopy/_static', glob('docs/html/_static/*.*')),
-            ('share/doc/gloopy/api', glob('docs/html/api/*.*')),
-        ],
+        data_files=get_data_files('share/doc/gloopy', 'docs/html'),
         package_data={
             NAME:
                 get_package_data('data') +
                 ['examples/*.py']
         },
+        # see classifiers http://pypi.python.org/pypi?:action=list_classifiers
         classifiers=[
             'Development Status :: 3 - Alpha',
             'Intended Audience :: Developers',
@@ -83,7 +79,6 @@ def main():
             'Operating System :: Microsoft :: Windows',
             'Programming Language :: Python :: 2.7',
         ],    
-        # see classifiers http://pypi.python.org/pypi?:action=list_classifiers
     )
 
     if '--verbose' in sys.argv:
