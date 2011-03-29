@@ -1,5 +1,5 @@
 syntax: regexp
-^gloopy/docs/api
-^gloopy/docs/html
+^docs/api
+^docs/html
 ^distribute-0.6.14-py2.7.egg
 ^distribute-0.6.14.tar.gz

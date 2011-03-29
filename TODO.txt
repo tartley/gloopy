@@ -1,4 +1,33 @@
 
+* use a function to generate data_files in setup.py
+* function should accept 'prune' kwarg to skip dirs like .doctrees
+
+Ubuntu
+    * python setup.py install
+        - source
+        - data
+        - examples
+        - runs
+        - docs: in Lib/site-packages/gloopy/docs
+    * sdist (Manifest.in)
+        - source
+        - data
+        - examples
+        - docs
+    * install from sdist
+        - source
+        - data
+        - examples
+        - runs
+        - docs
+    * register, upload
+    * install from pypi
+        - source
+        - data
+        - examples
+        - runs
+        - docs
+
 * generate an executable so that Jason can see what I did thus far
 
 
@@ -413,4 +442,29 @@ DONE
   Maybe compare my shader with the tutorial at:
   http://www.arcsynthesis.org/gltut/Illumination/Illumination.html
   Add a point light source while we're at it?
+Windows:
+    * python setup.py install
+        y source
+        y data
+        y examples
+        y runs
+        y docs: in Lib/site-packages/gloopy/share/doc/gloopy
+    * sdist (Manifest.in)
+        y source
+        y data
+        y examples
+        y docs: in docs/gloopy
+    * install from sdist
+        y source
+        y data
+        y examples
+        y runs
+        y docs: in Lib/site-packages/gloopy/share/doc/gloopy
+    * register, upload
+    * install from pypi
+        y source
+        y data
+        y examples
+        y runs
+        y docs: in share/doc/gloopy
 

@@ -32,9 +32,11 @@ Written mostly on Windows, tested occasionally on Ubuntu.
 Documentation
 -------------
 
-In the Gloopy source, see gloopy/docs/html/index.html
+In the Gloopy source, see 'docs/html/index.html'
 
-and the scripts in the 'examples' directory.
+This is installed into your Python installation's 'share/doc' directory.
+
+See also the scripts in the 'gloopy/examples' directory.
 
 Documentation is not currently available online.
 

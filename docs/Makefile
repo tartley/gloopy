@@ -10,7 +10,7 @@ clean_html:
 
 api:
 	mkdir -p api
-	sphinx-apidoc --doc-header=API\ Reference -o api ..\\..\\gloopy
+	sphinx-apidoc --doc-header=API\ Reference -o api ..\\gloopy
 .PHONY: api
 
 clean_api:

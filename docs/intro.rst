@@ -10,5 +10,5 @@ Introduction
 Overview
 --------
 
-.. include:: ../../README.txt
+.. include:: ../README.txt
 
