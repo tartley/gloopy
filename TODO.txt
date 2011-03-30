@@ -26,6 +26,7 @@ Ubuntu
         - docs
 
 * generate an executable so that Jason can see what I did thus far
+* upload new minor version to pypi
 
 
 Geometry
@@ -52,8 +53,8 @@ Geometry
 
 * add Serpinski Gasket (tetrahedral, aka Tetrix)
 * add Serpinski Cube (aka ?)
-* demo: nested radial slices of cylinde,frs (partial rings) orbiting a common
-        axis
+* demo: nested radial slices of cylinders (partial rings) orbiting a common
+  axis
 
 * Interpenetrating cuboid solids and voids. (& rooms, a void in a solid)
 
