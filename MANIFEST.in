@@ -1,0 +1,16 @@
+
+# Specify extra files to include in the sdist. See docs at:
+# http://docs.python.org/distutils/sourcedist.html#the-manifest-in-template
+
+include distribute_setup.py
+
+recursive-include gloopy/data *.*
+
+recursive-include gloopy/examples *.py
+
+recursive-include docs/html *.*
+prune docs/html/.doctrees/*
+prune docs/html/_modules/gloopy/geom/tests
+exclude docs/html/.buildinfo
+exclude docs/html/objects.inv
+
