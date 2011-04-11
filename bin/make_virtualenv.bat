@@ -16,9 +16,7 @@ virtualenv --clear .
 call scripts\deactivate
 
 :: create a new virtualenv
-%SYSTEMDRIVE%\Python26\scripts\virtualenv --python %SYSTEMDRIVE%\Python26\python.exe --distribute --no-site-packages .
-call scripts\activate
-pip install pyglet
-pip install pyrex
-pip install rabbyt
+virtualenv --distribute --no-site-packages .
+call Scripts\activate
+pip install pyglet PyOpenGL
 
