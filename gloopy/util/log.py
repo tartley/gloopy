@@ -1,15 +1,15 @@
 import logging
-from os.path import basename, splitext
-import sys
+
+from ..version import NAME
+
 
 def init_log():
     '''
     Initialise stdlib logging.
     '''
     # TODO, should create log file in application's scratch space, not in cwd
-    app_name = splitext(basename(sys.argv[0]))[0]
     logging.basicConfig(
-        filename='%s-debug.log' % (app_name,),
+        filename='%s-debug.log' % (NAME,),
         filemode='w',
         level=logging.DEBUG,
     )
