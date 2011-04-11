@@ -25,7 +25,8 @@ Dependencies
 Written mostly on Windows, tested occasionally on Ubuntu.
 
 - Python 2.7
-- Pyglet 1.1.4
+- distribute 0.6.14
+- pyglet 1.1.4
 - PyOpenGL 3.0.1
 
 
@@ -44,15 +45,13 @@ Documentation is not currently available online.
 License
 -------
 
-Gloopy is released under the New BSD License, the text of which is to be found
-in the project's LICENSE.txt. Alternatively, you may use it under the terms of
-any other OSI-approved license.
+Gloopy is released under the terms specified in LICENSE.txt.
 
 
 Status & Known Issues
 ---------------------
 
-It works for me, but has not been used any real projects. The API is
+It works for me, but has not been used on any real projects. The API is
 a mess and may change substantially in later releases.
 
 No issue tracker is currently maintained, but the major shortfalls as
