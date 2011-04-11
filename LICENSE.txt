@@ -1,4 +1,4 @@
-Copyright (c) 2010 Jonathan Hartley <tartley@tartley.com>
+Copyright (c) 2011 Jonathan Hartley <tartley@tartley.com>
 
 Released under the New BSD license (reproduced below), or alternatively you may
 use this software under any OSI approved open source license such as those at
