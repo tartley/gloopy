@@ -1,0 +1,2 @@
+PyOpenGL==3.0.2a2
+pyglet==1.1.4
