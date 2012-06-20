@@ -113,7 +113,7 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     @property
     def length(self):
-        return sqrt(self.x * self.x + self.y * self.y + self.z * self.z)
+        return sqrt(self.x ** 2 + self.y ** 2 + self.z ** 2)
 
     @property
     def length2(self):
