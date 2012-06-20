@@ -111,6 +111,8 @@ class KeyHandler(object):
 
             key.BACKSPACE: self.remove,
             key.F11: self.toggle_backface_culling,
+            key.UP: lambda: self.camera_orbit(0.5),
+            key.DOWN: lambda: self.camera_orbit(2.0),
             key.PAGEUP: lambda: self.camera_orbit(0.5),
             key.PAGEDOWN: lambda: self.camera_orbit(2.0),
         }

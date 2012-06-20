@@ -1,6 +1,8 @@
 from ..shader import Shader
 
 _VERTEX = """
+#version 120
+
 attribute vec3 position;
 attribute vec4 color;
 attribute vec3 normal;
@@ -31,13 +33,13 @@ void main()
 }
 """
 _FRAGMENT = """
-varying vec4 baseColor;
+#version 120
 
-out vec4 fragColor;
+varying vec4 baseColor;
 
 void main()
 {
-    fragColor = baseColor;
+    gl_FragColor = baseColor;
 }
 """
 

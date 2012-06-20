@@ -4,6 +4,7 @@ from ctypes import c_void_p
 from OpenGL import GL
 from OpenGL.arrays import vbo
 from OpenGL.GL.ARB.vertex_array_object import glBindVertexArray
+from OpenGL.GL.APPLE.vertex_array_object import glBindVertexArrayAPPLE
 
 from ..color import Color
 from ..util.gl_wrap import glGenVertexArray
@@ -74,7 +75,7 @@ class Glyph(object):
         self.shader = shader
 
         self.vao = glGenVertexArray()
-        glBindVertexArray(self.vao)
+        glBindVertexArrayAPPLE(self.vao)
         try:
             self.vbo.bind()
 
@@ -96,5 +97,5 @@ class Glyph(object):
                 False, STRIDE, c_void_p(28)
             )
         finally:
-            glBindVertexArray(0)
+            glBindVertexArrayAPPLE(0)
 

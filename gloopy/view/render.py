@@ -1,6 +1,7 @@
 import logging
 
 from OpenGL.GL.ARB.vertex_array_object import glBindVertexArray
+from OpenGL.GL.APPLE.vertex_array_object import glBindVertexArrayAPPLE
 
 import pyglet
 from pyglet.event import EVENT_HANDLED
@@ -142,7 +143,7 @@ class Render(object):
                 shader = glyph.shader
                 shader.use()
 
-            glBindVertexArray(glyph.vao)
+            glBindVertexArrayAPPLE(glyph.vao)
 
             gl.glDrawElements(
                 gl.GL_TRIANGLES,
@@ -153,7 +154,7 @@ class Render(object):
 
             gl.glPopMatrix()
 
-        glBindVertexArray(0)
+        glBindVertexArrayAPPLE(0)
         Shader.unuse()
 
 
