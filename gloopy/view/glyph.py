@@ -3,6 +3,7 @@ from ctypes import c_void_p
 
 from OpenGL import GL
 from OpenGL.arrays import vbo
+
 from OpenGL.GL.ARB.vertex_array_object import glBindVertexArray
 from OpenGL.GL.APPLE.vertex_array_object import glBindVertexArrayAPPLE
 
