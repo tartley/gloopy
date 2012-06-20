@@ -1,18 +1,15 @@
 import logging
 
-from OpenGL.GL.ARB.vertex_array_object import glBindVertexArray
-from OpenGL.GL.APPLE.vertex_array_object import glBindVertexArrayAPPLE
-
 import pyglet
 from pyglet.event import EVENT_HANDLED
 from pyglet import gl
 
+from ..geom.orientation import Orientation
 from .modelview import ModelView
 from .projection import Projection
 from .shader import Shader
 from .shape_to_glyph import shape_to_glyph
-from ..geom.vector import Vector
-from ..geom.orientation import Orientation
+from . import gl_wrap
 
 
 log = logging.getLogger(__name__)
@@ -138,7 +135,7 @@ class Render(object):
                 shader = glyph.shader
                 shader.use()
 
-            glBindVertexArrayAPPLE(glyph.vao)
+            gl_wrap.glBindVertexArray(glyph.vao)
 
             gl.glDrawElements(
                 gl.GL_TRIANGLES,
@@ -149,7 +146,7 @@ class Render(object):
 
             gl.glPopMatrix()
 
-        glBindVertexArrayAPPLE(0)
+        gl_wrap.glBindVertexArray(0)
         Shader.unuse()
 
 

@@ -4,12 +4,9 @@ from ctypes import c_void_p
 from OpenGL import GL
 from OpenGL.arrays import vbo
 
-from OpenGL.GL.ARB.vertex_array_object import glBindVertexArray
-from OpenGL.GL.APPLE.vertex_array_object import glBindVertexArrayAPPLE
-
 from ..color import Color
-from ..util.gl_wrap import glGenVertexArray
 from ..geom.vector import Vector
+from . import gl_wrap
 
 
 type_to_enum = {
@@ -75,8 +72,8 @@ class Glyph(object):
         self.index_type = type_to_enum[index_type]
         self.shader = shader
 
-        self.vao = glGenVertexArray()
-        glBindVertexArrayAPPLE(self.vao)
+        self.vao = gl_wrap.glGenVertexArray()
+        gl_wrap.glBindVertexArray(self.vao)
         try:
             self.vbo.bind()
 
@@ -98,5 +95,5 @@ class Glyph(object):
                 False, STRIDE, c_void_p(28)
             )
         finally:
-            glBindVertexArrayAPPLE(0)
+            gl_wrap.glBindVertexArray(0)
 
