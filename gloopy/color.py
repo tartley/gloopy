@@ -1,7 +1,7 @@
 from __future__ import division
 
 from collections import namedtuple
-from random import randint, uniform
+from random import uniform
 
 
 
@@ -38,7 +38,7 @@ class Color(namedtuple('__BaseColor', 'r g b a')):
     '''
 
     COMPONENTS = 4
-    MAX_CHANNEL = 1
+    MAX_CHANNEL = 1.0
 
     __slots__ = []
 
@@ -72,19 +72,6 @@ class Color(namedtuple('__BaseColor', 'r g b a')):
             self.b * unbias + other.b * bias,
             self.a * unbias + other.a * bias,
         )
-
-
-    def variations(self, other=None):
-        '''
-        Generate an infinite sequence of colors which are tinted by random
-        amounts towards `other`, which defaults to a darker version of this
-        color.
-        '''
-        if other is None:
-            other = self.tinted(Color.Black, 0.5)
-        while True:
-            yield self.tinted(other, uniform(0, 1))
-
 
     def inverted(self):
         '''
