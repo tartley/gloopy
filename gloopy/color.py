@@ -93,9 +93,9 @@ class Color(namedtuple('__BaseColor', 'r g b a')):
         and so on.
         '''
         return Color(
-            255 - self.r,
-            255 - self.g,
-            255 - self.b,
+            1.0 - self.r,
+            1.0 - self.g,
+            1.0 - self.b,
             self.a
         )
 
