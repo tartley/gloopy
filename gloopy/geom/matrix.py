@@ -18,7 +18,7 @@ class Matrix(object):
             self.elements = elements
         else:
             if position is None:
-                position = Vector.Origin
+                position = Vector.origin
             if orientation is None:
                 orientation = Matrix._zero_rotation
             p = position

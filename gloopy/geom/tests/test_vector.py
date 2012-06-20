@@ -141,33 +141,33 @@ class testVector(TestCase):
 
 
     def testRotateX(self):
-        self.assertEqual(Vector.XAxis.rotateX(pi/2), Vector.XAxis)
-        self.assertEqual(Vector.YAxis.rotateX(pi/2), Vector.ZNegAxis)
-        self.assertEqual(Vector.ZAxis.rotateX(pi/2), Vector.YAxis)
+        self.assertEqual(Vector.x_axis.rotateX(pi/2), Vector.x_axis)
+        self.assertEqual(Vector.y_axis.rotateX(pi/2), Vector.neg_z_axis)
+        self.assertEqual(Vector.z_axis.rotateX(pi/2), Vector.y_axis)
 
     def testRotateY(self):
-        self.assertEqual(Vector.XAxis.rotateY(pi/2), Vector.ZAxis)
-        self.assertEqual(Vector.YAxis.rotateY(pi/2), Vector.YAxis)
-        self.assertEqual(Vector.ZAxis.rotateY(pi/2), Vector.XNegAxis)
+        self.assertEqual(Vector.x_axis.rotateY(pi/2), Vector.z_axis)
+        self.assertEqual(Vector.y_axis.rotateY(pi/2), Vector.y_axis)
+        self.assertEqual(Vector.z_axis.rotateY(pi/2), Vector.neg_x_axis)
 
     def testRotateZ(self):
-        self.assertEqual(Vector.XAxis.rotateZ(pi/2), Vector.YNegAxis)
-        self.assertEqual(Vector.YAxis.rotateZ(pi/2), Vector.XAxis)
-        self.assertEqual(Vector.ZAxis.rotateZ(pi/2), Vector.ZAxis)
+        self.assertEqual(Vector.x_axis.rotateZ(pi/2), Vector.neg_y_axis)
+        self.assertEqual(Vector.y_axis.rotateZ(pi/2), Vector.x_axis)
+        self.assertEqual(Vector.z_axis.rotateZ(pi/2), Vector.z_axis)
 
 
     def testRotate(self):
-        self.assertEqual(Vector.XAxis.rotate(Vector.XAxis, pi/2), Vector.XAxis)
-        self.assertEqual(Vector.YAxis.rotate(Vector.XAxis, pi/2), Vector.ZNegAxis)
-        self.assertEqual(Vector.ZAxis.rotate(Vector.XAxis, pi/2), Vector.YAxis)
+        self.assertEqual(Vector.x_axis.rotate(Vector.x_axis, pi/2), Vector.x_axis)
+        self.assertEqual(Vector.y_axis.rotate(Vector.x_axis, pi/2), Vector.neg_z_axis)
+        self.assertEqual(Vector.z_axis.rotate(Vector.x_axis, pi/2), Vector.y_axis)
 
-        self.assertEqual(Vector.XAxis.rotate(Vector.YAxis, pi/2), Vector.ZAxis)
-        self.assertEqual(Vector.YAxis.rotate(Vector.YAxis, pi/2), Vector.YAxis)
-        self.assertEqual(Vector.ZAxis.rotate(Vector.YAxis, pi/2), Vector.XNegAxis)
+        self.assertEqual(Vector.x_axis.rotate(Vector.y_axis, pi/2), Vector.z_axis)
+        self.assertEqual(Vector.y_axis.rotate(Vector.y_axis, pi/2), Vector.y_axis)
+        self.assertEqual(Vector.z_axis.rotate(Vector.y_axis, pi/2), Vector.neg_x_axis)
 
-        self.assertEqual(Vector.XAxis.rotate(Vector.ZAxis, pi/2), Vector.YNegAxis)
-        self.assertEqual(Vector.YAxis.rotate(Vector.ZAxis, pi/2), Vector.XAxis)
-        self.assertEqual(Vector.ZAxis.rotate(Vector.ZAxis, pi/2), Vector.ZAxis)
+        self.assertEqual(Vector.x_axis.rotate(Vector.z_axis, pi/2), Vector.neg_y_axis)
+        self.assertEqual(Vector.y_axis.rotate(Vector.z_axis, pi/2), Vector.x_axis)
+        self.assertEqual(Vector.z_axis.rotate(Vector.z_axis, pi/2), Vector.z_axis)
 
 
 if __name__ == '__main__':

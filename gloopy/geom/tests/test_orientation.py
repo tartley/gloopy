@@ -12,17 +12,17 @@ class TestOrientation(TestCase):
 
     def testConstructionDefaults(self):
         o = Orientation()
-        self.assertEqual(o.forward, Vector.ZNegAxis)
-        self.assertEqual(o.up, Vector.YAxis)
-        self.assertEqual(o.right, Vector.XAxis)
+        self.assertEqual(o.forward, Vector.neg_z_axis)
+        self.assertEqual(o.up, Vector.y_axis)
+        self.assertEqual(o.right, Vector.x_axis)
 
     def testConstructionConvertsBareTuples(self):
-        o = Orientation(Vector.XAxis, Vector.ZAxis)
-        self.assertEquals(o.forward, Vector.XAxis)
+        o = Orientation(Vector.x_axis, Vector.z_axis)
+        self.assertEquals(o.forward, Vector.x_axis)
         self.assertTrue(isinstance(o.forward, Vector))
-        self.assertEquals(o.up, Vector.ZAxis)
+        self.assertEquals(o.up, Vector.z_axis)
         self.assertTrue(isinstance(o.up, Vector))
-        self.assertEquals(o.right, Vector.YNegAxis)
+        self.assertEquals(o.right, Vector.neg_y_axis)
         self.assertTrue(isinstance(o.right, Vector))
 
     def testConstructionNormalises(self):
@@ -37,12 +37,12 @@ class TestOrientation(TestCase):
             lambda: Orientation((1, 2, 3), (3, -2, 1)))
 
     def testConstructionProvidesDefaultUp(self):
-        self.assertEqual(Orientation(Vector.XAxis).up, Vector.YAxis)
-        self.assertEqual(Orientation(Vector.YAxis).up, Vector.ZAxis)
-        self.assertEqual(Orientation(Vector.YNegAxis).up, Vector.ZNegAxis)
+        self.assertEqual(Orientation(Vector.x_axis).up, Vector.y_axis)
+        self.assertEqual(Orientation(Vector.y_axis).up, Vector.z_axis)
+        self.assertEqual(Orientation(Vector.neg_y_axis).up, Vector.neg_z_axis)
 
     def testStr(self):
-        self.assertEqual(str(Orientation(Vector.XAxis, up=Vector.YAxis)),
+        self.assertEqual(str(Orientation(Vector.x_axis, up=Vector.y_axis)),
             'Orientation(Vector(1, 0, 0), up=Vector(0, 1, 0))')
 
     def testEqual(self):
@@ -64,24 +64,24 @@ class TestOrientation(TestCase):
         self.assertRaises(TypeError, lambda: hash(a))
 
     def testRoll(self):
-        o = Orientation(Vector.ZAxis)
+        o = Orientation(Vector.z_axis)
         self.assertEqual(
             o.roll(pi/2),
-            Orientation(Vector.ZAxis, up=Vector.XNegAxis)
+            Orientation(Vector.z_axis, up=Vector.neg_x_axis)
         )
 
     def testYaw(self):
-        o = Orientation(Vector.ZAxis)
+        o = Orientation(Vector.z_axis)
         self.assertEqual(
             o.yaw(pi/2),
-            Orientation(Vector.XNegAxis)
+            Orientation(Vector.neg_x_axis)
         )
 
     def testPitch(self):
-        o = Orientation(Vector.ZAxis)
+        o = Orientation(Vector.z_axis)
         self.assertEqual(
             o.pitch(pi/2),
-            Orientation(Vector.YAxis, up=Vector.ZNegAxis)
+            Orientation(Vector.y_axis, up=Vector.neg_z_axis)
         )
 
     def testMatrix(self):

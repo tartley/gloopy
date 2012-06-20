@@ -228,20 +228,20 @@ class Vector(namedtuple('VectorBase', 'x y z')):
         '''
         Return any unit vector at right angles to the given vector
         '''
-        assert self != Vector.Origin
+        assert self != Vector.origin
         # friend = any vector at all, so long as it isn't parallel to orig
         if abs(self.x) < abs(self.y):
-            friend = Vector.XAxis
+            friend = Vector.x_axis
         else:
-            friend = Vector.YAxis
+            friend = Vector.y_axis
         return self.cross(friend).normalized()
 
 
-Vector.Origin = Vector(0, 0, 0)
-Vector.XAxis = Vector(1, 0, 0)
-Vector.YAxis = Vector(0, 1, 0)
-Vector.ZAxis = Vector(0, 0, 1)
-Vector.XNegAxis = Vector(-1,  0,  0)
-Vector.YNegAxis = Vector( 0, -1,  0)
-Vector.ZNegAxis = Vector( 0,  0, -1)
+Vector.origin = Vector(0, 0, 0)
+Vector.x_axis = Vector(1, 0, 0)
+Vector.y_axis = Vector(0, 1, 0)
+Vector.z_axis = Vector(0, 0, 1)
+Vector.neg_x_axis = Vector(-1,  0,  0)
+Vector.neg_y_axis = Vector( 0, -1,  0)
+Vector.neg_z_axis = Vector( 0,  0, -1)
 

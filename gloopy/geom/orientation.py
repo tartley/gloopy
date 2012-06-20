@@ -37,7 +37,7 @@ class Orientation(object):
         If 'up' is omitted, a sensible default up vector is chosen.
         '''
         if forward is None:
-            forward = Vector.ZNegAxis
+            forward = Vector.neg_z_axis
         elif not isinstance(forward, Vector):
             forward = Vector(*forward)
         self._forward = forward.normalized()
@@ -105,15 +105,15 @@ class Orientation(object):
         but pointed as near to the Y axis as possible)
         '''
         # special case for forward is y-axis or negative y-axis
-        if self.forward == Vector.YAxis:
-            return Vector.ZAxis
-        elif self.forward == Vector.YNegAxis:
-            return Vector.ZNegAxis
+        if self.forward == Vector.y_axis:
+            return Vector.z_axis
+        elif self.forward == Vector.neg_y_axis:
+            return Vector.neg_z_axis
 
         # project 'forward' onto y=0 plane
         flat = Vector(self.forward.x, 0, self.forward.z)
         # find 'axis', a vector in the y=0 plane at right angles to 'flat'
-        axis = flat.cross(Vector.YAxis)
+        axis = flat.cross(Vector.y_axis)
         # rotate 'forward' by 90 deg about 'axis'
         up = self.forward.rotate(axis, -pi/2)
         return up.normalized()
@@ -181,7 +181,7 @@ class Orientation(object):
         disappear in later releases of Gloopy.
         '''
         if self._matrix is None:
-            self._matrix = matrix_type( *Matrix(Vector.Origin, self) )
+            self._matrix = matrix_type( *Matrix(Vector.origin, self) )
         return self._matrix
 
 

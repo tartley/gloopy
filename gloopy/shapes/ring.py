@@ -32,8 +32,8 @@ def TriRings(basic_shape, radius, number):
     '''
     multi = MultiShape()
     ring = Ring(basic_shape, radius, number)
-    multi.add(ring, orientation=Orientation(Vector.XAxis))
-    multi.add(ring, orientation=Orientation(Vector.YAxis))
-    multi.add(ring, orientation=Orientation(Vector.ZAxis, Vector.XAxis))
+    multi.add(ring, orientation=Orientation(Vector.x_axis))
+    multi.add(ring, orientation=Orientation(Vector.y_axis))
+    multi.add(ring, orientation=Orientation(Vector.ZAxis, Vector.x_axis))
     return multi
 

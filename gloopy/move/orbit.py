@@ -17,7 +17,7 @@ class Orbit(object):
             self.center = Vector(center)
         self.radius = radius
         if axis is None:
-            axis = Vector.YAxis
+            axis = Vector.y_axis
         else:
             axis = axis.normalized()
         self.axis = axis

@@ -47,7 +47,7 @@ class GameItem(object):
         self.shape = None
         self.glyph = None
 
-        self.position = Vector.Origin
+        self.position = Vector.origin
         self.velocity = None
         self.acceleration = None
 

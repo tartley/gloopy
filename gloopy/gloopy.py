@@ -58,12 +58,19 @@ class Gloopy(object):
 
         self.camera = GameItem(
             position=Vector(0, 0, 10),
-            look_at=Vector.Origin,
+            look_at=Vector.origin,
         )
         self.world.add(self.camera)
         self.render = Render(self.world, self.window, self.camera, self.options)
         self.render.init()
-        self.window.on_draw = self.render.draw_window
+
+        def draw():
+            self.render.draw_window(
+                (item.position, item.orientation, item.glyph[item.frame])
+                for item in self.world if item.glyph
+            )
+
+        self.window.on_draw = draw
         self.window.on_key_press = self.on_key_press
 
 

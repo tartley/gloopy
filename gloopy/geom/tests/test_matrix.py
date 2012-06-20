@@ -46,11 +46,11 @@ class TestMatrix(TestCase):
         self.assertEqual(matrix * vert - position, vert)
 
         # now try a couple of transforms which do involve a rotation
-        orientation = Orientation(Vector.YAxis)
+        orientation = Orientation(Vector.y_axis)
         matrix = Matrix(position, orientation)
         self.assertEqual(matrix * vert - position, (1, 3, -2))
 
-        orientation = Orientation(Vector.XAxis)
+        orientation = Orientation(Vector.x_axis)
         matrix = Matrix(position, orientation)
         self.assertEqual(matrix * vert - position, (3, 2, -1))
 

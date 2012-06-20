@@ -52,7 +52,7 @@ class KeyHandler(object):
                 SpaceStation(1.1),
                 orientation=Orientation(),
                 update=Spinner(
-                    Vector.XAxis,
+                    Vector.x_axis,
                     speed=1,
                     orientation=Orientation()
                 ),
@@ -69,15 +69,15 @@ class KeyHandler(object):
             ),
             key.E: lambda: self.add_shape(
                 Ring(Cube(0.5, Color.Green), 2, 20),
-                orientation=Orientation(Vector.YAxis),
-                update=Spinner(Vector.YAxis),
+                orientation=Orientation(Vector.y_axis),
+                update=Spinner(Vector.y_axis),
             ),
             key.R: lambda: self.add_shape(
                 Ring(
                     TruncatedCube(1.75, 0.8, Color.SeaGreen, Color.Periwinkle),
                     6, 25
                 ),
-                update=Spinner(axis=Vector.XAxis, speed=0.5),
+                update=Spinner(axis=Vector.x_axis, speed=0.5),
             ),
             key.T: lambda: self.add_shape(
                 TriRings(Cube(1.02, Color.DarkTeal), 8, 40),
@@ -217,8 +217,8 @@ class KeyHandler(object):
                 int(radius * 5),
             ),
             position=Vector(0, height * 6, 0),
-            orientation=Orientation(Vector.YAxis),
-            update=Spinner(Vector.YAxis, speed=uniform(-1, 1)),
+            orientation=Orientation(Vector.y_axis),
+            update=Spinner(Vector.y_axis, speed=uniform(-1, 1)),
         )
 
     def add_koche_tetra(self):
@@ -312,7 +312,7 @@ class Application(object):
         self.gloopy.init()
         self.gloopy.world.background_color = Color.Orange
         self.gloopy.camera.update=WobblyOrbit(
-            center=Vector.Origin,
+            center=Vector.origin,
             radius=3,
             axis=Vector(2, -3, 1),
             angular_velocity=0.8,

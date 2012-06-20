@@ -28,8 +28,8 @@ def CubeCross(edge, color1, color2):
     multi.add(Cube(edge, repeat(color1)))
 
     for pos in [
-        Vector.XAxis, Vector.YAxis, Vector.ZAxis,
-        Vector.XNegAxis, Vector.YNegAxis, Vector.ZNegAxis
+        Vector.x_axis, Vector.y_axis, Vector.ZAxis,
+        Vector.neg_x_axis, Vector.neg_y_axis, Vector.neg_z_axis
     ]:
         center = pos * (edge / 2)
         multi.add(
@@ -47,7 +47,7 @@ def CubeCorners(edge, color1, color2):
     multi = MultiShape()
     multi.add(
         Cube(edge, repeat(color1)),
-        position=Vector.Origin,
+        position=Vector.origin,
     )
     for pos in list(product(*repeat([-1, +1], 3))):
         multi.add(
@@ -97,7 +97,7 @@ def RgbCubeCluster(edge, cube_count, scale=1, hole=0):
             pos = Vector(r, g, b) - Vector(127, 127, 127)
             # accept this entry if it isn't in the hole
             if pos.length > hole:
-                locations[pos * scale] = Color(r, g, b)
+                locations[pos * scale] = Color(r / 255.0, g / 255.0, b / 255.0)
                 break
     return CubeCluster(locations, edge=edge)
 
@@ -132,7 +132,7 @@ def BitmapAsDict(filename, edge=1):
         for y in xrange(img.height):
             index = x * len(channels) + y * pitch
             r, g, b, a = map(
-                lambda x: ord(x) / 255,
+                lambda x: x / 255.0,
                 pixels[index:index+4]
             )
             if a > 0.1:

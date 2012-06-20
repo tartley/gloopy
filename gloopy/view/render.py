@@ -107,38 +107,33 @@ class Render(object):
         gl.glClear(gl.GL_COLOR_BUFFER_BIT | gl.GL_DEPTH_BUFFER_BIT)
 
 
-    def draw_window(self):
+    def draw_window(self, glyphs):
         '''
         Redraw the whole window
         '''
         self.clear_window(self.world.background_color)
         self.projection.set_perspective(45)
         self.modelview.set_world()
-        self.draw_world_items()
+        self.draw_world_items(glyphs)
         if self.options.fps:
             self.draw_hud()
         self.window.invalid = False
         return EVENT_HANDLED
 
 
-    def draw_world_items(self):
+    def draw_world_items(self, glyphs):
         '''
-        Draw all items that have been added to the world
+        Draw all passed glyphs
         '''
         shader = None
-        for item in self.world:
-
-            if not item.glyph:
-                continue
+        for position, orientation, glyph in glyphs:
 
             gl.glPushMatrix()
 
-            if item.position != Vector.Origin:
-                gl.glTranslatef(*item.position)
-            if item.orientation != Orientation.Identity:
-                gl.glMultMatrixf(item.orientation.matrix)
+            gl.glTranslatef(*position)
+            if orientation != Orientation.Identity:
+                gl.glMultMatrixf(orientation.matrix)
 
-            glyph = item.glyph[item.frame]
             if glyph.shader is not shader:
                 shader = glyph.shader
                 shader.use()

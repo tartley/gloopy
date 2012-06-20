@@ -36,7 +36,7 @@ def add_items(gloopy, number=None):
         color = col1.tinted(col2, abs(length) / SIZE)
         item = GameItem(
             shape=Cube( 1 + length / 5, color ),
-            position=Vector.Origin,
+            position=Vector.origin,
             update=Orbit(
                 Vector(0, -50/length, 0),
                 radius=length,
@@ -120,7 +120,7 @@ def main():
         on_key_press=lambda s, m: on_key_press(gloopy, s, m)
     )
     gloopy.camera.update=WobblyOrbit(
-        center=Vector.Origin,
+        center=Vector.origin,
         radius=SIZE * 0.8,
         axis=Vector(2, 3, 1),
         angular_velocity=0,
