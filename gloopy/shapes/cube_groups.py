@@ -28,7 +28,7 @@ def CubeCross(edge, color1, color2):
     multi.add(Cube(edge, repeat(color1)))
 
     for pos in [
-        Vector.x_axis, Vector.y_axis, Vector.ZAxis,
+        Vector.x_axis, Vector.y_axis, Vector.z_axis,
         Vector.neg_x_axis, Vector.neg_y_axis, Vector.neg_z_axis
     ]:
         center = pos * (edge / 2)

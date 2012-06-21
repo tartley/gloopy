@@ -210,9 +210,10 @@ class KeyHandler(object):
         height = randint(-10, 11)
         radius = randint(3, 10)
         color1 = Color.Blue.tinted(Color.Grey, abs(height/10))
+        color2 = Color.Blue.tinted(Color.White, abs(height/10))
         self.add_shape(
             shape=Ring(
-                CubeCross(4, color1, color1.inverted()),
+                CubeCross(4, color1, color2),
                 radius * 6, 
                 int(radius * 5),
             ),
