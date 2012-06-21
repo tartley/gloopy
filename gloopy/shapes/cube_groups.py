@@ -89,15 +89,21 @@ def RgbCubeCluster(edge, cube_count, scale=1, hole=0):
         volume.
     '''
     locations = {}
+    
+    SIZE = 256
     for _ in xrange(cube_count):
         while True:
-            r = randint(0, 254)
-            g = randint(0, 254)
-            b = randint(0, 254)
-            pos = Vector(r, g, b) - Vector(127, 127, 127)
+            r = randint(0, SIZE - 1) - SIZE / 2.0
+            g = randint(0, SIZE - 1) - SIZE / 2.0
+            b = randint(0, SIZE - 1) - SIZE / 2.0
+            pos = Vector(r, g, b)
             # accept this entry if it isn't in the hole
             if pos.length > hole:
-                locations[pos * scale] = Color(r / 255.0, g / 255.0, b / 255.0)
+                locations[pos * scale] = Color(
+                    r / SIZE * Color.CHANNEL_MAX.
+                    g / SIZE * Color.CHANNEL_MAX,
+                    b / SIZE * Color.CHANNEL_MAX,
+                )
                 break
     return CubeCluster(locations, edge=edge)
 
@@ -132,7 +138,7 @@ def BitmapAsDict(filename, edge=1):
         for y in xrange(img.height):
             index = x * len(channels) + y * pitch
             r, g, b, a = map(
-                lambda x: x / 255.0,
+                lambda x: x / 255.0 * Color.CHANNEL_MAX,
                 pixels[index:index+4]
             )
             if a > 0.1:

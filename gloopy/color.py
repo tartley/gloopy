@@ -37,12 +37,12 @@ class Color(namedtuple('__BaseColor', 'r g b a')):
         http://blog.xkcd.com/2010/05/03/color-survey-results/
     '''
 
-    MAX_CHANNEL = 1.0
+    CHANNEL_MAX = 1.0
 
     __slots__ = []
 
     # make constructor's 'a' argument optional
-    def __new__(cls, r, g, b, a=MAX_CHANNEL):
+    def __new__(cls, r, g, b, a=CHANNEL_MAX):
         return super(Color, cls).__new__(cls, r, g, b, a)
 
 
@@ -52,9 +52,9 @@ class Color(namedtuple('__BaseColor', 'r g b a')):
         Return a new random color
         '''
         return Color(
-            uniform(0, Color.MAX_CHANNEL),
-            uniform(0, Color.MAX_CHANNEL),
-            uniform(0, Color.MAX_CHANNEL),
+            uniform(0, Color.CHANNEL_MAX),
+            uniform(0, Color.CHANNEL_MAX),
+            uniform(0, Color.CHANNEL_MAX),
         )
 
 
