@@ -83,15 +83,15 @@ class Glyph(object):
 
             STRIDE = 40
             GL.glVertexAttribPointer( 
-                self.shader.attrib['position'], Vector.COMPONENTS, GL.GL_FLOAT,
+                self.shader.attrib['position'], len(Vector._fields), GL.GL_FLOAT,
                 False, STRIDE, c_void_p(0)
             )
             GL.glVertexAttribPointer( 
-                self.shader.attrib['color'], Color.COMPONENTS, GL.GL_FLOAT,
+                self.shader.attrib['color'], len(Color._fields), GL.GL_FLOAT,
                 False, STRIDE, c_void_p(12)
             )
             GL.glVertexAttribPointer( 
-                self.shader.attrib['normal'], Vector.COMPONENTS, GL.GL_FLOAT,
+                self.shader.attrib['normal'], len(Vector._fields), GL.GL_FLOAT,
                 False, STRIDE, c_void_p(28)
             )
         finally:

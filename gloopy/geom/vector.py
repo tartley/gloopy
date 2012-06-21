@@ -25,8 +25,6 @@ class Vector(namedtuple('VectorBase', 'x y z')):
 
     __slots__ = []
 
-    COMPONENTS = 3
-
     def __repr__(self):
         return 'Vector(%.2g, %.2g, %.2g)' % (self.x, self.y, self.z)
 

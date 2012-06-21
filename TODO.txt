@@ -1,4 +1,7 @@
 - space invaders don't work, at least on OSX
+  :known issue on pyglet 1.1.4 OSX, fixed in cytpes branch
+- change of color from ubyte to float should have been encapsulated or
+  DRY
 - test on Windows
 - remind myself why I switched to floating point colors
     - presumably performance cost isn't too high, but what is the payoff?
@@ -30,6 +33,8 @@
 
 Polyhedra
 ---------
+
+* space invaders show seam glitches
 
 * Can we refine size of extrusion and angle of stellation to make
   repeatedly applied extrude/stellate mesh nicely?
