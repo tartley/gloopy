@@ -64,7 +64,7 @@ class Color(namedtuple('__BaseColor', 'r g b a')):
         amount specified by `bias`, which normally ranges from 0.0 (entirely
         this color) to 1.0 (entirely `other`.)
         '''
-        unbias = 1 - bias
+        unbias = 1.0 - bias
         return Color(
             self.r * unbias + other.r * bias,
             self.g * unbias + other.g * bias,
@@ -79,9 +79,9 @@ class Color(namedtuple('__BaseColor', 'r g b a')):
         and so on.
         '''
         return Color(
-            1.0 - self.r,
-            1.0 - self.g,
-            1.0 - self.b,
+            Color.CHANNEL_MAX - self.r,
+            Color.CHANNEL_MAX - self.g,
+            Color.CHANNEL_MAX - self.b,
             self.a
         )
 

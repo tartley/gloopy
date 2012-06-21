@@ -93,14 +93,14 @@ def RgbCubeCluster(edge, cube_count, scale=1, hole=0):
     SIZE = 256
     for _ in xrange(cube_count):
         while True:
-            r = randint(0, SIZE - 1) - SIZE / 2.0
-            g = randint(0, SIZE - 1) - SIZE / 2.0
-            b = randint(0, SIZE - 1) - SIZE / 2.0
+            r = randint(0, SIZE - 1) - SIZE / 2
+            g = randint(0, SIZE - 1) - SIZE / 2
+            b = randint(0, SIZE - 1) - SIZE / 2
             pos = Vector(r, g, b)
             # accept this entry if it isn't in the hole
             if pos.length > hole:
                 locations[pos * scale] = Color(
-                    r / SIZE * Color.CHANNEL_MAX.
+                    r / SIZE * Color.CHANNEL_MAX,
                     g / SIZE * Color.CHANNEL_MAX,
                     b / SIZE * Color.CHANNEL_MAX,
                 )
