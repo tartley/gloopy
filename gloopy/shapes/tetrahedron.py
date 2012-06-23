@@ -25,7 +25,7 @@ def Tetrahedron(radius, face_colors=None):
         (+size, -size, -size), 
     ]
     faces = [ [0, 2, 1], [1, 3, 0], [2, 3, 1], [0, 3, 2] ]
-    return Shape(vertices, faces, face_colors, 'Tetrahedron')
+    return Shape(vertices, faces, face_colors)
 
 
 def DualTetrahedron(radius, color1=None, color2=None):
@@ -42,7 +42,7 @@ def DualTetrahedron(radius, color1=None, color2=None):
     subdivide(shape)
     center_faces = [
         i for i, face in enumerate(shape.faces)
-        if face.source.endswith('subdivide-center')
+        if face.category == 1
     ]
     stellate(shape, center_faces, sqrt(2))
     return shape

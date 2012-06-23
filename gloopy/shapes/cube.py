@@ -28,10 +28,10 @@ def Cube(radius=None, colors=None, edge=None):
     assert _logical_xor(radius, edge)
     if radius:
         edge = sqrt(3 * radius * radius) / 1.5
-    return Cuboid(edge, edge, edge, colors, source='Cube')
+    return Cuboid(edge, edge, edge, colors)
 
 
-def Cuboid(x, y, z, colors=None, source='Cuboid'):
+def Cuboid(x, y, z, colors=None):
     '''
     Return a new Shape, cuboid of dimensions x, y, z, centered on the origin.
 
@@ -47,7 +47,7 @@ def Cuboid(x, y, z, colors=None, source='Cuboid'):
         [3, 7, 6, 2], # +y top
         [1, 0, 4, 5], # -y bottom
     ]
-    return Shape(verts, faces, colors, source)
+    return Shape(verts, faces, colors)
 
 
 def TruncatedCube(edge, truncation=0.67, color1=None, color2=None):

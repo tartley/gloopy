@@ -25,17 +25,13 @@ class Face(object):
 
         `normal`: A Vector, perpendicular to the face
 
-    .. function:: __init__(indices, color, shape, source='unknown')
+    .. function:: __init__(indices, color, shape)
 
         `indices`: a list of int indices into the parent shape's vertex list
 
         `color`: an instance of Color
 
         `shape`: a reference to the parent Shape
-
-        `source`: a descriptive string. These can be used when writing
-            algorithms that modify shapes, to select certain faces to operate
-            on.
 
     .. function:: __getitem__(n)
 
@@ -49,11 +45,11 @@ class Face(object):
 
         Return the length of `indices`
     '''
-    def __init__(self, indices, color, shape, source='unknown'):
+    def __init__(self, indices, color, shape, category=0):
         self.indices = indices
         self.color = color
         self.shape = shape
-        self.source = source
+        self.category = category # used when selecting which faces to operate on
         self.normal = self.get_normal()
 
     def __getitem__(self, index):
@@ -93,7 +89,7 @@ class Shape(object):
     '''
     Defines a polyhedron, a 3D shape with flat faces and straight edges.
 
-    .. function:: __init__(vertices, faces, colors, name='unknown')
+    .. function:: __init__(vertices, faces, colors)
 
         `vertices`: a list of Vector points in 3D space, relative to the
         shape's center point.
@@ -107,12 +103,10 @@ class Shape(object):
         `colors`: a single Color which is applied to every face, or a sequence
         of colors, one for each face.
 
-        `name`: the 'source' attribute to be applied to each face.
-
         See the source for factory functions like
         :func:`~gloopy.shapes.cube.Cube` for examples of constructing Shapes.
     '''    
-    def __init__(self, vertices, faces, colors, name='unknown'):
+    def __init__(self, vertices, faces, colors):
 
         # sanity checks
         len_verts = len(vertices)
@@ -132,7 +126,7 @@ class Shape(object):
 
         self.vertices = vertices
         self.faces = [
-            Face(face, color, self, source=name)
+            Face(face, color, self)
             for face, color in zip(faces, colors)
         ]
 

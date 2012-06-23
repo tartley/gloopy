@@ -128,7 +128,7 @@ class Render(object):
             gl.glPushMatrix()
 
             gl.glTranslatef(*position)
-            if orientation != Orientation.Identity:
+            if orientation and orientation != Orientation.Identity:
                 gl.glMultMatrixf(orientation.matrix)
 
             if glyph.shader is not shader:

@@ -22,15 +22,15 @@ def extrude_face(shape, face_index, offset):
 
     # new faces for edges of extrusion
     new_faces = []
-    source = '%s.%s' % (face.source, 'extrude-side')
     for i in xrange(len(face)):
         next_i = (i + 1) % len(face)
         indices = [face[i], face[next_i], new_indices[next_i], new_indices[i]]
-        new_faces.append( Face(indices, face.color.inverted(), shape, source) )
+        new_faces.append(
+            Face(indices, face.color.inverted(), shape, face.category)
+        )
 
     # new face on end of extrusion
-    source = '%s.%s' % (face.source, 'extrude-end')
-    new_faces.append( Face(new_indices, face.color, shape, source) )
+    new_faces.append( Face(new_indices, face.color, shape, face.category + 1) )
 
     shape.replace_face(face_index, new_faces)
 

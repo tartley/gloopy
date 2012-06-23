@@ -5,9 +5,6 @@ from random import randint, uniform
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
 
-# find gloopy in '../..', so we can run even if Gloopy is not installed
-import fixpath
-
 from gloopy import Gloopy
 from gloopy.color import Color
 from gloopy.geom.vector import Vector
@@ -39,7 +36,8 @@ class KeyHandler(object):
         self.world.update += self.world_update
         self.render = render
         self.camera = camera
-        self.coaxials = set()
+        self.camera_radius = 3
+        self.selected_faces = None
 
         self.keys = {
             key._1: lambda: self.add_shape(Tetrahedron(1, Color.Random())),
@@ -57,7 +55,6 @@ class KeyHandler(object):
                     orientation=Orientation()
                 ),
             ),
-            key._0: self.add_triangle_square,
 
             key.Q: lambda: self.add_shape(
                 CubeCross(0.67, Color.Red, Color.Red.tinted(Color.Orange)),
@@ -115,13 +112,9 @@ class KeyHandler(object):
             key.DOWN: lambda: self.camera_orbit(2.0),
             key.PAGEUP: lambda: self.camera_orbit(0.5),
             key.PAGEDOWN: lambda: self.camera_orbit(2.0),
-        }
-        self.keys_shift = {
-            key.A: lambda: self.set_faces_suffix(''),
-            key.S: lambda: self.set_faces_suffix('subdivide-center'),
-            key.D: lambda: self.set_faces_suffix('subdivide-corner'),
-            key.E: lambda: self.set_faces_suffix('extrude-end'),
-            key.R: lambda: self.set_faces_suffix('extrude-side'),
+            key.EQUAL: lambda: self.select_faces(+1),
+            key.MINUS: lambda: self.select_faces(-1),
+            key._0: lambda: self.select_faces(None),
         }
         self.keys_ctrl = {
             key.N: self.mod_normalize,
@@ -141,8 +134,6 @@ class KeyHandler(object):
             key.M: self.mod_move,
             key.Z: lambda: self.mod_move(Vector(0, 20, 0)),
         }
-        self.faces_suffix = ''
-        self.camera_radius = 3
 
 
     def world_update(self, time, dt):
@@ -153,15 +144,11 @@ class KeyHandler(object):
 
 
     def on_key_press(self, symbol, modifiers):
-        if modifiers & key.MOD_SHIFT:
-            if symbol in self.keys_shift:
-                self.keys_shift[symbol]()
-                return EVENT_HANDLED
-        elif modifiers & key.MOD_CTRL:
+        if modifiers & key.MOD_CTRL:
             if symbol in self.keys_ctrl:
                 self.keys_ctrl[symbol]()
                 return EVENT_HANDLED
-        else:
+        elif modifiers == 0:
             if symbol in self.keys:
                 self.keys[symbol]()
                 return EVENT_HANDLED
@@ -173,10 +160,27 @@ class KeyHandler(object):
             if item.glyph:
                 return self.world[itemid]
 
+    def select_faces(self, value):
+        if value is None:
+            self.selected_faces = None
+        else:
+            if self.selected_faces is None:
+                self.selected_faces = 0
+            else:
+                self.selected_faces += value
+
+    def get_selected_faces(self, shape, category):
+        if category is None:
+            return None
+        return [
+            index
+            for index, face in enumerate(shape.faces)
+            if face.category == category
+        ]
+
     def add_shape(self, shape, **kwargs):
         item = GameItem(shape=shape, **kwargs)
         self.world.add(item)
-        self.set_faces_suffix('')
         return item
 
     def remove(self):
@@ -184,28 +188,6 @@ class KeyHandler(object):
         if item:
             self.world.remove(item)
 
-
-    def add_triangle_square(self):
-        self.add_shape(
-            Shape(
-                vertices=[
-                    #       x   y   z
-                    Vector( 0,  2,  1), # p0
-                    Vector(-1,  0,  1), # p1
-                    Vector( 1,  0,  1), # p2
-                    Vector( 1,  0, -1), # p3
-                    Vector(-1,  0, -1), # p4
-                ],
-                faces=[
-                    [0, 1, 2],    # triangle
-                    [2, 1, 0],    # triangle
-                    [1, 2, 3, 4], # square
-                    [4, 3, 2, 1], # square
-                ],
-                colors=[Color.Red, Color.Red, Color.Yellow, Color.Yellow],
-            )
-        )
-        
     def add_coaxial_rings(self):
         height = randint(-10, 11)
         radius = randint(3, 10)
@@ -228,19 +210,8 @@ class KeyHandler(object):
         shape = Tetrahedron(1, color1)
         for i in range(6):
             subdivide(shape, color=color1.tinted(color2, i/5))
-            stellate(shape, self.faces_endswith(shape, 'subdivide-center'), 1)
+            stellate(shape, self.get_selected_faces(shape, i + 1), 1)
         return self.add_shape(shape)
-
-
-    def set_faces_suffix(self, suffix):
-        self.faces_suffix = suffix
-
-    def faces_endswith(self, shape, suffix):
-        return [
-            index
-            for index, face in enumerate(shape.faces)
-            if face.source.endswith(suffix)
-        ]
 
     def mod_normalize(self):
         item = self.get_selected_item()
@@ -249,25 +220,21 @@ class KeyHandler(object):
 
     def mod_shape(self, modifier, *args):
         item = self.get_selected_item()
-        faces = self.faces_endswith(item.shape, self.faces_suffix)
+        faces = self.get_selected_faces(item.shape, self.selected_faces)
         modifier(item.shape, faces, *args)
         item.glyph = [shape_to_glyph(item.shape)]
 
     def mod_subdivide(self):
         self.mod_shape(subdivide)
-        self.set_faces_suffix('subdivide-center')
 
     def mod_stellate_out(self, amount=1):
         self.mod_shape(stellate, amount)
-        self.set_faces_suffix('stellate')
 
     def mod_stellate_in(self, amount=-0.33):
         self.mod_shape(stellate, amount)
-        self.set_faces_suffix('stellate')
 
     def mod_extrude(self, length=1.0):
         self.mod_shape(extrude, length)
-        self.set_faces_suffix('extrude-end')
 
     def recolor(self, shape, faces, color):
         for face_index in faces:

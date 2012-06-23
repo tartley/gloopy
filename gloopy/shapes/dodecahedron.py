@@ -59,5 +59,5 @@ def Dodecahedron(radius, face_colors=None):
         [15, 19, 17, 13, 12],
         [16, 18, 14, 12, 13],
     ]
-    return Shape(vertices, faces, face_colors, 'Dodecahedron')
+    return Shape(vertices, faces, face_colors)
 
