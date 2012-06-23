@@ -31,7 +31,7 @@ profile:
 
 clean:
 	rm -rf build dist *.egg-info tags pip-log.txt
-	-find . \( -name "*.py[oc]" -o -name "*.orig" \) -exec rm {} \;
+	-find . \( -name "*.py[oc]" -o -name "*.orig" -o -name "*.rej" \) -exec rm {} \;
 	$(MAKE) -C docs clean
 .PHONY: clean
 
