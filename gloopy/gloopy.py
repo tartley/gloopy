@@ -69,7 +69,6 @@ class Gloopy(object):
         event loop by calling pyglet.app.run()
         '''
         pyglet.clock.schedule(self.update)
-        self.window.invalid = False
         pyglet.app.run()
 
 
