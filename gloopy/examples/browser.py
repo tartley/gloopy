@@ -264,30 +264,25 @@ class KeyHandler(object):
         self.camera_radius *= factor
 
 
-class Application(object):
-
-    def __init__(self):
-        self.gloopy = None
-
-    def run(self):
-        self.gloopy = Gloopy()
-        self.gloopy.init()
-        self.gloopy.world.background_color = Color.Orange
-        self.gloopy.camera.update=WobblyOrbit(
-            center=Vector.origin,
-            radius=3,
-            axis=Vector(2, -3, 1),
-            angular_velocity=0.8,
-            wobble_size=0.0,
-            wobble_freq=0.01,
-        )
-        self.gloopy.window.push_handlers( KeyHandler(
-            self.gloopy.world,
-            self.gloopy.camera,
-        ) )
-        self.gloopy.run()
+def main():
+    gloopy = Gloopy()
+    gloopy.init()
+    gloopy.world.background_color = Color.Orange
+    gloopy.camera.update=WobblyOrbit(
+        center=Vector.origin,
+        radius=3,
+        axis=Vector(2, -3, 1),
+        angular_velocity=0.8,
+        wobble_size=0.0,
+        wobble_freq=0.01,
+    )
+    gloopy.window.push_handlers( KeyHandler(
+        gloopy.world,
+        gloopy.camera,
+    ) )
+    gloopy.run()
 
 
 if __name__ == '__main__':
-    Application().run()
+    main()
 
