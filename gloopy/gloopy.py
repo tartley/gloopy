@@ -39,8 +39,7 @@ class Gloopy(object):
             window = pyglet.window.Window(
                 fullscreen=self.options.fullscreen,
                 vsync=self.options.vsync,
-                visible=False,
-                resizable=True,
+                resizable=not self.options.fullscreen,
             )
         self.window = window
             
@@ -70,9 +69,9 @@ class Gloopy(object):
         event loop by calling pyglet.app.run()
         '''
         pyglet.clock.schedule(self.update)
-        self.window.set_visible()
         self.window.invalid = False
         pyglet.app.run()
+
 
     def update(self, dt):
         '''
