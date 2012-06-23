@@ -91,6 +91,8 @@ class Gloopy(object):
         --------- ------------------
         f12       toggle fps display
         --------- ------------------
+        f11       toggle vsync
+        --------- ------------------
         f9        take screenshot
         --------- ------------------
         alt-enter toggle fullscreen
@@ -102,8 +104,8 @@ class Gloopy(object):
             self.options.fps = not self.options.fps
         elif symbol == key.F11:
             self.window.set_vsync(not self.window.vsync)
-        elif symbol == key.ENTER and (modifiers & key.MOD_ALT):
-            self.window.set_fullscreen(not self.window.fullscreen)
         elif symbol == key.F9:
             screenshot()
+        elif symbol == key.ENTER and (modifiers & key.MOD_ALT):
+            self.window.set_fullscreen(not self.window.fullscreen)
 
