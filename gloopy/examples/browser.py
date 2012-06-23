@@ -94,8 +94,6 @@ class KeyHandler(object):
             key.C: lambda: self.add_shape(
                 RgbCubeCluster(16, 4000, scale=2, hole=70)
             ),
-            #key.V: self.add_koche_tetra,
-
             key.V: lambda: self.add_shape(
                 [
                     BitmapCubeCluster('invader1.png', edge=10),
@@ -104,6 +102,7 @@ class KeyHandler(object):
                 position=Vector.RandomShell(350),
                 update=CycleFrames(1),
             ),
+            key.B: self.add_koche_tetra,
 
             key.BACKSPACE: self.remove,
             key.UP: lambda: self.camera_orbit(0.5),
@@ -206,8 +205,9 @@ class KeyHandler(object):
         color2 = Color.Random()
         shape = Tetrahedron(1, color1)
         for i in range(6):
+            faces = self.get_selected_faces(shape, i + 1)
             subdivide(shape, color=color1.tinted(color2, i/5))
-            stellate(shape, self.get_selected_faces(shape, i + 1), 1)
+            stellate(shape, faces=faces, height=1.2)
         return self.add_shape(shape)
 
     def mod_normalize(self):

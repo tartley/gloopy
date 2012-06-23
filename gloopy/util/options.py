@@ -1,6 +1,3 @@
-import logging
-
-log = logging.getLogger(__name__)
 
 class Options(object):
     '''
@@ -24,7 +21,6 @@ class Options(object):
         self.vsync = '--nosync' not in argv
         self.fullscreen = '--window' not in argv and '-w' not in argv
         self.fps = '--fps' in argv
-        log.info(self)
 
     def __str__(self):
         return 'Options:\n' + '\n'.join(

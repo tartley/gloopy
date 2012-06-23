@@ -1,5 +1,3 @@
-import logging
-
 import pyglet
 from pyglet.event import EVENT_HANDLED
 from pyglet import gl
@@ -10,22 +8,6 @@ from .projection import Projection
 from .shader import Shader
 from .shape_to_glyph import shape_to_glyph
 from . import gl_wrap
-
-
-log = logging.getLogger(__name__)
-
-
-def log_opengl_version():
-    '''
-    Send OpenGL version and driver info to logfile
-    '''
-    log.info('\n    '.join([
-        'opengl:',
-        gl.gl_info.get_vendor(),
-        gl.gl_info.get_renderer(),
-        gl.gl_info.get_version(),
-    ]) )
-    
 
 
 class Render(object):
@@ -70,7 +52,6 @@ class Render(object):
         '''
         Set all initial OpenGL state, such as enabling DEPTH_TEST.
         '''
-        log_opengl_version()
         gl.glEnable(gl.GL_DEPTH_TEST)
         gl.glEnable(gl.GL_POLYGON_SMOOTH)
         gl.glEnable(gl.GL_BLEND)

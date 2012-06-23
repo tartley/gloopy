@@ -1,6 +1,5 @@
 from __future__ import division
 
-import logging
 import sys
 
 import pyglet
@@ -9,14 +8,10 @@ from pyglet.window import key
 from .gameitem import GameItem
 from .geom.vector import Vector
 from .world import World
-from .util.log import init_log
 from .util.options import Options
 from .util.screenshot import screenshot
 from .view.render import Render
-from .version import RELEASE
 
-
-log = None
 
 
 class Gloopy(object):
@@ -26,10 +21,6 @@ class Gloopy(object):
         Parses the command-line options, stores results in self.options
     '''
     def __init__(self):
-        global log
-        init_log()
-        log = logging.getLogger(__name__)
-
         self.window = None
         self.world = None
         self.camera = None
@@ -44,7 +35,6 @@ class Gloopy(object):
         if it is None, we will create a (non-visible) one, using self.options
         to determine its parameters.
         '''
-        log.info('v%s' % (RELEASE,))
         if window is None:
             window = pyglet.window.Window(
                 fullscreen=self.options.fullscreen,
@@ -79,20 +69,10 @@ class Gloopy(object):
         Schedules calls to self.update, makes window visible and starts the
         event loop by calling pyglet.app.run()
         '''
-        log.info('start')
         pyglet.clock.schedule(self.update)
         self.window.set_visible()
         self.window.invalid = False
-        try:
-            pyglet.app.run()
-            log.info('stop')
-        except:
-            log.error('abnormal stop')
-            raise
-        finally:
-            if self.window:
-                self.window.close()
-
+        pyglet.app.run()
 
     def update(self, dt):
         '''
@@ -121,7 +101,6 @@ class Gloopy(object):
         elif symbol == key.F12:
             self.options.fps = not self.options.fps
         elif symbol == key.ENTER and (modifiers & key.MOD_ALT):
-            log.info('fullscreen: %s' % (not self.window.fullscreen,))
             self.window.set_fullscreen(not self.window.fullscreen)
         elif symbol == key.F9:
             screenshot()
