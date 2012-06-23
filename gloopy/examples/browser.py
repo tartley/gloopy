@@ -31,10 +31,9 @@ from gloopy.view.shape_to_glyph import shape_to_glyph
 
 class KeyHandler(object):
 
-    def __init__(self, world, render, camera):
+    def __init__(self, world, camera):
         self.world = world
         self.world.update += self.world_update
-        self.render = render
         self.camera = camera
         self.camera_radius = 3
         self.selected_faces = None
@@ -107,7 +106,6 @@ class KeyHandler(object):
             ),
 
             key.BACKSPACE: self.remove,
-            key.F11: self.toggle_backface_culling,
             key.UP: lambda: self.camera_orbit(0.5),
             key.DOWN: lambda: self.camera_orbit(2.0),
             key.PAGEUP: lambda: self.camera_orbit(0.5),
@@ -141,7 +139,6 @@ class KeyHandler(object):
             rate = 3 * dt
             self.camera.update.radius += (
                 self.camera_radius - self.camera.update.radius) * rate
-
 
     def on_key_press(self, symbol, modifiers):
         if modifiers & key.MOD_CTRL:
@@ -263,9 +260,6 @@ class KeyHandler(object):
         item.update = mover
 
 
-    def toggle_backface_culling(self):
-        self.render.backface_culling = not self.render.backface_culling
-
     def camera_orbit(self, factor):
         self.camera_radius *= factor
 
@@ -287,15 +281,10 @@ class Application(object):
             wobble_size=0.0,
             wobble_freq=0.01,
         )
-        self.gloopy.camera.look_at = Vector(0, 0, 0)
-        
-        self.keyhandler = KeyHandler(
+        self.gloopy.window.push_handlers( KeyHandler(
             self.gloopy.world,
-            self.gloopy.render,
             self.gloopy.camera,
-        )
-        self.gloopy.window.push_handlers(self.keyhandler)
-
+        ) )
         self.gloopy.run()
 
 
