@@ -1,4 +1,3 @@
-
 from .color import Color
 from .geom.vector import Vector
 from .util.event import Event

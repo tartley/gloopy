@@ -1,3 +1,7 @@
+- move highlight as part of the world update so that it happens after the
+  other item movement
+- add a new flat shader for the highlight
+- add opengl delta z to the shader, so highlight is always visible
 - Can browser.py color the currently selected faces? Instead of named, use
   integers and selection can then inc/dec to select various sets of faces.
 - test on Windows
