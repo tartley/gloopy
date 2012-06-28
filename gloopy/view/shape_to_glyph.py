@@ -10,6 +10,8 @@ def shape_to_glyph(shape):
     of the given shape converted into an indexed vertex array stored in a VBO,
     ready for rendering in OpenGL as a single draw call.
     '''
+    if shape is None:
+        return None
     vertices = []
     indices = []
     next_index = 0

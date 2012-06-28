@@ -4,7 +4,7 @@ from .shape import Face, add_vertex
 from ..color import Color
 
 
-def subdivide_face(shape, face_index, edges, color2=None):
+def subdivide_face(shape, face_index, edges, color2, new_category):
     '''
     Modify the given `shape` in-place. Subdivides the single face at position
     `face_index`.
@@ -42,12 +42,12 @@ def subdivide_face(shape, face_index, edges, color2=None):
     for i in xrange(len(face)):
         prev_i = (i - 1) % len(face)
         indices = [face[i], midpoints[i], midpoints[prev_i]]
-        new_faces.append( Face(indices, face.color, shape, face.category) )
+        new_faces.append( Face(indices, face.color, shape, new_category) )
 
     # a new face in the center of 'face'
     indices = [midpoints[i] for i in xrange(len(face))]
     new_faces.append(
-        Face(indices, color2, shape, face.category + 1)
+        Face(indices, color2, shape, face.category)
     )
 
     shape.replace_face(face_index, new_faces)
@@ -75,6 +75,7 @@ def subdivide(shape, faces=None, color=None):
         color = Color.Random()
 
     edges = {}
+    new_category = shape.next_category()
     for face in faces:
-        subdivide_face(shape, face, edges, color)
+        subdivide_face(shape, face, edges, color, new_category)
 

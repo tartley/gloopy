@@ -3,7 +3,7 @@ from __future__ import division
 from .shape import add_vertex, Face
 
 
-def extrude_face(shape, face_index, offset):
+def extrude_face(shape, face_index, offset, new_category):
     '''
     Modify the given shape in-place, by extruding the specified face 'offset'.
 
@@ -30,7 +30,7 @@ def extrude_face(shape, face_index, offset):
         )
 
     # new face on end of extrusion
-    new_faces.append( Face(new_indices, face.color, shape, face.category + 1) )
+    new_faces.append( Face(new_indices, face.color, shape, new_category) )
 
     shape.replace_face(face_index, new_faces)
 
@@ -47,6 +47,7 @@ def extrude(shape, faces=None, offset=0):
     """
     if faces is None:
         faces = xrange(len(shape.faces))
+    new_category = shape.next_category()
     for face in faces:
-        extrude_face(shape, face, offset)
+        extrude_face(shape, face, offset, new_category)
 

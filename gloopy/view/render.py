@@ -61,7 +61,6 @@ class Render(object):
         self.backface_culling = True
 
 
-
     def _set_backface_culling(self, value):
         self._backface_culling = value
         if self._backface_culling:

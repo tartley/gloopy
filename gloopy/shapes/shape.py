@@ -157,3 +157,17 @@ class Shape(object):
         while new_faces:
             self.faces.append( new_faces.pop() )
 
+
+    def next_category(self):
+        '''
+        Faces have integer 'categories', used when selecting particular
+        faces to operate on. This method returns the lowest positive integer
+        that isn't used by any faces, handy for assigning integers to
+        new faces.
+        '''
+        used_categories = {face.category for face in self.faces}
+        category = 0
+        while category in used_categories:
+            category += 1
+        return category
+

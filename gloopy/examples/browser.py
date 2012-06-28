@@ -35,20 +35,22 @@ def _get_selected_faces(shape, category):
     return [
         index
         for index, face in enumerate(shape.faces)
-        if face.category is None or face.category == category
+        if category is None or face.category == category
     ]
 
-def _get_highlight_shape(original, category):
+def _get_highlight_shape(selected_item, category):
+    if selected_item is None:
+        return None
     return Shape(
-        vertices=original.vertices,
+        vertices=selected_item.shape.vertices,
         faces=[
-            original.faces[idx].indices
-            for idx in _get_selected_faces(original, category)
+            selected_item.shape.faces[idx].indices
+            for idx in _get_selected_faces(selected_item.shape, category)
         ],
         colors=Color.White,
     )
 
-
+    
 
 class Controller(object):
 
@@ -63,16 +65,20 @@ class Controller(object):
         def _update_highlight(highlight, _, __):
             if self.selected_item:
                 highlight.position = self.selected_item.position
-
+                highlight.orientation = self.selected_item.orientation
+            
         self.highlight = GameItem(
             update=_update_highlight,
+            frame=0,
         )
         world.add(self.highlight)
 
         
     def add_shape(self, shape, **kwargs):
         self.selected_item = GameItem(shape=shape, **kwargs)
+        self.face_category = None
         self.world.add(self.selected_item)
+        self._update_highlight_shape()
         return self.selected_item
 
     def _get_next_selectable_item(self):
@@ -84,26 +90,45 @@ class Controller(object):
         if shape_ids:
             return self.world[max(shape_ids)]
 
+    def _update_highlight_shape(self):
+        self.highlight.shape = _get_highlight_shape(
+            self.selected_item, self.face_category
+        )
+        glyph = shape_to_glyph(self.highlight.shape)
+        if glyph:
+            self.highlight.glyph = [shape_to_glyph(self.highlight.shape)]
+        else:
+            self.highlight.glyph = None
+
     def remove_shape(self):
         if self.selected_item:
             self.world.remove(self.selected_item)
             self.selected_item = self._get_next_selectable_item()
+        self._update_highlight_shape()
 
-    def _update_highlight_shape(self):
-        self.world.remove(self.highlight)
-        self.highlight.shape = _get_highlight_shape(
-            self.selected_item.shape, self.face_category
-        )
-        self.world.add(self.highlight)
+    def select_all_faces(self):
+        self.face_category = None
+        self._update_highlight_shape()
 
-    def select_faces(self, value):
-        if value is None:
-            self.face_category = None
-        else:
+    def select_nothing(self):
+        self.face_category = None
+        self.selected_item = None
+        self._update_highlight_shape()
+
+    def select_next_faces(self):
+        if self.selected_item:
             if self.face_category is None:
                 self.face_category = 0
-            else:
-                self.face_category += value
+            elif self.face_category < self.selected_item.shape.next_category():
+                self.face_category += 1
+        self._update_highlight_shape()
+
+    def select_prev_faces(self):
+        if self.selected_item:
+            if self.face_category is None:
+                self.face_category = self.selected_item.shape.next_cateogry() - 1
+            elif self.face_category >= 0:
+                self.face_category -= 1
         self._update_highlight_shape()
 
 
@@ -112,9 +137,8 @@ class Controller(object):
 
     def world_update(self, time, dt):
         if self.camera.update:
-            rate = 3 * dt
             self.camera.update.radius += (
-                self.camera_radius - self.camera.update.radius) * rate
+                self.camera_radius - self.camera.update.radius) * dt * 3
 
 
     def mod_move(self, offset=None):
@@ -157,9 +181,11 @@ class Controller(object):
         return self.add_shape(shape)
 
     def mod_shape(self, modifier, *args):
-        faces = _get_selected_faces(self.selected_item.shape, self.face_category)
+        faces = _get_selected_faces(
+            self.selected_item.shape, self.face_category)
         modifier(self.selected_item.shape, faces, *args)
         self.selected_item.glyph = [shape_to_glyph(self.selected_item.shape)]
+        self._update_highlight_shape()
 
     def mod_extrude(self, length):
         self.mod_shape(extrude, length)
@@ -188,7 +214,7 @@ class Controller(object):
         if isinstance(self.selected_item.update, WobblySpinner):
             self.selected_item.update = None
         else:
-            self._selected_item.update = WobblySpinner()
+            self.selected_item.update = WobblySpinner()
 
 
 class KeyHandler(object):
@@ -275,9 +301,9 @@ class KeyHandler(object):
             key.PAGEUP: lambda: controller.camera_orbit(0.5),
             key.PAGEDOWN: lambda: controller.camera_orbit(2.0),
 
-            key.EQUAL: lambda: controller.select_faces(+1),
-            key.MINUS: lambda: controller.select_faces(-1),
-            key._0: lambda: controller.select_faces(None),
+            key.EQUAL: lambda: controller.select_next_faces(),
+            key.MINUS: lambda: controller.select_prev_faces(),
+            key._0: lambda: controller.select_all_faces(),
         }
         self.keys_ctrl = {
             key.M: controller.mod_move,
