@@ -56,7 +56,8 @@ class Gloopy(object):
         def draw():
             self.render.draw_window(
                 (item.position, item.orientation, item.glyph[item.frame])
-                for item in self.world if item.glyph
+                for item in self.world
+                if item.glyph and hasattr(item, 'frame') and item.glyph[item.frame]
             )
 
         self.window.on_draw = draw

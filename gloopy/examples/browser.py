@@ -61,12 +61,14 @@ class Controller(object):
         self.camera_radius = 3
         self.selected_item = None
         self.face_category = None
+        cycle_highlight = CycleFrames(0.25)
 
-        def _update_highlight(highlight, _, __):
+        def _update_highlight(highlight, time, dt):
             if self.selected_item:
                 highlight.position = self.selected_item.position
                 highlight.orientation = self.selected_item.orientation
-            
+                cycle_highlight(highlight, time, dt)
+
         self.highlight = GameItem(
             update=_update_highlight,
             frame=0,
@@ -91,12 +93,18 @@ class Controller(object):
             return self.world[max(shape_ids)]
 
     def _update_highlight_shape(self):
-        self.highlight.shape = _get_highlight_shape(
+        shape = _get_highlight_shape(
             self.selected_item, self.face_category
         )
-        glyph = shape_to_glyph(self.highlight.shape)
-        if glyph:
-            self.highlight.glyph = [shape_to_glyph(self.highlight.shape)]
+        if shape:
+            self.highlight.shape = [shape, None]
+        else:
+            self.highlight.shape = None
+
+        if self.highlight.shape:
+            self.highlight.glyph = [
+                shape_to_glyph(shape) for shape in self.highlight.shape
+            ]
         else:
             self.highlight.glyph = None
 
