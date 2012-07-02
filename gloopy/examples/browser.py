@@ -1,15 +1,17 @@
 #! /usr/bin/env python
 from __future__ import division
+import sys
 from random import randint, uniform
 
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
 
-from gloopy import Gloopy
 from gloopy.color import Color
 from gloopy.geom.vector import Vector
 from gloopy.geom.orientation import Orientation
 from gloopy.gameitem import GameItem
+from gloopy.mainloop import mainloop
+from gloopy.color import Color
 from gloopy.move import Spinner, WobblySpinner, WobblyOrbit
 from gloopy.move.cycle_frames import CycleFrames
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
@@ -27,6 +29,8 @@ from gloopy.shapes.stellate import stellate
 from gloopy.shapes.subdivide import subdivide
 from gloopy.shapes.tetrahedron import Tetrahedron, DualTetrahedron
 from gloopy.view.shape_to_glyph import shape_to_glyph
+from gloopy.util.options import Options
+from gloopy.world import World
 
 
 def _get_selected_faces(shape, category):
@@ -225,141 +229,152 @@ class Controller(object):
             self.selected_item.update = WobblySpinner()
 
 
-class KeyHandler(object):
+def create_keyhandler(controller):
+    keys = {
+        key._1: lambda: controller.add_shape(
+            Tetrahedron(1, Color.Random())),
+        key._2: lambda: controller.add_shape(
+            Cube(0.75, Color.Random())),
+        key._3: lambda: controller.add_shape(
+            Octahedron(0.75, Color.Random())),
+        key._4: lambda: controller.add_shape(
+            Dodecahedron(0.65, Color.Random())),
+        key._5: lambda: controller.add_shape(
+            Icosahedron(0.4, Color.Random())),
+        key._6: lambda: controller.add_shape(
+            DualTetrahedron(0.9, Color.Random())),
+        key._7: lambda: controller.add_shape( 
+            SpaceStation(1.1),
+            orientation=Orientation(),
+            update=Spinner(
+                Vector.x_axis,
+                speed=1,
+                orientation=Orientation()
+            ),
+        ),
 
-    def __init__(self, controller):
-        self.controller = controller
+        key.Q: lambda: controller.add_shape(
+            CubeCross(0.67, Color.Red, Color.Red.tinted(Color.Orange)),
+        ),
+        key.W: lambda: controller.add_shape(
+            CubeCorners(
+                0.6, Color.Yellow.tinted(Color.White), Color.Yellow
+            ),
+        ),
+        key.E: lambda: controller.add_shape(
+            Ring(Cube(0.5, Color.Green), 2, 20),
+            orientation=Orientation(Vector.y_axis),
+            update=Spinner(Vector.y_axis),
+        ),
+        key.R: lambda: controller.add_shape(
+            Ring(
+                TruncatedCube(1.75, 0.8, Color.SeaGreen, Color.Periwinkle),
+                6, 25
+            ),
+            update=Spinner(axis=Vector.x_axis, speed=0.5),
+        ),
+        key.T: lambda: controller.add_shape(
+            TriRings(Cube(1.02, Color.DarkTeal), 8, 40),
+            update=WobblySpinner(speed=-0.2),
+        ),
+        key.Y: lambda: controller.add_shape(
+            shape=TriRings(Octahedron(5, Color.Teal), 12, 8),
+            update=WobblySpinner(speed=-1),
+        ),
+        key.U: controller.add_coaxial_rings,
 
-        self.keys = {
-            key._1: lambda: controller.add_shape(
-                Tetrahedron(1, Color.Random())),
-            key._2: lambda: controller.add_shape(
-                Cube(0.75, Color.Random())),
-            key._3: lambda: controller.add_shape(
-                Octahedron(0.75, Color.Random())),
-            key._4: lambda: controller.add_shape(
-                Dodecahedron(0.65, Color.Random())),
-            key._5: lambda: controller.add_shape(
-                Icosahedron(0.4, Color.Random())),
-            key._6: lambda: controller.add_shape(
-                DualTetrahedron(0.9, Color.Random())),
-            key._7: lambda: controller.add_shape( 
-                SpaceStation(1.1),
-                orientation=Orientation(),
-                update=Spinner(
-                    Vector.x_axis,
-                    speed=1,
-                    orientation=Orientation()
-                ),
-            ),
+        key.Z: lambda: controller.add_shape(
+            CubeGlob(4, 70, 1000, Color.DarkRed)
+        ),
+        key.X: lambda: controller.add_shape(
+            CubeGlob(8, 150, 2000, Color.Red)
+        ),
+        key.C: lambda: controller.add_shape(
+            RgbCubeCluster(16, 4000, scale=2, hole=70)
+        ),
+        key.V: lambda: controller.add_shape(
+            [
+                BitmapCubeCluster('invader1.png', edge=10),
+                BitmapCubeCluster('invader2.png', edge=10)
+            ],
+            position=Vector.RandomShell(350),
+            update=CycleFrames(1),
+        ),
+        key.B: controller.add_koche_tetra,
 
-            key.Q: lambda: controller.add_shape(
-                CubeCross(0.67, Color.Red, Color.Red.tinted(Color.Orange)),
-            ),
-            key.W: lambda: controller.add_shape(
-                CubeCorners(
-                    0.6, Color.Yellow.tinted(Color.White), Color.Yellow
-                ),
-            ),
-            key.E: lambda: controller.add_shape(
-                Ring(Cube(0.5, Color.Green), 2, 20),
-                orientation=Orientation(Vector.y_axis),
-                update=Spinner(Vector.y_axis),
-            ),
-            key.R: lambda: controller.add_shape(
-                Ring(
-                    TruncatedCube(1.75, 0.8, Color.SeaGreen, Color.Periwinkle),
-                    6, 25
-                ),
-                update=Spinner(axis=Vector.x_axis, speed=0.5),
-            ),
-            key.T: lambda: controller.add_shape(
-                TriRings(Cube(1.02, Color.DarkTeal), 8, 40),
-                update=WobblySpinner(speed=-0.2),
-            ),
-            key.Y: lambda: controller.add_shape(
-                shape=TriRings(Octahedron(5, Color.Teal), 12, 8),
-                update=WobblySpinner(speed=-1),
-            ),
-            key.U: controller.add_coaxial_rings,
+        key.BACKSPACE: controller.remove_shape,
 
-            key.Z: lambda: controller.add_shape(
-                CubeGlob(4, 70, 1000, Color.DarkRed)
-            ),
-            key.X: lambda: controller.add_shape(
-                CubeGlob(8, 150, 2000, Color.Red)
-            ),
-            key.C: lambda: controller.add_shape(
-                RgbCubeCluster(16, 4000, scale=2, hole=70)
-            ),
-            key.V: lambda: controller.add_shape(
-                [
-                    BitmapCubeCluster('invader1.png', edge=10),
-                    BitmapCubeCluster('invader2.png', edge=10)
-                ],
-                position=Vector.RandomShell(350),
-                update=CycleFrames(1),
-            ),
-            key.B: controller.add_koche_tetra,
+        key.UP: lambda: controller.camera_orbit(0.5),
+        key.DOWN: lambda: controller.camera_orbit(2.0),
+        key.PAGEUP: lambda: controller.camera_orbit(0.5),
+        key.PAGEDOWN: lambda: controller.camera_orbit(2.0),
 
-            key.BACKSPACE: controller.remove_shape,
+        key.EQUAL: lambda: controller.select_next_faces(),
+        key.MINUS: lambda: controller.select_prev_faces(),
+        key._0: lambda: controller.select_all_faces(),
+    }
+    keys_ctrl = {
+        key.M: controller.mod_move,
+        key.Q: lambda: controller.mod_extrude(0.25),
+        key.W: lambda: controller.mod_extrude(0.5),
+        key.E: lambda: controller.mod_extrude(1),
+        key.R: lambda: controller.mod_extrude(2),
+        key.T: lambda: controller.mod_extrude(4),
+        key.Y: lambda: controller.mod_extrude(8),
+        key.N: controller.mod_normalize,
+        key.S: controller.mod_subdivide,
+        key.U: lambda: controller.mod_stellate_in(-0.67),
+        key.I: lambda: controller.mod_stellate_in(-0.33),
+        key.O: lambda: controller.mod_stellate_out(0.5),
+        key.P: lambda: controller.mod_stellate_out(1),
+        key.C: controller.mod_color,
+        key.X: controller.mod_spin,
+    }
 
-            key.UP: lambda: controller.camera_orbit(0.5),
-            key.DOWN: lambda: controller.camera_orbit(2.0),
-            key.PAGEUP: lambda: controller.camera_orbit(0.5),
-            key.PAGEDOWN: lambda: controller.camera_orbit(2.0),
-
-            key.EQUAL: lambda: controller.select_next_faces(),
-            key.MINUS: lambda: controller.select_prev_faces(),
-            key._0: lambda: controller.select_all_faces(),
-        }
-        self.keys_ctrl = {
-            key.M: controller.mod_move,
-            key.Q: lambda: controller.mod_extrude(0.25),
-            key.W: lambda: controller.mod_extrude(0.5),
-            key.E: lambda: controller.mod_extrude(1),
-            key.R: lambda: controller.mod_extrude(2),
-            key.T: lambda: controller.mod_extrude(4),
-            key.Y: lambda: controller.mod_extrude(8),
-            key.N: controller.mod_normalize,
-            key.S: controller.mod_subdivide,
-            key.U: lambda: controller.mod_stellate_in(-0.67),
-            key.I: lambda: controller.mod_stellate_in(-0.33),
-            key.O: lambda: controller.mod_stellate_out(0.5),
-            key.P: lambda: controller.mod_stellate_out(1),
-            key.C: controller.mod_color,
-            key.X: controller.mod_spin,
-        }
-
-    def on_key_press(self, symbol, modifiers):
+    def on_key_press(symbol, modifiers):
         if modifiers & key.MOD_CTRL:
-            if symbol in self.keys_ctrl:
-                self.keys_ctrl[symbol]()
+            if symbol in keys_ctrl:
+                keys_ctrl[symbol]()
                 return EVENT_HANDLED
         elif modifiers == 0:
-            if symbol in self.keys:
-                self.keys[symbol]()
+            if symbol in keys:
+                keys[symbol]()
                 return EVENT_HANDLED
+        
+    return on_key_press
 
 
-
-def main():
-    gloopy = Gloopy()
-    gloopy.init()
-    gloopy.world.background_color = Color.Orange
-    gloopy.camera.update=WobblyOrbit(
-        center=Vector.origin,
-        radius=3,
-        axis=Vector(2, -3, 1),
-        angular_velocity=0.8,
-        wobble_size=0.0,
-        wobble_freq=0.01,
+def create_window(options):
+    import pyglet
+    return pyglet.window.Window(
+        fullscreen=options.fullscreen,
+        vsync=options.vsync,
+        resizable=not options.fullscreen,
     )
-    controller = Controller(gloopy.world, gloopy.camera)
-    gloopy.window.push_handlers( KeyHandler(controller) )
-    gloopy.run()
+
+
+def main(args):
+    options = Options(args) # create_parser().parse_args(sys.argv[1:])
+    camera = GameItem(
+        position=Vector(0, 0, 10),
+        look_at=Vector.origin,
+        update = WobblyOrbit(
+            center=Vector.origin,
+            radius=3,
+            axis=Vector(2, -3, 1),
+            angular_velocity=0.8,
+            wobble_size=0.0,
+            wobble_freq=0.01,
+        ),
+    )
+    world = World()
+    world.background_color = Color.Orange
+    world.add(camera)
+    window = create_window(options)
+    window.push_handlers(create_keyhandler(Controller(world, camera)))
+    mainloop(world, window, options, camera)
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv)
 
