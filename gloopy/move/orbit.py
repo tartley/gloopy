@@ -38,7 +38,7 @@ class Orbit(object):
 
 class WobblyOrbit(Orbit):
     '''
-    Like an Orbit, but vary the radius size over time
+    Like an Orbit, but wobbly
     '''
     def __init__(
         self, center, radius, axis=None, angular_velocity=1, phase=0,

@@ -6,6 +6,8 @@ from .util.screenshot import screenshot
 from .view.render import Render
 
 
+time = 0.0
+
 
 def mainloop(world, window, options, camera):
 
@@ -35,7 +37,16 @@ def mainloop(world, window, options, camera):
             self.window.set_fullscreen(not self.window.fullscreen)
 
     def update(dt):
-        world.update_all(min(dt, 1 / 30.0))
+        global time
+
+        dt = min(dt, 1.0 / 30)
+        time += dt
+
+        for item in world:
+            if item.update:
+                item.update(item, time, dt)
+        camera.update(camera, time, dt)
+
         window.invalid = True
 
     pyglet.clock.schedule(update)

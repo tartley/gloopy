@@ -11,9 +11,9 @@ from gloopy.geom.vector import Vector
 from gloopy.geom.orientation import Orientation
 from gloopy.gameitem import GameItem
 from gloopy.mainloop import mainloop
-from gloopy.color import Color
 from gloopy.move import Spinner, WobblySpinner, WobblyOrbit
 from gloopy.move.cycle_frames import CycleFrames
+from gloopy.move.interpolate import Interpolate
 from gloopy.shapes.cube import Cube, TruncatedCube, SpaceStation
 from gloopy.shapes.cube_groups import (
     BitmapCubeCluster, CubeCross, CubeCorners, CubeGlob, RgbCubeCluster,
@@ -60,7 +60,6 @@ class Controller(object):
 
     def __init__(self, world, camera):
         self.world = world
-        self.world.update += self.world_update
         self.camera = camera
         self.camera_radius = 3
         self.selected_item = None
@@ -144,13 +143,9 @@ class Controller(object):
         self._update_highlight_shape()
 
 
-    def camera_orbit(self, factor):
-        self.camera_radius *= factor
-
-    def world_update(self, time, dt):
-        if self.camera.update:
-            self.camera.update.radius += (
-                self.camera_radius - self.camera.update.radius) * dt * 3
+    def set_camera_orbit(self, factor):
+        # urgh, replace ASAP
+        self.camera.update.mover.radius *= factor
 
 
     def mod_move(self, offset=None):
@@ -161,7 +156,7 @@ class Controller(object):
         rate = 1
 
         def mover(item, time, dt):
-            item.position = item.position + (offset- item.position) * rate * dt
+            item.position = item.position + (offset - item.position) * rate * dt
 
         item.update = mover
 
@@ -304,10 +299,10 @@ def create_keyhandler(controller):
 
         key.BACKSPACE: controller.remove_shape,
 
-        key.UP: lambda: controller.camera_orbit(0.5),
-        key.DOWN: lambda: controller.camera_orbit(2.0),
-        key.PAGEUP: lambda: controller.camera_orbit(0.5),
-        key.PAGEDOWN: lambda: controller.camera_orbit(2.0),
+        key.UP: lambda: controller.set_camera_orbit(0.5),
+        key.DOWN: lambda: controller.set_camera_orbit(2.0),
+        key.PAGEUP: lambda: controller.set_camera_orbit(0.5),
+        key.PAGEDOWN: lambda: controller.set_camera_orbit(2.0),
 
         key.EQUAL: lambda: controller.select_next_faces(),
         key.MINUS: lambda: controller.select_prev_faces(),
@@ -353,12 +348,14 @@ def create_window(options):
     )
 
 
+
+
 def main(args):
     options = Options(args) # create_parser().parse_args(sys.argv[1:])
     camera = GameItem(
         position=Vector(0, 0, 10),
         look_at=Vector.origin,
-        update = WobblyOrbit(
+        update = Interpolate(WobblyOrbit(
             center=Vector.origin,
             radius=3,
             axis=Vector(2, -3, 1),
@@ -366,10 +363,8 @@ def main(args):
             wobble_size=0.0,
             wobble_freq=0.01,
         ),
-    )
+    ))
     world = World()
-    world.background_color = Color.Orange
-    world.add(camera)
     window = create_window(options)
     window.push_handlers(create_keyhandler(Controller(world, camera)))
     mainloop(world, window, options, camera)
