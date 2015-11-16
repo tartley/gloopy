@@ -63,8 +63,6 @@ I percieve them are:
   new entries in the .faces collection. However, MultiShapes provide many of
   these attributes by using generators to form a composite stream of their
   children. I guess I ought to make all shape modifiers functional.
-- The supplied 'directional lighting' shader is broken - rotating an object
-  does not modify the apparent illumination of its surfaces.
 - No attempt is made to handle textures. All faces are plain colors.
 - We don't currently handle multiple shaders within a single scene.
 
