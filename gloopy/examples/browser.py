@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
 from __future__ import division
 import sys
 from random import randint, uniform
@@ -21,6 +21,7 @@ from gloopy.shapes.cube_groups import (
 from gloopy.shapes.dodecahedron import Dodecahedron
 from gloopy.shapes.extrude import extrude
 from gloopy.shapes.icosahedron import Icosahedron
+from gloopy.shapes.multishape import MultiShape
 from gloopy.shapes.normalize import normalize
 from gloopy.shapes.octahedron import Octahedron
 from gloopy.shapes.ring import Ring, TriRings
@@ -42,18 +43,6 @@ def _get_selected_faces(shape, category):
         if category is None or face.category == category
     ]
 
-def _get_highlight_shape(selected_item, category):
-    if selected_item is None:
-        return None
-    return Shape(
-        vertices=selected_item.shape.vertices,
-        faces=[
-            selected_item.shape.faces[idx].indices
-            for idx in _get_selected_faces(selected_item.shape, category)
-        ],
-        colors=Color.White,
-    )
-
     
 
 class Controller(object):
@@ -64,6 +53,7 @@ class Controller(object):
         self.camera_radius = 3
         self.selected_item = None
         self.face_category = None
+        self.show_highlight = False
         cycle_highlight = CycleFrames(0.25)
 
         def _update_highlight(highlight, time, dt):
@@ -78,7 +68,6 @@ class Controller(object):
         )
         world.add(self.highlight)
 
-        
     def add_shape(self, shape, **kwargs):
         self.selected_item = GameItem(shape=shape, **kwargs)
         self.face_category = None
@@ -95,8 +84,31 @@ class Controller(object):
         if shape_ids:
             return self.world[max(shape_ids)]
 
+    def toggle_highlight(self):
+        self.show_highlight = not self.show_highlight
+        self._update_highlight_shape()
+
+    def _get_highlight_shape(self, selected_item, category):
+        if not self.show_highlight:
+            return None
+        if selected_item is None:
+            return None
+        color = (
+            Color.Red
+            if isinstance(selected_item.shape, MultiShape) else
+            Color.White
+        )
+        return Shape(
+            vertices=selected_item.shape.vertices,
+            faces=[
+                list(selected_item.shape.faces)[idx].indices
+                for idx in _get_selected_faces(selected_item.shape, category)
+            ],
+            colors=color,
+        )
+
     def _update_highlight_shape(self):
-        shape = _get_highlight_shape(
+        shape = self._get_highlight_shape(
             self.selected_item, self.face_category
         )
         if shape:
@@ -166,7 +178,7 @@ class Controller(object):
         radius = randint(3, 10)
         color1 = Color.Blue.tinted(Color.Grey, abs(height/10))
         color2 = Color.Blue.tinted(Color.White, abs(height/10))
-        self.add_shape(
+        return self.add_shape(
             shape=Ring(
                 CubeCross(4, color1, color2),
                 radius * 6, 
@@ -188,6 +200,10 @@ class Controller(object):
         return self.add_shape(shape)
 
     def mod_shape(self, modifier, *args):
+        if isinstance(self.selected_item.shape, MultiShape):
+            self.show_highlight = True
+            self._update_highlight()
+            return
         faces = _get_selected_faces(
             self.selected_item.shape, self.face_category)
         modifier(self.selected_item.shape, faces, *args)
@@ -304,18 +320,18 @@ def create_keyhandler(controller):
         key.PAGEUP: lambda: controller.set_camera_orbit(0.5),
         key.PAGEDOWN: lambda: controller.set_camera_orbit(2.0),
 
-        key.EQUAL: lambda: controller.select_next_faces(),
-        key.MINUS: lambda: controller.select_prev_faces(),
-        key._0: lambda: controller.select_all_faces(),
+        key.SPACE: controller.toggle_highlight,
+        key.EQUAL: controller.select_next_faces,
+        key.MINUS: controller.select_prev_faces,
+        key._0: controller.select_all_faces,
+        key.DELETE: controller.select_nothing,
     }
     keys_ctrl = {
         key.M: controller.mod_move,
-        key.Q: lambda: controller.mod_extrude(0.25),
-        key.W: lambda: controller.mod_extrude(0.5),
-        key.E: lambda: controller.mod_extrude(1),
-        key.R: lambda: controller.mod_extrude(2),
-        key.T: lambda: controller.mod_extrude(4),
-        key.Y: lambda: controller.mod_extrude(8),
+        key.Q: lambda: controller.mod_extrude(0.5),
+        key.W: lambda: controller.mod_extrude(1),
+        key.E: lambda: controller.mod_extrude(2),
+        key.R: lambda: controller.mod_extrude(4),
         key.N: controller.mod_normalize,
         key.S: controller.mod_subdivide,
         key.U: lambda: controller.mod_stellate_in(-0.67),
@@ -335,7 +351,7 @@ def create_keyhandler(controller):
             if symbol in keys:
                 keys[symbol]()
                 return EVENT_HANDLED
-        
+
     return on_key_press
 
 

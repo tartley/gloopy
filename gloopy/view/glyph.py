@@ -1,5 +1,4 @@
-
-from ctypes import c_void_p
+from ctypes import c_void_p, sizeof
 
 from OpenGL import GL
 from OpenGL.arrays import vbo
@@ -34,6 +33,7 @@ def glarray(gltype, seq):
     Puts the given sequence into a ctypes array of gltypes.
     [ 1, 2, 3, 4, 5, 6 ] -> (GLfloat*6)(1, 2, 3, 4, 5, 6)
     '''
+    # construct and populate [:] is faster than construct with *seq
     carray = (gltype * len(seq))()
     carray[:] = seq
     return carray
@@ -62,12 +62,13 @@ class Glyph(object):
             ]
     '''
     def __init__(self, vertices, indices, shader):
+        FLOATS_PER_VERTEX = 10 # (x, y, z,  r, g, b, a,  nx, ny, nz)
+
         self.vbo = vbo.VBO(
             glarray(GL.GLfloat, vertices),
             usage='GL_STATIC_DRAW'
         )
-        # 10 floats in a vertex (x, y, z,  r, g, b, a,  nx, ny, nz)
-        index_type = get_index_type(len(vertices) / 10)
+        index_type = get_index_type(len(vertices) / FLOATS_PER_VERTEX)
         self.glindices = glarray(index_type, indices)
         self.index_type = type_to_enum[index_type]
         self.shader = shader
@@ -81,7 +82,7 @@ class Glyph(object):
             GL.glEnableVertexAttribArray(self.shader.attrib['color'])
             GL.glEnableVertexAttribArray(self.shader.attrib['normal'])
 
-            STRIDE = 40
+            STRIDE = FLOATS_PER_VERTEX * sizeof(GL.GLfloat)
             GL.glVertexAttribPointer( 
                 self.shader.attrib['position'], len(Vector._fields), GL.GL_FLOAT,
                 False, STRIDE, c_void_p(0)

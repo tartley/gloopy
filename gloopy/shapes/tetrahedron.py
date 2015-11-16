@@ -3,10 +3,12 @@ from __future__ import division
 from math import sqrt
 
 from .shape import Shape
+from .multishape import MultiShape
 from .stellate import stellate
 from .subdivide import subdivide
 from ..color import Color
-
+from ..geom.orientation import Orientation
+from ..geom.vector import Vector
 
 def Tetrahedron(radius, face_colors=None):
     '''
@@ -38,12 +40,9 @@ def DualTetrahedron(radius, color1=None, color2=None):
         color1 = Color.Random()
     if color2 is None:
         color2 = color1.inverted()
-    shape = Tetrahedron(radius, color1)
-    subdivide(shape)
-    center_faces = [
-        i for i, face in enumerate(shape.faces)
-        if face.category == 1
-    ]
-    stellate(shape, center_faces, sqrt(2))
+    shape = MultiShape()
+    shape.add( Tetrahedron(radius, color1) )
+    inverted = Orientation(Vector.x_axis)
+    shape.add( Tetrahedron(radius, color2), orientation=inverted)
     return shape
 

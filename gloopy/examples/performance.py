@@ -1,4 +1,5 @@
-#! /usr/bin/env python
+#!/usr/bin/env python
+
 from __future__ import division
 from math import pi, sqrt
 from random import choice, uniform

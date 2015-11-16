@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # find gloopy in '../..', so we can run even if Gloopy is not installed
 import fixpath
 

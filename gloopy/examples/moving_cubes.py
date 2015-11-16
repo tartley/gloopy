@@ -1,10 +1,11 @@
+#!/usr/bin/env python
 
 from math import cos
 
 # find gloopy in '../..', so we can run even if Gloopy is not installed
 import fixpath
 
-from gloopy import Gloopy
+from gloopy.mainloop import mainloop
 from gloopy.color import Color
 from gloopy.geom.vector import Vector
 from gloopy.gameitem import GameItem
@@ -26,5 +27,5 @@ gloopy.world.add(item)
 
 gloopy.camera.position = Vector(1, 2, 3)
 
-gloopy.run()
+mainloop(world, window, options, camera)
 
