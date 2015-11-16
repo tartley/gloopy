@@ -23,9 +23,8 @@ Gloopy provides the following services:
 Written mostly on Windows, tested occasionally on Ubuntu.
 
 - Python 2.7
-- distribute 0.6.14
-- pyglet 1.1.4
-- PyOpenGL 3.0.1
+
+Also Python packages specified in requirements.txt
 
 
 # Documentation
