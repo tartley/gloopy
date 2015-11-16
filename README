@@ -5,22 +5,20 @@ OpenGL bindings.
 
 Gloopy provides the following services:
 
-- Creation and manipulation of 3D, flat-surfaced, polyhedra, using the
-  Shape class.
+- Creation and manipulation of 3D, flat-surfaced, polyhedra, using the Shape
+  class.
 - Factory functions to produce particular shapes, such as Cube or Icosahedron.
 - Some basic algorithms to modify existing shapes, such as by subdividing or
   extruding their surfaces.
-- Conversion of shapes into Glyph instances, which
-  manage vertex arrays stored in a VBO.
-- A simple Render class which renders glyphs
-  with given positions and orientations.
-- A camera attribute on the single Gloopy instance,
-  that can be positioned, oriented, or told to look at a particular item or
-  position.
+- Conversion of shapes into Glyph instances, which manage vertex arrays stored
+  in a VBO.
+- A simple Render class which renders glyphs with given positions and
+  orientations.
+- A camera attribute on the single Gloopy instance, that can be positioned,
+  oriented, or told to look at a particular item or position.
 
 
-Dependencies
-------------
+# Dependencies
 
 Written mostly on Windows, tested occasionally on Ubuntu.
 
@@ -30,8 +28,7 @@ Written mostly on Windows, tested occasionally on Ubuntu.
 - PyOpenGL 3.0.1
 
 
-Documentation
--------------
+# Documentation
 
 In the Gloopy source, see 'docs/html/index.html'
 
@@ -42,14 +39,12 @@ See also the scripts in the 'gloopy/examples' directory.
 Documentation is not currently available online.
 
 
-License
--------
+# License
 
 Gloopy is released under the terms specified in LICENSE.txt.
 
 
-Status & Known Issues
----------------------
+# Status & Known Issues
 
 It works for me, but has not been used on any real projects. The API is
 a mess and may change substantially in later releases.
@@ -67,8 +62,7 @@ I percieve them are:
 - We don't currently handle multiple shaders within a single scene.
 
 
-Thanks
-------
+# Thanks
 
 `PyWeek <http://pyweek.org>`_ participants 'Scav' and 'Threads' for showing me
 how it should be done, and PyWeek message board users donal.h, Cosmologicon,
