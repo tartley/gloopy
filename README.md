@@ -1,7 +1,8 @@
 
-Gloopy is a Python library for creating 3D polyhedra and rendering them using
-OpenGL. It uses Pyglet to open a window and manage events, and PyOpenGL for
-OpenGL bindings.
+Gloopy is an experimental Python library for creating 3D polyhedra and
+rendering them using OpenGL.
+
+It uses Pyglet for windowing and events, and PyOpenGL for OpenGL bindings.
 
 Gloopy provides the following services:
 
@@ -20,11 +21,12 @@ Gloopy provides the following services:
 
 # Dependencies
 
-Written mostly on Windows, tested occasionally on Ubuntu.
+Originally written on Windows, run occasionally on OSX, andc all recent
+development on Ubuntu.
 
 - Python 2.7
 
-Also Python packages specified in requirements.txt
+Also Python packages specified in setup.py.
 
 
 # Documentation
@@ -40,13 +42,13 @@ Documentation is not currently available online.
 
 # License
 
-Gloopy is released under the terms specified in LICENSE.txt.
+Gloopy is released under the terms of the New BSD, as specified in LICENSE.txt.
 
 
 # Status & Known Issues
 
 It works for me, but has not been used on any real projects. The API is
-a mess and may change substantially in later releases.
+a mess, as is much of the code, and may change substantially in later releases.
 
 No issue tracker is currently maintained, but the major shortfalls as
 I percieve them are:
@@ -68,5 +70,4 @@ how it should be done, and PyWeek message board users donal.h, Cosmologicon,
 RB[0], PyTM30, Tee and saluk for cajoling me into accepting the merit of
 allowing people to bring pre-existing codebases into PyWeek so long as they
 are public.
-
 
