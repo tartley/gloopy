@@ -149,7 +149,7 @@ class Controller(object):
     def select_prev_faces(self):
         if self.selected_item:
             if self.face_category is None:
-                self.face_category = self.selected_item.shape.next_cateogry() - 1
+                self.face_category = self.selected_item.shape.next_category() - 1
             elif self.face_category >= 0:
                 self.face_category -= 1
         self._update_highlight_shape()
