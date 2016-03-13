@@ -1,0 +1,8 @@
+*.py[cod]
+.DS_Store
+tags
+/docs/api/
+/docs/html/
+/distribute-*
+/gloopy.egg-info/
+
