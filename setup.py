@@ -2,6 +2,7 @@ from glob import glob
 import os
 from os.path import join
 from pprint import pprint
+from setuptools import find_packages, setup
 import sys
 
 
@@ -43,8 +44,7 @@ def get_data_files(dest, source):
 
 
 def get_sdist_config():
-    from setuptools import find_packages
-    description, long_description = read_description('README.txt')
+    description, long_description = read_description('README.rst')
     return dict(
         name=NAME,
         version=RELEASE,
@@ -76,11 +76,6 @@ def get_sdist_config():
 def main():
     # these imports inside main() so that other scripts can import this file
     # cheaply, to get at its module-level constants like NAME
-    
-    # use_setuptools must be called before importing from setuptools
-    from distribute_setup import use_setuptools
-    use_setuptools()
-    from setuptools import setup
 
     config = get_sdist_config()
 
