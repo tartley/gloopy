@@ -63,7 +63,7 @@ class GameItem(object):
         return '<GameItem %s>' % (
             ' '.join(
                 '%s=%s' % (name, value)
-                for name, value in self.__dict__.iteritems()
+                for name, value in self.__dict__.items()
                 if not name.startswith('_')
             )
         )

@@ -163,7 +163,7 @@ Color.DarkGrey     = Color(0.251, 0.251, 0.251)
 
 Color.All = {
     name: value
-    for name, value in Color.__dict__.iteritems()
+    for name, value in Color.__dict__.items()
     if isinstance(value, Color)
 }
 

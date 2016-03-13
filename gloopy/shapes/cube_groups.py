@@ -119,7 +119,7 @@ def CubeCluster(locations, edge=1):
     visible due to abutting a neighbour.
     '''
     multi = MultiShape()
-    for location, color in locations.iteritems():
+    for location, color in locations.items():
         multi.add(
             Cube(edge=edge, colors=color),
             position=Vector(*location),
