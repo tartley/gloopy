@@ -37,7 +37,7 @@ def _tessellate(indices):
 
     e.g. [0, 1, 2, 3, 4] -> [0, 1, 2,  0, 2, 3,  0, 3, 4]
     '''
-    for index in xrange(1, len(indices) - 1):
+    for index in range(1, len(indices) - 1):
         yield indices[0]
         yield indices[index]
         yield indices[index + 1]

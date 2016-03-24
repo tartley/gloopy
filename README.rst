@@ -26,7 +26,8 @@ development on Ubuntu.
 
 - Python 2.7
 
-Also Python packages specified in setup.py.
+Also Python packages as specified in setup.py.
+(requirements.txt exists, it just references setup.py)
 
 
 # Documentation

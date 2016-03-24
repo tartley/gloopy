@@ -17,7 +17,7 @@ def stellate_face(shape, face_index, height):
 
     # create new faces and their colors
     new_faces = []
-    for i in xrange(len(face)):
+    for i in range(len(face)):
         indices = [face[i], face[i+1], ic]
         new_faces.append( Face(indices, face.color, shape, face.category) )
 
@@ -39,7 +39,7 @@ def stellate(shape, faces=None, height=0):
     specifying 'faces' as an iterable of integer face indices.
     '''
     if faces is None:
-        faces = xrange(len(shape.faces))
+        faces = range(len(shape.faces))
     for face in faces:
         stellate_face(shape, face, height)
 

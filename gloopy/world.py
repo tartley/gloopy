@@ -27,7 +27,8 @@ class World(object):
         self.background_color = Color.Orange
 
     def __iter__(self):
-        return self.items.itervalues()
+        for item in self.items.values():
+            yield item
 
     def __getitem__(self, itemid):
         return self.items[itemid]

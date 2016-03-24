@@ -143,7 +143,7 @@ class Shape(object):
         '''
         edges = set()
         for face in self.faces:
-            for i in xrange(len(face)):
+            for i in range(len(face)):
                 edges.add( tuple(sorted((face[i], face[i+1]))) )
         return edges
 

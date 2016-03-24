@@ -64,7 +64,7 @@ def CubeGlob(size, radius, number, colors):
     '''
     glob = MultiShape()
     cube = Cube(size, colors)
-    for _ in xrange(number):
+    for _ in range(number):
         glob.add(
             cube,
             position=Vector.RandomShell(radius),
@@ -91,7 +91,7 @@ def RgbCubeCluster(edge, cube_count, scale=1, hole=0):
     locations = {}
     
     SIZE = 256
-    for _ in xrange(cube_count):
+    for _ in range(cube_count):
         while True:
             r = randint(0, SIZE - 1) - SIZE / 2
             g = randint(0, SIZE - 1) - SIZE / 2
@@ -134,8 +134,8 @@ def BitmapAsDict(filename, edge=1):
     pitch = rawdata.width * len(channels)
     pixels = rawdata.get_data(rawdata.format, rawdata.pitch)
     locations = {}
-    for x in xrange(img.width):
-        for y in xrange(img.height):
+    for x in range(img.width):
+        for y in range(img.height):
             index = x * len(channels) + y * pitch
             r, g, b, a = map(
                 lambda x: x / 255.0 * Color.CHANNEL_MAX,

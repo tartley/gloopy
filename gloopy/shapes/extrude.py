@@ -22,7 +22,7 @@ def extrude_face(shape, face_index, offset, new_category):
 
     # new faces for edges of extrusion
     new_faces = []
-    for i in xrange(len(face)):
+    for i in range(len(face)):
         next_i = (i + 1) % len(face)
         indices = [face[i], face[next_i], new_indices[next_i], new_indices[i]]
         new_faces.append(
@@ -46,7 +46,7 @@ def extrude(shape, faces=None, offset=0):
     Doesn't work on Multishapes. This should get fixed in a future release.
     """
     if faces is None:
-        faces = xrange(len(shape.faces))
+        faces = range(len(shape.faces))
     new_category = shape.next_category()
     for face in faces:
         extrude_face(shape, face, offset, new_category)

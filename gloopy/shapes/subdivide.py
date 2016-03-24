@@ -34,18 +34,18 @@ def subdivide_face(shape, face_index, edges, color2, new_category):
 
     # verts at the midpoint of each edge
     midpoints = []
-    for i in xrange(len(face)):
+    for i in range(len(face)):
         midpoints.append( get_index_of_midpoint(face[i], face[i+1]) )
 
     # new faces at each corner of 'face'
     new_faces = []
-    for i in xrange(len(face)):
+    for i in range(len(face)):
         prev_i = (i - 1) % len(face)
         indices = [face[i], midpoints[i], midpoints[prev_i]]
         new_faces.append( Face(indices, face.color, shape, new_category) )
 
     # a new face in the center of 'face'
-    indices = [midpoints[i] for i in xrange(len(face))]
+    indices = [midpoints[i] for i in range(len(face))]
     new_faces.append(
         Face(indices, color2, shape, face.category)
     )
@@ -70,7 +70,7 @@ def subdivide(shape, faces=None, color=None):
     specifying 'faces' as an iterable of integer face indices.
     '''
     if faces is None:
-        faces = xrange(len(shape.faces))
+        faces = range(len(shape.faces))
     if color is None:
         color = Color.Random()
 
