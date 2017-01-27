@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 from __future__ import division
+import logging
 import sys
 from random import randint, uniform
 
+import pyglet
 from pyglet.event import EVENT_HANDLED
 from pyglet.window import key
 
@@ -34,6 +36,9 @@ from gloopy.util.options import Options
 from gloopy.world import World
 
 
+log = logging.getLogger(__name__)
+
+
 def _get_selected_faces(shape, category):
     if shape is None:
         return None
@@ -43,7 +48,6 @@ def _get_selected_faces(shape, category):
         if category is None or face.category == category
     ]
 
-    
 
 class Controller(object):
 
@@ -202,7 +206,7 @@ class Controller(object):
     def mod_shape(self, modifier, *args):
         if isinstance(self.selected_item.shape, MultiShape):
             self.show_highlight = True
-            self._update_highlight()
+            self._update_highlight_shape()
             return
         faces = _get_selected_faces(
             self.selected_item.shape, self.face_category)
@@ -356,14 +360,16 @@ def create_keyhandler(controller):
 
 
 def create_window(options):
-    import pyglet
+    display = pyglet.window.get_platform().get_default_display()
+    screens = display.get_screens()
+    for index, screen in enumerate(screens):
+        log.info('Screen {0}: {1.width}x{1.height}'.format(index, screen))
     return pyglet.window.Window(
         fullscreen=options.fullscreen,
         vsync=options.vsync,
         resizable=not options.fullscreen,
+        screen=screens[-1],
     )
-
-
 
 
 def main(args):

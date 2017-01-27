@@ -50,6 +50,5 @@ def mainloop(world, window, options, camera):
         window.invalid = True
 
     pyglet.clock.schedule(update)
-
     pyglet.app.run()
 
