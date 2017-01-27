@@ -21,10 +21,10 @@ Gloopy provides the following services:
 
 # Dependencies
 
-Originally written on Windows, run occasionally on OSX, andc all recent
+- Originally written on Windows, run occasionally on OSX, andc all recent
 development on Ubuntu.
 
-- Python 2.7
+- Python 3.4
 
 Also Python packages as specified in setup.py.
 (requirements.txt exists, it just references setup.py)
