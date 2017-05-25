@@ -1,4 +1,8 @@
 -e .
-PyOpenGL==3.0.2
+# Numeric==24.2
+numpy==1.13.0rc2
+PyOpenGL==3.1.0
+PyOpenGL_accelerate==3.1.0
 # pyobjc==2.2 # OSX only, required by pyglet
 pyglet==1.2.4
+
