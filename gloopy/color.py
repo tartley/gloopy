@@ -30,7 +30,7 @@ class Color(namedtuple('__BaseColor', 'r g b a')):
 
         from gloopy.color import Color
         print Color.RoyalPurple
-    
+
     The names and values are taken from the top 69 results of the xkcd color
     survey:
 

@@ -347,14 +347,10 @@ def create_keyhandler(controller):
     }
 
     def on_key_press(symbol, modifiers):
-        if modifiers & key.MOD_CTRL:
-            if symbol in keys_ctrl:
-                keys_ctrl[symbol]()
-                return EVENT_HANDLED
-        elif modifiers == 0:
-            if symbol in keys:
-                keys[symbol]()
-                return EVENT_HANDLED
+        lookup = keys_ctrl if modifiers & key.MOD_CTRL else keys
+        if symbol in lookup:
+            lookup[symbol]()
+            return EVENT_HANDLED
 
     return on_key_press
 
