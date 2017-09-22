@@ -371,6 +371,16 @@ def create_window(options):
         screen=screens[0],
     )
 
+def get_global_keyhandler(window):
+
+    def on_key_press(symbol, modifiers):
+        window.screen = window.screen
+        print(f'{symbol}, {modifiers}')
+        if modifiers & key.MOD_ALT and symbol == key.ENTER:
+            window.set_fullscreen(not window.fullscreen)
+            return EVENT_HANDLED
+
+    return on_key_press
 
 def main(args):
     options = Options(args)
@@ -388,6 +398,7 @@ def main(args):
     ))
     world = World()
     window = create_window(options)
+    window.push_handlers(get_global_keyhandler(window))
     window.push_handlers(create_keyhandler(Controller(world, camera)))
     mainloop(world, window, options, camera)
 
