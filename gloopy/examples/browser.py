@@ -374,8 +374,6 @@ def create_window(options):
 def get_global_keyhandler(window):
 
     def on_key_press(symbol, modifiers):
-        window.screen = window.screen
-        print(f'{symbol}, {modifiers}')
         if modifiers & key.MOD_ALT and symbol == key.ENTER:
             window.set_fullscreen(not window.fullscreen)
             return EVENT_HANDLED
