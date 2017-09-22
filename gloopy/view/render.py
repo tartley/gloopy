@@ -53,10 +53,8 @@ class Render(object):
         Set all initial OpenGL state, such as enabling DEPTH_TEST.
         '''
         gl.glEnable(gl.GL_DEPTH_TEST)
-        gl.glEnable(gl.GL_POLYGON_SMOOTH)
         gl.glEnable(gl.GL_BLEND)
         gl.glBlendFunc(gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA)
-        gl.glHint(gl.GL_POLYGON_SMOOTH_HINT, gl.GL_NICEST)
 
         self.backface_culling = True
 
