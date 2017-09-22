@@ -6,10 +6,10 @@ class Options(object):
     args. One day they might also take config files into account, to allow
     persistance of option changes by the user.
 
-    `nosync`: Boolean, Don't synchronise screen refreshes to monitor.
+    `vsync`: Boolean, Synchronise screen refreshes to monitor.
     By default, framerate is limited to your monitor refresh rate
     (e.g. 60fps), which is likely what you want unless you are performance
-    testing. Specifying this flag will increase framerate, but not visibly
+    testing. Disabling this flag will increase framerate, but not visibly
     (since your monitor cannot display the extra frames) and will introduce
     'tearing'. Some video drivers have settings which override this value.
 

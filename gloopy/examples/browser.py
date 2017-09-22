@@ -363,17 +363,17 @@ def create_window(options):
     display = pyglet.window.get_platform().get_default_display()
     screens = display.get_screens()
     for index, screen in enumerate(screens):
-        log.info('Screen {0}: {1.width}x{1.height}'.format(index, screen))
+        log.info(f'Screen {index}: {screen.width}x{screen.height}')
     return pyglet.window.Window(
         fullscreen=options.fullscreen,
         vsync=options.vsync,
         resizable=not options.fullscreen,
-        screen=screens[-1],
+        screen=screens[0],
     )
 
 
 def main(args):
-    options = Options(args) # create_parser().parse_args(sys.argv[1:])
+    options = Options(args)
     camera = GameItem(
         position=Vector(0, 0, 10),
         look_at=Vector.origin,
