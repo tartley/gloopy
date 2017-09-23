@@ -359,17 +359,25 @@ def create_window(options):
     display = pyglet.window.get_platform().get_default_display()
     screens = display.get_screens()
     for index, screen in enumerate(screens):
-        log.info('Screen {0}: {1.width}x{1.height}'.format(index, screen))
+        log.info(f'Screen {index}: {screen.width}x{screen.height}')
     return pyglet.window.Window(
         fullscreen=options.fullscreen,
         vsync=options.vsync,
         resizable=not options.fullscreen,
-        screen=screens[-1],
+        screen=screens[0],
     )
 
+def get_global_keyhandler(window):
+
+    def on_key_press(symbol, modifiers):
+        if modifiers & key.MOD_ALT and symbol == key.ENTER:
+            window.set_fullscreen(not window.fullscreen)
+            return EVENT_HANDLED
+
+    return on_key_press
 
 def main(args):
-    options = Options(args) # create_parser().parse_args(sys.argv[1:])
+    options = Options(args)
     camera = GameItem(
         position=Vector(0, 0, 10),
         look_at=Vector.origin,
@@ -384,6 +392,7 @@ def main(args):
     ))
     world = World()
     window = create_window(options)
+    window.push_handlers(get_global_keyhandler(window))
     window.push_handlers(create_keyhandler(Controller(world, camera)))
     mainloop(world, window, options, camera)
 
