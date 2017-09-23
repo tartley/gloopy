@@ -1,8 +1,10 @@
 *.py[cod]
 .DS_Store
 tags
+/build/
+/dist/
+/distribute-*
 /docs/api/
 /docs/html/
-/distribute-*
 /gloopy.egg-info/
 

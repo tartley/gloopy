@@ -1,0 +1,12 @@
+[[source]]
+name = "pypi"
+verify_ssl = true
+url = "https://pypi.python.org/simple"
+
+[packages]
+pyopengl = "*"
+"pyopengl-accelerate" = "*"
+pyglet = "*"
+
+[dev-packages]
+

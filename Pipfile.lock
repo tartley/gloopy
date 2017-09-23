@@ -1,0 +1,64 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "eec73208157943f053f728bf89a72f85ff01713a19fcc932b747ded27fd87895"
+        },
+        "host-environment-markers": {
+            "implementation_name": "cpython",
+            "implementation_version": "3.6.1",
+            "os_name": "posix",
+            "platform_machine": "x86_64",
+            "platform_python_implementation": "CPython",
+            "platform_release": "4.10.0-33-generic",
+            "platform_system": "Linux",
+            "platform_version": "#37-Ubuntu SMP Fri Aug 11 10:55:28 UTC 2017",
+            "python_full_version": "3.6.1",
+            "python_version": "3.6",
+            "sys_platform": "linux"
+        },
+        "pipfile-spec": 6,
+        "requires": {},
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "pyglet": {
+            "hashes": [
+                "sha256:920e44ad5c42a70697f6ff7ca1285e510b2265034fe49492faf6911d5e24b167",
+                "sha256:f82878bcdec67b77805c27c2325860a8c143edac3e11c82161fdf3426c1fafe3",
+                "sha256:9f62ffbbcf2b202d084bf158685e77d28b8f4f5f2738f4c5e63a947a07503445",
+                "sha256:269834aaf911b4f8825657d12ae1a8bff27d9dccb3e54a8a144efcec7879a6e4"
+            ],
+            "version": "==1.2.4"
+        },
+        "pyopengl": {
+            "hashes": [
+                "sha256:9b47c5c3a094fa518ca88aeed35ae75834d53e4285512c61879f67a48c94ddaf",
+                "sha256:5b3a14a4e4c87cf25ca41bc5878583df0e434624b13fcc55d1a672f79ad1b76f",
+                "sha256:efa4e39a49b906ccbe66758812ca81ced13a6f26931ab2ba2dba2750c016c0d0"
+            ],
+            "version": "==3.1.0"
+        },
+        "pyopengl-accelerate": {
+            "hashes": [
+                "sha256:927f4670b893d46e2f6273ae938bf0a1db27ffae3336eba94813ccef6260c410",
+                "sha256:f5c7f2996b34d04ffb1dbfe7aac1ede314efa5e00e20fb7455184caaba0e8959",
+                "sha256:e747e45c30121d275a5029c20b373376edd9be2108c5446611c6e7ae9f1d1536",
+                "sha256:2d24cce7e001eb86a42ee18798a09c51b86fc760301670339e08b8e8960f8a41",
+                "sha256:0922c043a58f2d124614ee784b50da23b10a0f132fe934ac265b1f1d28afe96b",
+                "sha256:303b6ba31b4b61c51f2af5888b85b01de1f43eaad2f6a618481077280732ce88",
+                "sha256:8ab54b57e0a02092a71107ce375000fc20922feff0831f09c38126e04fadf2f2",
+                "sha256:939d1656e7435a8c08ab03bd5268e3c5debb1ea26d662619cd1f590f542f66e6",
+                "sha256:eba0bea62868e6cdbc9ff8a32bba349405b99fa823618624812c387c77a0ddd4",
+                "sha256:b0d3b45bca138be911e8e3bf9969078af5f7a217eaa25ad36d1c8bf622740275"
+            ],
+            "version": "==3.1.0"
+        }
+    },
+    "develop": {}
+}
