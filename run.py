@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from __future__ import division
 import logging
+import math
 import sys
 from random import randint, uniform
 
@@ -193,14 +194,14 @@ class Controller(object):
             update=Spinner(Vector.y_axis, speed=uniform(-1, 1)),
         )
 
-    def add_koche_tetra(self):
+    def add_fractal_tetra(self):
         color1 = Color.Random()
         color2 = Color.Random()
         shape = Tetrahedron(1, color1)
         for i in range(6):
-            faces = _get_selected_faces(shape, i + 1)
+            faces = _get_selected_faces(shape, 0)
             subdivide(shape, color=color1.tinted(color2, i/5))
-            stellate(shape, faces=faces, height=1.2)
+            stellate(shape, faces=faces, height=math.sqrt(2))
         return self.add_shape(shape)
 
     def mod_shape(self, modifier, *args):
@@ -315,7 +316,7 @@ def create_keyhandler(controller):
             position=Vector.RandomShell(350),
             update=CycleFrames(1),
         ),
-        key.B: controller.add_koche_tetra,
+        key.B: controller.add_fractal_tetra,
 
         key.BACKSPACE: controller.remove_shape,
 

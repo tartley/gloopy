@@ -8,7 +8,7 @@ def stellate_face(shape, face_index, height):
     Modify `shape` in-place. Stellate the single face at position 'face_index'.
     '''
     face = shape.faces[face_index]
-    
+
     # new vertex at the face centroid offset out of the plane of the face
     vc = face.centroid
     vc += face.normal * (vc - shape.vertices[face[0]]).length * height
