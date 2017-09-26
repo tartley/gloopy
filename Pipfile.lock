@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "eec73208157943f053f728bf89a72f85ff01713a19fcc932b747ded27fd87895"
+            "sha256": "8ddaef58146cd97a1655a0c53512058c4f42604c44c87a34ff21a6f812b98b61"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -27,6 +27,10 @@
         ]
     },
     "default": {
+        "0269f63": {
+            "editable": true,
+            "path": "."
+        },
         "pyglet": {
             "hashes": [
                 "sha256:920e44ad5c42a70697f6ff7ca1285e510b2265034fe49492faf6911d5e24b167",

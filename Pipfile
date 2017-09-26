@@ -1,12 +1,12 @@
 [[source]]
-name = "pypi"
-verify_ssl = true
 url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
 
 [packages]
+"0269f63" = {path = ".", editable = true}
 pyopengl = "*"
 "pyopengl-accelerate" = "*"
 pyglet = "*"
 
 [dev-packages]
-
