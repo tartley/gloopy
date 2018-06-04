@@ -3,6 +3,9 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
+[requires]
+python_version = "3.6"
+
 [packages]
 "0269f63" = {path = ".", editable = true}
 pyopengl = "==3.1.0"
