@@ -5,8 +5,8 @@ name = "pypi"
 
 [packages]
 "0269f63" = {path = ".", editable = true}
-pyopengl = "*"
-"pyopengl-accelerate" = "*"
-pyglet = "*"
+pyopengl = "==3.1.0"
+"pyopengl-accelerate" = "==3.1.0"
+pyglet = "==1.2.4"
 
 [dev-packages]
