@@ -1,5 +1,5 @@
 
-from ..geom.orientation import Orientation
+from gloopy.geom.orientation import Orientation
 
 
 class Newtonian(object):

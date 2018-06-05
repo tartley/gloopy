@@ -18,18 +18,18 @@ class TestOrientation(TestCase):
 
     def testConstructionConvertsBareTuples(self):
         o = Orientation(Vector.x_axis, Vector.z_axis)
-        self.assertEquals(o.forward, Vector.x_axis)
+        self.assertEqual(o.forward, Vector.x_axis)
         self.assertTrue(isinstance(o.forward, Vector))
-        self.assertEquals(o.up, Vector.z_axis)
+        self.assertEqual(o.up, Vector.z_axis)
         self.assertTrue(isinstance(o.up, Vector))
-        self.assertEquals(o.right, Vector.neg_y_axis)
+        self.assertEqual(o.right, Vector.neg_y_axis)
         self.assertTrue(isinstance(o.right, Vector))
 
     def testConstructionNormalises(self):
         o = Orientation((1, 2, 3))
-        self.assertAlmostEquals(o.forward.length, 1, places=15)
-        self.assertAlmostEquals(o.up.length, 1, places=15)
-        self.assertAlmostEquals(o.right.length, 1, places=15)
+        self.assertAlmostEqual(o.forward.length, 1, places=15)
+        self.assertAlmostEqual(o.up.length, 1, places=15)
+        self.assertAlmostEqual(o.right.length, 1, places=15)
 
     def testConstructionBarfsOnNonOrthogonalVectors(self):
 
@@ -86,7 +86,7 @@ class TestOrientation(TestCase):
 
     def testMatrix(self):
         o = Orientation((1, 2, 3))
-        self.assertEquals(type(o.matrix), (GL.GLfloat * 16))
+        self.assertEqual(type(o.matrix), (GL.GLfloat * 16))
         expected = [
             o.right.x,    o.right.y,    o.right.z,   0,
             o.up.x,       o.up.y,       o.up.z,      0,

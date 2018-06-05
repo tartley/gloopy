@@ -7,9 +7,9 @@
 
 
 NAME := gloopy
-SCRIPT := gloopy/examples/browser.py
-VERSION := $(shell python -c "from ${NAME} import VERSION; print VERSION")
-RELEASE := $(shell python -c "from ${NAME} import RELEASE; print RELEASE")
+SCRIPT := run.py
+VERSION := $(shell python -c "from ${NAME} import VERSION; print(VERSION)")
+RELEASE := $(shell python -c "from ${NAME} import RELEASE; print(RELEASE)")
 
 
 help:

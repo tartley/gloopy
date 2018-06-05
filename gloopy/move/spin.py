@@ -1,7 +1,7 @@
 
 from math import cos, sin
 
-from ..geom.orientation import Orientation
+from gloopy.geom.orientation import Orientation
 
 
 class Spinner(object):

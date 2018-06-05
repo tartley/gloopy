@@ -9,9 +9,9 @@ class testVector(TestCase):
 
     def testConstructor(self):
         v = Vector(1, 2, 3)
-        self.assertEquals(v.x, 1)
-        self.assertEquals(v.y, 2)
-        self.assertEquals(v.z, 3)
+        self.assertEqual(v.x, 1)
+        self.assertEqual(v.y, 2)
+        self.assertEqual(v.z, 3)
         self.assertRaises(TypeError, lambda: Vector())
         self.assertRaises(TypeError, lambda: Vector(1))
         self.assertRaises(TypeError, lambda: Vector(1, 2))
@@ -53,9 +53,9 @@ class testVector(TestCase):
         self.assertTrue(Vector(1, 2, 3) != 1.23)
 
     def testHash(self):
-        self.assertNotEquals(hash(Vector(1, 2, 3)), hash(Vector(99, 2, 3)))
-        self.assertNotEquals(hash(Vector(1, 2, 3)), hash(Vector(1, 99, 3)))
-        self.assertNotEquals(hash(Vector(1, 2, 3)), hash(Vector(1, 2, 99)))
+        self.assertNotEqual(hash(Vector(1, 2, 3)), hash(Vector(99, 2, 3)))
+        self.assertNotEqual(hash(Vector(1, 2, 3)), hash(Vector(1, 99, 3)))
+        self.assertNotEqual(hash(Vector(1, 2, 3)), hash(Vector(1, 2, 99)))
 
     def testAlmostEqual(self):
         error = EPSILON * 0.9

@@ -14,26 +14,26 @@ class TestMatrix(TestCase):
 
         matrix = Matrix(position, orientation)
 
-        self.assertEquals(matrix.elements[0], orientation.right.x)
-        self.assertEquals(matrix.elements[1], orientation.right.y)
-        self.assertEquals(matrix.elements[2], orientation.right.z)
+        self.assertEqual(matrix.elements[0], orientation.right.x)
+        self.assertEqual(matrix.elements[1], orientation.right.y)
+        self.assertEqual(matrix.elements[2], orientation.right.z)
 
-        self.assertEquals(matrix.elements[4], orientation.up.x)
-        self.assertEquals(matrix.elements[5], orientation.up.y)
-        self.assertEquals(matrix.elements[6], orientation.up.z)
+        self.assertEqual(matrix.elements[4], orientation.up.x)
+        self.assertEqual(matrix.elements[5], orientation.up.y)
+        self.assertEqual(matrix.elements[6], orientation.up.z)
 
-        self.assertEquals(matrix.elements[8], -orientation.forward.x)
-        self.assertEquals(matrix.elements[9], -orientation.forward.y)
-        self.assertEquals(matrix.elements[10], -orientation.forward.z)
+        self.assertEqual(matrix.elements[8], -orientation.forward.x)
+        self.assertEqual(matrix.elements[9], -orientation.forward.y)
+        self.assertEqual(matrix.elements[10], -orientation.forward.z)
 
-        self.assertEquals(matrix.elements[3], position.x)
-        self.assertEquals(matrix.elements[7], position.y)
-        self.assertEquals(matrix.elements[11], position.z)
+        self.assertEqual(matrix.elements[3], position.x)
+        self.assertEqual(matrix.elements[7], position.y)
+        self.assertEqual(matrix.elements[11], position.z)
 
-        self.assertEquals(matrix.elements[12], 0)
-        self.assertEquals(matrix.elements[13], 0)
-        self.assertEquals(matrix.elements[14], 0)
-        self.assertEquals(matrix.elements[15], 1)
+        self.assertEqual(matrix.elements[12], 0)
+        self.assertEqual(matrix.elements[13], 0)
+        self.assertEqual(matrix.elements[14], 0)
+        self.assertEqual(matrix.elements[15], 1)
 
 
     def testMulVertex(self):
