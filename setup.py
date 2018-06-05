@@ -7,9 +7,9 @@ import sys
 
 
 NAME = 'gloopy'
+# TODO: we should not import gloopy, but should read the file manually instead
 module = __import__(NAME)
 VERSION= module.VERSION
-RELEASE = module.RELEASE
 SCRIPT = None
 CONSOLE = False
 
@@ -47,7 +47,7 @@ def get_sdist_config():
     description, long_description = read_description('README.md')
     return dict(
         name=NAME,
-        version=RELEASE,
+        version=VERSION,
         description=description,
         long_description=long_description,
         url='http://bitbucket.org/tartley/gloopy',

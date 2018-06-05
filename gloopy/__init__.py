@@ -4,7 +4,8 @@ Gloopy's top level package.
 import logging
 import sys
 
-from .version import RELEASE, VERSION
+NAME = 'gloopy'
+VERSION = '0.1.5'
 
 logging.basicConfig(stream=sys.stderr, level=logging.INFO)
 

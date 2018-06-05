@@ -9,7 +9,6 @@
 NAME := gloopy
 SCRIPT := run.py
 VERSION := $(shell python -c "from ${NAME} import VERSION; print(VERSION)")
-RELEASE := $(shell python -c "from ${NAME} import RELEASE; print(RELEASE)")
 
 
 help:
@@ -47,25 +46,25 @@ docs:
 
 
 sdist: docs
-	rm -rf dist/${NAME}-${RELEASE}.* build
+	rm -rf dist/${NAME}-${VERSION}.* build
 	python setup.py sdist
 .PHONY: sdist
 
 
 register: docs
-	rm -rf dist/${NAME}-${RELEASE}.* build
+	rm -rf dist/${NAME}-${VERSION}.* build
 	python setup.py --quiet sdist register
 .PHONY: register
 
 
 upload: docs
-	rm -rf dist/${NAME}-${RELEASE}.* build
+	rm -rf dist/${NAME}-${VERSION}.* build
 	python setup.py --quiet sdist register upload
 .PHONY: upload
 
 
 py2exe:
-	rm -rf dist/${NAME}-${RELEASE}-windows build
+	rm -rf dist/${NAME}-${VERSION}-windows build
 	python setup.py --quiet py2exe
 .PHONY: py2exe
 
