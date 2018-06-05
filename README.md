@@ -30,6 +30,7 @@ install`, but:
 
 - Then you can install Python dependencies, as specified in 'Pipfile':
 
+      pip install --user pipenv
       pipenv install
 
 # Running

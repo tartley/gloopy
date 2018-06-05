@@ -44,7 +44,7 @@ def get_data_files(dest, source):
 
 
 def get_sdist_config():
-    description, long_description = read_description('README.rst')
+    description, long_description = read_description('README.md')
     return dict(
         name=NAME,
         version=RELEASE,
