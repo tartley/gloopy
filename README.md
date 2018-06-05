@@ -1,8 +1,125 @@
 
-Gloopy is an experimental Python library for creating 3D polyhedra and
+Gloopy is an experimental Python demo of creating 3D polyhedra and
 rendering them using OpenGL.
 
 It uses Pyglet for windowing and events, and PyOpenGL for OpenGL bindings.
+
+# Dependencies
+
+- Originally written on Windows, run occasionally on OSX, and all recent
+development on Ubuntu.
+
+- Python 3.6
+
+This project does not use pip. Instead we track our dependencies using
+the newer '[Pipenv](https://docs.pipenv.org/)', built
+on top of pip. So instead of `pip install ...`, it should just be a `pipenv
+install`, but:
+
+- Our Python dependencies (PyOpenGL, etc) aren't available as pre-compiled
+  wheels, so installing them requires you are able to compile and link:
+
+      # On Ubuntu
+      sudo apt-get update
+      sudo apt-get install build-essential
+
+  and requires Python C headers & shared libraries:
+
+      # On Ubuntu, if your Python3 was installed using 'apt', then:
+      sudo apt install python3.6-dev
+
+- Then you can install Python dependencies, as specified in 'Pipfile':
+
+      pipenv install
+
+# Running
+
+Execute `run.py` from within the gloopy virtualenv, eg:
+
+    pipenv run ./run.py
+
+You should be presented with an orange fullscreen window.
+
+If you have multiple monitors, Gloopy prints them to stdout, and chooses
+the first one it discovers. To change the monitor it chooses, modify the source
+code in run.py, create_window(), modifying the integer index into the
+'screens' list. It would be nice to add a key to change from one screen
+to another at runtime.
+
+Pressing keys makes things happen:
+
+## Basic Shapes
+
+Keys          | Description
+--------------|------------------------------------
+`1` to `7`    | Create Platonic solids and some variations on them.
+
+## Utilities
+
+Keys          | Description
+--------------|------------------------------------
+`backspace`   | Remove the most recently created shape.
+`ctrl-m`      | Move the most recently created shape (to make room for new ones.)
+`up` / `down` | Move camera nearer / further away.
+`esc`         | Exit.
+
+## Compound Shapes
+
+Keys          | Description
+--------------|------------------------------------
+`q` to `u`    | Create some compound shapes, each formed from a collection of Platonic solids rendered using a single OpenGL draw call. Try `u` a bunch of times to generate a series of rings.
+`z` to `c`    | Massive compound shapes (zoom out to see them.)
+`v`           | Space invader, generated dynamically from a loaded bitmap.
+`b`           | Fractaline tetrahedron (at a scale comparable to the Platonic solids, zoom in to see it.) (see 'generating geometry' below.)
+
+## Modifying Shapes
+
+Modification affects the most recently created shape, ie. the one that
+has flashing highlights when `space` is pressed.
+
+Due to some silly decisions of mine, modifying only works on basic shapes
+at the moment, not on compounds.
+
+Where `^x` means press 'x' while holding 'ctrl'.
+
+Keys          | Description
+--------------|------------------------------------
+`^n`          | Normalise vertices, ie. move all vertices onto a unit sphere.
+space         | Toggle flashing highlight of the selected object.
+`-` / `=`     | Select a subset of faces on the selected object. This limits the following operations to just the highlighted faces.
+`^c`          | Recolor faces
+`^q` to `^r`  | Extrude faces by various amounts.
+`^s`          | Subdivide faces into smaller polygons.
+`^u` / `^i`   | Stellate faces inwards
+`^o` / `^p`   | Stellate faces outwards
+
+Hence, for example:
+
+### A unit sphere with even vertex distribution
+
+* `5` to create a polygon
+* `^s` a few times to subdivide all the faces
+* `^n` to normalize the vertices to the unit sphere.
+
+The vertices are distributed fairly evenly, compared to, points of lat/long,
+for example, which cluster around the poles. This means, for example, that
+textures or per-vertex lighting calculations are distributed evenly over the
+surface.
+
+### A fractal tree-like structure
+
+* Any number 1-5 to create a polygon
+* `^r` to extrude the faces by a large amount
+* `space` to highlight the whole shape
+* `=` twice, to highlight just the tips of the branches
+* `^p` to stellate the tips into pyramids
+* `^e` to extrude the pyramid faces by a medium amount
+* `=` again to select just the new branch tips.
+
+And so on, with various lengths of extrusion.
+
+
+# About the Rendering
 
 Gloopy provides the following services:
 
@@ -17,34 +134,12 @@ Gloopy provides the following services:
   orientations.
 - A camera attribute on the single Gloopy instance, that can be positioned,
   oriented, or told to look at a particular item or position.
-
-
-# Dependencies
-
-- Originally written on Windows, run occasionally on OSX, andc all recent
-development on Ubuntu.
-
-- Python 3.4
-
-Also Python packages as specified in setup.py.
-(requirements.txt exists, it just references setup.py)
-
-
-# Documentation
-
-In the Gloopy source, see 'docs/html/index.html'
-
-This is installed into your Python installation's 'share/doc' directory.
-
-See also the scripts in the 'gloopy/examples' directory.
-
-Documentation is not currently available online.
-
+- A fragment and vertex shader are installed to perform basic
+  lighting calculations.
 
 # License
 
 Gloopy is released under the terms of the New BSD, as specified in LICENSE.txt.
-
 
 # Status & Known Issues
 
@@ -62,7 +157,6 @@ I percieve them are:
   children. I guess I ought to make all shape modifiers functional.
 - No attempt is made to handle textures. All faces are plain colors.
 - We don't currently handle multiple shaders within a single scene.
-
 
 # Thanks
 
