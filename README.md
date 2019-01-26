@@ -2,7 +2,32 @@
 Gloopy is an experimental Python demo of creating 3D polyhedra and
 rendering them using OpenGL.
 
-It uses Pyglet for windowing and events, and PyOpenGL for OpenGL bindings.
+It uses Pyglet for windowing and events, PyOpenGL for most OpenGL bindings,
+but pyglet.gl for performance critical OpenGL calls.
+
+# Keys
+
+    1 2 3 4 5 6     Basic shapes
+    Q W E R T Y U   Compound shapes
+
+    Z X C           Hi count compound spheres
+    V               Invaders
+
+    up / down       Zoom in/out (or pageup / pagedown)
+
+    backspace       Delete selected (last added) shape
+    Ctrl M          Move selected shape away from origin
+
+    Space           Toggle highlight of selected shape / faces
+    - +             Select subset of faces
+    0               Select all faces
+    del             Select no faces (huh?)
+
+    Ctrl Q W E R    Extrude
+    Ctrl U I O P    Stellate
+    Ctrl N          Normalize
+    Ctrl S          Subdivide (good with '5')
+
 
 # Dependencies
 
