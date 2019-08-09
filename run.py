@@ -357,7 +357,7 @@ def create_keyhandler(controller):
 
 
 def create_window(options):
-    display = pyglet.window.get_platform().get_default_display()
+    display = pyglet.canvas.get_display()
     screens = display.get_screens()
     for index, screen in enumerate(screens):
         log.info(f'Screen {index}: {screen.width}x{screen.height}')

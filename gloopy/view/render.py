@@ -31,7 +31,7 @@ class Render(object):
         self.modelview = ModelView(camera)
         self.options = options
         self._bind_shape_to_glyph()
-        self.clock_display = pyglet.clock.ClockDisplay()
+        self.fps = pyglet.window.FPSDisplay(self.window)
 
 
     def _bind_shape_to_glyph(self):
@@ -123,7 +123,7 @@ class Render(object):
         gl.glEnableClientState(gl.GL_VERTEX_ARRAY)
         gl.glEnableClientState(gl.GL_COLOR_ARRAY)
 
-        self.clock_display.draw()
+        self.fps.draw()
 
         gl.glDisableClientState(gl.GL_VERTEX_ARRAY)
         gl.glDisableClientState(gl.GL_COLOR_ARRAY)
