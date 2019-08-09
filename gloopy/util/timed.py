@@ -8,7 +8,7 @@ def timed(func):
     def inner(*args, **kwargs):
         start = clock()
         result = func(*args, **kwargs)
-        print func.__name__, clock() - start
+        print(func.__name__, clock() - start)
         return result
 
     return inner
