@@ -7,7 +7,6 @@ from .modelview import ModelView
 from .projection import Projection
 from .shader import Shader
 from .shape_to_glyph import shape_to_glyph
-from . import gl_wrap
 
 
 class Render(object):
@@ -99,7 +98,7 @@ class Render(object):
                 shader = glyph.shader
                 shader.use()
 
-            gl_wrap.glBindVertexArray(glyph.vao)
+            gl.glBindVertexArray(glyph.vao)
 
             gl.glDrawElements(
                 gl.GL_TRIANGLES,
@@ -110,7 +109,7 @@ class Render(object):
 
             gl.glPopMatrix()
 
-        gl_wrap.glBindVertexArray(0)
+        gl.glBindVertexArray(0)
         Shader.unuse()
 
 

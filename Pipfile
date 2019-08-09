@@ -5,7 +5,7 @@ name = "pypi"
 
 [requires]
 # Cannot use 3.7, pyopengl-accelerate doesn't compile there.
-python_version = "3.6"
+python_version = "3.7"
 
 [packages]
 0269f63 = {path = ".",editable = true}

@@ -5,7 +5,6 @@ from OpenGL.arrays import vbo
 
 from ..color import Color
 from ..geom.vector import Vector
-from . import gl_wrap
 
 
 type_to_enum = {
@@ -73,8 +72,8 @@ class Glyph(object):
         self.index_type = type_to_enum[index_type]
         self.shader = shader
 
-        self.vao = gl_wrap.glGenVertexArray()
-        gl_wrap.glBindVertexArray(self.vao)
+        self.vao = GL.glGenVertexArrays(1)
+        GL.glBindVertexArray(self.vao)
         try:
             self.vbo.bind()
 
@@ -96,5 +95,5 @@ class Glyph(object):
                 False, STRIDE, c_void_p(28)
             )
         finally:
-            gl_wrap.glBindVertexArray(0)
+            GL.glBindVertexArray(0)
 

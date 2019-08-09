@@ -378,6 +378,8 @@ def get_global_keyhandler(window):
     return on_key_press
 
 def main(args):
+    log.info(f"Python {sys.version}.")
+    log.info(f"Platform {sys.platform}.")
     options = Options(args)
     camera = GameItem(
         position=Vector(0, 0, 10),
