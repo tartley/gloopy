@@ -4,12 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [requires]
+# Cannot use 3.7, pyopengl-accelerate doesn't compile there.
 python_version = "3.6"
 
 [packages]
 0269f63 = {path = ".",editable = true}
-pyopengl = "==3.1.0"
-"pyopengl-accelerate" = "==3.1.0"
+pyopengl = "==3.1.3b2"
+pyopengl-accelerate = "==3.1.3b1"
 pyglet = "==1.4.1"
 
 [dev-packages]

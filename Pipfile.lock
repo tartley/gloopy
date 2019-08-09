@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "49585295e27ac98a34f1ca5056225e4aa6574ba448ebd796a877d6f7a125c25b"
+            "sha256": "d54c3062e013a2751e84fd8070169b0ddce41a9bc942307a4e580b0ca4c4e8d1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -36,19 +36,27 @@
         },
         "pyopengl": {
             "hashes": [
-                "sha256:9b47c5c3a094fa518ca88aeed35ae75834d53e4285512c61879f67a48c94ddaf",
-                "sha256:efa4e39a49b906ccbe66758812ca81ced13a6f26931ab2ba2dba2750c016c0d0"
+                "sha256:ac73b4c0b433be02d6a55b9ed768acf07003a92a3315ba9d62bc8f8da5f0c291"
             ],
             "index": "pypi",
-            "version": "==3.1.0"
+            "version": "==3.1.3b2"
         },
         "pyopengl-accelerate": {
             "hashes": [
-                "sha256:927f4670b893d46e2f6273ae938bf0a1db27ffae3336eba94813ccef6260c410",
-                "sha256:b0d3b45bca138be911e8e3bf9969078af5f7a217eaa25ad36d1c8bf622740275"
+                "sha256:087e77b94519c5a02d601a271dfce678d111f518746ebdaf2dcc85f53251f340",
+                "sha256:14f9e925c63d157ac8875fff08febe038aa799eb001216704e994f6f6db3fcb5",
+                "sha256:462f4a96b883a5afb112b141de7cec694db44504bdafbbc538cf3fa45f1a55d9",
+                "sha256:4b09282533018a812c2c60d00d22b54362601f465dc4e7a5979c53e0b4644b08",
+                "sha256:692ce2a9ebc417a2f97f10a0fa5b8570b40d08c38613e33e2b74793ce79c408a",
+                "sha256:740181a26cc7afc4d9a13d74a9d6e9800b3e629077e2dd1c3df3af4bb39c61a8",
+                "sha256:793f993749afefcef6a7df6e7234aa3860c4504c270a09d79b6496a94a0d79c2",
+                "sha256:bc25fa5a9140db94e6f1d355d88b3c53efe30f5e933031d829fb07b32eb4ae2b",
+                "sha256:bf625707c460ec21117c42a7acb51e6b02721f79e952d23f67f14f68733ebdec",
+                "sha256:e687eea7e006d65f531933b49b3b3d2feaaf51279147a904247f9d189762a36f",
+                "sha256:f14f5bdee02f35878ae003a15e6179b44f09b277902b85ffd23698b385679e6e"
             ],
             "index": "pypi",
-            "version": "==3.1.0"
+            "version": "==3.1.3b1"
         }
     },
     "develop": {}
