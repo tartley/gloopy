@@ -3,6 +3,7 @@ from __future__ import division
 import logging
 import math
 import os
+import platform
 import sys
 from random import randint, uniform
 
@@ -379,11 +380,9 @@ def get_global_keyhandler(window):
     return on_key_press
 
 def main(args):
-    uname = os.uname()
-    log.info(f"Platform {sys.platform} {uname.machine} {uname.release} ")
-    log.info(f"Version {uname.version}.")
-    version = sys.version.replace("\n", "")
-    log.info(f"Python {version}.")
+    log.info(f"Platform {platform.platform()}")
+    log.info(
+        f"{platform.python_implementation()} {platform.python_version()}")
     options = Options(args)
     camera = GameItem(
         position=Vector(0, 0, 10),
