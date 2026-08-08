@@ -16,11 +16,18 @@ class Options(object):
     `fullscreen`: boolean, default to True. If false, display in a window.
 
     `fps`: Display frames per second in lower-left of screen.
+
+    `screen`: Integer to select from detected screens, as printed
+    to stderr at start-up.
     '''
     def __init__(self, argv):
         self.vsync = '--nosync' not in argv
         self.fullscreen = '--window' not in argv and '-w' not in argv
         self.fps = '--fps' in argv
+        if "--screen" in argv:
+            self.screen = int(argv[argv.index("--screen") + 1])
+        else:
+            self.screen = 0
 
     def __str__(self):
         return 'Options:\n' + '\n'.join(

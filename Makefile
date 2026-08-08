@@ -7,73 +7,31 @@
 
 
 NAME := gloopy
-SCRIPT := run.py
-VERSION := $(shell python -c "from ${NAME} import VERSION; print(VERSION)")
+VERSION := $(shell uv run python -c "from ${NAME} import VERSION; print(VERSION)")
 
+help:  ## Show this help.
+	@# Optionally add 'sort' before 'awk'
+	@grep -E '^[^_][a-zA-Z_\/\.%-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-10s\033[0m %s\n", $$1, $$2}'
+.PHONY: help
 
-help:
-	@echo This Makefile has no default target.
+get-version:  ## Print version number to stdout
+	@echo $(VERSION)
 
-
-test:
-	python -m unittest discover gloopy
+test:  ## Run tests
+	uv run python -m unittest discover gloopy
 .PHONY: tests
 
-
-# runsnake is a GUI profile visualiser, very useful.
-# http://www.vrplumber.com/programming/runsnakerun/
-profile:
-	python -O -m cProfile -o profile.out ${SCRIPT}
-	runsnake profile.out
-.PHONY: profile
-
-
-clean:
+clean:  ## Delete generated files
 	rm -rf build dist *.egg-info tags pip-log.txt
 	-find . \( -name "*.py[oc]" -o -name "*.orig" -o -name "*.rej" \) -exec rm {} \;
 	$(MAKE) -C docs clean
 .PHONY: clean
 
-
 tags:
 	ctags -R ${NAME}
 .PHONY: tags
 
-
-docs:
-	@$(MAKE) -C docs
-.PHONY: docs
-
-
-sdist: docs
-	rm -rf dist/${NAME}-${VERSION}.* build
-	python setup.py sdist
-.PHONY: sdist
-
-
-register: docs
-	rm -rf dist/${NAME}-${VERSION}.* build
-	python setup.py --quiet sdist register
-.PHONY: register
-
-
-upload: docs
-	rm -rf dist/${NAME}-${VERSION}.* build
-	python setup.py --quiet sdist register upload
-.PHONY: upload
-
-
-py2exe:
-	rm -rf dist/${NAME}-${VERSION}-windows build
-	python setup.py --quiet py2exe
-.PHONY: py2exe
-
-
-stats:
-	@echo "non-blank lines of code:"
-	@echo -n 'product: '
-	@find ${NAME} -name '*.py' | grep -v "/tests/" | xargs cat | grep -cve "^\W*$$"
-	@echo -n 'tests: '
-	@find ${NAME} -name '*.py' | grep "/tests/" | xargs cat | grep -cve "^\W*$$"
-.PHONY: stats
+# Building docs doesn't currently work
+# It was a bit misguided, this project is a wacky personal experiment,
+# it doesn't need that kind of documentation anyway
 

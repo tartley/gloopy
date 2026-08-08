@@ -1,5 +1,0 @@
-
-0.1.3a April 2011
------------------
-* Public announcement of code at PyCon talk
-

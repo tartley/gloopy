@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
-pipenv run python -O gloopy/run.py 2>gloopy.log
-
+uv run python -O src/gloopy/run.py "$@"

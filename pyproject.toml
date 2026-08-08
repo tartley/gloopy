@@ -1,0 +1,22 @@
+[project]
+name = "gloopy"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Jonathan Hartley", email = "tartley@tartley.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "numpy>=2.5.1",
+    "pyglet<2",
+    "pyopengl",
+    "pyopengl-accelerate",
+]
+
+[project.scripts]
+gloopy = "gloopy:main"
+
+[build-system]
+requires = ["uv_build>=0.12.2,<0.13.0"]
+build-backend = "uv_build"

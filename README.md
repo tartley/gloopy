@@ -31,18 +31,16 @@ but pyglet.gl for performance critical OpenGL calls.
 
 # Dependencies
 
-- Originally written on Windows, run occasionally on OSX, and all recent
-development on Ubuntu.
+- Originally written on Windows, then on OSX, and all recent development on
+  Ubuntu.
 
-- Python 3.6
+- Dependencies are managed by uv.
 
-This project does not use pip. Instead we track our dependencies using
-the newer '[Pipenv](https://docs.pipenv.org/)', built
-on top of pip. So instead of `pip install ...`, it should just be a `pipenv
-install`, but:
+- Python 3.x, tried up to 3.14
 
 - Our Python dependencies (PyOpenGL, etc) aren't available as pre-compiled
-  wheels, so installing them requires you are able to compile and link:
+  wheels, so installing them requires you are able to compile and link. uv
+  might take care of this automatically, but if not, try:
 
       # On Ubuntu
       sudo apt-get update
@@ -53,16 +51,10 @@ install`, but:
       # On Ubuntu, if your Python3 was installed using 'apt', then:
       sudo apt install python3.6-dev
 
-- Then you can install Python dependencies, as specified in 'Pipfile':
-
-      pip install --user pipenv
-      pipenv install
-
 # Running
 
-Execute `run.py` from within the gloopy virtualenv, eg:
-
-    pipenv run ./run.py
+Execute `run.py` from within the gloopy virtualenv, see the script 'run'
+for the reference example of how to do that.
 
 You should be presented with an orange fullscreen window.
 

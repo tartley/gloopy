@@ -367,7 +367,7 @@ def create_window(options):
         fullscreen=options.fullscreen,
         vsync=options.vsync,
         resizable=not options.fullscreen,
-        screen=screens[0],
+        screen=screens[options.screen],
     )
 
 def get_global_keyhandler(window):
@@ -375,6 +375,12 @@ def get_global_keyhandler(window):
     def on_key_press(symbol, modifiers):
         if modifiers & key.MOD_ALT and symbol == key.ENTER:
             window.set_fullscreen(not window.fullscreen)
+            return EVENT_HANDLED
+        if symbol == key.HOME:
+            print(123)
+            print(window)
+            print(window.screen)
+            print(vars(window))
             return EVENT_HANDLED
 
     return on_key_press
