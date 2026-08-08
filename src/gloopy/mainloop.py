@@ -1,15 +1,17 @@
 from __future__ import division
 
 import pyglet
+from pyglet.event import EVENT_HANDLED
 
 from .util.screenshot import screenshot
 from .view.render import Render
 
 
-time = 0.0
-
 
 def mainloop(world, window, options, camera):
+
+    time = 0.0
+    timerate = 1.0
 
     render = Render(world, window, camera, options)
     render.init()
@@ -23,23 +25,33 @@ def mainloop(world, window, options, camera):
 
     window.on_draw = draw
 
-    def on_key_press(self, symbol, modifiers):
+    def on_key_press(symbol, modifiers):
+        nonlocal timerate
         key = pyglet.window.key
         if symbol == key.ESCAPE:
-            self.window.dispatch_event('on_close')
+            window.dispatch_event('on_close')
         elif symbol == key.F12:
-            self.options.fps = not self.options.fps
-        elif symbol == key.F11:
-            self.window.set_vsync(not self.window.vsync)
+            options.fps = not options.fps
+        elif symbol == key.F10:
+            window.set_vsync(not window.vsync)
         elif symbol == key.F9:
             screenshot()
         elif symbol == key.ENTER and (modifiers & key.MOD_ALT):
-            self.window.set_fullscreen(not self.window.fullscreen)
+            window.set_fullscreen(not window.fullscreen)
+        elif symbol == key.HOME:
+            timerate *= 2
+        elif symbol == key.END:
+            timerate /= 2
+        else:
+            return
+        return EVENT_HANDLED
+
+    window.push_handlers(on_key_press)
 
     def update(dt):
-        global time
+        nonlocal time, timerate
 
-        dt = min(dt, 1.0 / 30)
+        dt = min(dt, 1.0 / 30) * timerate
         time += dt
 
         for item in world:

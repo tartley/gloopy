@@ -370,21 +370,6 @@ def create_window(options):
         screen=screens[options.screen],
     )
 
-def get_global_keyhandler(window):
-
-    def on_key_press(symbol, modifiers):
-        if modifiers & key.MOD_ALT and symbol == key.ENTER:
-            window.set_fullscreen(not window.fullscreen)
-            return EVENT_HANDLED
-        if symbol == key.HOME:
-            print(123)
-            print(window)
-            print(window.screen)
-            print(vars(window))
-            return EVENT_HANDLED
-
-    return on_key_press
-
 def main(args):
     log.info(f"Platform {platform.platform()}")
     log.info(
@@ -393,18 +378,19 @@ def main(args):
     camera = GameItem(
         position=Vector(0, 0, 10),
         look_at=Vector.origin,
-        update = Interpolate(WobblyOrbit(
-            center=Vector.origin,
-            radius=3,
-            axis=Vector(2, -3, 1),
-            angular_velocity=0.8,
-            wobble_size=0.0,
-            wobble_freq=0.01,
-        ),
-    ))
+        update = Interpolate(
+            WobblyOrbit(
+                center=Vector.origin,
+                radius=3,
+                axis=Vector(2, -3, 1),
+                angular_velocity=0.8,
+                wobble_size=0.0,
+                wobble_freq=0.01,
+            ),
+        )
+    )
     world = World()
     window = create_window(options)
-    window.push_handlers(get_global_keyhandler(window))
     window.push_handlers(create_keyhandler(Controller(world, camera)))
     mainloop(world, window, options, camera)
 
