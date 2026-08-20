@@ -165,20 +165,15 @@ Gloopy is released under the terms of the New BSD, as specified in LICENSE.txt.
 
 # Status & Known Issues
 
-It works for me, but has not been used on any real projects. The API is
-a mess, as is much of the code, and may change substantially in later releases.
+It works for me, but:
 
-No issue tracker is currently maintained, but the major shortfalls as
-I percieve them are:
-
+- Everything's a big mess, coded in a stream-of-conciousness fever dream.
 - Some algorithmic modifiers, such as face subdivision, extrusion, stellation,
   do not currently work on MultiShapes. This is because these modifiers rely
   on modifying attributes of the given shape in place, such as by inserting
   new entries in the .faces collection. However, MultiShapes provide many of
   these attributes by using generators to form a composite stream of their
   children. I guess I ought to make all shape modifiers functional.
-- No attempt is made to handle textures. All faces are plain colors.
-- We don't currently handle multiple shaders within a single scene.
 
 # Thanks
 

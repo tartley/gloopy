@@ -363,8 +363,8 @@ def create_keyhandler(controller):
 def create_window(options):
     display = pyglet.canvas.get_display()
     screens = display.get_screens()
-    for index, screen in enumerate(screens):
-        log.info(f'Screen {index}: {screen.width}x{screen.height}')
+    for index, screen in sorted(enumerate(screens), key=lambda pair: pair[1].x):
+        log.info(f'Screen {index}: {screen.width}x{screen.height} {screen.x},{screen.y}')
     return pyglet.window.Window(
         fullscreen=options.fullscreen,
         vsync=options.vsync,
@@ -372,11 +372,13 @@ def create_window(options):
         screen=screens[options.screen],
     )
 
-def main(args):
-    log.info(f"Platform {platform.platform()}")
+def main():
     log.info(
-        f"{platform.python_implementation()} {platform.python_version()}")
-    options = Options(args)
+        f"{platform.platform()} "
+        f"{platform.python_implementation()} "
+        f"{platform.python_version()}"
+    )
+    options = Options(sys.argv)
     camera = GameItem(
         position=Vector(0, 0, 10),
         look_at=Vector.origin,
@@ -398,5 +400,5 @@ def main(args):
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    main()
 

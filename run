@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
-cd "$(dirname $0)"
+
+# cd to the directory of this script, not just a symlink to the script
+cd "$(dirname $(readlink -e "$0"))"
 PYOPENGL_PLATFORM=x11 uv run python -O src/gloopy/run.py "$@"

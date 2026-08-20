@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-gloopy = "gloopy:main"
+gloopy = "gloopy.run:main"
 
 [build-system]
 requires = ["uv_build>=0.12.2,<0.13.0"]

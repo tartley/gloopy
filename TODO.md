@@ -1,8 +1,12 @@
 # Tidying
 
+* The env var needed to run on Wayland: Can I set it in gloopy/__init__.py?
+  Then remove the need for the 'run' script?
 - Delete examples that do not work.
 - Tidy the changes from pyMNtos
     (one of the new features I thought was coded foolishly)
+* Try enabling gamma correction using: glEnable(GL_FRAMEBUFFER_SRGB)
+  This "can make a huge difference to the results of lighting."
 - faces, instead of having integer attributes, should be grouped into
   a set of sets, or something. This actually lends itself to adding
   transparent stuff later.
@@ -16,12 +20,9 @@
 - if same shape is assigned to many items, it gets a separate glyph in each
   case. glyphs should not be stored as attribute of item. They should be
   stored in the view, in a dictionary of {shape_id: glyph}.
-* Try enabling gamma correction using: glEnable(GL_FRAMEBUFFER_SRGB)
-  This can make a huge difference to the results of lighting
 * Allow items to specify being mobile (with a position)
   and 'static', which draws them as part of the 'world' render call
 * triangulation for convex faces
-* shadows
 - When an in-world item is assigned a new shape, or when a shape is modified,
   it should fire an event that causes the corresponding glyph to be regenerated.
 
@@ -32,10 +33,10 @@
 * instead of setting modelview using glMultMatrix, we should be passing in
   object matrix (or position, orientation) using vertex shader uniforms.
   Review Mike's 'canonical opengl3 application', from his old pycon talk.
-  try OpenGL.FORWARD_COMPATIBLE_ONLY = True
+* try OpenGL.FORWARD_COMPATIBLE_ONLY = True
   see http://pyopengl.sourceforge.net/documentation/deprecations.html
   Does this affect performance?
-  Same for projection matrix?
+* Same for projection matrix?
 
 # Performance
 
