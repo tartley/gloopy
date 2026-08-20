@@ -200,7 +200,7 @@ class Controller(object):
         color1 = Color.Random()
         color2 = Color.Random()
         shape = Tetrahedron(1, color1)
-        for i in range(6):
+        for i in range(8):
             faces = _get_selected_faces(shape, 0)
             subdivide(shape, color=color1.tinted(color2, i/5))
             stellate(shape, faces=faces, height=math.sqrt(2))
@@ -272,17 +272,19 @@ def create_keyhandler(controller):
         ),
 
         key.Q: lambda: controller.add_shape(
-            CubeCross(0.67, Color.Red, Color.Red.tinted(Color.Orange)),
-        ),
-        key.W: lambda: controller.add_shape(
             CubeCorners(
                 0.6, Color.Yellow.tinted(Color.White), Color.Yellow
             ),
         ),
+        key.W: lambda: controller.add_shape(
+            Ring(Cube(0.5, Color(0.4, 0.8, 1.0)), 1.25, 13),
+            orientation=Orientation(Vector.x_axis),
+            update=Spinner(Vector.x_axis),
+        ),
         key.E: lambda: controller.add_shape(
-            Ring(Cube(0.5, Color.Green), 2, 20),
+            Ring(Cube(0.5, Color(0.4, 0.7, 0.5)), 2, 20),
             orientation=Orientation(Vector.y_axis),
-            update=Spinner(Vector.y_axis),
+            update=Spinner(Vector.y_axis, speed=-1.1),
         ),
         key.R: lambda: controller.add_shape(
             Ring(
@@ -308,7 +310,7 @@ def create_keyhandler(controller):
             CubeGlob(8, 150, 2000, Color.Red)
         ),
         key.C: lambda: controller.add_shape(
-            RgbCubeCluster(16, 4000, scale=2, hole=70)
+            RgbCubeCluster(edge=4, cube_count=64000, scale=2, hole=15)
         ),
         key.V: lambda: controller.add_shape(
             [
@@ -382,14 +384,14 @@ def main(args):
             WobblyOrbit(
                 center=Vector.origin,
                 radius=3,
-                axis=Vector(2, -3, 1),
+                axis=Vector(2.5, -3.3, 1.1),
                 angular_velocity=0.8,
                 wobble_size=0.0,
                 wobble_freq=0.01,
             ),
         )
     )
-    world = World()
+    world = World(Color(0.3, 0.4, 0.7))
     window = create_window(options)
     window.push_handlers(create_keyhandler(Controller(world, camera)))
     mainloop(world, window, options, camera)

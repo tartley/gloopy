@@ -14,6 +14,10 @@ help:  ## Show this help.
 	@grep -E '^[^_][a-zA-Z_\/\.%-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-10s\033[0m %s\n", $$1, $$2}'
 .PHONY: help
 
+run: ## Run Gloopy
+	./run
+.PHONY: run
+
 get-version:  ## Print version number to stdout
 	@echo $(VERSION)
 

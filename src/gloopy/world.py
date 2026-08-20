@@ -20,11 +20,11 @@ class World(object):
 
     ``self.background_color``: color used to clear the screen before render
     '''
-    def __init__(self):
+    def __init__(self, background=Color.Orange):
         self.items = {}
         self.item_added = Event()
         self.item_removed = Event()
-        self.background_color = Color.Orange
+        self.background_color = background
 
     def __iter__(self):
         for item in self.items.values():

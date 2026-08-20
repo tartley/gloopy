@@ -81,30 +81,35 @@ def RgbCubeCluster(edge, cube_count, scale=1, hole=0):
 
     `edge`: the edge of a small cube
 
-    `cluster_edge`: the edge of the large volume
-
     `cube_count`: the number of cubes to generate within the volume
+
+    `scale`: 
 
     `hole`: if >0, leave an empty hole of this radius in the middle of the
         volume.
     '''
     locations = {}
-    
+
     SIZE = 256
     for _ in range(cube_count):
         while True:
-            r = randint(0, SIZE - 1) - SIZE / 2
-            g = randint(0, SIZE - 1) - SIZE / 2
-            b = randint(0, SIZE - 1) - SIZE / 2
-            pos = Vector(r, g, b)
-            # accept this entry if it isn't in the hole
+            r = randint(0, SIZE - 1)
+            g = randint(0, SIZE - 1)
+            b = randint(0, SIZE - 1)
+            pos = scale * Vector(
+                r - SIZE / 2,
+                g - SIZE / 2,
+                b - SIZE / 2
+            )
+            # accept this position if it isn't in the hole
             if pos.length > hole:
-                locations[pos * scale] = Color(
-                    r / SIZE * Color.CHANNEL_MAX,
-                    g / SIZE * Color.CHANNEL_MAX,
-                    b / SIZE * Color.CHANNEL_MAX,
-                )
                 break
+        color = Color(
+            r / SIZE * Color.CHANNEL_MAX,
+            g / SIZE * Color.CHANNEL_MAX,
+            b / SIZE * Color.CHANNEL_MAX,
+        )
+        locations[pos] = color
     return CubeCluster(locations, edge=edge)
 
 
